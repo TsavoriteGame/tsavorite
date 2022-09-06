@@ -1,0 +1,23 @@
+
+/* Importing Bootstrap SCSS file. */
+@import '~bootstrap/scss/bootstrap';
+
+/* You can add global styles to this file, and also import other style files */
+html, body {
+  margin: 0;
+  padding: 0;
+
+  height: 100%;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.splash-container {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  background: url(./assets/images/core/splash.png) no-repeat center fixed;
+  background-size: cover;
+}
