@@ -3,6 +3,7 @@ import { Descriptor, Reactions, ReactionArgs, Interaction } from '../interfaces'
 
 export const applications: Reactions = {
 
+  // locked things can be unlocked by an item that can do unlocks
   [Descriptor.Locked]: (args: ReactionArgs) => {
 
     const unlockLevel = getInteractionLevel(args.sourceItem, Interaction.Unlocks);
@@ -10,10 +11,19 @@ export const applications: Reactions = {
     const targetItem = args.targetItem;
     const lockedLevel = getDescriptorLevel(targetItem, Descriptor.Locked);
 
+    if(unlockLevel <= 0) {
+      return {
+        message: 'This item cannot unlock anything.',
+        success: false,
+        consumeSource: false,
+        consumeTarget: false
+      };
+    }
+
     if(lockedLevel <= 0) {
       return {
         message: 'There is no lock.',
-        success: true,
+        success: false,
         consumeSource: false,
         consumeTarget: false
       };

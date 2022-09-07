@@ -97,3 +97,34 @@ test('A level 1 key should not unlock a level 2 lock', () => {
   expect(result.consumeTarget).toBe(false);
 
 });
+
+test('A random item should not unlock a level 1 lock', () => {
+
+  const key: ItemConfig = {
+    name: 'Level 1 Not Key',
+    parts: []
+  };
+
+  const lock: ItemConfig = {
+    name: 'Level 1 Lock',
+    parts: [
+      {
+        name: 'Lock Mechanism',
+        descriptors: {
+          [Descriptor.Locked]: { level: 1 }
+        }
+      }
+    ]
+  };
+
+  const result = UnlockApplications[Descriptor.Locked]({
+    sourceAction: Interaction.Unlocks,
+    sourceItem: key,
+    targetItem: lock
+  });
+
+  expect(result.success).toBe(false);
+  expect(result.consumeSource).toBe(false);
+  expect(result.consumeTarget).toBe(false);
+
+});
