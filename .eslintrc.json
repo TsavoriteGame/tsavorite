@@ -24,7 +24,7 @@
       ],
       "rules": {
         "prefer-arrow/prefer-arrow-functions": 0,
-        "curly": [2, "multi-or-nest"],
+        "curly": [2, "multi-or-nest", "consistent"],
         "@angular-eslint/directive-selector":  0,
         "@angular-eslint/component-selector": [
           "error",
