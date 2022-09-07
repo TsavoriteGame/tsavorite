@@ -1,5 +1,5 @@
 import { Interaction, Descriptor, ItemInteraction, ItemConfig,
-  ItemDescriptor, ReactionFunction, ReactionArgs, ItemPart } from './interfaces';
+  ItemDescriptor, ReactionFunction, ReactionArgs, ItemPart, ReactionExtendedArgs } from './interfaces';
 
 import * as Reactions from './reactions';
 
@@ -16,10 +16,19 @@ export function getReaction(interaction: Interaction, descriptor: Descriptor): R
 
   // clone the items so we don't bleed anything out accidentally
   const passthroughFunction = (args: ReactionArgs) => {
-    args.sourceItem = structuredClone(args.sourceItem);
-    args.targetItem = structuredClone(args.targetItem);
 
-    return calledFunction(args);
+    const extendedArgs: ReactionExtendedArgs = {
+      sourceAction: args.sourceAction,
+      sourceItem: structuredClone(args.sourceItem),
+      targetItem: structuredClone(args.targetItem),
+
+      sourcePart: undefined,
+      targetPart: undefined
+    };
+
+    extendedArgs.sourcePart = extendedArgs.sourceItem.parts.find(x => x.foundational) || extendedArgs.sourceItem.parts[0];
+
+    return calledFunction(extendedArgs);
   };
 
   return passthroughFunction;
@@ -37,8 +46,8 @@ export function getInteractionLevel(item: ItemConfig, interaction: Interaction):
 }
 
 // descriptor functions
-export function getDescriptor(item: ItemConfig, descriptor: Descriptor): ItemDescriptor | undefined {
-  const partWithDescriptor = item.parts.find(p => (p.descriptors[descriptor]?.level ?? 0) > 0);
+export function getDescriptor(item: ItemConfig, descriptor: Descriptor, minimum = 0): ItemDescriptor | undefined {
+  const partWithDescriptor = item.parts.find(p => (p.descriptors[descriptor]?.level ?? 0) > minimum);
   return partWithDescriptor?.descriptors[descriptor];
 }
 
@@ -54,9 +63,26 @@ export function isUnbreakable(item: ItemConfig): boolean {
   return getDescriptorLevel(item, Descriptor.Unbreakable) > 0;
 }
 
+export function isLocked(item: ItemConfig): boolean {
+  return getDescriptorLevel(item, Descriptor.Locked) > 0;
+}
+
 // part functions
 export function addPart(item: ItemConfig, part: ItemPart): void {
   item.parts.push(part);
+}
+
+export function addOrIncreaseDescriptorLevelForPart(part: ItemPart, descriptor: Descriptor, levelDelta = 1): void {
+  if(!part.descriptors[descriptor]) part.descriptors[descriptor] = { level: 0 };
+  part.descriptors[descriptor].level += levelDelta;
+}
+
+export function addPartOrIncreaseDescriptorLevel(item: ItemConfig, descriptor: Descriptor, part: ItemPart, levelDelta = 1): void {
+  const checkLevel = getDescriptorLevel(item, descriptor);
+  if(checkLevel <= 0)
+    addPart(item, part);
+   else
+    increaseDescriptorLevel(item, descriptor, levelDelta);
 }
 
 // math functions

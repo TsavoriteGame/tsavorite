@@ -67,6 +67,11 @@ export interface ReactionArgs {
   targetItem: ItemConfig;
 }
 
+export interface ReactionExtendedArgs extends ReactionArgs {
+  sourcePart: ItemPart;
+  targetPart: ItemPart;
+};
+
 export interface ReactionResponse {
   message: string;
   success?: boolean;

@@ -1,5 +1,5 @@
 
-import { getReaction } from '../helpers';
+import { getDescriptorLevel, getReaction } from '../helpers';
 import { Interaction, Descriptor, ItemConfig } from '../interfaces';
 
 test('A level 2 key should unlock a level 1 lock', () => {
@@ -31,6 +31,7 @@ test('A level 2 key should unlock a level 1 lock', () => {
   expect(result.success).toBe(true);
   expect(result.newSource).toBe(undefined);
   expect(result.newTarget.parts.length).toBe(0);
+  expect(getDescriptorLevel(result.newTarget, Descriptor.Locked)).toBe(0);
 
 });
 
@@ -63,6 +64,7 @@ test('An unbreakable level 2 key should unlock a level 1 lock and NOT break', ()
   expect(result.success).toBe(true);
   expect(result.newSource).toEqual(key);
   expect(result.newTarget.parts.length).toBe(0);
+  expect(getDescriptorLevel(result.newTarget, Descriptor.Locked)).toBe(0);
 
 });
 
@@ -95,6 +97,7 @@ test('A level 1 key should not unlock a level 2 lock', () => {
   expect(result.success).toBe(false);
   expect(result.newSource).toEqual(key);
   expect(result.newTarget).toEqual(lock);
+  expect(getDescriptorLevel(result.newTarget, Descriptor.Locked)).toBe(2);
 
 });
 
@@ -126,6 +129,7 @@ test('A random item should not unlock a level 1 lock', () => {
   expect(result.success).toBe(false);
   expect(result.newSource).toEqual(key);
   expect(result.newTarget).toEqual(lock);
+  expect(getDescriptorLevel(result.newTarget, Descriptor.Locked)).toBe(1);
 
 });
 
@@ -164,5 +168,6 @@ test('A level 1 key should only unlock the first part of a compound lock', () =>
   expect(result.success).toBe(true);
   expect(result.newSource).toEqual(undefined);
   expect(result.newTarget.parts.length).toBe(1);
+  expect(getDescriptorLevel(result.newTarget, Descriptor.Locked)).toBe(1);
 
 });
