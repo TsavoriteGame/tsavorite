@@ -1,6 +1,5 @@
 
 export enum Interaction {
-  Bleeds = 'Bleeds',
   Carves = 'Carves',
   Freezes = 'Freezes',
   Ignites = 'Ignites',
@@ -71,8 +70,8 @@ export interface ReactionArgs {
 export interface ReactionResponse {
   message: string;
   success?: boolean;
-  consumeSource?: boolean;
-  consumeTarget?: boolean;
+  newSource: ItemConfig;
+  newTarget: ItemConfig;
 }
 
 export type ReactionFunction = (reaction: ReactionArgs) => ReactionResponse;

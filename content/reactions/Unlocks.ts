@@ -1,4 +1,4 @@
-import { getInteractionLevel, getDescriptorLevel, isUnbreakable } from '../helpers';
+import { getInteractionLevel, isUnbreakable, getDescriptor, getDescriptorLevelFromItemDescriptor } from '../helpers';
 import { Descriptor, Reactions, ReactionArgs, Interaction } from '../interfaces';
 
 export const applications: Reactions = {
@@ -9,14 +9,15 @@ export const applications: Reactions = {
     const unlockLevel = getInteractionLevel(args.sourceItem, Interaction.Unlocks);
 
     const targetItem = args.targetItem;
-    const lockedLevel = getDescriptorLevel(targetItem, Descriptor.Locked);
+    const lockedDescriptor = getDescriptor(targetItem, Descriptor.Locked);
+    const lockedLevel = getDescriptorLevelFromItemDescriptor(lockedDescriptor);
 
     if(unlockLevel <= 0) {
       return {
         message: 'This item cannot unlock anything.',
         success: false,
-        consumeSource: false,
-        consumeTarget: false
+        newSource: args.sourceItem,
+        newTarget: targetItem
       };
     }
 
@@ -24,25 +25,28 @@ export const applications: Reactions = {
       return {
         message: 'There is no lock.',
         success: false,
-        consumeSource: false,
-        consumeTarget: false
+        newSource: args.sourceItem,
+        newTarget: targetItem
       };
     }
 
     if(unlockLevel >= lockedLevel) {
+      const newItem = targetItem;
+      newItem.parts = newItem.parts.filter(p => p.descriptors[Descriptor.Locked] !== lockedDescriptor);
+
       return {
         message: 'Unlocked the lock!',
         success: true,
-        consumeSource: !isUnbreakable(args.sourceItem),
-        consumeTarget: true
+        newSource: isUnbreakable(args.sourceItem) ? args.sourceItem : undefined,
+        newTarget: newItem
       };
     }
 
     return {
       message: 'Lock is too complex for this key.',
       success: false,
-      consumeSource: false,
-      consumeTarget: false
+      newSource: args.sourceItem,
+      newTarget: targetItem
     };
   }
 

@@ -2,6 +2,8 @@
 
 ## Getting Started
 
+Ensure you have node v18 (needed for `structuredClone`).
+
 ```bash
 npm install
 ```
