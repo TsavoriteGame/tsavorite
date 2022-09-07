@@ -24,6 +24,7 @@
       ],
       "rules": {
         "prefer-arrow/prefer-arrow-functions": 0,
+        "curly": [2, "multi-or-nest"],
         "@angular-eslint/directive-selector":  0,
         "@angular-eslint/component-selector": [
           "error",
@@ -33,6 +34,7 @@
             "style": "kebab-case"
           }
         ],
+        "@typescript-eslint/semi": 2,
         "@typescript-eslint/naming-convention": [
           "error",
           {

@@ -1,6 +1,63 @@
 
-import { sum } from './Unlocks';
+import { Interaction, Descriptor, ItemConfig } from '../interfaces';
+import { applications as UnlockApplications } from './Unlocks';
 
-test('1+2=3', () => {
-  expect(sum(1,2)).toBe(3);
+test('A level 2 key should unlock a level 1 lock', () => {
+
+  const key: ItemConfig = {
+    name: 'Level 2 Key',
+    parts: [],
+    interaction: { name: Interaction.Unlocks, level: 2 }
+  };
+
+  const lock: ItemConfig = {
+    name: 'Level 1 Lock',
+    parts: [
+      {
+        name: 'Lock Mechanism',
+        descriptors: {
+          [Descriptor.Locked]: { level: 1 }
+        }
+      }
+    ]
+  };
+
+  const result = UnlockApplications[Descriptor.Locked]({
+    sourceAction: Interaction.Unlocks,
+    sourceItem: key,
+    targetItem: lock
+  });
+
+  expect(result.success).toBe(true);
+
+});
+
+test('A level 1 key should not unlock a level 2 lock', () => {
+
+  const key: ItemConfig = {
+    name: 'Level 1 Key',
+    parts: [],
+    interaction: { name: Interaction.Unlocks, level: 1 }
+  };
+
+  const lock: ItemConfig = {
+    name: 'Level 2 Lock',
+    parts: [
+      {
+        name: 'Lock Mechanism',
+        descriptors: {
+          [Descriptor.Locked]: { level: 2 }
+        }
+      }
+    ]
+  };
+
+  const result = UnlockApplications[Descriptor.Locked]({
+    sourceAction: Interaction.Unlocks,
+    sourceItem: key,
+    targetItem: lock
+  });
+
+  expect(result.success).toBe(false);
+
 });
