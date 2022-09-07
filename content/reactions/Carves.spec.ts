@@ -32,7 +32,8 @@ test('A level 2 carver should bleed a level 2 meat', () => {
   const result = getReaction(Interaction.Carves, Descriptor.Meat)({
     sourceAction: Interaction.Carves,
     sourceItem: carver,
-    targetItem: meat
+    targetItem: meat,
+    targetPart: meat.parts[0]
   });
 
   expect(result.success).toBe(true);
@@ -41,7 +42,7 @@ test('A level 2 carver should bleed a level 2 meat', () => {
   expect(getDescriptorLevel(result.newSource, Descriptor.Bloody)).toEqual(1);
   expect(getDescriptorLevel(result.newSource, Descriptor.Slippery)).toEqual(1);
 
-  expect(result.newTarget.parts.length).toBe(2);
+  expect(result.newTarget.parts.length).toBe(1);
   expect(getDescriptorLevel(result.newTarget, Descriptor.Meat)).toEqual(1);
   expect(getDescriptorLevel(result.newTarget, Descriptor.Bloody)).toEqual(1);
 
@@ -68,12 +69,7 @@ test('A level 2 carver should bleed a level 2 meat and add blood to the blood pi
       {
         name: 'Haunch',
         descriptors: {
-          [Descriptor.Meat]: { level: 2 }
-        }
-      },
-      {
-        name: 'Blood',
-        descriptors: {
+          [Descriptor.Meat]: { level: 2 },
           [Descriptor.Bloody]: { level: 2 }
         }
       }
@@ -83,7 +79,8 @@ test('A level 2 carver should bleed a level 2 meat and add blood to the blood pi
   const result = getReaction(Interaction.Carves, Descriptor.Meat)({
     sourceAction: Interaction.Carves,
     sourceItem: carver,
-    targetItem: meat
+    targetItem: meat,
+    targetPart: meat.parts[0]
   });
 
   expect(result.success).toBe(true);
@@ -92,7 +89,7 @@ test('A level 2 carver should bleed a level 2 meat and add blood to the blood pi
   expect(getDescriptorLevel(result.newSource, Descriptor.Bloody)).toEqual(1);
   expect(getDescriptorLevel(result.newSource, Descriptor.Slippery)).toEqual(1);
 
-  expect(result.newTarget.parts.length).toBe(2);
+  expect(result.newTarget.parts.length).toBe(1);
   expect(getDescriptorLevel(result.newTarget, Descriptor.Meat)).toEqual(1);
   expect(getDescriptorLevel(result.newTarget, Descriptor.Bloody)).toEqual(3);
 
@@ -119,12 +116,7 @@ test('A level 1 carver should break after bleeding any meat', () => {
       {
         name: 'Haunch',
         descriptors: {
-          [Descriptor.Meat]: { level: 2 }
-        }
-      },
-      {
-        name: 'Blood',
-        descriptors: {
+          [Descriptor.Meat]: { level: 2 },
           [Descriptor.Bloody]: { level: 2 }
         }
       }
@@ -134,12 +126,13 @@ test('A level 1 carver should break after bleeding any meat', () => {
   const result = getReaction(Interaction.Carves, Descriptor.Meat)({
     sourceAction: Interaction.Carves,
     sourceItem: carver,
-    targetItem: meat
+    targetItem: meat,
+    targetPart: meat.parts[0]
   });
 
   expect(result.success).toBe(true);
   expect(result.newSource).toEqual(undefined);
-  expect(result.newTarget.parts.length).toBe(2);
+  expect(result.newTarget.parts.length).toBe(1);
   expect(getDescriptorLevel(result.newTarget, Descriptor.Meat)).toEqual(1);
   expect(getDescriptorLevel(result.newTarget, Descriptor.Bloody)).toEqual(3);
 

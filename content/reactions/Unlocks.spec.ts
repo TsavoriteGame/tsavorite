@@ -25,7 +25,8 @@ test('A level 2 key should unlock a level 1 lock', () => {
   const result = getReaction(Interaction.Unlocks, Descriptor.Locked)({
     sourceAction: Interaction.Unlocks,
     sourceItem: key,
-    targetItem: lock
+    targetItem: lock,
+    targetPart: lock.parts[0]
   });
 
   expect(result.success).toBe(true);
@@ -58,7 +59,8 @@ test('An unbreakable level 2 key should unlock a level 1 lock and NOT break', ()
   const result = getReaction(Interaction.Unlocks, Descriptor.Locked)({
     sourceAction: Interaction.Unlocks,
     sourceItem: key,
-    targetItem: lock
+    targetItem: lock,
+    targetPart: lock.parts[0]
   });
 
   expect(result.success).toBe(true);
@@ -91,7 +93,8 @@ test('A level 1 key should not unlock a level 2 lock', () => {
   const result = getReaction(Interaction.Unlocks, Descriptor.Locked)({
     sourceAction: Interaction.Unlocks,
     sourceItem: key,
-    targetItem: lock
+    targetItem: lock,
+    targetPart: lock.parts[0]
   });
 
   expect(result.success).toBe(false);
@@ -123,7 +126,8 @@ test('A random item should not unlock a level 1 lock', () => {
   const result = getReaction(Interaction.Unlocks, Descriptor.Locked)({
     sourceAction: Interaction.Unlocks,
     sourceItem: key,
-    targetItem: lock
+    targetItem: lock,
+    targetPart: lock.parts[0]
   });
 
   expect(result.success).toBe(false);
@@ -162,7 +166,8 @@ test('A level 1 key should only unlock the first part of a compound lock', () =>
   const result = getReaction(Interaction.Unlocks, Descriptor.Locked)({
     sourceAction: Interaction.Unlocks,
     sourceItem: key,
-    targetItem: lock
+    targetItem: lock,
+    targetPart: lock.parts[0]
   });
 
   expect(result.success).toBe(true);

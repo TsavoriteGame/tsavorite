@@ -1,4 +1,4 @@
-import { getInteractionLevel, isUnbreakable, getDescriptor, getDescriptorLevelFromItemDescriptor } from '../helpers';
+import { getInteractionLevel, isUnbreakable, getDescriptorLevelFromItemDescriptor, getDescriptorFromPart, removePart } from '../helpers';
 import { Descriptor, Reactions, Interaction, ReactionExtendedArgs } from '../interfaces';
 
 export const applications: Reactions = {
@@ -9,7 +9,7 @@ export const applications: Reactions = {
     const unlockLevel = getInteractionLevel(args.sourceItem, Interaction.Unlocks);
 
     const targetItem = args.targetItem;
-    const lockedDescriptor = getDescriptor(targetItem, Descriptor.Locked);
+    const lockedDescriptor = getDescriptorFromPart(args.targetPart, Descriptor.Locked);
     const lockedLevel = getDescriptorLevelFromItemDescriptor(lockedDescriptor);
 
     if(unlockLevel <= 0) {
@@ -31,14 +31,13 @@ export const applications: Reactions = {
     }
 
     if(unlockLevel >= lockedLevel) {
-      const newItem = targetItem;
-      newItem.parts = newItem.parts.filter(p => p.descriptors[Descriptor.Locked] !== lockedDescriptor);
+      removePart(targetItem, args.targetPart);
 
       return {
         message: 'Unlocked the lock!',
         success: true,
         newSource: isUnbreakable(args.sourceItem) ? args.sourceItem : undefined,
-        newTarget: newItem
+        newTarget: targetItem
       };
     }
 

@@ -1,5 +1,5 @@
-import { getInteractionLevel, getDescriptorLevel, reduceDescriptorLevel,
-  reduceInteractionLevel, addPartOrIncreaseDescriptorLevel, addOrIncreaseDescriptorLevelForPart } from '../helpers';
+import { getInteractionLevel,
+  decreaseInteractionLevel, increaseDescriptorLevelForPart, getDescriptorFromPart, decreaseDescriptorLevelForPart } from '../helpers';
 import { Descriptor, Reactions, Interaction, ReactionExtendedArgs } from '../interfaces';
 
 export const applications: Reactions = {
@@ -11,7 +11,7 @@ export const applications: Reactions = {
 
     const sourceItem = args.sourceItem;
     const targetItem = args.targetItem;
-    const meatLevel = getDescriptorLevel(targetItem, Descriptor.Meat);
+    const meatLevel = getDescriptorFromPart(args.targetPart, Descriptor.Meat);
 
     if(bleedsLevel <= 0) {
       return {
@@ -32,20 +32,20 @@ export const applications: Reactions = {
     }
 
     // lower the number of carves
-    const newCarvesLevel = reduceInteractionLevel(sourceItem, Interaction.Carves, 1);
+    const newCarvesLevel = decreaseInteractionLevel(sourceItem, Interaction.Carves, 1);
 
     // make it more slippery because blood
-    addOrIncreaseDescriptorLevelForPart(args.sourcePart, Descriptor.Slippery, 1);
-    addOrIncreaseDescriptorLevelForPart(args.sourcePart, Descriptor.Bloody, 1);
+    increaseDescriptorLevelForPart(args.sourcePart, Descriptor.Slippery, 1);
+    increaseDescriptorLevelForPart(args.sourcePart, Descriptor.Bloody, 1);
 
     // lower the number of meat
-    const newLevel = reduceDescriptorLevel(targetItem, Descriptor.Meat, 1);
+    const newLevel = decreaseDescriptorLevelForPart(args.targetPart, Descriptor.Meat, 1);
 
     // either add blood to the item, or make it bleed more
-    addPartOrIncreaseDescriptorLevel(
-      targetItem,
+    increaseDescriptorLevelForPart(
+      args.targetPart,
       Descriptor.Bloody,
-      { name: 'Blood', descriptors: { [Descriptor.Bloody]: { level: 1 } } }
+      1
     );
 
     return {

@@ -65,11 +65,12 @@ export interface ReactionArgs {
   sourceAction: Interaction;
   sourceItem: ItemConfig;
   targetItem: ItemConfig;
+  sourcePart?: ItemPart;
+  targetPart: ItemPart;
 }
 
 export interface ReactionExtendedArgs extends ReactionArgs {
   sourcePart: ItemPart;
-  targetPart: ItemPart;
 };
 
 export interface ReactionResponse {

@@ -26,7 +26,18 @@ export function getReaction(interaction: Interaction, descriptor: Descriptor): R
       targetPart: undefined
     };
 
-    extendedArgs.sourcePart = extendedArgs.sourceItem.parts.find(x => x.foundational) || extendedArgs.sourceItem.parts[0];
+    if(args.sourcePart) {
+      const partIndex = args.sourceItem.parts.findIndex(p => p === args.sourcePart);
+      extendedArgs.sourcePart = extendedArgs.sourceItem.parts[partIndex];
+    } else {
+      extendedArgs.sourcePart = extendedArgs.sourceItem.parts.find(x => x.foundational)
+                             || extendedArgs.sourceItem.parts[0];
+    }
+
+    if(args.targetPart) {
+      const partIndex = args.targetItem.parts.findIndex(p => p === args.targetPart);
+      extendedArgs.targetPart = extendedArgs.targetItem.parts[partIndex];
+    }
 
     return calledFunction(extendedArgs);
   };
@@ -55,6 +66,14 @@ export function getDescriptorLevel(item: ItemConfig, descriptor: Descriptor): nu
   return getDescriptor(item, descriptor)?.level ?? 0;
 }
 
+export function getDescriptorFromPart(part: ItemPart, descriptor: Descriptor): ItemDescriptor | undefined {
+  return part.descriptors[descriptor];
+}
+
+export function getDescriptorLevelFromPart(part: ItemPart, descriptor: Descriptor): number {
+  return getDescriptorFromPart(part, descriptor).level ?? 0;
+}
+
 export function getDescriptorLevelFromItemDescriptor(itemDescriptor: ItemDescriptor): number {
   return itemDescriptor?.level ?? 0;
 }
@@ -72,17 +91,31 @@ export function addPart(item: ItemConfig, part: ItemPart): void {
   item.parts.push(part);
 }
 
-export function addOrIncreaseDescriptorLevelForPart(part: ItemPart, descriptor: Descriptor, levelDelta = 1): void {
-  if(!part.descriptors[descriptor]) part.descriptors[descriptor] = { level: 0 };
-  part.descriptors[descriptor].level += levelDelta;
+export function removePart(item: ItemConfig, part: ItemPart): void {
+  item.parts = item.parts.filter(p => p !== part);
 }
 
-export function addPartOrIncreaseDescriptorLevel(item: ItemConfig, descriptor: Descriptor, part: ItemPart, levelDelta = 1): void {
+export function increaseDescriptorLevelForPart(part: ItemPart, descriptor: Descriptor, levelDelta = 1): number {
+  if(!part.descriptors[descriptor]) part.descriptors[descriptor] = { level: 0 };
+  part.descriptors[descriptor].level += levelDelta;
+
+  return part.descriptors[descriptor].level ?? 0;
+}
+
+export function decreaseDescriptorLevelForPart(part: ItemPart, descriptor: Descriptor, levelDelta = 1): number {
+  return increaseDescriptorLevelForPart(part, descriptor, -levelDelta);
+}
+
+export function increasePartOrIncreaseDescriptorLevel(item: ItemConfig, descriptor: Descriptor, part: ItemPart, levelDelta = 1): void {
   const checkLevel = getDescriptorLevel(item, descriptor);
   if(checkLevel <= 0)
     addPart(item, part);
    else
     increaseDescriptorLevel(item, descriptor, levelDelta);
+}
+
+export function decreasePartOrIncreaseDescriptorLevel(item: ItemConfig, descriptor: Descriptor, part: ItemPart, levelDelta = 1): void {
+  increasePartOrIncreaseDescriptorLevel(item, descriptor, part, -levelDelta);
 }
 
 // math functions
@@ -95,7 +128,7 @@ export function increaseInteractionLevel(item: ItemConfig, interaction: Interact
   return interactionData.level;
 }
 
-export function reduceInteractionLevel(item: ItemConfig, interaction: Interaction, delta = 1): number {
+export function decreaseInteractionLevel(item: ItemConfig, interaction: Interaction, delta = 1): number {
   return increaseInteractionLevel(item, interaction, -delta);
 }
 
@@ -108,6 +141,6 @@ export function increaseDescriptorLevel(item: ItemConfig, descriptor: Descriptor
   return descriptorData.level;
 }
 
-export function reduceDescriptorLevel(item: ItemConfig, descriptor: Descriptor, delta = 1): number {
+export function decreaseDescriptorLevel(item: ItemConfig, descriptor: Descriptor, delta = 1): number {
   return increaseDescriptorLevel(item, descriptor, -delta);
 }
