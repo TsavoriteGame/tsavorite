@@ -1,27 +1,28 @@
 import { getInteractionLevel,
   decreaseInteractionLevel, increaseDescriptorLevelForPart,
-  getDescriptorFromPart, decreaseDescriptorLevelForPart, getDescriptor, setDescriptorLevel, getDescriptorLevel } from '../helpers';
-import { Descriptor, Reactions, Interaction, ReactionExtendedArgs, ItemConfig } from '../interfaces';
+  getDescriptorFromPart, decreaseDescriptorLevelForPart, getDescriptor,
+  setDescriptorLevel, hasFoundationalPart, addPart, setDescriptorLevelForPart, hasDescriptor, setFoundationalPart, shouldItemBreakWhenInteractingWith } from '../helpers';
+import { Descriptor, Reactions, Interaction, ReactionExtendedArgs } from '../interfaces';
+
+const zeroFail = (args: ReactionExtendedArgs) => ({
+  message: 'This item cannot cut anything.',
+  success: false,
+  newSource: args.sourceItem,
+  newTarget: args.targetItem
+});
 
 export const applications: Reactions = {
 
   // fiber can be split into more fiber
   [Descriptor.Cooked]: (args: ReactionExtendedArgs) => {
 
-    const bleedsLevel = getInteractionLevel(args.sourceItem, Interaction.Carves);
+    const carvesLevel = getInteractionLevel(args.sourceItem, Interaction.Carves);
 
     const sourceItem = args.sourceItem;
     const targetItem = args.targetItem;
     const fiberLevel = getDescriptorFromPart(args.targetPart, Descriptor.Cooked);
 
-    if(bleedsLevel <= 0) {
-      return {
-        message: 'This item cannot cut anything.',
-        success: false,
-        newSource: args.sourceItem,
-        newTarget: args.targetItem
-      };
-    }
+    if(carvesLevel <= 0)  return zeroFail(args);
 
     if(fiberLevel <= 1) {
       return {
@@ -56,20 +57,13 @@ export const applications: Reactions = {
   // fiber can be split into more fiber
   [Descriptor.Fiber]: (args: ReactionExtendedArgs) => {
 
-    const bleedsLevel = getInteractionLevel(args.sourceItem, Interaction.Carves);
+    const carvesLevel = getInteractionLevel(args.sourceItem, Interaction.Carves);
 
     const sourceItem = args.sourceItem;
     const targetItem = args.targetItem;
     const fiberLevel = getDescriptorFromPart(args.targetPart, Descriptor.Fiber);
 
-    if(bleedsLevel <= 0) {
-      return {
-        message: 'This item cannot cut anything.',
-        success: false,
-        newSource: args.sourceItem,
-        newTarget: args.targetItem
-      };
-    }
+    if(carvesLevel <= 0) return zeroFail(args);
 
     if(fiberLevel <= 1) {
       return {
@@ -101,23 +95,122 @@ export const applications: Reactions = {
     };
   },
 
+  [Descriptor.Glass]: (args: ReactionExtendedArgs) => {
+
+    const carvesLevel = getInteractionLevel(args.sourceItem, Interaction.Carves);
+
+    if(carvesLevel <= 0) return zeroFail(args);
+
+    const sourceItem = args.sourceItem;
+    const targetItem = args.targetItem;
+
+    if(shouldItemBreakWhenInteractingWith(sourceItem, targetItem)) {
+      return {
+        message: 'Can not carve into a stronger material.',
+        success: false,
+        checkBreaks: false,
+        newSource: sourceItem,
+        newTarget: targetItem
+      };
+    }
+
+    if(hasFoundationalPart(targetItem)) {
+      return {
+        message: 'Can not carve something with a foundational part.',
+        success: false,
+        checkBreaks: false,
+        newSource: sourceItem,
+        newTarget: targetItem
+      };
+    }
+
+    if(hasDescriptor(targetItem, Descriptor.Container)) {
+      return {
+        message: 'Can not create a container from a container.',
+        success: false,
+        checkBreaks: false,
+        newSource: sourceItem,
+        newTarget: targetItem
+      };
+    }
+
+    const newCarvesLevel = decreaseInteractionLevel(sourceItem, Interaction.Carves, 1);
+
+    setDescriptorLevelForPart(args.targetPart, Descriptor.Container, 1);
+    setFoundationalPart(args.targetPart);
+
+    return {
+      message: 'Can not create a container from a container.',
+      success: true,
+      checkBreaks: false,
+      newSource: newCarvesLevel <= 0 ? undefined : sourceItem,
+      newTarget: targetItem
+    };
+  },
+
+  [Descriptor.Leather]: (args: ReactionExtendedArgs) => {
+
+    const carvesLevel = getInteractionLevel(args.sourceItem, Interaction.Carves);
+
+    if(carvesLevel <= 0) return zeroFail(args);
+
+    const sourceItem = args.sourceItem;
+    const targetItem = args.targetItem;
+
+    if(shouldItemBreakWhenInteractingWith(sourceItem, targetItem)) {
+      return {
+        message: 'Can not carve into a stronger material.',
+        success: false,
+        checkBreaks: false,
+        newSource: sourceItem,
+        newTarget: targetItem
+      };
+    }
+
+    if(hasFoundationalPart(targetItem)) {
+      return {
+        message: 'Can not carve something with a foundational part.',
+        success: false,
+        checkBreaks: false,
+        newSource: sourceItem,
+        newTarget: targetItem
+      };
+    }
+
+    if(hasDescriptor(targetItem, Descriptor.Container)) {
+      return {
+        message: 'Can not create a container from a container.',
+        success: false,
+        checkBreaks: false,
+        newSource: sourceItem,
+        newTarget: targetItem
+      };
+    }
+
+    const newCarvesLevel = decreaseInteractionLevel(sourceItem, Interaction.Carves, 1);
+
+    setDescriptorLevelForPart(args.targetPart, Descriptor.Container, 1);
+    setFoundationalPart(args.targetPart);
+
+    return {
+      message: 'Can not create a container from a container.',
+      success: true,
+      checkBreaks: false,
+      newSource: newCarvesLevel <= 0 ? undefined : sourceItem,
+      newTarget: targetItem
+    };
+  },
+
   // meaty things can be bled more, at the cost of meat levels
   [Descriptor.Meat]: (args: ReactionExtendedArgs) => {
 
-    const bleedsLevel = getInteractionLevel(args.sourceItem, Interaction.Carves);
+    const carvesLevel = getInteractionLevel(args.sourceItem, Interaction.Carves);
 
     const sourceItem = args.sourceItem;
     const targetItem = args.targetItem;
     const meatLevel = getDescriptorFromPart(args.targetPart, Descriptor.Meat);
 
-    if(bleedsLevel <= 0) {
-      return {
-        message: 'This item cannot cut anything.',
-        success: false,
-        newSource: args.sourceItem,
-        newTarget: args.targetItem
-      };
-    }
+    if(carvesLevel <= 0) return zeroFail(args);
 
     if(meatLevel <= 0) {
       return {
@@ -151,6 +244,165 @@ export const applications: Reactions = {
       checkBreaks: true,
       newSource: newCarvesLevel <= 0 ? undefined : sourceItem,
       newTarget: newLevel <= 0 ? undefined : targetItem
+    };
+  },
+
+  [Descriptor.Metal]: (args: ReactionExtendedArgs) => {
+
+    const carvesLevel = getInteractionLevel(args.sourceItem, Interaction.Carves);
+
+    if(carvesLevel <= 0) return zeroFail(args);
+
+    const sourceItem = args.sourceItem;
+    const targetItem = args.targetItem;
+
+    if(shouldItemBreakWhenInteractingWith(sourceItem, targetItem)) {
+      return {
+        message: 'Can not carve into a stronger material.',
+        success: false,
+        checkBreaks: false,
+        newSource: sourceItem,
+        newTarget: targetItem
+      };
+    }
+
+    if(hasFoundationalPart(targetItem)) {
+      return {
+        message: 'Can not carve something with a foundational part.',
+        success: false,
+        checkBreaks: false,
+        newSource: sourceItem,
+        newTarget: targetItem
+      };
+    }
+
+    if(hasDescriptor(targetItem, Descriptor.Container)) {
+      return {
+        message: 'Can not create a container from a container.',
+        success: false,
+        checkBreaks: false,
+        newSource: sourceItem,
+        newTarget: targetItem
+      };
+    }
+
+    const newCarvesLevel = decreaseInteractionLevel(sourceItem, Interaction.Carves, 1);
+
+    setDescriptorLevelForPart(args.targetPart, Descriptor.Container, 1);
+    setFoundationalPart(args.targetPart);
+
+    return {
+      message: 'Can not create a container from a container.',
+      success: true,
+      checkBreaks: false,
+      newSource: newCarvesLevel <= 0 ? undefined : sourceItem,
+      newTarget: targetItem
+    };
+  },
+
+  [Descriptor.Rock]: (args: ReactionExtendedArgs) => {
+
+    const carvesLevel = getInteractionLevel(args.sourceItem, Interaction.Carves);
+
+    if(carvesLevel <= 0) return zeroFail(args);
+
+    const sourceItem = args.sourceItem;
+    const targetItem = args.targetItem;
+
+    if(shouldItemBreakWhenInteractingWith(sourceItem, targetItem)) {
+      return {
+        message: 'Can not carve into a stronger material.',
+        success: false,
+        checkBreaks: false,
+        newSource: sourceItem,
+        newTarget: targetItem
+      };
+    }
+
+    if(hasFoundationalPart(targetItem)) {
+      return {
+        message: 'Can not carve something with a foundational part.',
+        success: false,
+        checkBreaks: false,
+        newSource: sourceItem,
+        newTarget: targetItem
+      };
+    }
+
+    if(hasDescriptor(targetItem, Descriptor.Container)) {
+      return {
+        message: 'Can not create a container from a container.',
+        success: false,
+        checkBreaks: false,
+        newSource: sourceItem,
+        newTarget: targetItem
+      };
+    }
+
+    const newCarvesLevel = decreaseInteractionLevel(sourceItem, Interaction.Carves, 1);
+
+    setDescriptorLevelForPart(args.targetPart, Descriptor.Container, 1);
+    setFoundationalPart(args.targetPart);
+
+    return {
+      message: 'Can not create a container from a container.',
+      success: true,
+      checkBreaks: false,
+      newSource: newCarvesLevel <= 0 ? undefined : sourceItem,
+      newTarget: targetItem
+    };
+  },
+
+  [Descriptor.Wood]: (args: ReactionExtendedArgs) => {
+
+    const carvesLevel = getInteractionLevel(args.sourceItem, Interaction.Carves);
+
+    if(carvesLevel <= 0) return zeroFail(args);
+
+    const sourceItem = args.sourceItem;
+    const targetItem = args.targetItem;
+
+    if(shouldItemBreakWhenInteractingWith(sourceItem, targetItem)) {
+      return {
+        message: 'Can not carve into a stronger material.',
+        success: false,
+        checkBreaks: false,
+        newSource: sourceItem,
+        newTarget: targetItem
+      };
+    }
+
+    if(hasFoundationalPart(targetItem)) {
+      return {
+        message: 'Can not carve something with a foundational part.',
+        success: false,
+        checkBreaks: false,
+        newSource: sourceItem,
+        newTarget: targetItem
+      };
+    }
+
+    if(hasDescriptor(targetItem, Descriptor.Container)) {
+      return {
+        message: 'Can not create a container from a container.',
+        success: false,
+        checkBreaks: false,
+        newSource: sourceItem,
+        newTarget: targetItem
+      };
+    }
+
+    const newCarvesLevel = decreaseInteractionLevel(sourceItem, Interaction.Carves, 1);
+
+    setDescriptorLevelForPart(args.targetPart, Descriptor.Container, 1);
+    setFoundationalPart(args.targetPart);
+
+    return {
+      message: 'Can not create a container from a container.',
+      success: true,
+      checkBreaks: false,
+      newSource: newCarvesLevel <= 0 ? undefined : sourceItem,
+      newTarget: targetItem
     };
   },
 

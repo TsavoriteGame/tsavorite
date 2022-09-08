@@ -135,15 +135,27 @@ export function getDescriptorLevelFromItemDescriptor(itemDescriptor: ItemDescrip
   return itemDescriptor?.level ?? 0;
 }
 
+export function hasDescriptor(item: ItemConfig, descriptor: Descriptor): boolean {
+  return getDescriptorLevel(item, descriptor) > 0;
+}
+
 export function isUnbreakable(item: ItemConfig): boolean {
-  return getDescriptorLevel(item, Descriptor.Unbreakable) > 0;
+  return hasDescriptor(item, Descriptor.Unbreakable);
 }
 
 export function isLocked(item: ItemConfig): boolean {
-  return getDescriptorLevel(item, Descriptor.Locked) > 0;
+  return hasDescriptor(item, Descriptor.Locked);
 }
 
 // part functions
+export function hasFoundationalPart(item: ItemConfig): boolean {
+  return !!item.parts.find(x => x.foundational);
+}
+
+export function setFoundationalPart(part: ItemPart): void {
+  part.foundational = true;
+}
+
 export function addPart(item: ItemConfig, part: ItemPart): void {
   item.parts.push(part);
 }
