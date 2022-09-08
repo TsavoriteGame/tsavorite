@@ -1,7 +1,8 @@
 import { getInteractionLevel,
   decreaseInteractionLevel, increaseDescriptorLevelForPart,
   getDescriptorFromPart, decreaseDescriptorLevelForPart, getDescriptor,
-  setDescriptorLevel, hasFoundationalPart, addPart, setDescriptorLevelForPart, hasDescriptor, setFoundationalPart, shouldItemBreakWhenInteractingWith } from '../helpers';
+  setDescriptorLevel, hasFoundationalPart,
+  setDescriptorLevelForPart, hasDescriptor, setFoundationalPart, shouldItemBreakWhenInteractingWith } from '../helpers';
 import { Descriptor, Reactions, Interaction, ReactionExtendedArgs } from '../interfaces';
 
 const zeroFail = (args: ReactionExtendedArgs) => ({

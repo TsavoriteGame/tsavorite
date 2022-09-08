@@ -81,13 +81,27 @@ export function getReaction(interaction: Interaction, descriptor: Descriptor): R
 
     const result = calledFunction(extendedArgs);
 
+    // always check if we should shatter an item
+    const shouldItemShatter = shouldShatter(result.newTarget);
+    if(result.newTarget && shouldItemShatter) {
+      result.newTarget = undefined;
+      result.message = `${result.message} Target shattered due to temperature!`;
+    }
+
     // try to break items, they connected
     if(result.checkBreaks) {
       const shouldSourceBreak = shouldItemBreakWhenInteractingWith(extendedArgs.sourceItem, extendedArgs.targetItem);
       const shouldTargetBreak = shouldItemBreakWhenInteractingWith(extendedArgs.targetItem, extendedArgs.sourceItem);
 
-      if(shouldSourceBreak) result.newSource = undefined;
-      if(shouldTargetBreak) result.newTarget = undefined;
+      if(result.newSource && shouldSourceBreak) {
+        result.newSource = undefined;
+        result.message = `${result.message} Source was broken!`;
+      }
+
+      if(result.newTarget && shouldTargetBreak) {
+        result.newTarget = undefined;
+        result.message = `${result.message} Target was broken!`;
+      }
     }
 
     return result;
@@ -95,6 +109,16 @@ export function getReaction(interaction: Interaction, descriptor: Descriptor): R
 
   return passthroughFunction;
 }
+
+
+export function shouldShatter(item: ItemConfig) {
+  const hasHot = hasDescriptor(item, Descriptor.Hot);
+  const hasCold = hasDescriptor(item, Descriptor.Cold);
+  const hasFrozen = hasDescriptor(item, Descriptor.Frozen);
+  const hasGlass = hasDescriptor(item, Descriptor.Glass);
+
+  return hasHot && (hasCold || hasFrozen) && hasGlass;
+};
 
 // interaction functions
 export function getInteraction(item: ItemConfig, interaction: Interaction): ItemInteraction | undefined {
@@ -128,7 +152,7 @@ export function getDescriptorFromPart(part: ItemPart, descriptor: Descriptor): I
 }
 
 export function getDescriptorLevelFromPart(part: ItemPart, descriptor: Descriptor): number {
-  return getDescriptorFromPart(part, descriptor).level ?? 0;
+  return getDescriptorFromPart(part, descriptor)?.level ?? 0;
 }
 
 export function getDescriptorLevelFromItemDescriptor(itemDescriptor: ItemDescriptor): number {
@@ -172,7 +196,7 @@ export function setDescriptorLevelForPart(part: ItemPart, descriptor: Descriptor
 
 export function increaseDescriptorLevelForPart(part: ItemPart, descriptor: Descriptor, levelDelta = 1): number {
   if(!part.descriptors[descriptor]) part.descriptors[descriptor] = { level: 0 };
-  part.descriptors[descriptor].level += levelDelta;
+  part.descriptors[descriptor].level = Math.max(0, part.descriptors[descriptor].level + levelDelta);
 
   return part.descriptors[descriptor].level ?? 0;
 }
