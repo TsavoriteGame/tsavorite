@@ -17,9 +17,13 @@ export function shouldItemBreakWhenInteractingWith(sourceItem: ItemConfig, targe
   const targetMetalLevel = getDescriptorLevel(targetItem, Descriptor.Metal);
 
   const isSourceUnbreakable = isUnbreakable(sourceItem);
+  const isTargetUnbreakable = isUnbreakable(targetItem);
 
   // unbreakable is never breakable
   if(isSourceUnbreakable) return false;
+
+  // if they're unbreakable, we always break
+  if(isTargetUnbreakable) return true;
 
   // glass always breaks
   if(isSourceGlass) return true;
@@ -30,8 +34,8 @@ export function shouldItemBreakWhenInteractingWith(sourceItem: ItemConfig, targe
   // if we're rock and they're metal, break
   if(isSourceRock && targetMetalLevel > 0) return true;
 
-  // if I have more metal than they do, I don't break immediately
-  if(sourceMetalLevel > targetMetalLevel) return false;
+  // if they have more metal than me, we break
+  if(sourceMetalLevel > 0 && targetMetalLevel > 0 && sourceMetalLevel < targetMetalLevel) return true;
 
   // no situation above occurs, don't break
   return false;
