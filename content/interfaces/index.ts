@@ -1,2 +1,2 @@
 
-export * from './ContentTypes';
+export * from './content-types';

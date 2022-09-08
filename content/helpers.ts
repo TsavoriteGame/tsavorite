@@ -4,6 +4,39 @@ import { Interaction, Descriptor, ItemInteraction, ItemConfig,
 import * as Reactions from './reactions';
 
 // reaction functions
+export function shouldItemBreakWhenInteractingWith(sourceItem: ItemConfig, targetItem: ItemConfig): boolean {
+
+  const isSourceGlass = getDescriptorLevel(sourceItem, Descriptor.Glass) > 0;
+
+  const isSourceWood = getDescriptorLevel(sourceItem, Descriptor.Wood) > 0;
+
+  const isSourceRock = getDescriptorLevel(sourceItem, Descriptor.Rock) > 0;
+  const isTargetRock = getDescriptorLevel(targetItem, Descriptor.Rock) > 0;
+
+  const sourceMetalLevel = getDescriptorLevel(sourceItem, Descriptor.Metal);
+  const targetMetalLevel = getDescriptorLevel(targetItem, Descriptor.Metal);
+
+  const isSourceUnbreakable = isUnbreakable(sourceItem);
+
+  // unbreakable is never breakable
+  if(isSourceUnbreakable) return false;
+
+  // glass always breaks
+  if(isSourceGlass) return true;
+
+  // if we're wood and they're rock or metal, break
+  if(isSourceWood && (isTargetRock || targetMetalLevel > 0)) return true;
+
+  // if we're rock and they're metal, break
+  if(isSourceRock && targetMetalLevel > 0) return true;
+
+  // if I have more metal than they do, I don't break immediately
+  if(sourceMetalLevel > targetMetalLevel) return false;
+
+  // no situation above occurs, don't break
+  return false;
+}
+
 export function getReaction(interaction: Interaction, descriptor: Descriptor): ReactionFunction {
   const defaultReaction: ReactionFunction = (args: ReactionArgs) => ({
     message: 'The items do not react.',
@@ -14,9 +47,10 @@ export function getReaction(interaction: Interaction, descriptor: Descriptor): R
 
   const calledFunction: ReactionFunction = Reactions[interaction].applications[descriptor] || defaultReaction;
 
-  // clone the items so we don't bleed anything out accidentally
+  // handle pre- and post- processing
   const passthroughFunction = (args: ReactionArgs) => {
 
+    // clone items so we don't leak
     const extendedArgs: ReactionExtendedArgs = {
       sourceAction: args.sourceAction,
       sourceItem: structuredClone(args.sourceItem),
@@ -26,6 +60,7 @@ export function getReaction(interaction: Interaction, descriptor: Descriptor): R
       targetPart: undefined
     };
 
+    // get the source part if not specified
     if(args.sourcePart) {
       const partIndex = args.sourceItem.parts.findIndex(p => p === args.sourcePart);
       extendedArgs.sourcePart = extendedArgs.sourceItem.parts[partIndex];
@@ -34,12 +69,24 @@ export function getReaction(interaction: Interaction, descriptor: Descriptor): R
                              || extendedArgs.sourceItem.parts[0];
     }
 
+    // get the target part if not specified
     if(args.targetPart) {
       const partIndex = args.targetItem.parts.findIndex(p => p === args.targetPart);
       extendedArgs.targetPart = extendedArgs.targetItem.parts[partIndex];
     }
 
-    return calledFunction(extendedArgs);
+    const result = calledFunction(extendedArgs);
+
+    // try to break items, they connected
+    if(result.checkBreaks) {
+      const shouldSourceBreak = shouldItemBreakWhenInteractingWith(extendedArgs.sourceItem, extendedArgs.targetItem);
+      const shouldTargetBreak = shouldItemBreakWhenInteractingWith(extendedArgs.targetItem, extendedArgs.sourceItem);
+
+      if(shouldSourceBreak) result.newSource = undefined;
+      if(shouldTargetBreak) result.newTarget = undefined;
+    }
+
+    return result;
   };
 
   return passthroughFunction;
@@ -64,6 +111,12 @@ export function getDescriptor(item: ItemConfig, descriptor: Descriptor, minimum 
 
 export function getDescriptorLevel(item: ItemConfig, descriptor: Descriptor): number {
   return getDescriptor(item, descriptor)?.level ?? 0;
+}
+
+export function setDescriptorLevel(itemDescriptor: ItemDescriptor, level = 1): number {
+  itemDescriptor.level = level;
+
+  return itemDescriptor.level ?? 0;
 }
 
 export function getDescriptorFromPart(part: ItemPart, descriptor: Descriptor): ItemDescriptor | undefined {
@@ -93,6 +146,12 @@ export function addPart(item: ItemConfig, part: ItemPart): void {
 
 export function removePart(item: ItemConfig, part: ItemPart): void {
   item.parts = item.parts.filter(p => p !== part);
+}
+
+export function setDescriptorLevelForPart(part: ItemPart, descriptor: Descriptor, level = 1): number {
+  part.descriptors[descriptor] = { level };
+
+  return part.descriptors[descriptor].level ?? 0;
 }
 
 export function increaseDescriptorLevelForPart(part: ItemPart, descriptor: Descriptor, levelDelta = 1): number {
