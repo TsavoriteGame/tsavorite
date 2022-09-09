@@ -110,6 +110,9 @@ export function getReaction(interaction: Interaction, descriptor: Descriptor): R
   return passthroughFunction;
 }
 
+export function getReactionForItem(interaction: Interaction, itemPart: ItemPart): ReactionFunction {
+  return getReaction(interaction, itemPart.primaryDescriptor);
+}
 
 export function shouldShatter(item: ItemConfig) {
   const hasHot = hasDescriptor(item, Descriptor.Hot);
