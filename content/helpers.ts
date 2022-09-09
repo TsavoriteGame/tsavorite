@@ -43,6 +43,10 @@ export function shouldItemBreakWhenInteractingWith(sourceItem: ItemConfig, targe
   return false;
 }
 
+export function hasReaction(interaction: Interaction, descriptor: Descriptor): boolean {
+  return !!Reactions[interaction].applications[descriptor];
+}
+
 export function getReaction(interaction: Interaction, descriptor: Descriptor): ReactionFunction {
   const defaultReaction: ReactionFunction = (args: ReactionArgs) => ({
     message: 'The items do not react.',
@@ -141,13 +145,23 @@ export function getReactionBetweenTwoItems(sourceItem: ItemConfig, targetItem: I
   const interaction = sourceItem.interaction;
   if(!interaction) return defaultReaction();
 
-  const targetPart = getPrimaryPartOfItem(targetItem);
-  if(!targetPart) return defaultReaction();
-
   const sourcePart = getPrimaryPartOfItem(sourceItem);
   if(!sourcePart) return defaultReaction();
 
-  return getReaction(interaction.name, targetPart.primaryDescriptor)({
+  let targetPart: ItemPart;
+  let validReaction: ReactionFunction;
+
+  targetItem.parts.forEach(part => {
+    if(targetPart || validReaction) return;
+    if(!hasReaction(interaction.name, part.primaryDescriptor)) return;
+
+    targetPart = part;
+    validReaction = getReaction(interaction.name, targetPart.primaryDescriptor);
+  });
+
+  if(!targetPart) return defaultReaction();
+
+  return validReaction({
     sourceItem,
     targetItem,
     sourcePart,

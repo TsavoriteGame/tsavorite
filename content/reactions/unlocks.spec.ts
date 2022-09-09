@@ -164,3 +164,44 @@ test('A level 1 key should only unlock the first part of a compound lock', () =>
   expect(getDescriptorLevel(result.newTarget, Descriptor.Locked)).toBe(1);
 
 });
+
+test('A level 1 key should correctly interact with the lock on a door instead of the wood', () => {
+
+  const source: ItemConfig = {
+    name: 'Level 1 Key',
+    parts: [
+      { name: 'Key', primaryDescriptor: Descriptor.Metal, descriptors: { [Descriptor.Metal]: { level: 1 } } }
+    ],
+    interaction: { name: Interaction.Unlocks, level: 1 }
+  };
+
+  const target: ItemConfig = {
+    name: 'Level 1 Door',
+    parts: [
+      {
+        name: 'Wood Frame',
+        primaryDescriptor: Descriptor.Wood,
+        foundational: true,
+        descriptors: {
+          [Descriptor.Wood]: { level: 1 }
+        }
+      },
+      {
+        name: 'Lock Mechanism',
+        primaryDescriptor: Descriptor.Locked,
+        descriptors: {
+          [Descriptor.Locked]: { level: 1 }
+        }
+      }
+    ]
+  };
+
+  const result = getReactionBetweenTwoItems(source, target);
+
+  expect(result.success).toBe(true);
+  expect(result.newSource).toEqual(undefined);
+  expect(result.newTarget.parts.length).toBe(1);
+  expect(getDescriptorLevel(result.newTarget, Descriptor.Wood)).toBe(1);
+  expect(getDescriptorLevel(result.newTarget, Descriptor.Locked)).toBe(0);
+
+});
