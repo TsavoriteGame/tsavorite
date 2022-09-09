@@ -1,16 +1,18 @@
 
-import { getDescriptorLevel, getReaction } from '../helpers';
+import { getDescriptorLevel, getReactionBetweenTwoItems } from '../helpers';
 import { Interaction, Descriptor, ItemConfig } from '../interfaces';
 
 test('A level 2 key should unlock a level 1 lock', () => {
 
-  const key: ItemConfig = {
+  const source: ItemConfig = {
     name: 'Level 2 Key',
-    parts: [],
+    parts: [
+      { name: 'Key', primaryDescriptor: Descriptor.Metal, descriptors: { [Descriptor.Metal]: { level: 1 } } }
+    ],
     interaction: { name: Interaction.Unlocks, level: 2 }
   };
 
-  const lock: ItemConfig = {
+  const target: ItemConfig = {
     name: 'Level 1 Lock',
     parts: [
       {
@@ -23,12 +25,7 @@ test('A level 2 key should unlock a level 1 lock', () => {
     ]
   };
 
-  const result = getReaction(Interaction.Unlocks, Descriptor.Locked)({
-    sourceAction: Interaction.Unlocks,
-    sourceItem: key,
-    targetItem: lock,
-    targetPart: lock.parts[0]
-  });
+  const result = getReactionBetweenTwoItems(source, target);
 
   expect(result.success).toBe(true);
   expect(result.newSource).toBe(undefined);
@@ -39,7 +36,7 @@ test('A level 2 key should unlock a level 1 lock', () => {
 
 test('An unbreakable level 2 key should unlock a level 1 lock and NOT break', () => {
 
-  const key: ItemConfig = {
+  const source: ItemConfig = {
     name: 'Level 2 Key',
     parts: [{
       name: 'Orichalcum',
@@ -49,7 +46,7 @@ test('An unbreakable level 2 key should unlock a level 1 lock and NOT break', ()
     interaction: { name: Interaction.Unlocks, level: 2 }
   };
 
-  const lock: ItemConfig = {
+  const target: ItemConfig = {
     name: 'Level 1 Lock',
     parts: [
       {
@@ -62,15 +59,10 @@ test('An unbreakable level 2 key should unlock a level 1 lock and NOT break', ()
     ]
   };
 
-  const result = getReaction(Interaction.Unlocks, Descriptor.Locked)({
-    sourceAction: Interaction.Unlocks,
-    sourceItem: key,
-    targetItem: lock,
-    targetPart: lock.parts[0]
-  });
+  const result = getReactionBetweenTwoItems(source, target);
 
   expect(result.success).toBe(true);
-  expect(result.newSource).toEqual(key);
+  expect(result.newSource).toEqual(source);
   expect(result.newTarget.parts.length).toBe(0);
   expect(getDescriptorLevel(result.newTarget, Descriptor.Locked)).toBe(0);
 
@@ -78,13 +70,13 @@ test('An unbreakable level 2 key should unlock a level 1 lock and NOT break', ()
 
 test('A level 1 key should not unlock a level 2 lock', () => {
 
-  const key: ItemConfig = {
+  const source: ItemConfig = {
     name: 'Level 1 Key',
     parts: [],
     interaction: { name: Interaction.Unlocks, level: 1 }
   };
 
-  const lock: ItemConfig = {
+  const target: ItemConfig = {
     name: 'Level 2 Lock',
     parts: [
       {
@@ -97,28 +89,23 @@ test('A level 1 key should not unlock a level 2 lock', () => {
     ]
   };
 
-  const result = getReaction(Interaction.Unlocks, Descriptor.Locked)({
-    sourceAction: Interaction.Unlocks,
-    sourceItem: key,
-    targetItem: lock,
-    targetPart: lock.parts[0]
-  });
+  const result = getReactionBetweenTwoItems(source, target);
 
   expect(result.success).toBe(false);
-  expect(result.newSource).toEqual(key);
-  expect(result.newTarget).toEqual(lock);
+  expect(result.newSource).toEqual(source);
+  expect(result.newTarget).toEqual(target);
   expect(getDescriptorLevel(result.newTarget, Descriptor.Locked)).toBe(2);
 
 });
 
 test('A random item should not unlock a level 1 lock', () => {
 
-  const key: ItemConfig = {
+  const source: ItemConfig = {
     name: 'Level 1 Not Key',
     parts: []
   };
 
-  const lock: ItemConfig = {
+  const target: ItemConfig = {
     name: 'Level 1 Lock',
     parts: [
       {
@@ -131,29 +118,25 @@ test('A random item should not unlock a level 1 lock', () => {
     ]
   };
 
-  const result = getReaction(Interaction.Unlocks, Descriptor.Locked)({
-    sourceAction: Interaction.Unlocks,
-    sourceItem: key,
-    targetItem: lock,
-    targetPart: lock.parts[0]
-  });
+  const result = getReactionBetweenTwoItems(source, target);
 
   expect(result.success).toBe(false);
-  expect(result.newSource).toEqual(key);
-  expect(result.newTarget).toEqual(lock);
-  expect(getDescriptorLevel(result.newTarget, Descriptor.Locked)).toBe(1);
+  expect(result.newSource).toEqual(source);
+  expect(result.newTarget).toEqual(target);
 
 });
 
 test('A level 1 key should only unlock the first part of a compound lock', () => {
 
-  const key: ItemConfig = {
+  const source: ItemConfig = {
     name: 'Level 1 Key',
-    parts: [],
+    parts: [
+      { name: 'Key', primaryDescriptor: Descriptor.Metal, descriptors: { [Descriptor.Metal]: { level: 1 } } }
+    ],
     interaction: { name: Interaction.Unlocks, level: 1 }
   };
 
-  const lock: ItemConfig = {
+  const target: ItemConfig = {
     name: 'Level 1 Lock',
     parts: [
       {
@@ -173,12 +156,7 @@ test('A level 1 key should only unlock the first part of a compound lock', () =>
     ]
   };
 
-  const result = getReaction(Interaction.Unlocks, Descriptor.Locked)({
-    sourceAction: Interaction.Unlocks,
-    sourceItem: key,
-    targetItem: lock,
-    targetPart: lock.parts[0]
-  });
+  const result = getReactionBetweenTwoItems(source, target);
 
   expect(result.success).toBe(true);
   expect(result.newSource).toEqual(undefined);

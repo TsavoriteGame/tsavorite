@@ -41,6 +41,19 @@ const tryToFreeze = (args: ReactionExtendedArgs, comparatorDescriptor: Descripto
 
 export const applications: Reactions = {
 
+  // lower heat; increase cold
+  [Descriptor.Blazing]: (args: ReactionExtendedArgs) => {
+    const decreaseHot = () => {
+      decreaseDescriptorLevelForPart(args.targetPart, Descriptor.Bright, 1);
+      decreaseDescriptorLevelForPart(args.targetPart, Descriptor.Blazing, 1);
+      decreaseDescriptorLevelForPart(args.targetPart, Descriptor.Cold, 1);
+
+      decreaseInteractionLevel(args.sourceItem, Interaction.Freezes, 1);
+    };
+
+    return genericColdIncrease(args, decreaseHot);
+  },
+
   // add cold to the blood, try to freeze it
   [Descriptor.Bloody]: (args: ReactionExtendedArgs) => {
 
@@ -69,6 +82,7 @@ export const applications: Reactions = {
     const decreaseHot = () => {
       decreaseDescriptorLevelForPart(args.targetPart, Descriptor.Hot, 1);
       decreaseDescriptorLevelForPart(args.targetPart, Descriptor.Cold, 1);
+
       decreaseInteractionLevel(args.sourceItem, Interaction.Freezes, 1);
     };
 

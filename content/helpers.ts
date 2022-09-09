@@ -1,10 +1,12 @@
 import { Interaction, Descriptor, ItemInteraction, ItemConfig,
-  ItemDescriptor, ReactionFunction, ReactionArgs, ItemPart, ReactionExtendedArgs } from './interfaces';
+  ItemDescriptor, ReactionFunction, ReactionArgs, ItemPart, ReactionExtendedArgs, ReactionResponse } from './interfaces';
 
 import * as Reactions from './reactions';
 
 // reaction functions
 export function shouldItemBreakWhenInteractingWith(sourceItem: ItemConfig, targetItem: ItemConfig): boolean {
+
+  if(!sourceItem || !targetItem) return false;
 
   const isSourceGlass = getDescriptorLevel(sourceItem, Descriptor.Glass) > 0;
 
@@ -56,7 +58,6 @@ export function getReaction(interaction: Interaction, descriptor: Descriptor): R
 
     // clone items so we don't leak
     const extendedArgs: ReactionExtendedArgs = {
-      sourceAction: args.sourceAction,
       sourceItem: structuredClone(args.sourceItem),
       targetItem: structuredClone(args.targetItem),
 
@@ -85,16 +86,16 @@ export function getReaction(interaction: Interaction, descriptor: Descriptor): R
     const result = calledFunction(extendedArgs);
 
     // always check if we should shatter an item
-    const shouldItemShatter = shouldShatter(result.newTarget);
-    if(result.newTarget && shouldItemShatter) {
+    const shouldItemShatter = result.newTarget && shouldShatter(result.newTarget);
+    if(shouldItemShatter) {
       result.newTarget = undefined;
       result.message = `${result.message} Target shattered due to temperature!`;
     }
 
     // try to break items, they connected
     if(result.checkBreaks) {
-      const shouldSourceBreak = shouldItemBreakWhenInteractingWith(extendedArgs.sourceItem, extendedArgs.targetItem);
-      const shouldTargetBreak = shouldItemBreakWhenInteractingWith(extendedArgs.targetItem, extendedArgs.sourceItem);
+      const shouldSourceBreak = shouldItemBreakWhenInteractingWith(result.newSource, result.newTarget);
+      const shouldTargetBreak = shouldItemBreakWhenInteractingWith(result.newTarget, result.newSource);
 
       if(result.newSource && shouldSourceBreak) {
         result.newSource = undefined;
@@ -107,12 +108,12 @@ export function getReaction(interaction: Interaction, descriptor: Descriptor): R
       }
     }
 
-    if(doesSourceHaveFoundationalPart && !hasFoundationalPart(extendedArgs.sourceItem)) {
+    if(doesSourceHaveFoundationalPart && !hasFoundationalPart(result.newSource)) {
       result.newSource = undefined;
       result.message = `${result.message} Source fell apart!`;
     }
 
-    if(doesTargetHaveFoundationalPart && !hasFoundationalPart(extendedArgs.targetItem)) {
+    if(doesTargetHaveFoundationalPart && !hasFoundationalPart(result.newTarget)) {
       result.newTarget = undefined;
       result.message = `${result.message} Source fell apart!`;
     }
@@ -127,13 +128,48 @@ export function getReactionForItem(interaction: Interaction, itemPart: ItemPart)
   return getReaction(interaction, itemPart.primaryDescriptor);
 }
 
+export function getReactionBetweenTwoItems(sourceItem: ItemConfig, targetItem: ItemConfig): ReactionResponse {
+  const defaultReaction = () => ({
+    success: false,
+    message: 'The items did not react.',
+    newSource: sourceItem,
+    newTarget: targetItem,
+    sourcePart: undefined,
+    targetPart: undefined
+  });
+
+  const interaction = sourceItem.interaction;
+  if(!interaction) return defaultReaction();
+
+  const targetPart = getPrimaryPartOfItem(targetItem);
+  if(!targetPart) return defaultReaction();
+
+  const sourcePart = getPrimaryPartOfItem(sourceItem);
+  if(!sourcePart) return defaultReaction();
+
+  return getReaction(interaction.name, targetPart.primaryDescriptor)({
+    sourceItem,
+    targetItem,
+    sourcePart,
+    targetPart
+  });
+}
+
+export function getReactionBetweenItemAndPart(sourceItem: ItemConfig, targetItemPart: ItemPart): ReactionFunction | undefined {
+  const interaction = sourceItem.interaction;
+  if(!interaction) return undefined;
+
+  return getReaction(interaction.name, targetItemPart.primaryDescriptor);
+}
+
 export function shouldShatter(item: ItemConfig) {
   const hasHot = hasDescriptor(item, Descriptor.Hot);
   const hasCold = hasDescriptor(item, Descriptor.Cold);
+  const hasBlazing = hasDescriptor(item, Descriptor.Blazing);
   const hasFrozen = hasDescriptor(item, Descriptor.Frozen);
   const hasGlass = hasDescriptor(item, Descriptor.Glass);
 
-  return hasHot && (hasCold || hasFrozen) && hasGlass;
+  return (hasHot || hasBlazing) && (hasCold || hasFrozen) && hasGlass;
 };
 
 // interaction functions
@@ -179,6 +215,10 @@ export function hasDescriptor(item: ItemConfig, descriptor: Descriptor): boolean
   return getDescriptorLevel(item, descriptor) > 0;
 }
 
+export function changePrimaryDescriptor(itemPart: ItemPart, descriptor: Descriptor): void {
+  itemPart.primaryDescriptor = descriptor;
+}
+
 export function isUnbreakable(item: ItemConfig): boolean {
   return hasDescriptor(item, Descriptor.Unbreakable);
 }
@@ -189,6 +229,7 @@ export function isLocked(item: ItemConfig): boolean {
 
 // part functions
 export function hasFoundationalPart(item: ItemConfig): boolean {
+  if(!item) return false;
   return !!item.parts.find(x => x.foundational);
 }
 
@@ -233,14 +274,18 @@ export function decreasePartOrIncreaseDescriptorLevel(item: ItemConfig, descript
   increasePartOrIncreaseDescriptorLevel(item, descriptor, part, -levelDelta);
 }
 
+export function getPrimaryPartOfItem(item: ItemConfig) {
+  if(hasFoundationalPart(item)) return item.parts.find(p => p.foundational);
+
+  return item.parts[0];
+}
+
 // math functions
 export function increaseInteractionLevel(item: ItemConfig, interaction: Interaction, delta = 1): number {
-  const interactionData = getInteraction(item, interaction);
-  const interactionLevel = getInteractionLevel(item, interaction);
+  item.interaction = item.interaction || { name: interaction, level: 0 };
 
-  interactionData.level = Math.max(0, interactionLevel + delta);
-
-  return interactionData.level;
+  item.interaction.level = Math.max(0, item.interaction.level + delta);
+  return item.interaction.level;
 }
 
 export function decreaseInteractionLevel(item: ItemConfig, interaction: Interaction, delta = 1): number {

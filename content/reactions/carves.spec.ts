@@ -1,5 +1,5 @@
 
-import { getDescriptorLevel, getInteractionLevel, getReaction, hasFoundationalPart } from '../helpers';
+import { getDescriptorLevel, getInteractionLevel, getReactionBetweenTwoItems, hasFoundationalPart } from '../helpers';
 import { Interaction, Descriptor, ItemConfig } from '../interfaces';
 
 const getCarver: (level: number, carvesLevel: number, desc?: Descriptor) => ItemConfig =
@@ -19,9 +19,9 @@ const getCarver: (level: number, carvesLevel: number, desc?: Descriptor) => Item
 
 test('A level 2 carver should bleed a level 2 meat', () => {
 
-  const carver = getCarver(1, 2);
+  const source = getCarver(1, 2);
 
-  const meat: ItemConfig = {
+  const target: ItemConfig = {
     name: 'Level 2 Meat',
     parts: [
       {
@@ -34,12 +34,7 @@ test('A level 2 carver should bleed a level 2 meat', () => {
     ]
   };
 
-  const result = getReaction(Interaction.Carves, Descriptor.Meat)({
-    sourceAction: Interaction.Carves,
-    sourceItem: carver,
-    targetItem: meat,
-    targetPart: meat.parts[0]
-  });
+  const result = getReactionBetweenTwoItems(source, target);
 
   expect(result.success).toBe(true);
 
@@ -55,9 +50,9 @@ test('A level 2 carver should bleed a level 2 meat', () => {
 
 test('A level 2 carver should bleed a level 2 meat and add blood to the blood pile', () => {
 
-  const carver = getCarver(1, 2);
+  const source = getCarver(1, 2);
 
-  const meat: ItemConfig = {
+  const target: ItemConfig = {
     name: 'Level 2 Meat',
     parts: [
       {
@@ -71,12 +66,7 @@ test('A level 2 carver should bleed a level 2 meat and add blood to the blood pi
     ]
   };
 
-  const result = getReaction(Interaction.Carves, Descriptor.Meat)({
-    sourceAction: Interaction.Carves,
-    sourceItem: carver,
-    targetItem: meat,
-    targetPart: meat.parts[0]
-  });
+  const result = getReactionBetweenTwoItems(source, target);
 
   expect(result.success).toBe(true);
 
@@ -92,9 +82,9 @@ test('A level 2 carver should bleed a level 2 meat and add blood to the blood pi
 
 test('A level 1 carver should break after bleeding any meat', () => {
 
-  const carver = getCarver(1, 1);
+  const source = getCarver(1, 1);
 
-  const meat: ItemConfig = {
+  const target: ItemConfig = {
     name: 'Level 2 Meat',
     parts: [
       {
@@ -108,12 +98,7 @@ test('A level 1 carver should break after bleeding any meat', () => {
     ]
   };
 
-  const result = getReaction(Interaction.Carves, Descriptor.Meat)({
-    sourceAction: Interaction.Carves,
-    sourceItem: carver,
-    targetItem: meat,
-    targetPart: meat.parts[0]
-  });
+  const result = getReactionBetweenTwoItems(source, target);
 
   expect(result.success).toBe(true);
   expect(result.newSource).toEqual(undefined);
@@ -125,9 +110,9 @@ test('A level 1 carver should break after bleeding any meat', () => {
 
 test('A level 1 carver should cut a level 2 fiber in half', () => {
 
-  const carver = getCarver(1, 1);
+  const source = getCarver(1, 1);
 
-  const fiber: ItemConfig = {
+  const target: ItemConfig = {
     name: 'Level 2 Fiber',
     parts: [
       {
@@ -140,12 +125,7 @@ test('A level 1 carver should cut a level 2 fiber in half', () => {
     ]
   };
 
-  const result = getReaction(Interaction.Carves, Descriptor.Fiber)({
-    sourceAction: Interaction.Carves,
-    sourceItem: carver,
-    targetItem: fiber,
-    targetPart: fiber.parts[0]
-  });
+  const result = getReactionBetweenTwoItems(source, target);
 
   expect(result.success).toBe(true);
   expect(result.newSource).toEqual(undefined);
@@ -156,16 +136,16 @@ test('A level 1 carver should cut a level 2 fiber in half', () => {
 
 });
 
-test('A level 1 carver should cut a level 1 from a level 3 meat', () => {
+test('A level 1 carver should cut a level 1 from a level 3 cooked meat', () => {
 
-  const carver = getCarver(1, 1);
+  const source = getCarver(1, 1);
 
-  const meat: ItemConfig = {
+  const target: ItemConfig = {
     name: 'Level 3 Meat',
     parts: [
       {
         name: 'Meat',
-        primaryDescriptor: Descriptor.Meat,
+        primaryDescriptor: Descriptor.Cooked,
         descriptors: {
           [Descriptor.Cooked]: { level: 3 }
         }
@@ -173,12 +153,7 @@ test('A level 1 carver should cut a level 1 from a level 3 meat', () => {
     ]
   };
 
-  const result = getReaction(Interaction.Carves, Descriptor.Cooked)({
-    sourceAction: Interaction.Carves,
-    sourceItem: carver,
-    targetItem: meat,
-    targetPart: meat.parts[0]
-  });
+  const result = getReactionBetweenTwoItems(source, target);
 
   expect(result.success).toBe(true);
   expect(result.newSource).toEqual(undefined);
@@ -191,9 +166,9 @@ test('A level 1 carver should cut a level 1 from a level 3 meat', () => {
 
 test('A level 1 carver should be able to carve a glass container', () => {
 
-  const carver = getCarver(1, 1);
+  const source = getCarver(1, 1);
 
-  const newContainer: ItemConfig = {
+  const target: ItemConfig = {
     name: 'Level 3 Glass',
     parts: [
       {
@@ -206,12 +181,7 @@ test('A level 1 carver should be able to carve a glass container', () => {
     ]
   };
 
-  const result = getReaction(Interaction.Carves, Descriptor.Glass)({
-    sourceAction: Interaction.Carves,
-    sourceItem: carver,
-    targetItem: newContainer,
-    targetPart: newContainer.parts[0]
-  });
+  const result = getReactionBetweenTwoItems(source, target);
 
   expect(result.success).toBe(true);
   expect(result.newSource).toEqual(undefined);
@@ -222,9 +192,9 @@ test('A level 1 carver should be able to carve a glass container', () => {
 
 test('A level 1 carver should be able to carve a leather container', () => {
 
-  const carver = getCarver(1, 1);
+  const source = getCarver(1, 1);
 
-  const newContainer: ItemConfig = {
+  const target: ItemConfig = {
     name: 'Level 3 Leather',
     parts: [
       {
@@ -237,12 +207,7 @@ test('A level 1 carver should be able to carve a leather container', () => {
     ]
   };
 
-  const result = getReaction(Interaction.Carves, Descriptor.Leather)({
-    sourceAction: Interaction.Carves,
-    sourceItem: carver,
-    targetItem: newContainer,
-    targetPart: newContainer.parts[0]
-  });
+  const result = getReactionBetweenTwoItems(source, target);
 
   expect(result.success).toBe(true);
   expect(result.newSource).toEqual(undefined);
@@ -253,9 +218,9 @@ test('A level 1 carver should be able to carve a leather container', () => {
 
 test('A level 1 glass carver should NOT be able to carve a leather container', () => {
 
-  const carver = getCarver(1, 1, Descriptor.Glass);
+  const source = getCarver(1, 1, Descriptor.Glass);
 
-  const newContainer: ItemConfig = {
+  const target: ItemConfig = {
     name: 'Level 3 Leather',
     parts: [
       {
@@ -268,23 +233,18 @@ test('A level 1 glass carver should NOT be able to carve a leather container', (
     ]
   };
 
-  const result = getReaction(Interaction.Carves, Descriptor.Leather)({
-    sourceAction: Interaction.Carves,
-    sourceItem: carver,
-    targetItem: newContainer,
-    targetPart: newContainer.parts[0]
-  });
+  const result = getReactionBetweenTwoItems(source, target);
 
   expect(result.success).toBe(false);
-  expect(result.newSource).toEqual(carver);
-  expect(result.newTarget).toEqual(newContainer);
+  expect(result.newSource).toEqual(source);
+  expect(result.newTarget).toEqual(target);
 });
 
 test('A level 1 carver should be able to carve a metal container', () => {
 
-  const carver = getCarver(1, 1);
+  const source = getCarver(1, 1);
 
-  const newContainer: ItemConfig = {
+  const target: ItemConfig = {
     name: 'Level 1 Metal',
     parts: [
       {
@@ -297,12 +257,7 @@ test('A level 1 carver should be able to carve a metal container', () => {
     ]
   };
 
-  const result = getReaction(Interaction.Carves, Descriptor.Metal)({
-    sourceAction: Interaction.Carves,
-    sourceItem: carver,
-    targetItem: newContainer,
-    targetPart: newContainer.parts[0]
-  });
+  const result = getReactionBetweenTwoItems(source, target);
 
   expect(result.success).toBe(true);
   expect(result.newSource).toEqual(undefined);
@@ -313,9 +268,9 @@ test('A level 1 carver should be able to carve a metal container', () => {
 
 test('A level 1 glass carver should NOT be able to carve a metal container', () => {
 
-  const carver = getCarver(1, 1, Descriptor.Glass);
+  const source = getCarver(1, 1, Descriptor.Glass);
 
-  const newContainer: ItemConfig = {
+  const target: ItemConfig = {
     name: 'Level 3 Metal',
     parts: [
       {
@@ -328,23 +283,18 @@ test('A level 1 glass carver should NOT be able to carve a metal container', () 
     ]
   };
 
-  const result = getReaction(Interaction.Carves, Descriptor.Metal)({
-    sourceAction: Interaction.Carves,
-    sourceItem: carver,
-    targetItem: newContainer,
-    targetPart: newContainer.parts[0]
-  });
+  const result = getReactionBetweenTwoItems(source, target);
 
   expect(result.success).toBe(false);
-  expect(result.newSource).toEqual(carver);
-  expect(result.newTarget).toEqual(newContainer);
+  expect(result.newSource).toEqual(source);
+  expect(result.newTarget).toEqual(target);
 });
 
 test('A level 1 carver should be able to carve a rock container', () => {
 
-  const carver = getCarver(1, 1);
+  const source = getCarver(1, 1);
 
-  const newContainer: ItemConfig = {
+  const target: ItemConfig = {
     name: 'Level 3 Rock',
     parts: [
       {
@@ -357,12 +307,7 @@ test('A level 1 carver should be able to carve a rock container', () => {
     ]
   };
 
-  const result = getReaction(Interaction.Carves, Descriptor.Rock)({
-    sourceAction: Interaction.Carves,
-    sourceItem: carver,
-    targetItem: newContainer,
-    targetPart: newContainer.parts[0]
-  });
+  const result = getReactionBetweenTwoItems(source, target);
 
   expect(result.success).toBe(true);
   expect(result.newSource).toEqual(undefined);
@@ -373,9 +318,9 @@ test('A level 1 carver should be able to carve a rock container', () => {
 
 test('A level 1 glass carver should NOT be able to carve a rock container', () => {
 
-  const carver = getCarver(1, 1, Descriptor.Glass);
+  const source = getCarver(1, 1, Descriptor.Glass);
 
-  const newContainer: ItemConfig = {
+  const target: ItemConfig = {
     name: 'Level 3 Rock',
     parts: [
       {
@@ -388,23 +333,18 @@ test('A level 1 glass carver should NOT be able to carve a rock container', () =
     ]
   };
 
-  const result = getReaction(Interaction.Carves, Descriptor.Rock)({
-    sourceAction: Interaction.Carves,
-    sourceItem: carver,
-    targetItem: newContainer,
-    targetPart: newContainer.parts[0]
-  });
+  const result = getReactionBetweenTwoItems(source, target);
 
   expect(result.success).toBe(false);
-  expect(result.newSource).toEqual(carver);
-  expect(result.newTarget).toEqual(newContainer);
+  expect(result.newSource).toEqual(source);
+  expect(result.newTarget).toEqual(target);
 });
 
 test('A level 1 carver should be able to carve a wood container', () => {
 
-  const carver = getCarver(1, 1);
+  const source = getCarver(1, 1);
 
-  const newContainer: ItemConfig = {
+  const target: ItemConfig = {
     name: 'Level 3 Wood',
     parts: [
       {
@@ -417,12 +357,7 @@ test('A level 1 carver should be able to carve a wood container', () => {
     ]
   };
 
-  const result = getReaction(Interaction.Carves, Descriptor.Wood)({
-    sourceAction: Interaction.Carves,
-    sourceItem: carver,
-    targetItem: newContainer,
-    targetPart: newContainer.parts[0]
-  });
+  const result = getReactionBetweenTwoItems(source, target);
 
   expect(result.success).toBe(true);
   expect(result.newSource).toEqual(undefined);
@@ -433,9 +368,9 @@ test('A level 1 carver should be able to carve a wood container', () => {
 
 test('A level 1 glass carver should NOT be able to carve a wood container', () => {
 
-  const carver = getCarver(1, 1, Descriptor.Glass);
+  const source = getCarver(1, 1, Descriptor.Glass);
 
-  const newContainer: ItemConfig = {
+  const target: ItemConfig = {
     name: 'Level 3 Wood',
     parts: [
       {
@@ -448,14 +383,9 @@ test('A level 1 glass carver should NOT be able to carve a wood container', () =
     ]
   };
 
-  const result = getReaction(Interaction.Carves, Descriptor.Wood)({
-    sourceAction: Interaction.Carves,
-    sourceItem: carver,
-    targetItem: newContainer,
-    targetPart: newContainer.parts[0]
-  });
+  const result = getReactionBetweenTwoItems(source, target);
 
   expect(result.success).toBe(false);
-  expect(result.newSource).toEqual(carver);
-  expect(result.newTarget).toEqual(newContainer);
+  expect(result.newSource).toEqual(source);
+  expect(result.newTarget).toEqual(target);
 });

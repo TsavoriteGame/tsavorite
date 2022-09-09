@@ -21,11 +21,11 @@ export const applications: Reactions = {
 
     const sourceItem = args.sourceItem;
     const targetItem = args.targetItem;
-    const fiberLevel = getDescriptorFromPart(args.targetPart, Descriptor.Cooked);
+    const cookedLevel = getDescriptorFromPart(args.targetPart, Descriptor.Cooked);
 
     if(carvesLevel <= 0)  return zeroFail(args);
 
-    if(fiberLevel <= 1) {
+    if(cookedLevel <= 1) {
       return {
         message: 'There is not enough food here to cut.',
         success: false,

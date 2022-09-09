@@ -10,13 +10,13 @@ export enum Interaction {
 }
 
 export enum Descriptor {
+  Blazing = 'Blazing',
   Bloody = 'Bloody',
   Bright = 'Bright',
   Cold = 'Cold',
   Combustible = 'Combustible',
   Container = 'Container',
   Cooked = 'Cooked',
-  Dim = 'Dim',
   Dirt = 'Dirt',
   Dust = 'Dust',
   Electric = 'Electric',
@@ -63,7 +63,6 @@ export interface ItemConfig {
 }
 
 export interface ReactionArgs {
-  sourceAction: Interaction;
   sourceItem: ItemConfig;
   targetItem: ItemConfig;
   sourcePart?: ItemPart;

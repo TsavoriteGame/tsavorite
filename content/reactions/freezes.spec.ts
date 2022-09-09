@@ -1,4 +1,4 @@
-import { getDescriptorLevel, getInteractionLevel, getReaction, shouldShatter } from '../helpers';
+import { getDescriptorLevel, getInteractionLevel, getReactionBetweenTwoItems } from '../helpers';
 import { Descriptor, Interaction, ItemConfig } from '../interfaces';
 
 const getFreezer: (level: number, freezeLevel: number) => ItemConfig =
@@ -18,9 +18,9 @@ const getFreezer: (level: number, freezeLevel: number) => ItemConfig =
 
 test('A level 2 freezer should chill level 1 blood', () => {
 
-  const freezer = getFreezer(1, 2);
+  const source = getFreezer(1, 2);
 
-  const blood: ItemConfig = {
+  const target: ItemConfig = {
     name: 'Level 1 Blood',
     parts: [
       {
@@ -33,12 +33,7 @@ test('A level 2 freezer should chill level 1 blood', () => {
     ]
   };
 
-  const result = getReaction(Interaction.Freezes, Descriptor.Bloody)({
-    sourceAction: Interaction.Freezes,
-    sourceItem: freezer,
-    targetItem: blood,
-    targetPart: blood.parts[0]
-  });
+  const result = getReactionBetweenTwoItems(source, target);
 
   expect(result.success).toBe(true);
 
@@ -53,9 +48,9 @@ test('A level 2 freezer should chill level 1 blood', () => {
 
 test('A level 2 freezer should freeze level 1 frozen blood', () => {
 
-  const freezer = getFreezer(1, 2);
+  const source = getFreezer(1, 2);
 
-  const blood: ItemConfig = {
+  const target: ItemConfig = {
     name: 'Level 1 Blood',
     parts: [
       {
@@ -69,12 +64,7 @@ test('A level 2 freezer should freeze level 1 frozen blood', () => {
     ]
   };
 
-  const result = getReaction(Interaction.Freezes, Descriptor.Bloody)({
-    sourceAction: Interaction.Freezes,
-    sourceItem: freezer,
-    targetItem: blood,
-    targetPart: blood.parts[0]
-  });
+  const result = getReactionBetweenTwoItems(source, target);
 
   expect(result.success).toBe(true);
 
@@ -90,9 +80,9 @@ test('A level 2 freezer should freeze level 1 frozen blood', () => {
 
 test('A level 2 freezer should chill glass', () => {
 
-  const freezer = getFreezer(1, 2);
+  const source = getFreezer(1, 2);
 
-  const glass: ItemConfig = {
+  const target: ItemConfig = {
     name: 'Level 1 Glass',
     parts: [
       {
@@ -105,12 +95,7 @@ test('A level 2 freezer should chill glass', () => {
     ]
   };
 
-  const result = getReaction(Interaction.Freezes, Descriptor.Glass)({
-    sourceAction: Interaction.Freezes,
-    sourceItem: freezer,
-    targetItem: glass,
-    targetPart: glass.parts[0]
-  });
+  const result = getReactionBetweenTwoItems(source, target);
 
   expect(result.success).toBe(true);
 
@@ -124,9 +109,9 @@ test('A level 2 freezer should chill glass', () => {
 
 test('A level 2 freezer should shatter hot glass', () => {
 
-  const freezer = getFreezer(1, 2);
+  const source = getFreezer(1, 2);
 
-  const glass: ItemConfig = {
+  const target: ItemConfig = {
     name: 'Level 1 Glass',
     parts: [
       {
@@ -140,12 +125,7 @@ test('A level 2 freezer should shatter hot glass', () => {
     ]
   };
 
-  const result = getReaction(Interaction.Freezes, Descriptor.Glass)({
-    sourceAction: Interaction.Freezes,
-    sourceItem: freezer,
-    targetItem: glass,
-    targetPart: glass.parts[0]
-  });
+  const result = getReactionBetweenTwoItems(source, target);
 
   expect(result.success).toBe(true);
 
@@ -158,14 +138,14 @@ test('A level 2 freezer should shatter hot glass', () => {
 
 test('A level 2 freezer should lower heat on a hot rock but not impart cold', () => {
 
-  const freezer = getFreezer(1, 2);
+  const source = getFreezer(1, 2);
 
-  const rock: ItemConfig = {
-    name: 'Level 1 Rock',
+  const target: ItemConfig = {
+    name: 'Level 1 Heatstone',
     parts: [
       {
         name: 'Rock',
-        primaryDescriptor: Descriptor.Rock,
+        primaryDescriptor: Descriptor.Hot,
         descriptors: {
           [Descriptor.Rock]: { level: 1 },
           [Descriptor.Hot]: { level: 2 }
@@ -174,47 +154,7 @@ test('A level 2 freezer should lower heat on a hot rock but not impart cold', ()
     ]
   };
 
-  const result = getReaction(Interaction.Freezes, Descriptor.Hot)({
-    sourceAction: Interaction.Freezes,
-    sourceItem: freezer,
-    targetItem: rock,
-    targetPart: rock.parts[0]
-  });
-
-  expect(result.success).toBe(true);
-
-  expect(getInteractionLevel(result.newSource, Interaction.Freezes)).toEqual(1);
-  expect(getDescriptorLevel(result.newSource, Descriptor.Cold)).toEqual(1);
-
-  expect(getDescriptorLevel(result.newTarget, Descriptor.Cold)).toEqual(0);
-  expect(getDescriptorLevel(result.newTarget, Descriptor.Hot)).toEqual(1);
-
-});
-
-test('A level 2 freezer should lower heat on a hot rock and lower freeze on source', () => {
-
-  const freezer = getFreezer(1, 2);
-
-  const rock: ItemConfig = {
-    name: 'Level 1 Rock',
-    parts: [
-      {
-        name: 'Rock',
-        primaryDescriptor: Descriptor.Rock,
-        descriptors: {
-          [Descriptor.Rock]: { level: 1 },
-          [Descriptor.Hot]: { level: 2 }
-        }
-      }
-    ]
-  };
-
-  const result = getReaction(Interaction.Freezes, Descriptor.Hot)({
-    sourceAction: Interaction.Freezes,
-    sourceItem: freezer,
-    targetItem: rock,
-    targetPart: rock.parts[0]
-  });
+  const result = getReactionBetweenTwoItems(source, target);
 
   expect(result.success).toBe(true);
 
@@ -228,9 +168,9 @@ test('A level 2 freezer should lower heat on a hot rock and lower freeze on sour
 
 test('A level 2 freezer should chill level 1 meat', () => {
 
-  const freezer = getFreezer(1, 2);
+  const source = getFreezer(1, 2);
 
-  const meat: ItemConfig = {
+  const target: ItemConfig = {
     name: 'Level 1 Meat',
     parts: [
       {
@@ -243,12 +183,7 @@ test('A level 2 freezer should chill level 1 meat', () => {
     ]
   };
 
-  const result = getReaction(Interaction.Freezes, Descriptor.Meat)({
-    sourceAction: Interaction.Freezes,
-    sourceItem: freezer,
-    targetItem: meat,
-    targetPart: meat.parts[0]
-  });
+  const result = getReactionBetweenTwoItems(source, target);
 
   expect(result.success).toBe(true);
 
@@ -262,9 +197,9 @@ test('A level 2 freezer should chill level 1 meat', () => {
 
 test('A level 2 freezer should freeze chilled level 1 meat', () => {
 
-  const freezer = getFreezer(1, 2);
+  const source = getFreezer(1, 2);
 
-  const meat: ItemConfig = {
+  const target: ItemConfig = {
     name: 'Level 1 Meat',
     parts: [
       {
@@ -278,12 +213,7 @@ test('A level 2 freezer should freeze chilled level 1 meat', () => {
     ]
   };
 
-  const result = getReaction(Interaction.Freezes, Descriptor.Meat)({
-    sourceAction: Interaction.Freezes,
-    sourceItem: freezer,
-    targetItem: meat,
-    targetPart: meat.parts[0]
-  });
+  const result = getReactionBetweenTwoItems(source, target);
 
   expect(result.success).toBe(true);
 
@@ -298,9 +228,9 @@ test('A level 2 freezer should freeze chilled level 1 meat', () => {
 
 test('A level 2 freezer should make metal sticky', () => {
 
-  const freezer = getFreezer(1, 2);
+  const source = getFreezer(1, 2);
 
-  const pole: ItemConfig = {
+  const target: ItemConfig = {
     name: 'Level 1 Metal Pole',
     parts: [
       {
@@ -313,12 +243,7 @@ test('A level 2 freezer should make metal sticky', () => {
     ]
   };
 
-  const result = getReaction(Interaction.Freezes, Descriptor.Metal)({
-    sourceAction: Interaction.Freezes,
-    sourceItem: freezer,
-    targetItem: pole,
-    targetPart: pole.parts[0]
-  });
+  const result = getReactionBetweenTwoItems(source, target);
 
   expect(result.success).toBe(true);
 
@@ -333,9 +258,9 @@ test('A level 2 freezer should make metal sticky', () => {
 
 test('A level 2 freezer should make a rock cold', () => {
 
-  const freezer = getFreezer(1, 2);
+  const source = getFreezer(1, 2);
 
-  const rock: ItemConfig = {
+  const target: ItemConfig = {
     name: 'Level 1 Rock',
     parts: [
       {
@@ -348,12 +273,7 @@ test('A level 2 freezer should make a rock cold', () => {
     ]
   };
 
-  const result = getReaction(Interaction.Freezes, Descriptor.Metal)({
-    sourceAction: Interaction.Freezes,
-    sourceItem: freezer,
-    targetItem: rock,
-    targetPart: rock.parts[0]
-  });
+  const result = getReactionBetweenTwoItems(source, target);
 
   expect(result.success).toBe(true);
 
@@ -367,9 +287,9 @@ test('A level 2 freezer should make a rock cold', () => {
 
 test('A level 2 freezer should chill level 1 water', () => {
 
-  const freezer = getFreezer(1, 2);
+  const source = getFreezer(1, 2);
 
-  const water: ItemConfig = {
+  const target: ItemConfig = {
     name: 'Level 1 Water',
     parts: [
       {
@@ -382,12 +302,7 @@ test('A level 2 freezer should chill level 1 water', () => {
     ]
   };
 
-  const result = getReaction(Interaction.Freezes, Descriptor.Wet)({
-    sourceAction: Interaction.Freezes,
-    sourceItem: freezer,
-    targetItem: water,
-    targetPart: water.parts[0]
-  });
+  const result = getReactionBetweenTwoItems(source, target);
 
   expect(result.success).toBe(true);
 
@@ -401,9 +316,9 @@ test('A level 2 freezer should chill level 1 water', () => {
 
 test('A level 2 freezer should freeze chilled level 1 water', () => {
 
-  const freezer = getFreezer(1, 2);
+  const source = getFreezer(1, 2);
 
-  const water: ItemConfig = {
+  const target: ItemConfig = {
     name: 'Level 1 Water',
     parts: [
       {
@@ -417,12 +332,7 @@ test('A level 2 freezer should freeze chilled level 1 water', () => {
     ]
   };
 
-  const result = getReaction(Interaction.Freezes, Descriptor.Wet)({
-    sourceAction: Interaction.Freezes,
-    sourceItem: freezer,
-    targetItem: water,
-    targetPart: water.parts[0]
-  });
+  const result = getReactionBetweenTwoItems(source, target);
 
   expect(result.success).toBe(true);
 
@@ -432,5 +342,36 @@ test('A level 2 freezer should freeze chilled level 1 water', () => {
   expect(getDescriptorLevel(result.newTarget, Descriptor.Cold)).toEqual(2);
   expect(getDescriptorLevel(result.newTarget, Descriptor.Frozen)).toEqual(1);
   expect(getDescriptorLevel(result.newTarget, Descriptor.Wet)).toEqual(1);
+
+});
+
+test('A level 2 freezer should lower brightness on blazing', () => {
+
+  const source = getFreezer(1, 2);
+
+  const target: ItemConfig = {
+    name: 'Level 1 Fire',
+    parts: [
+      {
+        name: 'Fire',
+        primaryDescriptor: Descriptor.Blazing,
+        descriptors: {
+          [Descriptor.Blazing]: { level: 2 },
+          [Descriptor.Hot]: { level: 2 },
+          [Descriptor.Bright]: { level: 2 }
+        }
+      }
+    ]
+  };
+
+  const result = getReactionBetweenTwoItems(source, target);
+
+  expect(result.success).toBe(true);
+
+  expect(getInteractionLevel(result.newSource, Interaction.Freezes)).toEqual(1);
+  expect(getDescriptorLevel(result.newSource, Descriptor.Cold)).toEqual(1);
+
+  expect(getDescriptorLevel(result.newTarget, Descriptor.Blazing)).toEqual(1);
+  expect(getDescriptorLevel(result.newTarget, Descriptor.Bright)).toEqual(1);
 
 });
