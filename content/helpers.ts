@@ -64,6 +64,9 @@ export function getReaction(interaction: Interaction, descriptor: Descriptor): R
       targetPart: undefined
     };
 
+    const doesSourceHaveFoundationalPart = hasFoundationalPart(extendedArgs.sourceItem);
+    const doesTargetHaveFoundationalPart = hasFoundationalPart(extendedArgs.targetItem);
+
     // get the source part if not specified
     if(args.sourcePart) {
       const partIndex = args.sourceItem.parts.findIndex(p => p === args.sourcePart);
@@ -102,6 +105,16 @@ export function getReaction(interaction: Interaction, descriptor: Descriptor): R
         result.newTarget = undefined;
         result.message = `${result.message} Target was broken!`;
       }
+    }
+
+    if(doesSourceHaveFoundationalPart && !hasFoundationalPart(extendedArgs.sourceItem)) {
+      result.newSource = undefined;
+      result.message = `${result.message} Source fell apart!`;
+    }
+
+    if(doesTargetHaveFoundationalPart && !hasFoundationalPart(extendedArgs.targetItem)) {
+      result.newTarget = undefined;
+      result.message = `${result.message} Source fell apart!`;
     }
 
     return result;
