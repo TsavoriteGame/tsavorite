@@ -6,6 +6,7 @@ const itemWithDescriptorAtLevel: (descriptor: Descriptor, level: number) => Item
   parts: [
     {
       name: descriptor,
+      primaryDescriptor: descriptor,
       descriptors: {
         [descriptor]: { level }
       }

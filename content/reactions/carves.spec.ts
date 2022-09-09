@@ -8,6 +8,7 @@ const getCarver: (level: number, carvesLevel: number, desc?: Descriptor) => Item
   parts: [
     {
       name: 'Blade',
+      primaryDescriptor: desc,
       descriptors: {
         [desc]: { level }
       }
@@ -25,6 +26,7 @@ test('A level 2 carver should bleed a level 2 meat', () => {
     parts: [
       {
         name: 'Haunch',
+        primaryDescriptor: Descriptor.Meat,
         descriptors: {
           [Descriptor.Meat]: { level: 2 }
         }
@@ -60,6 +62,7 @@ test('A level 2 carver should bleed a level 2 meat and add blood to the blood pi
     parts: [
       {
         name: 'Haunch',
+        primaryDescriptor: Descriptor.Meat,
         descriptors: {
           [Descriptor.Meat]: { level: 2 },
           [Descriptor.Bloody]: { level: 2 }
@@ -96,6 +99,7 @@ test('A level 1 carver should break after bleeding any meat', () => {
     parts: [
       {
         name: 'Haunch',
+        primaryDescriptor: Descriptor.Meat,
         descriptors: {
           [Descriptor.Meat]: { level: 2 },
           [Descriptor.Bloody]: { level: 2 }
@@ -128,6 +132,7 @@ test('A level 1 carver should cut a level 2 fiber in half', () => {
     parts: [
       {
         name: 'String',
+        primaryDescriptor: Descriptor.Fiber,
         descriptors: {
           [Descriptor.Fiber]: { level: 2 }
         }
@@ -160,6 +165,7 @@ test('A level 1 carver should cut a level 1 from a level 3 meat', () => {
     parts: [
       {
         name: 'Meat',
+        primaryDescriptor: Descriptor.Meat,
         descriptors: {
           [Descriptor.Cooked]: { level: 3 }
         }
@@ -192,6 +198,7 @@ test('A level 1 carver should be able to carve a glass container', () => {
     parts: [
       {
         name: 'Glass',
+        primaryDescriptor: Descriptor.Glass,
         descriptors: {
           [Descriptor.Glass]: { level: 3 }
         }
@@ -222,6 +229,7 @@ test('A level 1 carver should be able to carve a leather container', () => {
     parts: [
       {
         name: 'Leather',
+        primaryDescriptor: Descriptor.Leather,
         descriptors: {
           [Descriptor.Leather]: { level: 3 }
         }
@@ -252,6 +260,7 @@ test('A level 1 glass carver should NOT be able to carve a leather container', (
     parts: [
       {
         name: 'Leather',
+        primaryDescriptor: Descriptor.Leather,
         descriptors: {
           [Descriptor.Leather]: { level: 3 }
         }
@@ -276,12 +285,13 @@ test('A level 1 carver should be able to carve a metal container', () => {
   const carver = getCarver(1, 1);
 
   const newContainer: ItemConfig = {
-    name: 'Level 3 Metal',
+    name: 'Level 1 Metal',
     parts: [
       {
         name: 'Metal',
+        primaryDescriptor: Descriptor.Metal,
         descriptors: {
-          [Descriptor.Leather]: { level: 3 }
+          [Descriptor.Metal]: { level: 1 }
         }
       }
     ]
@@ -310,6 +320,7 @@ test('A level 1 glass carver should NOT be able to carve a metal container', () 
     parts: [
       {
         name: 'Metal',
+        primaryDescriptor: Descriptor.Metal,
         descriptors: {
           [Descriptor.Metal]: { level: 3 }
         }
@@ -338,6 +349,7 @@ test('A level 1 carver should be able to carve a rock container', () => {
     parts: [
       {
         name: 'Rock',
+        primaryDescriptor: Descriptor.Rock,
         descriptors: {
           [Descriptor.Rock]: { level: 3 }
         }
@@ -368,6 +380,7 @@ test('A level 1 glass carver should NOT be able to carve a rock container', () =
     parts: [
       {
         name: 'Rock',
+        primaryDescriptor: Descriptor.Rock,
         descriptors: {
           [Descriptor.Rock]: { level: 3 }
         }
@@ -396,6 +409,7 @@ test('A level 1 carver should be able to carve a wood container', () => {
     parts: [
       {
         name: 'Wood',
+        primaryDescriptor: Descriptor.Wood,
         descriptors: {
           [Descriptor.Wood]: { level: 3 }
         }
@@ -426,6 +440,7 @@ test('A level 1 glass carver should NOT be able to carve a wood container', () =
     parts: [
       {
         name: 'Wood',
+        primaryDescriptor: Descriptor.Wood,
         descriptors: {
           [Descriptor.Wood]: { level: 3 }
         }

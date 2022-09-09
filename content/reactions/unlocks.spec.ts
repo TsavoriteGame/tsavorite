@@ -15,6 +15,7 @@ test('A level 2 key should unlock a level 1 lock', () => {
     parts: [
       {
         name: 'Lock Mechanism',
+        primaryDescriptor: Descriptor.Locked,
         descriptors: {
           [Descriptor.Locked]: { level: 1 }
         }
@@ -40,7 +41,11 @@ test('An unbreakable level 2 key should unlock a level 1 lock and NOT break', ()
 
   const key: ItemConfig = {
     name: 'Level 2 Key',
-    parts: [{ name: 'Orichalcum', descriptors: { [Descriptor.Unbreakable]: { level: 1 } } }],
+    parts: [{
+      name: 'Orichalcum',
+      primaryDescriptor: Descriptor.Unbreakable,
+      descriptors: { [Descriptor.Unbreakable]: { level: 1 } }
+    }],
     interaction: { name: Interaction.Unlocks, level: 2 }
   };
 
@@ -49,6 +54,7 @@ test('An unbreakable level 2 key should unlock a level 1 lock and NOT break', ()
     parts: [
       {
         name: 'Lock Mechanism',
+        primaryDescriptor: Descriptor.Locked,
         descriptors: {
           [Descriptor.Locked]: { level: 1 }
         }
@@ -83,6 +89,7 @@ test('A level 1 key should not unlock a level 2 lock', () => {
     parts: [
       {
         name: 'Lock Mechanism',
+        primaryDescriptor: Descriptor.Locked,
         descriptors: {
           [Descriptor.Locked]: { level: 2 }
         }
@@ -116,6 +123,7 @@ test('A random item should not unlock a level 1 lock', () => {
     parts: [
       {
         name: 'Lock Mechanism',
+        primaryDescriptor: Descriptor.Locked,
         descriptors: {
           [Descriptor.Locked]: { level: 1 }
         }
@@ -150,12 +158,14 @@ test('A level 1 key should only unlock the first part of a compound lock', () =>
     parts: [
       {
         name: 'Lock Mechanism',
+        primaryDescriptor: Descriptor.Locked,
         descriptors: {
           [Descriptor.Locked]: { level: 1 }
         }
       },
       {
         name: 'Lock Mechanism',
+        primaryDescriptor: Descriptor.Locked,
         descriptors: {
           [Descriptor.Locked]: { level: 1 }
         }

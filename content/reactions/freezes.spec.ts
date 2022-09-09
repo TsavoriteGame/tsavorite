@@ -7,6 +7,7 @@ const getFreezer: (level: number, freezeLevel: number) => ItemConfig =
   parts: [
     {
       name: 'Freezer',
+      primaryDescriptor: Descriptor.Cold,
       descriptors: {
         [Descriptor.Cold]: { level }
       }
@@ -24,6 +25,7 @@ test('A level 2 freezer should chill level 1 blood', () => {
     parts: [
       {
         name: 'Blood',
+        primaryDescriptor: Descriptor.Bloody,
         descriptors: {
           [Descriptor.Bloody]: { level: 1 }
         }
@@ -58,6 +60,7 @@ test('A level 2 freezer should freeze level 1 frozen blood', () => {
     parts: [
       {
         name: 'Blood',
+        primaryDescriptor: Descriptor.Bloody,
         descriptors: {
           [Descriptor.Bloody]: { level: 1 },
           [Descriptor.Cold]: { level: 1 }
@@ -94,6 +97,7 @@ test('A level 2 freezer should chill glass', () => {
     parts: [
       {
         name: 'Glass',
+        primaryDescriptor: Descriptor.Glass,
         descriptors: {
           [Descriptor.Glass]: { level: 1 }
         }
@@ -127,6 +131,7 @@ test('A level 2 freezer should shatter hot glass', () => {
     parts: [
       {
         name: 'Glass',
+        primaryDescriptor: Descriptor.Glass,
         descriptors: {
           [Descriptor.Glass]: { level: 1 },
           [Descriptor.Hot]: { level: 1 }
@@ -160,6 +165,7 @@ test('A level 2 freezer should lower heat on a hot rock but not impart cold', ()
     parts: [
       {
         name: 'Rock',
+        primaryDescriptor: Descriptor.Rock,
         descriptors: {
           [Descriptor.Rock]: { level: 1 },
           [Descriptor.Hot]: { level: 2 }
@@ -194,6 +200,7 @@ test('A level 2 freezer should lower heat on a hot rock and lower freeze on sour
     parts: [
       {
         name: 'Rock',
+        primaryDescriptor: Descriptor.Rock,
         descriptors: {
           [Descriptor.Rock]: { level: 1 },
           [Descriptor.Hot]: { level: 2 }
@@ -228,6 +235,7 @@ test('A level 2 freezer should chill level 1 meat', () => {
     parts: [
       {
         name: 'Meat',
+        primaryDescriptor: Descriptor.Meat,
         descriptors: {
           [Descriptor.Meat]: { level: 1 }
         }
@@ -261,6 +269,7 @@ test('A level 2 freezer should freeze chilled level 1 meat', () => {
     parts: [
       {
         name: 'Meat',
+        primaryDescriptor: Descriptor.Meat,
         descriptors: {
           [Descriptor.Meat]: { level: 1 },
           [Descriptor.Cold]: { level: 1 }
@@ -296,6 +305,7 @@ test('A level 2 freezer should make metal sticky', () => {
     parts: [
       {
         name: 'Metal Pole',
+        primaryDescriptor: Descriptor.Metal,
         descriptors: {
           [Descriptor.Metal]: { level: 1 }
         }
@@ -330,6 +340,7 @@ test('A level 2 freezer should make a rock cold', () => {
     parts: [
       {
         name: 'Rock',
+        primaryDescriptor: Descriptor.Rock,
         descriptors: {
           [Descriptor.Rock]: { level: 1 }
         }
@@ -363,6 +374,7 @@ test('A level 2 freezer should chill level 1 water', () => {
     parts: [
       {
         name: 'Water',
+        primaryDescriptor: Descriptor.Wet,
         descriptors: {
           [Descriptor.Wet]: { level: 1 }
         }
@@ -396,6 +408,7 @@ test('A level 2 freezer should freeze chilled level 1 water', () => {
     parts: [
       {
         name: 'Water',
+        primaryDescriptor: Descriptor.Wet,
         descriptors: {
           [Descriptor.Wet]: { level: 1 },
           [Descriptor.Cold]: { level: 1 }

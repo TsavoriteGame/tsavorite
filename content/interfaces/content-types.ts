@@ -43,6 +43,7 @@ export enum Descriptor {
 export interface ItemPart {
   name: string;
   foundational?: boolean;
+  primaryDescriptor: Descriptor;
   descriptors: Partial<Record<Descriptor, ItemDescriptor>>;
 }
 
