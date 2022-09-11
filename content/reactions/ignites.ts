@@ -149,10 +149,11 @@ export const applications: Reactions = {
         message: 'It is overcooked.',
         success: true,
         newSource: sourceItem,
-        newTarget: {
+        newTarget: undefined,
+        extraItems: [{
           name: 'Overcooked Meat',
           parts: [{ name: 'Rock Meat', primaryDescriptor: Descriptor.Rock, descriptors: { [Descriptor.Rock]: { level: 1 } } }]
-        }
+        }]
       };
     }
 

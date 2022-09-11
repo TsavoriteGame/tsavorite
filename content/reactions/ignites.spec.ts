@@ -395,8 +395,11 @@ test('A level 2 torch should overcook meat that is already cooked to the max', (
   expect(getInteractionLevel(result.newSource, Interaction.Ignites)).toEqual(2);
   expect(getDescriptorLevel(result.newSource, Descriptor.Hot)).toEqual(1);
 
-  expect(getDescriptorLevel(result.newTarget, Descriptor.Meat)).toEqual(0);
-  expect(getDescriptorLevel(result.newTarget, Descriptor.Rock)).toEqual(1);
+  expect(result.newTarget).toBe(undefined);
+  expect(result.extraItems.length).toBe(1);
+
+  expect(getDescriptorLevel(result.extraItems[0], Descriptor.Meat)).toEqual(0);
+  expect(getDescriptorLevel(result.extraItems[0], Descriptor.Rock)).toEqual(1);
 
 });
 
