@@ -1,5 +1,5 @@
 
-import { getDescriptorLevel, getReactionBetweenTwoItems } from '../helpers';
+import { getAllDescriptorsForPart, getDescriptorLevel, getReactionBetweenTwoItems } from '../helpers';
 import { Interaction, Descriptor, ItemConfig } from '../interfaces';
 
 test('A level 2 key should unlock a level 1 lock', () => {
@@ -95,6 +95,7 @@ test('A level 1 key should not unlock a level 2 lock', () => {
   expect(result.newSource).toEqual(source);
   expect(result.newTarget).toEqual(target);
   expect(getDescriptorLevel(result.newTarget, Descriptor.Locked)).toBe(2);
+  expect(getAllDescriptorsForPart(result.newTarget.parts[0]).length).toBe(1);
 
 });
 
@@ -162,6 +163,7 @@ test('A level 1 key should only unlock the first part of a compound lock', () =>
   expect(result.newSource).toEqual(undefined);
   expect(result.newTarget.parts.length).toBe(1);
   expect(getDescriptorLevel(result.newTarget, Descriptor.Locked)).toBe(1);
+  expect(getAllDescriptorsForPart(result.newTarget.parts[0]).length).toBe(1);
 
 });
 
@@ -203,5 +205,6 @@ test('A level 1 key should correctly interact with the lock on a door instead of
   expect(result.newTarget.parts.length).toBe(1);
   expect(getDescriptorLevel(result.newTarget, Descriptor.Wood)).toBe(1);
   expect(getDescriptorLevel(result.newTarget, Descriptor.Locked)).toBe(0);
+  expect(getAllDescriptorsForPart(result.newTarget.parts[0]).length).toBe(1);
 
 });

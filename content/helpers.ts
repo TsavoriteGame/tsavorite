@@ -198,6 +198,10 @@ export function getInteractionLevel(item: ItemConfig, interaction: Interaction):
 }
 
 // descriptor functions
+export function getAllDescriptorsForPart(part: ItemPart): Descriptor[] {
+  return Object.keys(part.descriptors).filter(d => part.descriptors[d].level > 0) as Descriptor[];
+}
+
 export function getDescriptor(item: ItemConfig, descriptor: Descriptor, minimum = 0): ItemDescriptor | undefined {
   const partWithDescriptor = item.parts.find(p => (p.descriptors[descriptor]?.level ?? 0) > minimum);
   return partWithDescriptor?.descriptors[descriptor];

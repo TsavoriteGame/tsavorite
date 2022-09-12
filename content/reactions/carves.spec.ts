@@ -1,5 +1,6 @@
 
-import { getDescriptorLevel, getInteractionLevel, getReactionBetweenTwoItems, hasFoundationalPart } from '../helpers';
+import { getAllDescriptorsForPart, getDescriptorLevel,
+  getInteractionLevel, getReactionBetweenTwoItems, hasFoundationalPart } from '../helpers';
 import { Interaction, Descriptor, ItemConfig } from '../interfaces';
 
 const getCarver: (level: number, carvesLevel: number, desc?: Descriptor) => ItemConfig =
@@ -45,6 +46,7 @@ test('A level 2 carver should bleed a level 2 meat', () => {
   expect(result.newTarget.parts.length).toBe(1);
   expect(getDescriptorLevel(result.newTarget, Descriptor.Meat)).toEqual(1);
   expect(getDescriptorLevel(result.newTarget, Descriptor.Bloody)).toEqual(1);
+  expect(getAllDescriptorsForPart(result.newTarget.parts[0]).length).toBe(2);
 
 });
 
@@ -77,6 +79,7 @@ test('A level 2 carver should bleed a level 2 meat and add blood to the blood pi
   expect(result.newTarget.parts.length).toBe(1);
   expect(getDescriptorLevel(result.newTarget, Descriptor.Meat)).toEqual(1);
   expect(getDescriptorLevel(result.newTarget, Descriptor.Bloody)).toEqual(3);
+  expect(getAllDescriptorsForPart(result.newTarget.parts[0]).length).toBe(2);
 
 });
 
@@ -105,6 +108,7 @@ test('A level 1 carver should break after bleeding any meat', () => {
   expect(result.newTarget.parts.length).toBe(1);
   expect(getDescriptorLevel(result.newTarget, Descriptor.Meat)).toEqual(1);
   expect(getDescriptorLevel(result.newTarget, Descriptor.Bloody)).toEqual(3);
+  expect(getAllDescriptorsForPart(result.newTarget.parts[0]).length).toBe(2);
 
 });
 
@@ -133,6 +137,7 @@ test('A level 1 carver should cut a level 2 fiber in half', () => {
   expect(getDescriptorLevel(result.newTarget, Descriptor.Fiber)).toEqual(1);
   expect(result.extraItems.length).toBe(1);
   expect(getDescriptorLevel(result.extraItems[0], Descriptor.Fiber)).toEqual(1);
+  expect(getAllDescriptorsForPart(result.newTarget.parts[0]).length).toBe(1);
 
 });
 
@@ -161,6 +166,7 @@ test('A level 1 carver should cut a level 1 from a level 3 cooked meat', () => {
   expect(getDescriptorLevel(result.newTarget, Descriptor.Cooked)).toEqual(2);
   expect(result.extraItems.length).toBe(1);
   expect(getDescriptorLevel(result.extraItems[0], Descriptor.Cooked)).toEqual(1);
+  expect(getAllDescriptorsForPart(result.newTarget.parts[0]).length).toBe(1);
 
 });
 
@@ -188,6 +194,7 @@ test('A level 1 carver should be able to carve a glass container', () => {
   expect(result.newTarget.parts.length).toBe(1);
   expect(hasFoundationalPart(result.newTarget)).toEqual(true);
   expect(getDescriptorLevel(result.newTarget, Descriptor.Container)).toEqual(1);
+  expect(getAllDescriptorsForPart(result.newTarget.parts[0]).length).toBe(2);
 });
 
 test('A level 1 carver should be able to carve a leather container', () => {
@@ -214,6 +221,7 @@ test('A level 1 carver should be able to carve a leather container', () => {
   expect(result.newTarget.parts.length).toBe(1);
   expect(hasFoundationalPart(result.newTarget)).toEqual(true);
   expect(getDescriptorLevel(result.newTarget, Descriptor.Container)).toEqual(1);
+  expect(getAllDescriptorsForPart(result.newTarget.parts[0]).length).toBe(2);
 });
 
 test('A level 1 glass carver should NOT be able to carve a leather container', () => {
@@ -264,6 +272,7 @@ test('A level 1 carver should be able to carve a metal container', () => {
   expect(result.newTarget.parts.length).toBe(1);
   expect(hasFoundationalPart(result.newTarget)).toEqual(true);
   expect(getDescriptorLevel(result.newTarget, Descriptor.Container)).toEqual(1);
+  expect(getAllDescriptorsForPart(result.newTarget.parts[0]).length).toBe(2);
 });
 
 test('A level 1 glass carver should NOT be able to carve a metal container', () => {
@@ -314,6 +323,7 @@ test('A level 1 carver should be able to carve a rock container', () => {
   expect(result.newTarget.parts.length).toBe(1);
   expect(hasFoundationalPart(result.newTarget)).toEqual(true);
   expect(getDescriptorLevel(result.newTarget, Descriptor.Container)).toEqual(1);
+  expect(getAllDescriptorsForPart(result.newTarget.parts[0]).length).toBe(2);
 });
 
 test('A level 1 glass carver should NOT be able to carve a rock container', () => {
@@ -364,6 +374,7 @@ test('A level 1 carver should be able to carve a wood container', () => {
   expect(result.newTarget.parts.length).toBe(1);
   expect(hasFoundationalPart(result.newTarget)).toEqual(true);
   expect(getDescriptorLevel(result.newTarget, Descriptor.Container)).toEqual(1);
+  expect(getAllDescriptorsForPart(result.newTarget.parts[0]).length).toBe(2);
 });
 
 test('A level 1 glass carver should NOT be able to carve a wood container', () => {

@@ -1,4 +1,4 @@
-import { getDescriptorLevel, getInteractionLevel, getReactionBetweenTwoItems } from '../helpers';
+import { getAllDescriptorsForPart, getDescriptorLevel, getInteractionLevel, getReactionBetweenTwoItems } from '../helpers';
 import { Descriptor, Interaction, ItemConfig } from '../interfaces';
 
 const getSmasher: (level: number, smashesLevel: number) => ItemConfig =
@@ -144,6 +144,7 @@ test('A level 2 smasher should shatter glass into sand', () => {
   expect(getDescriptorLevel(result.extraItems[0], Descriptor.Glass)).toBe(0);
   expect(getDescriptorLevel(result.extraItems[0], Descriptor.Sand)).toBe(3);
   expect(getInteractionLevel(result.newSource, Interaction.Smashes)).toBe(2);
+  expect(getAllDescriptorsForPart(result.extraItems[0].parts[0]).length).toBe(1);
 
 });
 
@@ -171,6 +172,7 @@ test('A level 2 smasher should smash meat into blood', () => {
   expect(getInteractionLevel(result.newSource, Interaction.Smashes)).toBe(2);
   expect(getDescriptorLevel(result.newTarget, Descriptor.Meat)).toBe(2);
   expect(getDescriptorLevel(result.newTarget, Descriptor.Bloody)).toBe(1);
+  expect(getAllDescriptorsForPart(result.newTarget.parts[0]).length).toBe(2);
 
 });
 
@@ -227,6 +229,7 @@ test('A level 2 smasher should smash rock into sand', () => {
   expect(getInteractionLevel(result.newSource, Interaction.Smashes)).toBe(1);
   expect(getDescriptorLevel(result.newTarget, Descriptor.Rock)).toBe(2);
   expect(getDescriptorLevel(result.newTarget, Descriptor.Sand)).toBe(1);
+  expect(getAllDescriptorsForPart(result.newTarget.parts[0]).length).toBe(2);
 
 });
 
@@ -308,5 +311,6 @@ test('A level 2 smasher should sharpen hot metal', () => {
   expect(getDescriptorLevel(result.newTarget, Descriptor.Hot)).toBe(1);
   expect(getDescriptorLevel(result.newTarget, Descriptor.Sharp)).toBe(1);
   expect(getInteractionLevel(result.newTarget, Interaction.Carves)).toBe(1);
+  expect(getAllDescriptorsForPart(result.newTarget.parts[0]).length).toBe(3);
 
 });

@@ -1,4 +1,4 @@
-import { getDescriptorLevel, getInteractionLevel, getReactionBetweenTwoItems } from '../helpers';
+import { getAllDescriptorsForPart, getDescriptorLevel, getInteractionLevel, getReactionBetweenTwoItems } from '../helpers';
 import { Descriptor, Interaction, ItemConfig } from '../interfaces';
 
 const getZapper: (level: number, zapsLevel: number) => ItemConfig =
@@ -41,6 +41,7 @@ test('A level 2 zapper should magnetize metal', () => {
   expect(result.newTarget.parts.length).toBe(1);
   expect(getDescriptorLevel(result.newTarget, Descriptor.Metal)).toBe(1);
   expect(getDescriptorLevel(result.newTarget, Descriptor.Magnetic)).toBe(1);
+  expect(getAllDescriptorsForPart(result.newTarget.parts[0]).length).toBe(2);
 
 });
 
@@ -91,5 +92,6 @@ test('A level 2 zapper should shock water', () => {
   expect(result.newTarget.parts.length).toBe(1);
   expect(getDescriptorLevel(result.newTarget, Descriptor.Wet)).toBe(1);
   expect(getDescriptorLevel(result.newTarget, Descriptor.Electric)).toBe(1);
+  expect(getAllDescriptorsForPart(result.newTarget.parts[0]).length).toBe(2);
 
 });

@@ -1,4 +1,4 @@
-import { getDescriptorLevel, getInteractionLevel, getReactionBetweenTwoItems } from '../helpers';
+import { getAllDescriptorsForPart, getDescriptorLevel, getInteractionLevel, getReactionBetweenTwoItems } from '../helpers';
 import { Descriptor, Interaction, ItemConfig } from '../interfaces';
 
 const getTorch: (level: number, ignitesLevel: number) => ItemConfig =
@@ -42,6 +42,7 @@ test('A level 2 torch should remove cold and add wet', () => {
 
   expect(getDescriptorLevel(result.newTarget, Descriptor.Cold)).toEqual(1);
   expect(getDescriptorLevel(result.newTarget, Descriptor.Wet)).toEqual(1);
+  expect(getAllDescriptorsForPart(result.newTarget.parts[0]).length).toBe(2);
 
 });
 
@@ -73,6 +74,7 @@ test('A level 2 torch should thaw frozen', () => {
   expect(getDescriptorLevel(result.newTarget, Descriptor.Cold)).toEqual(1);
   expect(getDescriptorLevel(result.newTarget, Descriptor.Wet)).toEqual(1);
   expect(getDescriptorLevel(result.newTarget, Descriptor.Frozen)).toEqual(1);
+  expect(getAllDescriptorsForPart(result.newTarget.parts[0]).length).toBe(3);
 
 });
 
@@ -102,6 +104,7 @@ test('A level 2 torch should warm glass', () => {
 
   expect(getDescriptorLevel(result.newTarget, Descriptor.Glass)).toEqual(2);
   expect(getDescriptorLevel(result.newTarget, Descriptor.Hot)).toEqual(1);
+  expect(getAllDescriptorsForPart(result.newTarget.parts[0]).length).toBe(2);
 
 });
 
@@ -160,6 +163,7 @@ test('A level 2 torch should warm up leather', () => {
 
   expect(getDescriptorLevel(result.newTarget, Descriptor.Leather)).toEqual(2);
   expect(getDescriptorLevel(result.newTarget, Descriptor.Hot)).toEqual(1);
+  expect(getAllDescriptorsForPart(result.newTarget.parts[0]).length).toBe(2);
 
 });
 
@@ -189,6 +193,7 @@ test('A level 2 torch should make sticky things less so', () => {
 
   expect(getDescriptorLevel(result.newTarget, Descriptor.Sticky)).toEqual(1);
   expect(getDescriptorLevel(result.newTarget, Descriptor.Hot)).toEqual(1);
+  expect(getAllDescriptorsForPart(result.newTarget.parts[0]).length).toBe(2);
 
 });
 
@@ -218,6 +223,7 @@ test('A level 2 torch should remove stacks of wet', () => {
 
   expect(getDescriptorLevel(result.newTarget, Descriptor.Wet)).toEqual(1);
   expect(getDescriptorLevel(result.newTarget, Descriptor.Hot)).toEqual(0);
+  expect(getAllDescriptorsForPart(result.newTarget.parts[0]).length).toBe(1);
 
 });
 
@@ -247,6 +253,7 @@ test('A level 2 torch should remove stacks of fiber', () => {
 
   expect(getDescriptorLevel(result.newTarget, Descriptor.Fiber)).toEqual(1);
   expect(getDescriptorLevel(result.newTarget, Descriptor.Hot)).toEqual(0);
+  expect(getAllDescriptorsForPart(result.newTarget.parts[0]).length).toBe(1);
 
 });
 
@@ -306,6 +313,7 @@ test('A level 2 torch should combust oil', () => {
   expect(getDescriptorLevel(result.newTarget, Descriptor.Blazing)).toEqual(1);
   expect(getDescriptorLevel(result.newTarget, Descriptor.Bright)).toEqual(1);
   expect(getDescriptorLevel(result.newTarget, Descriptor.Combustible)).toEqual(0);
+  expect(getAllDescriptorsForPart(result.newTarget.parts[0]).length).toBe(3);
 
 });
 
@@ -337,6 +345,7 @@ test('A level 2 torch should not be able to combust items beyond their ability',
   expect(getDescriptorLevel(result.newTarget, Descriptor.Blazing)).toEqual(0);
   expect(getDescriptorLevel(result.newTarget, Descriptor.Bright)).toEqual(0);
   expect(getDescriptorLevel(result.newTarget, Descriptor.Combustible)).toEqual(0);
+  expect(getAllDescriptorsForPart(result.newTarget.parts[0]).length).toBe(0);
 
 });
 
@@ -368,6 +377,7 @@ test('A level 2 torch should cook meat', () => {
   expect(getDescriptorLevel(result.newTarget, Descriptor.Hot)).toEqual(1);
   expect(getDescriptorLevel(result.newTarget, Descriptor.Cooked)).toEqual(1);
   expect(getDescriptorLevel(result.newTarget, Descriptor.Bloody)).toEqual(1);
+  expect(getAllDescriptorsForPart(result.newTarget.parts[0]).length).toBe(3);
 
 });
 
@@ -429,6 +439,7 @@ test('A level 2 torch should add hot to metal', () => {
 
   expect(getDescriptorLevel(result.newTarget, Descriptor.Metal)).toEqual(1);
   expect(getDescriptorLevel(result.newTarget, Descriptor.Hot)).toEqual(1);
+  expect(getAllDescriptorsForPart(result.newTarget.parts[0]).length).toBe(2);
 
 });
 
@@ -460,6 +471,7 @@ test('A level 2 torch should add wet to metal that is already too hot', () => {
   expect(getDescriptorLevel(result.newTarget, Descriptor.Metal)).toEqual(1);
   expect(getDescriptorLevel(result.newTarget, Descriptor.Hot)).toEqual(2);
   expect(getDescriptorLevel(result.newTarget, Descriptor.Wet)).toEqual(1);
+  expect(getAllDescriptorsForPart(result.newTarget.parts[0]).length).toBe(3);
 
 });
 
@@ -489,6 +501,7 @@ test('A level 2 torch should warm up sand', () => {
 
   expect(getDescriptorLevel(result.newTarget, Descriptor.Sand)).toEqual(1);
   expect(getDescriptorLevel(result.newTarget, Descriptor.Hot)).toEqual(1);
+  expect(getAllDescriptorsForPart(result.newTarget.parts[0]).length).toBe(2);
 
 });
 
@@ -519,6 +532,7 @@ test('A level 2 torch should melt already-warm sand into glass', () => {
 
   expect(getDescriptorLevel(result.newTarget, Descriptor.Glass)).toEqual(1);
   expect(result.newTarget.parts[0].primaryDescriptor).toBe(Descriptor.Glass);
+  expect(getAllDescriptorsForPart(result.newTarget.parts[0]).length).toBe(2);
 
 });
 
@@ -548,6 +562,7 @@ test('A level 2 torch should make wood hot', () => {
 
   expect(getDescriptorLevel(result.newTarget, Descriptor.Wood)).toEqual(1);
   expect(getDescriptorLevel(result.newTarget, Descriptor.Hot)).toEqual(1);
+  expect(getAllDescriptorsForPart(result.newTarget.parts[0]).length).toBe(2);
 
 });
 
@@ -582,6 +597,7 @@ test('A level 2 torch should make hot wood burn and become a torch', () => {
   expect(getDescriptorLevel(result.newTarget, Descriptor.Bright)).toEqual(1);
 
   expect(getInteractionLevel(result.newTarget, Interaction.Ignites)).toEqual(1);
+  expect(getAllDescriptorsForPart(result.newTarget.parts[0]).length).toBe(4);
 
 });
 
@@ -612,6 +628,7 @@ test('A level 2 torch should heat up clay', () => {
   expect(getDescriptorLevel(result.newTarget, Descriptor.Clay)).toEqual(2);
   expect(getDescriptorLevel(result.newTarget, Descriptor.Hot)).toEqual(1);
   expect(getDescriptorLevel(result.newTarget, Descriptor.Glass)).toEqual(0);
+  expect(getAllDescriptorsForPart(result.newTarget.parts[0]).length).toBe(2);
 
 });
 
@@ -639,6 +656,8 @@ test('A level 2 torch should heat up hot clay into glass', () => {
 
   expect(getInteractionLevel(result.newSource, Interaction.Ignites)).toEqual(2);
   expect(getDescriptorLevel(result.newSource, Descriptor.Hot)).toEqual(1);
+
+  expect(result.newTarget).toBe(undefined);
 
   expect(result.extraItems.length).toBe(1);
   expect(getDescriptorLevel(result.extraItems[0], Descriptor.Clay)).toEqual(0);

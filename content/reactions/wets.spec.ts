@@ -1,4 +1,4 @@
-import { getDescriptorLevel, getInteractionLevel, getReactionBetweenTwoItems } from '../helpers';
+import { getAllDescriptorsForPart, getDescriptorLevel, getInteractionLevel, getReactionBetweenTwoItems } from '../helpers';
 import { Descriptor, Interaction, ItemConfig } from '../interfaces';
 
 const getWetter: (level: number, wetsLevel: number) => ItemConfig =
@@ -40,6 +40,7 @@ test('A level 2 wetter should make blood wetter', () => {
   expect(result.newTarget.parts.length).toBe(1);
   expect(getDescriptorLevel(result.newTarget, Descriptor.Bloody)).toBe(1);
   expect(getDescriptorLevel(result.newTarget, Descriptor.Wet)).toBe(1);
+  expect(getAllDescriptorsForPart(result.newTarget.parts[0]).length).toBe(2);
 
 });
 
@@ -66,6 +67,7 @@ test('A level 2 wetter should make cold colder', () => {
   expect(getInteractionLevel(result.newSource, Interaction.Wets)).toBe(1);
   expect(result.newTarget.parts.length).toBe(1);
   expect(getDescriptorLevel(result.newTarget, Descriptor.Cold)).toBe(2);
+  expect(getAllDescriptorsForPart(result.newTarget.parts[0]).length).toBe(1);
 
 });
 
@@ -92,6 +94,7 @@ test('A level 2 wetter should lower the combustability of an item', () => {
   expect(getInteractionLevel(result.newSource, Interaction.Wets)).toBe(1);
   expect(result.newTarget.parts.length).toBe(1);
   expect(getDescriptorLevel(result.newTarget, Descriptor.Combustible)).toBe(1);
+  expect(getAllDescriptorsForPart(result.newTarget.parts[0]).length).toBe(1);
 
 });
 
@@ -119,6 +122,7 @@ test('A level 2 wetter should make wet a completely damp combustible', () => {
   expect(result.newTarget.parts.length).toBe(1);
   expect(getDescriptorLevel(result.newTarget, Descriptor.Combustible)).toBe(0);
   expect(getDescriptorLevel(result.newTarget, Descriptor.Wet)).toBe(1);
+  expect(getAllDescriptorsForPart(result.newTarget.parts[0]).length).toBe(1);
 
 });
 
@@ -147,6 +151,7 @@ test('A level 2 wetter should make dirt more muddy', () => {
   expect(getDescriptorLevel(result.newTarget, Descriptor.Wet)).toBe(1);
   expect(getDescriptorLevel(result.newTarget, Descriptor.Dirt)).toBe(1);
   expect(getDescriptorLevel(result.newTarget, Descriptor.Mud)).toBe(1);
+  expect(getAllDescriptorsForPart(result.newTarget.parts[0]).length).toBe(3);
 
 });
 
@@ -174,6 +179,7 @@ test('A level 2 wetter should become electric when electrifying something', () =
   expect(getDescriptorLevel(result.newSource, Descriptor.Electric)).toBe(1);
   expect(result.newTarget.parts.length).toBe(1);
   expect(getDescriptorLevel(result.newTarget, Descriptor.Wet)).toBe(1);
+  expect(getAllDescriptorsForPart(result.newTarget.parts[0]).length).toBe(2);
 });
 
 test('A level 2 wetter should make a frozen item become sticky and more frozen', () => {
@@ -201,6 +207,7 @@ test('A level 2 wetter should make a frozen item become sticky and more frozen',
   expect(getDescriptorLevel(result.newTarget, Descriptor.Cold)).toBe(1);
   expect(getDescriptorLevel(result.newTarget, Descriptor.Frozen)).toBe(3);
   expect(getDescriptorLevel(result.newTarget, Descriptor.Sticky)).toBe(1);
+  expect(getAllDescriptorsForPart(result.newTarget.parts[0]).length).toBe(3);
 });
 
 test('A level 2 wetter should make something hot less hot', () => {
@@ -226,6 +233,7 @@ test('A level 2 wetter should make something hot less hot', () => {
   expect(getInteractionLevel(result.newSource, Interaction.Wets)).toBe(1);
   expect(result.newTarget.parts.length).toBe(1);
   expect(getDescriptorLevel(result.newTarget, Descriptor.Hot)).toBe(1);
+  expect(getAllDescriptorsForPart(result.newTarget.parts[0]).length).toBe(1);
 });
 
 test('A level 2 wetter should make leather wet and slippery', () => {
@@ -253,6 +261,7 @@ test('A level 2 wetter should make leather wet and slippery', () => {
   expect(getDescriptorLevel(result.newTarget, Descriptor.Leather)).toBe(2);
   expect(getDescriptorLevel(result.newTarget, Descriptor.Wet)).toBe(1);
   expect(getDescriptorLevel(result.newTarget, Descriptor.Slippery)).toBe(1);
+  expect(getAllDescriptorsForPart(result.newTarget.parts[0]).length).toBe(3);
 });
 
 test('A level 2 wetter should make metal wet and slippery', () => {
@@ -280,6 +289,7 @@ test('A level 2 wetter should make metal wet and slippery', () => {
   expect(getDescriptorLevel(result.newTarget, Descriptor.Metal)).toBe(2);
   expect(getDescriptorLevel(result.newTarget, Descriptor.Wet)).toBe(1);
   expect(getDescriptorLevel(result.newTarget, Descriptor.Slippery)).toBe(1);
+  expect(getAllDescriptorsForPart(result.newTarget.parts[0]).length).toBe(3);
 });
 
 test('A level 2 wetter should make rock wet and slippery', () => {
@@ -307,6 +317,7 @@ test('A level 2 wetter should make rock wet and slippery', () => {
   expect(getDescriptorLevel(result.newTarget, Descriptor.Rock)).toBe(2);
   expect(getDescriptorLevel(result.newTarget, Descriptor.Wet)).toBe(1);
   expect(getDescriptorLevel(result.newTarget, Descriptor.Slippery)).toBe(1);
+  expect(getAllDescriptorsForPart(result.newTarget.parts[0]).length).toBe(3);
 });
 
 test('A level 2 wetter should make sand more wet', () => {
@@ -333,6 +344,7 @@ test('A level 2 wetter should make sand more wet', () => {
   expect(result.newTarget.parts.length).toBe(1);
   expect(getDescriptorLevel(result.newTarget, Descriptor.Sand)).toBe(2);
   expect(getDescriptorLevel(result.newTarget, Descriptor.Wet)).toBe(1);
+  expect(getAllDescriptorsForPart(result.newTarget.parts[0]).length).toBe(2);
 });
 
 test('A level 2 wetter should make slippery more wet and slippery', () => {
@@ -359,6 +371,7 @@ test('A level 2 wetter should make slippery more wet and slippery', () => {
   expect(result.newTarget.parts.length).toBe(1);
   expect(getDescriptorLevel(result.newTarget, Descriptor.Slippery)).toBe(3);
   expect(getDescriptorLevel(result.newTarget, Descriptor.Wet)).toBe(1);
+  expect(getAllDescriptorsForPart(result.newTarget.parts[0]).length).toBe(2);
 });
 
 test('A level 2 wetter should make wet more wet and slippery', () => {
@@ -385,6 +398,7 @@ test('A level 2 wetter should make wet more wet and slippery', () => {
   expect(result.newTarget.parts.length).toBe(1);
   expect(getDescriptorLevel(result.newTarget, Descriptor.Wet)).toBe(3);
   expect(getDescriptorLevel(result.newTarget, Descriptor.Slippery)).toBe(1);
+  expect(getAllDescriptorsForPart(result.newTarget.parts[0]).length).toBe(2);
 });
 
 test('A level 2 wetter should make wood more wet', () => {
@@ -411,6 +425,7 @@ test('A level 2 wetter should make wood more wet', () => {
   expect(result.newTarget.parts.length).toBe(1);
   expect(getDescriptorLevel(result.newTarget, Descriptor.Wood)).toBe(2);
   expect(getDescriptorLevel(result.newTarget, Descriptor.Wet)).toBe(1);
+  expect(getAllDescriptorsForPart(result.newTarget.parts[0]).length).toBe(2);
 });
 
 test('A level 2 wetter should make wet wood rotten', () => {
@@ -439,6 +454,7 @@ test('A level 2 wetter should make wet wood rotten', () => {
   expect(getDescriptorLevel(result.newTarget, Descriptor.Wood)).toBe(1);
   expect(getDescriptorLevel(result.newTarget, Descriptor.Wet)).toBe(3);
   expect(getDescriptorLevel(result.newTarget, Descriptor.Rotten)).toBe(1);
+  expect(getAllDescriptorsForPart(result.newTarget.parts[0]).length).toBe(3);
 });
 
 

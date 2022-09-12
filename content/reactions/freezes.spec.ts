@@ -1,4 +1,4 @@
-import { getDescriptorLevel, getInteractionLevel, getReactionBetweenTwoItems } from '../helpers';
+import { getAllDescriptorsForPart, getDescriptorLevel, getInteractionLevel, getReactionBetweenTwoItems } from '../helpers';
 import { Descriptor, Interaction, ItemConfig } from '../interfaces';
 
 const getFreezer: (level: number, freezeLevel: number) => ItemConfig =
@@ -16,18 +16,18 @@ const getFreezer: (level: number, freezeLevel: number) => ItemConfig =
   interaction: { name: Interaction.Freezes, level: freezeLevel }
 });
 
-test('A level 2 freezer should chill level 1 blood', () => {
+test('A level 2 freezer should chill level 2 blood', () => {
 
   const source = getFreezer(1, 2);
 
   const target: ItemConfig = {
-    name: 'Level 1 Blood',
+    name: 'Level 2 Blood',
     parts: [
       {
         name: 'Blood',
         primaryDescriptor: Descriptor.Bloody,
         descriptors: {
-          [Descriptor.Bloody]: { level: 1 }
+          [Descriptor.Bloody]: { level: 2 }
         }
       }
     ]
@@ -41,8 +41,9 @@ test('A level 2 freezer should chill level 1 blood', () => {
   expect(getDescriptorLevel(result.newSource, Descriptor.Cold)).toEqual(1);
 
   expect(result.newTarget.parts.length).toBe(1);
-  expect(getDescriptorLevel(result.newTarget, Descriptor.Bloody)).toEqual(1);
+  expect(getDescriptorLevel(result.newTarget, Descriptor.Bloody)).toEqual(2);
   expect(getDescriptorLevel(result.newTarget, Descriptor.Cold)).toEqual(1);
+  expect(getAllDescriptorsForPart(result.newTarget.parts[0]).length).toBe(2);
 
 });
 
@@ -75,6 +76,7 @@ test('A level 2 freezer should freeze level 1 frozen blood', () => {
   expect(getDescriptorLevel(result.newTarget, Descriptor.Bloody)).toEqual(1);
   expect(getDescriptorLevel(result.newTarget, Descriptor.Cold)).toEqual(2);
   expect(getDescriptorLevel(result.newTarget, Descriptor.Frozen)).toEqual(1);
+  expect(getAllDescriptorsForPart(result.newTarget.parts[0]).length).toBe(3);
 
 });
 
@@ -104,6 +106,8 @@ test('A level 2 freezer should chill glass', () => {
 
   expect(result.newTarget.parts.length).toBe(1);
   expect(getDescriptorLevel(result.newTarget, Descriptor.Cold)).toEqual(1);
+  expect(getDescriptorLevel(result.newTarget, Descriptor.Glass)).toEqual(1);
+  expect(getAllDescriptorsForPart(result.newTarget.parts[0]).length).toBe(2);
 
 });
 
@@ -163,21 +167,23 @@ test('A level 2 freezer should lower heat on a hot rock but not impart cold', ()
 
   expect(getDescriptorLevel(result.newTarget, Descriptor.Cold)).toEqual(0);
   expect(getDescriptorLevel(result.newTarget, Descriptor.Hot)).toEqual(1);
+  expect(getDescriptorLevel(result.newTarget, Descriptor.Rock)).toEqual(1);
+  expect(getAllDescriptorsForPart(result.newTarget.parts[0]).length).toBe(2);
 
 });
 
-test('A level 2 freezer should chill level 1 meat', () => {
+test('A level 2 freezer should chill level 2 meat', () => {
 
   const source = getFreezer(1, 2);
 
   const target: ItemConfig = {
-    name: 'Level 1 Meat',
+    name: 'Level 2 Meat',
     parts: [
       {
         name: 'Meat',
         primaryDescriptor: Descriptor.Meat,
         descriptors: {
-          [Descriptor.Meat]: { level: 1 }
+          [Descriptor.Meat]: { level: 2 }
         }
       }
     ]
@@ -191,7 +197,8 @@ test('A level 2 freezer should chill level 1 meat', () => {
   expect(getDescriptorLevel(result.newSource, Descriptor.Cold)).toEqual(1);
 
   expect(getDescriptorLevel(result.newTarget, Descriptor.Cold)).toEqual(1);
-  expect(getDescriptorLevel(result.newTarget, Descriptor.Meat)).toEqual(1);
+  expect(getDescriptorLevel(result.newTarget, Descriptor.Meat)).toEqual(2);
+  expect(getAllDescriptorsForPart(result.newTarget.parts[0]).length).toBe(2);
 
 });
 
@@ -223,6 +230,7 @@ test('A level 2 freezer should freeze chilled level 1 meat', () => {
   expect(getDescriptorLevel(result.newTarget, Descriptor.Cold)).toEqual(2);
   expect(getDescriptorLevel(result.newTarget, Descriptor.Meat)).toEqual(1);
   expect(getDescriptorLevel(result.newTarget, Descriptor.Frozen)).toEqual(1);
+  expect(getAllDescriptorsForPart(result.newTarget.parts[0]).length).toBe(3);
 
 });
 
@@ -253,6 +261,7 @@ test('A level 2 freezer should make metal sticky', () => {
   expect(getDescriptorLevel(result.newTarget, Descriptor.Cold)).toEqual(1);
   expect(getDescriptorLevel(result.newTarget, Descriptor.Metal)).toEqual(1);
   expect(getDescriptorLevel(result.newTarget, Descriptor.Sticky)).toEqual(1);
+  expect(getAllDescriptorsForPart(result.newTarget.parts[0]).length).toBe(3);
 
 });
 
@@ -282,6 +291,7 @@ test('A level 2 freezer should make a rock cold', () => {
 
   expect(getDescriptorLevel(result.newTarget, Descriptor.Cold)).toEqual(1);
   expect(getDescriptorLevel(result.newTarget, Descriptor.Rock)).toEqual(1);
+  expect(getAllDescriptorsForPart(result.newTarget.parts[0]).length).toBe(2);
 
 });
 
@@ -311,6 +321,8 @@ test('A level 2 freezer should chill level 1 water', () => {
 
   expect(getDescriptorLevel(result.newTarget, Descriptor.Cold)).toEqual(1);
   expect(getDescriptorLevel(result.newTarget, Descriptor.Wet)).toEqual(1);
+  expect(getDescriptorLevel(result.newTarget, Descriptor.Frozen)).toEqual(1);
+  expect(getAllDescriptorsForPart(result.newTarget.parts[0]).length).toBe(3);
 
 });
 
@@ -342,6 +354,7 @@ test('A level 2 freezer should freeze chilled level 1 water', () => {
   expect(getDescriptorLevel(result.newTarget, Descriptor.Cold)).toEqual(2);
   expect(getDescriptorLevel(result.newTarget, Descriptor.Frozen)).toEqual(1);
   expect(getDescriptorLevel(result.newTarget, Descriptor.Wet)).toEqual(1);
+  expect(getAllDescriptorsForPart(result.newTarget.parts[0]).length).toBe(3);
 
 });
 
@@ -373,5 +386,6 @@ test('A level 2 freezer should lower brightness on blazing', () => {
 
   expect(getDescriptorLevel(result.newTarget, Descriptor.Blazing)).toEqual(1);
   expect(getDescriptorLevel(result.newTarget, Descriptor.Bright)).toEqual(1);
+  expect(getAllDescriptorsForPart(result.newTarget.parts[0]).length).toBe(3);
 
 });
