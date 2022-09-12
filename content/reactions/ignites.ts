@@ -39,6 +39,40 @@ const genericHotIncrease = (args: ReactionExtendedArgs, postCall = () => {}) => 
 
 export const applications: Reactions = {
 
+  // clay can turn into glass
+  [Descriptor.Clay]: (args: ReactionExtendedArgs) => {
+    const ignitesLevel = getInteractionLevel(args.sourceItem, Interaction.Ignites);
+
+    const sourceItem = args.sourceItem;
+    const targetItem = args.targetItem;
+
+    if(ignitesLevel <= 0) return zeroFail(args);
+
+    const clayLevel = getDescriptorLevelFromPart(args.targetPart, Descriptor.Clay);
+    const hotLevel = increaseDescriptorLevelForPart(args.targetPart, Descriptor.Hot, 1);
+
+    if(hotLevel > clayLevel) {
+      return {
+        message: 'It is turned into glass.',
+        success: true,
+        newSource: sourceItem,
+        newTarget: undefined,
+        extraItems: [
+          { name: 'Glass', parts: [
+            { name: 'Glass', primaryDescriptor: Descriptor.Glass, descriptors: { [Descriptor.Glass]: { level: clayLevel } } }
+          ] }
+        ]
+      };
+    }
+
+    return {
+      message: 'The mud is hotter.',
+      success: true,
+      newSource: sourceItem,
+      newTarget: targetItem
+    };
+  },
+
   // cold gets less cold
   [Descriptor.Cold]: (args: ReactionExtendedArgs) => {
     const decreaseCold = () => {
