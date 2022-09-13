@@ -1,0 +1,33 @@
+
+- name: Rock Smasher Lv.1
+  parts:
+    - name: Rock
+      primaryDescriptor: Rock
+      descriptors:
+        Rock: 1
+
+  interaction:
+    name: Smashes
+    level: 1
+
+- name: Rock Smasher Lv.2
+  parts:
+    - name: Rock
+      primaryDescriptor: Rock
+      descriptors:
+        Rock: 2
+
+  interaction:
+    name: Smashes
+    level: 2
+
+- name: Rock Smasher Lv.3
+  parts:
+    - name: Rock
+      primaryDescriptor: Rock
+      descriptors:
+        Rock: 3
+
+  interaction:
+    name: Smashes
+    level: 3

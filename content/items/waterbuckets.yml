@@ -1,0 +1,51 @@
+
+- name: Water Bucket Lv.1
+  parts:
+    - name: Bucket
+      primaryDescriptor: Wood
+      foundational: true
+      descriptors:
+        Wood: 1
+
+    - name: Water
+      primaryDescriptor: Wet
+      descriptors:
+        Wet: 1
+
+  interaction:
+    name: Wets
+    level: 1
+
+- name: Water Bucket Lv.2
+  parts:
+    - name: Bucket
+      primaryDescriptor: Wood
+      foundational: true
+      descriptors:
+        Wood: 2
+
+    - name: Water
+      primaryDescriptor: Wet
+      descriptors:
+        Wet: 2
+
+  interaction:
+    name: Wets
+    level: 2
+
+- name: Water Bucket Lv.3
+  parts:
+    - name: Bucket
+      primaryDescriptor: Wood
+      foundational: true
+      descriptors:
+        Wood: 3
+
+    - name: Water
+      primaryDescriptor: Wet
+      descriptors:
+        Wet: 3
+
+  interaction:
+    name: Wets
+    level: 3

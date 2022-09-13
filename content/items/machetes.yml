@@ -1,0 +1,51 @@
+
+- name: Machete Lv.1
+  parts:
+    - name: Handle
+      primaryDescriptor: Wood
+      foundational: true
+      descriptors:
+        Wood: 1
+
+    - name: Blade
+      primaryDescriptor: Metal
+      descriptors:
+        Metal: 1
+
+  interaction:
+    name: Carves
+    level: 1
+
+- name: Machete Lv.2
+  parts:
+    - name: Handle
+      primaryDescriptor: Wood
+      foundational: true
+      descriptors:
+        Wood: 2
+
+    - name: Blade
+      primaryDescriptor: Metal
+      descriptors:
+        Metal: 2
+
+  interaction:
+    name: Carves
+    level: 2
+
+- name: Machete Lv.3
+  parts:
+    - name: Handle
+      primaryDescriptor: Wood
+      foundational: true
+      descriptors:
+        Wood: 3
+
+    - name: Blade
+      primaryDescriptor: Metal
+      descriptors:
+        Metal: 3
+
+  interaction:
+    name: Carves
+    level: 3

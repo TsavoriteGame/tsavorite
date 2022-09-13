@@ -1,0 +1,33 @@
+
+- name: Iceball Lv.1
+  parts:
+    - name: Iceball
+      primaryDescriptor: Cold
+      descriptors:
+        Cold: 1
+
+  interaction:
+    name: Freezes
+    level: 1
+
+- name: Iceball Lv.2
+  parts:
+    - name: Iceball
+      primaryDescriptor: Cold
+      descriptors:
+        Cold: 2
+
+  interaction:
+    name: Freezes
+    level: 2
+
+- name: Iceball Lv.3
+  parts:
+    - name: Iceball
+      primaryDescriptor: Cold
+      descriptors:
+        Cold: 3
+
+  interaction:
+    name: Freezes
+    level: 3

@@ -1,0 +1,58 @@
+
+
+- name: Torch Lv.1
+  parts:
+    - name: Wood Log
+      primaryDescriptor: Metal
+      foundational: true
+      descriptors:
+        Wood: 2
+
+    - name: Fire
+      primaryDescriptor: Hot
+      descriptors:
+        Hot: 1
+        Blazing: 1
+        Bright: 1
+
+  interaction:
+    name: Ignites
+    level: 1
+
+- name: Torch Lv.2
+  parts:
+    - name: Wood Log
+      primaryDescriptor: Metal
+      foundational: true
+      descriptors:
+        Wood: 3
+
+    - name: Fire
+      primaryDescriptor: Hot
+      descriptors:
+        Hot: 2
+        Blazing: 1
+        Bright: 1
+
+  interaction:
+    name: Ignites
+    level: 2
+
+- name: Torch Lv.3
+  parts:
+    - name: Wood Log
+      primaryDescriptor: Metal
+      foundational: true
+      descriptors:
+        Wood: 4
+
+    - name: Fire
+      primaryDescriptor: Hot
+      descriptors:
+        Hot: 3
+        Blazing: 1
+        Bright: 1
+
+  interaction:
+    name: Ignites
+    level: 3

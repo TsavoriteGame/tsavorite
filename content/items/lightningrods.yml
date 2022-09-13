@@ -1,0 +1,39 @@
+
+- name: Lightning Rod Lv.1
+  parts:
+    - name: Rod
+      primaryDescriptor: Metal
+      foundational: true
+      descriptors:
+        Metal: 1
+        Electric: 1
+
+  interaction:
+    name: Zaps
+    level: 1
+
+- name: Lightning Rod Lv.2
+  parts:
+    - name: Rod
+      primaryDescriptor: Metal
+      foundational: true
+      descriptors:
+        Metal: 2
+        Electric: 2
+
+  interaction:
+    name: Zaps
+    level: 2
+
+- name: Lightning Rod Lv.3
+  parts:
+    - name: Rod
+      primaryDescriptor: Metal
+      foundational: true
+      descriptors:
+        Metal: 3
+        Electric: 3
+
+  interaction:
+    name: Zaps
+    level: 3
