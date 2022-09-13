@@ -1,0 +1,96 @@
+
+- name: Padlock Lv.1
+  parts:
+    - name: Metal Casing
+      primaryDescriptor: Metal
+      foundational: true
+      descriptors:
+        Metal: 2
+
+    - name: Lock Mechanism
+      primaryDescriptor: Locked
+      descriptors:
+        Locked: 1
+
+- name: Padlock Lv.2
+  parts:
+    - name: Metal Casing
+      primaryDescriptor: Metal
+      foundational: true
+      descriptors:
+        Metal: 2
+
+    - name: Lock Mechanism
+      primaryDescriptor: Locked
+      descriptors:
+        Locked: 2
+
+- name: Padlock Lv.3
+  parts:
+    - name: Metal Casing
+      primaryDescriptor: Metal
+      foundational: true
+      descriptors:
+        Metal: 2
+
+    - name: Lock Mechanism
+      primaryDescriptor: Locked
+      descriptors:
+        Locked: 3
+
+- name: Locked Wood Door Lv.1
+  parts:
+    - name: Wood Frame
+      primaryDescriptor: Wood
+      foundational: true
+      descriptors:
+        Wood: 5
+
+    - name: Metal Casing
+      primaryDescriptor: Metal
+      foundational: true
+      descriptors:
+        Metal: 2
+
+    - name: Lock Mechanism
+      primaryDescriptor: Locked
+      descriptors:
+        Locked: 1
+
+- name: Locked Wood Door Lv.2
+  parts:
+    - name: Wood Frame
+      primaryDescriptor: Wood
+      foundational: true
+      descriptors:
+        Wood: 5
+
+    - name: Metal Casing
+      primaryDescriptor: Metal
+      foundational: true
+      descriptors:
+        Metal: 2
+
+    - name: Lock Mechanism
+      primaryDescriptor: Locked
+      descriptors:
+        Locked: 2
+
+- name: Locked Wood Door Lv.3
+  parts:
+    - name: Wood Frame
+      primaryDescriptor: Wood
+      foundational: true
+      descriptors:
+        Wood: 5
+
+    - name: Metal Casing
+      primaryDescriptor: Metal
+      foundational: true
+      descriptors:
+        Metal: 2
+
+    - name: Lock Mechanism
+      primaryDescriptor: Locked
+      descriptors:
+        Locked: 3

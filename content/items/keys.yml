@@ -1,0 +1,45 @@
+
+- name: Metal Key Lv.1
+  parts:
+    - name: Metal Shaft
+      primaryDescriptor: Metal
+      descriptors:
+        Metal: 2
+
+  interaction:
+    name: Unlocks
+    level: 1
+
+- name: Metal Key Lv.2
+  parts:
+    - name: Metal Shaft
+      primaryDescriptor: Metal
+      descriptors:
+        Metal: 2
+
+  interaction:
+    name: Unlocks
+    level: 2
+
+- name: Metal Key Lv.3
+  parts:
+    - name: Metal Shaft
+      primaryDescriptor: Metal
+      descriptors:
+        Metal: 2
+
+  interaction:
+    name: Unlocks
+    level: 3
+
+- name: Skeleton Key
+  parts:
+    - name: Metal Shaft
+      primaryDescriptor: Metal
+      descriptors:
+        Metal: 2
+        Unbreakable: 1
+
+  interaction:
+    name: Unlocks
+    level: 2
