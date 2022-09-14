@@ -94,3 +94,42 @@
       primaryDescriptor: Locked
       descriptors:
         Locked: 3
+
+- name: Locked Meat Door Lv.1
+  parts:
+    - name: Meat Frame
+      primaryDescriptor: Meat
+      foundational: true
+      descriptors:
+        Meat: 5
+
+    - name: Lock Mechanism
+      primaryDescriptor: Locked
+      descriptors:
+        Locked: 1
+
+- name: Locked Meat Door Lv.2
+  parts:
+    - name: Meat Frame
+      primaryDescriptor: Meat
+      foundational: true
+      descriptors:
+        Meat: 5
+
+    - name: Lock Mechanism
+      primaryDescriptor: Locked
+      descriptors:
+        Locked: 2
+
+- name: Locked Meat Door Lv.3
+  parts:
+    - name: Meat Frame
+      primaryDescriptor: Meat
+      foundational: true
+      descriptors:
+        Meat: 5
+
+    - name: Lock Mechanism
+      primaryDescriptor: Locked
+      descriptors:
+        Locked: 3
