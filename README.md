@@ -29,6 +29,7 @@ npm install
 Permenary assets are generated using Stable Diffusion. While setup of SD is not covered here, the parameters to generate the art are:
 
 * Base Prompts: game item icon, artstation, by anton fadeev david fortin, Pat Presley, ryan lang, concept art, digital 2d, trending on pixiv, Clean Cel shaded vector art, highly detailed
+* Image Size: 256x256
 * Sampling Steps: 150 samples
 * Sampling Method: k_euler
 * Classifier Free Guidance Scale: 18
