@@ -23,8 +23,6 @@ export class DetailComponent implements OnInit {
     return (items as any).default || items;
   }
 
-  constructor() { }
-
   ngOnInit(): void {
   }
 
