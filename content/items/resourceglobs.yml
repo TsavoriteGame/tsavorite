@@ -20,6 +20,20 @@
       descriptors:
         Fiber: 1
 
+- name: String Lv.2
+  parts:
+    - name: String
+      primaryDescriptor: Fiber
+      descriptors:
+        Fiber: 2
+
+- name: String Lv.3
+  parts:
+    - name: String
+      primaryDescriptor: Fiber
+      descriptors:
+        Fiber: 3
+
 - name: Glass Shards Lv.1
   parts:
     - name: Glass Shards
