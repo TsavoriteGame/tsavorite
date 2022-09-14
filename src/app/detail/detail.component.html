@@ -1,7 +1,158 @@
-<div class="container">
-  <h1 class="title">
-    {{ 'PAGES.DETAIL.TITLE' | translate }}
-  </h1>
 
-  <a routerLink="/">{{ 'PAGES.DETAIL.BACK_TO_HOME' | translate }}</a>
+<div class="splash-container">
+
+  <nav class="navbar navbar-dark bg-primary">
+    <div class="container-fluid">
+      <a class="navbar-brand">Tsavorite</a>
+    </div>
+  </nav>
+
+  <div class="container mt-3">
+    <div class="row">
+
+      <div class="col-4">
+        <div class="card item-list">
+          <div class="card-body p-0">
+            <ul class="list-group list-group-flush">
+              <li class="list-group-item"
+                  [class.active]="i === activeIndex"
+                  (click)="chooseItem(item, i)"
+                  *ngFor="let item of allItems; let i = index">
+                <div class="item-title">
+                  {{ item.name }}
+                </div>
+
+                <div class="text-muted item-subtitle" *ngIf="item.interaction">
+                  {{ item.interaction.name }} Lv.{{ item.interaction.level }}
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-8">
+        <div class="row">
+
+          <div class="col">
+            <div class="card item-desc" *ngIf="!activeItem">
+              <div class="card-body">
+                Choose an item on the left.
+              </div>
+            </div>
+
+            <div class="card item-desc" *ngIf="activeItem">
+
+              <ng-container [ngTemplateOutlet]="item"
+                            [ngTemplateOutletContext]="{ activeItem: activeItem }"></ng-container>
+
+              <div class="card-body d-flex justify-content-between">
+                <a class="btn btn-primary" (click)="makeLeftItem()">Make Left Item</a>
+                <a class="btn btn-primary" (click)="makeRightItem()">Make Right Item</a>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="row mt-3">
+          <div class="col-6">
+
+            <div class="card item item-left" *ngIf="!currentLeft">
+              <div class="card-body">
+                Choose applier item!
+              </div>
+            </div>
+
+            <div class="card item-desc" *ngIf="currentLeft">
+
+              <ng-container [ngTemplateOutlet]="item"
+                            [ngTemplateOutletContext]="{ activeItem: currentLeft }"></ng-container>
+            </div>
+
+          </div>
+
+          <div class="col-6">
+
+            <div class="card item item-right" *ngIf="!currentRight">
+              <div class="card-body">
+                Choose target item!
+              </div>
+            </div>
+
+            <div class="card item-desc" *ngIf="currentRight">
+
+              <ng-container [ngTemplateOutlet]="item"
+                            [ngTemplateOutletContext]="{ activeItem: currentRight }"></ng-container>
+            </div>
+
+          </div>
+        </div>
+
+        <div class="row mt-3">
+
+          <div class="col">
+            <div class="card item-desc">
+
+              <div class="card-header d-flex justify-content-between">
+                Reaction Results
+
+                <a class="btn btn-primary" (click)="doReaction()" [class.disabled]="!currentLeft || !currentRight">Apply Left to Right</a>
+              </div>
+
+              <div class="card-body" *ngIf="!reactionResult">
+                No reaction; add a left and right item then click apply!
+              </div>
+
+              <div class="card-body" *ngIf="reactionResult">
+                <h1>Success: {{ reactionResult.success ? 'Yes' : 'No' }}</h1>
+                <h2>Message: {{ reactionResult.message }}</h2>
+
+                <div *ngIf="reactionResult.extraItems">
+                  <h1>Produced Extra Items</h1>
+
+                  <pre>
+                    {{ reactionResult.extraItems | json }}
+                  </pre>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
 </div>
+
+<ng-template #item let-activeItem="activeItem">
+  <div class="card-header">
+    {{ activeItem.name }}
+    <span class="badge bg-info" *ngIf="activeItem.interaction">
+      {{ activeItem.interaction.name }} Lv.{{ activeItem.interaction.level }}
+    </span>
+  </div>
+
+  <div class="card-body">
+    <div class="item-part" [class.divider]="i > 0" *ngFor="let part of activeItem.parts; let i = index">
+
+      <div class="part-ident">
+        Part #{{ i }}: {{ part.name }}
+
+        <span class="badge bg-info ms-1" *ngIf="part.primaryDescriptor">
+          Primary: {{ part.primaryDescriptor }}
+        </span>
+
+        <span class="badge bg-info ms-1" *ngIf="part.foundational">
+          Foundational
+        </span>
+      </div>
+
+      <div class="part-descriptors">
+        <span class="badge bg-secondary ms-1" *ngFor="let desc of part.descriptors | keyvalue">{{ desc.key }} Lv.{{ desc.value }}</span>
+      </div>
+
+    </div>
+  </div>
+</ng-template>

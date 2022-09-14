@@ -2,6 +2,7 @@
 const fs = require('fs');
 const readdir = require('recursive-readdir');
 const yaml = require('js-yaml');
+const { sortBy } = require('lodash');
 
 const allItems = [];
 
@@ -12,7 +13,9 @@ const loadItems = async () => {
     allItems.push(...data);
   });
 
-  fs.writeFileSync('content/items/items.json', JSON.stringify(allItems));
+  const sortedItems = sortBy(allItems, item => item.name);
+
+  fs.writeFileSync('content/items/items.json', JSON.stringify(sortedItems));
 };
 
 loadItems();

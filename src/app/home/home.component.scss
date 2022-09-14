@@ -1,3 +1,26 @@
 :host {
-  
+
+}
+
+.card-body {
+  padding: 0;
+}
+
+.card-title {
+  font-size: 5rem;
+  margin-top: 2rem;
+  margin-left: 2rem;
+  margin-right: 2rem;
+}
+
+.card-subtitle {
+  margin-top: -2rem;
+}
+
+.card-title, .card-subtitle {
+  text-align: center;
+}
+
+.places-to-go {
+  padding: 2rem;
 }

@@ -1,15 +1,18 @@
 
+/* custom theme */
+$primary: #7D10FF;
+
 /* Importing Bootstrap SCSS file. */
 @import '~bootstrap/scss/bootstrap';
 
 @font-face {
-  font-family: 'Bitfantasy';
-  src: url('./assets/font/Bitfantasy.eot');
-  src: url('./assets/font/Bitfantasy.eot?#iefix') format('embedded-opentype'),
-       url('./assets/font/Bitfantasy.woff2') format('woff2'),
-       url('./assets/font/Bitfantasy.woff') format('woff'),
-       url('./assets/font/Bitfantasy.ttf') format('truetype'),
-       url('./assets/font/Bitfantasy.svg#Bitfantasy') format('svg');
+  font-family: 'CelticTime';
+  src: url('./assets/font/CelticTime.eot');
+  src: url('./assets/font/CelticTime.eot?#iefix') format('embedded-opentype'),
+       url('./assets/font/CelticTime.woff2') format('woff2'),
+       url('./assets/font/CelticTime.woff') format('woff'),
+       url('./assets/font/CelticTime.ttf') format('truetype'),
+       url('./assets/font/CelticTime.svg#CelticTime') format('svg');
   font-weight: 500;
   font-style: normal;
   font-display: swap;
@@ -23,7 +26,8 @@ html, body {
 }
 
 body {
-  font-family: Bitfantasy, Arial, Helvetica, sans-serif;
+  font-family: CelticTime, Arial, Helvetica, sans-serif;
+  text-rendering: optimizeLegibility;
 
   &.no-bit-font {
     font-family: Arial, Helvetica, sans-serif;
@@ -32,12 +36,23 @@ body {
 
 .splash-container {
   height: 100%;
+  background: url(./assets/images/core/splash.png) no-repeat center fixed;
+  background-size: cover;
+}
+
+.centered {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+}
 
-  background: url(./assets/images/core/splash.png) no-repeat center fixed;
-  background-size: cover;
+.navbar-brand {
+  letter-spacing: 3px;
+}
+
+.badge {
+  letter-spacing: 2px;
+  font-weight: 100;
 }
 
