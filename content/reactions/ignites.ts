@@ -310,7 +310,16 @@ export const applications: Reactions = {
       increaseInteractionLevel(args.targetItem, Interaction.Ignites, 1);
       increaseDescriptorLevelForPart(args.targetPart, Descriptor.Blazing, 1);
       increaseDescriptorLevelForPart(args.targetPart, Descriptor.Bright, 1);
-      decreaseDescriptorLevelForPart(args.targetPart, Descriptor.Wood, 1);
+      const newWoodLevel = decreaseDescriptorLevelForPart(args.targetPart, Descriptor.Wood, 1);
+
+      if(newWoodLevel <= 0) {
+        return {
+          message: 'The wood was burned to ash.',
+          success: true,
+          newSource: sourceItem,
+          newTarget: undefined
+        };
+      }
 
       return {
         message: 'The wood has ignited.',
