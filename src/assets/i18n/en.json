@@ -1,2 +1,12 @@
 {
+  "Pages": {
+    "Home": {
+      "Title": "Tsavorite",
+      "Subtitle": "Some Epic Game",
+      "Footer": "Dev Version - Need Git Hash Here",
+      "Links": {
+        "ItemTest": "Go To Item Test"
+      }
+    }
+  }
 }

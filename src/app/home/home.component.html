@@ -1,7 +1,33 @@
-<div class="splash-container">
-  <h1 class="title">
-    {{ 'PAGES.HOME.TITLE' | translate }}
-  </h1>
+<div class="splash-container centered">
+  <div class="row">
+    <div class="col">
+      <div class="card">
+        <div class="card-body">
 
-  <a routerLink="/detail">{{ 'PAGES.HOME.GO_TO_DETAIL' | translate }}</a>
+          <h1 class="card-title">
+            {{ 'Pages.Home.Title' | translate }}
+          </h1>
+
+          <h2 class="card-subtitle mb-2 text-muted">
+            {{ 'Pages.Home.Subtitle' | translate }}
+          </h2>
+
+          <div class="places-to-go">
+            <div class="d-grid gap-2 d-block">
+              <button type="button"
+                      class="btn btn-primary d-block"
+                      routerLink="/detail">
+                {{ 'Pages.Home.Links.ItemTest' | translate }}
+              </button>
+            </div>
+          </div>
+
+          <div class="card-footer text-muted">
+            {{ 'Pages.Home.Footer' | translate }}
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
 </div>

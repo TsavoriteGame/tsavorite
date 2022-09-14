@@ -1,23 +1,58 @@
 
+/* custom theme */
+$primary: #7D10FF;
+
 /* Importing Bootstrap SCSS file. */
 @import '~bootstrap/scss/bootstrap';
 
-/* You can add global styles to this file, and also import other style files */
+@font-face {
+  font-family: 'CelticTime';
+  src: url('./assets/font/CelticTime.eot');
+  src: url('./assets/font/CelticTime.eot?#iefix') format('embedded-opentype'),
+       url('./assets/font/CelticTime.woff2') format('woff2'),
+       url('./assets/font/CelticTime.woff') format('woff'),
+       url('./assets/font/CelticTime.ttf') format('truetype'),
+       url('./assets/font/CelticTime.svg#CelticTime') format('svg');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
 html, body {
   margin: 0;
   padding: 0;
 
   height: 100%;
-  font-family: Arial, Helvetica, sans-serif;
+}
+
+body {
+  font-family: CelticTime, Arial, Helvetica, sans-serif;
+  text-rendering: optimizeLegibility;
+
+  &.no-bit-font {
+    font-family: Arial, Helvetica, sans-serif;
+  }
 }
 
 .splash-container {
   height: 100%;
+  background: url(./assets/images/core/splash.png) no-repeat center fixed;
+  background-size: cover;
+}
+
+.centered {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-
-  background: url(./assets/images/core/splash.png) no-repeat center fixed;
-  background-size: cover;
 }
+
+.navbar-brand {
+  letter-spacing: 3px;
+}
+
+.badge {
+  letter-spacing: 2px;
+  font-weight: 100;
+}
+
