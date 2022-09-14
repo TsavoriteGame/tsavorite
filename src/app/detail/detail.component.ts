@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { getReactionBetweenTwoItems } from '../../../content/helpers';
-import { ItemConfig, ReactionResponse } from '../../../content/interfaces';
+import { ItemConfig, ItemDescriptor, ReactionResponse } from '../../../content/interfaces';
 
 import * as items from '../../../content/items/items.json';
 
@@ -50,6 +50,10 @@ export class DetailComponent implements OnInit {
       this.currentLeft = result.newSource;
       this.currentRight = result.newTarget;
     }
+  }
+
+  getLevel(value: ItemDescriptor): number {
+    return value.level ?? 0;
   }
 
 }
