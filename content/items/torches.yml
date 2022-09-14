@@ -6,14 +6,14 @@
       primaryDescriptor: Metal
       foundational: true
       descriptors:
-        Wood: 2
+        Wood: { level: 2 }
 
     - name: Fire
       primaryDescriptor: Hot
       descriptors:
-        Hot: 1
-        Blazing: 1
-        Bright: 1
+        Hot: { level: 1 }
+        Blazing: { level: 1 }
+        Bright: { level: 1 }
 
   interaction:
     name: Ignites
@@ -25,14 +25,14 @@
       primaryDescriptor: Metal
       foundational: true
       descriptors:
-        Wood: 3
+        Wood: { level: 3 }
 
     - name: Fire
       primaryDescriptor: Hot
       descriptors:
-        Hot: 2
-        Blazing: 1
-        Bright: 1
+        Hot: { level: 2 }
+        Blazing: { level: 1 }
+        Bright: { level: 1 }
 
   interaction:
     name: Ignites
@@ -44,14 +44,14 @@
       primaryDescriptor: Metal
       foundational: true
       descriptors:
-        Wood: 4
+        Wood: { level: 4 }
 
     - name: Fire
       primaryDescriptor: Hot
       descriptors:
-        Hot: 3
-        Blazing: 1
-        Bright: 1
+        Hot: { level: 3 }
+        Blazing: { level: 1 }
+        Bright: { level: 1 }
 
   interaction:
     name: Ignites

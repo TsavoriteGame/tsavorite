@@ -4,7 +4,7 @@
     - name: Metal Shaft
       primaryDescriptor: Metal
       descriptors:
-        Metal: 2
+        Metal: { level: 2 }
 
   interaction:
     name: Unlocks
@@ -15,7 +15,7 @@
     - name: Metal Shaft
       primaryDescriptor: Metal
       descriptors:
-        Metal: 2
+        Metal: { level: 2 }
 
   interaction:
     name: Unlocks
@@ -26,7 +26,7 @@
     - name: Metal Shaft
       primaryDescriptor: Metal
       descriptors:
-        Metal: 2
+        Metal: { level: 2 }
 
   interaction:
     name: Unlocks
@@ -37,8 +37,8 @@
     - name: Metal Shaft
       primaryDescriptor: Metal
       descriptors:
-        Metal: 2
-        Unbreakable: 1
+        Metal: { level: 2 }
+        Unbreakable: { level: 1 }
 
   interaction:
     name: Unlocks

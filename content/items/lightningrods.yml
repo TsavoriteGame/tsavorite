@@ -5,8 +5,8 @@
       primaryDescriptor: Metal
       foundational: true
       descriptors:
-        Metal: 1
-        Electric: 1
+        Metal: { level: 1 }
+        Electric: { level: 1 }
 
   interaction:
     name: Zaps
@@ -18,8 +18,8 @@
       primaryDescriptor: Metal
       foundational: true
       descriptors:
-        Metal: 2
-        Electric: 2
+        Metal: { level: 2 }
+        Electric: { level: 2 }
 
   interaction:
     name: Zaps
@@ -31,8 +31,8 @@
       primaryDescriptor: Metal
       foundational: true
       descriptors:
-        Metal: 3
-        Electric: 3
+        Metal: { level: 3 }
+        Electric: { level: 3 }
 
   interaction:
     name: Zaps

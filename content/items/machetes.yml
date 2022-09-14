@@ -5,12 +5,12 @@
       primaryDescriptor: Wood
       foundational: true
       descriptors:
-        Wood: 1
+        Wood: { level: 1 }
 
     - name: Blade
       primaryDescriptor: Metal
       descriptors:
-        Metal: 1
+        Metal: { level: 1 }
 
   interaction:
     name: Carves
@@ -22,12 +22,12 @@
       primaryDescriptor: Wood
       foundational: true
       descriptors:
-        Wood: 2
+        Wood: { level: 2 }
 
     - name: Blade
       primaryDescriptor: Metal
       descriptors:
-        Metal: 2
+        Metal: { level: 2 }
 
   interaction:
     name: Carves
@@ -39,12 +39,12 @@
       primaryDescriptor: Wood
       foundational: true
       descriptors:
-        Wood: 3
+        Wood: { level: 3 }
 
     - name: Blade
       primaryDescriptor: Metal
       descriptors:
-        Metal: 3
+        Metal: { level: 3 }
 
   interaction:
     name: Carves

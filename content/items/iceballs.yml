@@ -4,7 +4,7 @@
     - name: Iceball
       primaryDescriptor: Cold
       descriptors:
-        Cold: 1
+        Cold: { level: 1 }
 
   interaction:
     name: Freezes
@@ -15,7 +15,7 @@
     - name: Iceball
       primaryDescriptor: Cold
       descriptors:
-        Cold: 2
+        Cold: { level: 2 }
 
   interaction:
     name: Freezes
@@ -26,7 +26,7 @@
     - name: Iceball
       primaryDescriptor: Cold
       descriptors:
-        Cold: 3
+        Cold: { level: 3 }
 
   interaction:
     name: Freezes

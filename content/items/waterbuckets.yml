@@ -5,12 +5,12 @@
       primaryDescriptor: Wood
       foundational: true
       descriptors:
-        Wood: 1
+        Wood: { level: 1 }
 
     - name: Water
       primaryDescriptor: Wet
       descriptors:
-        Wet: 1
+        Wet: { level: 1 }
 
   interaction:
     name: Wets
@@ -22,12 +22,12 @@
       primaryDescriptor: Wood
       foundational: true
       descriptors:
-        Wood: 2
+        Wood: { level: 2 }
 
     - name: Water
       primaryDescriptor: Wet
       descriptors:
-        Wet: 2
+        Wet: { level: 2 }
 
   interaction:
     name: Wets
@@ -39,12 +39,12 @@
       primaryDescriptor: Wood
       foundational: true
       descriptors:
-        Wood: 3
+        Wood: { level: 3 }
 
     - name: Water
       primaryDescriptor: Wet
       descriptors:
-        Wet: 3
+        Wet: { level: 3 }
 
   interaction:
     name: Wets

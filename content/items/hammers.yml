@@ -4,7 +4,7 @@
     - name: Rock
       primaryDescriptor: Rock
       descriptors:
-        Rock: 1
+        Rock: { level: 1 }
 
   interaction:
     name: Smashes
@@ -15,7 +15,7 @@
     - name: Rock
       primaryDescriptor: Rock
       descriptors:
-        Rock: 2
+        Rock: { level: 2 }
 
   interaction:
     name: Smashes
@@ -26,7 +26,7 @@
     - name: Rock
       primaryDescriptor: Rock
       descriptors:
-        Rock: 3
+        Rock: { level: 3 }
 
   interaction:
     name: Smashes

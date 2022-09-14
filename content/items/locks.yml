@@ -5,12 +5,12 @@
       primaryDescriptor: Metal
       foundational: true
       descriptors:
-        Metal: 2
+        Metal: { level: 2 }
 
     - name: Lock Mechanism
       primaryDescriptor: Locked
       descriptors:
-        Locked: 1
+        Locked: { level: 1 }
 
 - name: Padlock Lv.2
   parts:
@@ -18,12 +18,12 @@
       primaryDescriptor: Metal
       foundational: true
       descriptors:
-        Metal: 2
+        Metal: { level: 2 }
 
     - name: Lock Mechanism
       primaryDescriptor: Locked
       descriptors:
-        Locked: 2
+        Locked: { level: 2 }
 
 - name: Padlock Lv.3
   parts:
@@ -31,12 +31,12 @@
       primaryDescriptor: Metal
       foundational: true
       descriptors:
-        Metal: 2
+        Metal: { level: 2 }
 
     - name: Lock Mechanism
       primaryDescriptor: Locked
       descriptors:
-        Locked: 3
+        Locked: { level: 3 }
 
 - name: Locked Wood Door Lv.1
   parts:
@@ -44,18 +44,18 @@
       primaryDescriptor: Wood
       foundational: true
       descriptors:
-        Wood: 5
+        Wood: { level: 5 }
 
     - name: Metal Casing
       primaryDescriptor: Metal
       foundational: true
       descriptors:
-        Metal: 2
+        Metal: { level: 2 }
 
     - name: Lock Mechanism
       primaryDescriptor: Locked
       descriptors:
-        Locked: 1
+        Locked: { level: 1 }
 
 - name: Locked Wood Door Lv.2
   parts:
@@ -63,18 +63,18 @@
       primaryDescriptor: Wood
       foundational: true
       descriptors:
-        Wood: 5
+        Wood: { level: 5 }
 
     - name: Metal Casing
       primaryDescriptor: Metal
       foundational: true
       descriptors:
-        Metal: 2
+        Metal: { level: 2 }
 
     - name: Lock Mechanism
       primaryDescriptor: Locked
       descriptors:
-        Locked: 2
+        Locked: { level: 2 }
 
 - name: Locked Wood Door Lv.3
   parts:
@@ -82,15 +82,15 @@
       primaryDescriptor: Wood
       foundational: true
       descriptors:
-        Wood: 5
+        Wood: { level: 5 }
 
     - name: Metal Casing
       primaryDescriptor: Metal
       foundational: true
       descriptors:
-        Metal: 2
+        Metal: { level: 2 }
 
     - name: Lock Mechanism
       primaryDescriptor: Locked
       descriptors:
-        Locked: 3
+        Locked: { level: 3 }

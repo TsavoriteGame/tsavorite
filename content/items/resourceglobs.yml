@@ -4,74 +4,74 @@
     - name: Clay
       primaryDescriptor: Clay
       descriptors:
-        Clay: 1
+        Clay: { level: 1 }
 
 - name: Dirt Ball Lv.1
   parts:
     - name: Dirt
       primaryDescriptor: Dirt
       descriptors:
-        Dirt: 1
+        Dirt: { level: 1 }
 
 - name: String Lv.1
   parts:
     - name: String
       primaryDescriptor: Fiber
       descriptors:
-        Fiber: 1
+        Fiber: { level: 1 }
 
 - name: Glass Shards Lv.1
   parts:
     - name: Glass Shards
       primaryDescriptor: Glass
       descriptors:
-        Glass: 1
+        Glass: { level: 1 }
 
 - name: Leather Scraps Lv.1
   parts:
     - name: Leather Scraps
       primaryDescriptor: Leather
       descriptors:
-        Leather: 1
+        Leather: { level: 1 }
 
 - name: Meat Chunk Lv.1
   parts:
     - name: Meat Chunk
       primaryDescriptor: Meat
       descriptors:
-        Meat: 1
+        Meat: { level: 1 }
 
 - name: Metal Chunk Lv.1
   parts:
     - name: Metal Chunk
       primaryDescriptor: Metal
       descriptors:
-        Metal: 1
+        Metal: { level: 1 }
 
 - name: Mud Ball Lv.1
   parts:
     - name: Mud Ball
       primaryDescriptor: Mud
       descriptors:
-        Mud: 1
+        Mud: { level: 1 }
 
 - name: Rock Lv.1
   parts:
     - name: Rock
       primaryDescriptor: Rock
       descriptors:
-        Rock: 1
+        Rock: { level: 1 }
 
 - name: Sand Pile Lv.1
   parts:
     - name: Sand
       primaryDescriptor: Sand
       descriptors:
-        Sand: 1
+        Sand: { level: 1 }
 
 - name: Wood Log Lv.1
   parts:
     - name: Wood
       primaryDescriptor: Wood
       descriptors:
-        Wood: 1
+        Wood: { level: 1 }
