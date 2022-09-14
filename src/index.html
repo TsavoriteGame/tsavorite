@@ -15,7 +15,33 @@
   <meta name="msapplication-TileColor" content="#64aef0">
   <meta name="theme-color" content="#64aef0">
 </head>
+
 <body>
-  <app-root>Loading...</app-root>
+  <app-root>
+
+    <style>
+      body, html {
+        padding: 0 !important;
+        margin: 0 !important;
+        height: 100vh;
+        overflow: hidden;
+      }
+
+      app-root {
+        background: url(./assets/images/core/splash.png) no-repeat center fixed;
+        background-size: cover;
+
+        display: flex;
+        font-size: 3.5rem;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        color: #fff;
+      }
+    </style>
+
+    Loading...
+  </app-root>
 </body>
+
 </html>

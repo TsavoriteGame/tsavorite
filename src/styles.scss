@@ -2,13 +2,32 @@
 /* Importing Bootstrap SCSS file. */
 @import '~bootstrap/scss/bootstrap';
 
-/* You can add global styles to this file, and also import other style files */
+@font-face {
+  font-family: 'Bitfantasy';
+  src: url('./assets/font/Bitfantasy.eot');
+  src: url('./assets/font/Bitfantasy.eot?#iefix') format('embedded-opentype'),
+      url('./assets/font/Bitfantasy.woff2') format('woff2'),
+      url('./assets/font/Bitfantasy.woff') format('woff'),
+      url('./assets/font/Bitfantasy.ttf') format('truetype'),
+      url('./assets/font/Bitfantasy.svg#Bitfantasy') format('svg');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
 html, body {
   margin: 0;
   padding: 0;
 
   height: 100%;
-  font-family: Arial, Helvetica, sans-serif;
+}
+
+body {
+  font-family: Bitfantasy, Arial, Helvetica, sans-serif;
+
+  &.no-bit-font {
+    font-family: Arial, Helvetica, sans-serif;
+  }
 }
 
 .splash-container {
@@ -21,3 +40,4 @@ html, body {
   background: url(./assets/images/core/splash.png) no-repeat center fixed;
   background-size: cover;
 }
+
