@@ -25,14 +25,14 @@
     - name: String
       primaryDescriptor: Fiber
       descriptors:
-        Fiber: 2
+        Fiber: { level: 2 }
 
 - name: String Lv.3
   parts:
     - name: String
       primaryDescriptor: Fiber
       descriptors:
-        Fiber: 3
+        Fiber: { level: 3 }
 
 - name: Glass Shards Lv.1
   parts:
@@ -60,15 +60,15 @@
     - name: Meat Chunk
       primaryDescriptor: Meat
       descriptors:
-        Meat: 1
-        Cooked: 1
+        Meat: { level: 1 }
+        Cooked: { level: 1 }
 
 - name: Rotten Meat Chunk Lv.1
   parts:
     - name: Rotten Meat Chunk
       primaryDescriptor: Rotten
       descriptors:
-        Rotten: 1
+        Rotten: { level: 1 }
 
 - name: Metal Chunk Lv.1
   parts:
