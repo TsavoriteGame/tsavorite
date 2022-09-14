@@ -11,6 +11,7 @@
       primaryDescriptor: Metal
       descriptors:
         Metal: 1
+        Sharp: 1
 
   interaction:
     name: Carves
@@ -28,6 +29,7 @@
       primaryDescriptor: Metal
       descriptors:
         Metal: 2
+        Sharp: 2
 
   interaction:
     name: Carves
@@ -45,6 +47,7 @@
       primaryDescriptor: Metal
       descriptors:
         Metal: 3
+        Sharp: 3
 
   interaction:
     name: Carves

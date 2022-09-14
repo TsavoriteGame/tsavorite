@@ -3,7 +3,7 @@
 - name: Torch Lv.1
   parts:
     - name: Wood Log
-      primaryDescriptor: Metal
+      primaryDescriptor: Wood
       foundational: true
       descriptors:
         Wood: 2
@@ -22,7 +22,7 @@
 - name: Torch Lv.2
   parts:
     - name: Wood Log
-      primaryDescriptor: Metal
+      primaryDescriptor: Wood
       foundational: true
       descriptors:
         Wood: 3
@@ -41,7 +41,7 @@
 - name: Torch Lv.3
   parts:
     - name: Wood Log
-      primaryDescriptor: Metal
+      primaryDescriptor: Wood
       foundational: true
       descriptors:
         Wood: 4

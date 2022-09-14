@@ -55,6 +55,21 @@
       descriptors:
         Meat: 1
 
+- name: Cooked Meat Chunk Lv.1
+  parts:
+    - name: Meat Chunk
+      primaryDescriptor: Meat
+      descriptors:
+        Meat: 1
+        Cooked: 1
+
+- name: Rotten Meat Chunk Lv.1
+  parts:
+    - name: Rotten Meat Chunk
+      primaryDescriptor: Rotten
+      descriptors:
+        Rotten: 1
+
 - name: Metal Chunk Lv.1
   parts:
     - name: Metal Chunk
@@ -89,3 +104,67 @@
       primaryDescriptor: Wood
       descriptors:
         Wood: 1
+
+- name: Wood Log Lv.2
+  parts:
+    - name: Wood
+      primaryDescriptor: Wood
+      descriptors:
+        Wood: 2
+
+- name: Goo Lv.1
+  parts:
+    - name: Goo
+      primaryDescriptor: Sticky
+      descriptors:
+        Sticky: 1
+
+- name: Goo Lv.2
+  parts:
+    - name: Goo
+      primaryDescriptor: Sticky
+      descriptors:
+        Sticky: 2
+
+- name: Oil Bucket Lv.1
+  parts:
+    - name: Bucket
+      primaryDescriptor: Wood
+      foundational: true
+      descriptors:
+        Wood: 1
+        Container: 1
+
+    - name: Oil
+      primaryDescriptor: Combustible
+      descriptors:
+        Combustible: 1
+
+- name: Oil Bucket Lv.2
+  parts:
+    - name: Bucket
+      primaryDescriptor: Wood
+      foundational: true
+      descriptors:
+        Wood: 2
+        Container: 1
+
+    - name: Oil
+      primaryDescriptor: Combustible
+      descriptors:
+        Combustible: 2
+
+
+- name: Oil Bucket Lv.3
+  parts:
+    - name: Bucket
+      primaryDescriptor: Wood
+      foundational: true
+      descriptors:
+        Wood: 3
+        Container: 1
+
+    - name: Oil
+      primaryDescriptor: Combustible
+      descriptors:
+        Combustible: 3
