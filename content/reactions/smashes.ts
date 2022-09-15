@@ -1,6 +1,6 @@
 import { getInteractionLevel, increaseDescriptorLevelForPart,
   decreaseInteractionLevel, getDescriptorLevel, decreaseDescriptorLevelForPart,
-  getDescriptorLevelFromPart, increaseInteractionLevel } from '../helpers';
+  getDescriptorLevelFromPart, increaseInteractionLevel, hasDescriptor } from '../helpers';
 import { Descriptor, Reactions, Interaction, ReactionExtendedArgs } from '../interfaces';
 
 const zeroFail = (args: ReactionExtendedArgs) => ({
@@ -106,6 +106,15 @@ export const applications: Reactions = {
     const targetItem = args.targetItem;
 
     if(smashesLevel <= 0) return zeroFail(args);
+
+    if(hasDescriptor(args.targetItem, Descriptor.Frozen)) {
+      return {
+        message: 'Smashed the frozen meat.',
+        success: true,
+        newSource: sourceItem,
+        newTarget: undefined
+      };
+    }
 
     const meatLevel = decreaseDescriptorLevelForPart(args.targetPart, Descriptor.Meat, 1);
     increaseDescriptorLevelForPart(args.targetPart, Descriptor.Bloody, 1);

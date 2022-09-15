@@ -206,6 +206,33 @@ test('A level 2 smasher should pulverize meat into blood', () => {
 
 });
 
+test('A level 2 smasher should delete frozen meat', () => {
+
+  const source = getSmasher(1, 2);
+
+  const target: ItemConfig = {
+    name: 'Level 3 Meat',
+    parts: [
+      {
+        name: 'Meat',
+        primaryDescriptor: Descriptor.Meat,
+        descriptors: {
+          [Descriptor.Meat]: { level: 3 },
+          [Descriptor.Frozen]: { level: 3 }
+        }
+      }
+    ]
+  };
+
+  const result = getReactionBetweenTwoItems(source, target);
+
+  expect(result.success).toBe(true);
+  expect(result.newSource).toEqual(source);
+  expect(getInteractionLevel(result.newSource, Interaction.Smashes)).toBe(2);
+  expect(result.newTarget).toBe(undefined);
+
+});
+
 test('A level 2 smasher should smash rock into sand', () => {
 
   const source = getSmasher(1, 2);
