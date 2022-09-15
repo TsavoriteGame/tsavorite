@@ -56,7 +56,10 @@ export const applications: Reactions = {
         newTarget: undefined,
         extraItems: [
           { name: 'Glass', parts: [
-            { name: 'Glass', primaryDescriptor: Descriptor.Glass, descriptors: { [Descriptor.Glass]: { level: clayLevel } } }
+            { name: 'Glass', primaryDescriptor: Descriptor.Glass, descriptors: {
+              [Descriptor.Glass]: { level: clayLevel },
+              [Descriptor.Container]: { level: getDescriptorLevelFromPart(args.targetPart, Descriptor.Container) }
+            } }
           ] }
         ]
       };
