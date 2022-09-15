@@ -15,7 +15,7 @@ const zeroFail = (args: ReactionExtendedArgs) => ({
 
 export const applications: Reactions = {
 
-  // fiber can be split into more fiber
+  // cutting cooked meat should make more meat
   [Descriptor.Cooked]: (args: ReactionExtendedArgs) => {
 
     const carvesLevel = getInteractionLevel(args.sourceItem, Interaction.Carves);
