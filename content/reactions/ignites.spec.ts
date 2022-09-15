@@ -560,9 +560,10 @@ test('A level 2 torch should melt already-warm sand into glass', () => {
   expect(getInteractionLevel(result.newSource, Interaction.Ignites)).toEqual(2);
   expect(getDescriptorLevel(result.newSource, Descriptor.Hot)).toEqual(1);
 
-  expect(getDescriptorLevel(result.newTarget, Descriptor.Glass)).toEqual(1);
-  expect(result.newTarget.parts[0].primaryDescriptor).toBe(Descriptor.Glass);
-  expect(getAllDescriptorsForPart(result.newTarget.parts[0]).length).toBe(2);
+  expect(result.newTarget).toBe(undefined);
+  expect(getDescriptorLevel(result.extraItems[0], Descriptor.Glass)).toEqual(1);
+  expect(result.extraItems[0].parts[0].primaryDescriptor).toBe(Descriptor.Glass);
+  expect(getAllDescriptorsForPart(result.extraItems[0].parts[0]).length).toBe(1);
 
 });
 

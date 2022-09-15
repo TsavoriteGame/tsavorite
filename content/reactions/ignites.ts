@@ -3,9 +3,7 @@ import { getInteractionLevel,
   decreaseDescriptorLevelForPart,
   increaseDescriptorLevelForPart,
   increaseInteractionLevel,
-  getDescriptorLevelFromPart,
-  setDescriptorLevelForPart,
-  changePrimaryDescriptor} from '../helpers';
+  getDescriptorLevelFromPart } from '../helpers';
 import { Descriptor, Reactions, Interaction, ReactionExtendedArgs } from '../interfaces';
 
 const zeroFail = (args: ReactionExtendedArgs) => ({
@@ -296,15 +294,16 @@ export const applications: Reactions = {
 
     if(hotLevel > sandLevel) {
 
-      setDescriptorLevelForPart(args.targetPart, Descriptor.Sand, 0);
-      increaseDescriptorLevelForPart(args.targetPart, Descriptor.Glass);
-      changePrimaryDescriptor(args.targetPart, Descriptor.Glass);
-
       return {
         message: 'The sand has become glass.',
         success: true,
         newSource: sourceItem,
-        newTarget: targetItem
+        newTarget: undefined,
+        extraItems: [
+          { name: 'Glass', parts: [
+            { name: 'Glass', primaryDescriptor: Descriptor.Glass, descriptors: { [Descriptor.Glass]: { level: sandLevel } } }
+          ] }
+        ]
       };
     }
 
