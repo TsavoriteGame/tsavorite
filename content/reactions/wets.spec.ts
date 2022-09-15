@@ -267,6 +267,33 @@ test('A level 2 wetter should make leather wet and slippery', () => {
   expect(getAllDescriptorsForPart(result.newTarget.parts[0]).length).toBe(3);
 });
 
+test('A level 2 wetter should make meat wet', () => {
+
+  const source = getWetter(1, 2);
+
+  const target: ItemConfig = {
+    name: 'Level 2 Meat',
+    parts: [
+      {
+        name: 'Meat',
+        primaryDescriptor: Descriptor.Meat,
+        descriptors: {
+          [Descriptor.Meat]: { level: 2 }
+        }
+      }
+    ]
+  };
+
+  const result = getReactionBetweenTwoItems(source, target);
+
+  expect(result.success).toBe(true);
+  expect(getInteractionLevel(result.newSource, Interaction.Wets)).toBe(1);
+  expect(result.newTarget.parts.length).toBe(1);
+  expect(getDescriptorLevel(result.newTarget, Descriptor.Meat)).toBe(2);
+  expect(getDescriptorLevel(result.newTarget, Descriptor.Wet)).toBe(1);
+  expect(getAllDescriptorsForPart(result.newTarget.parts[0]).length).toBe(2);
+});
+
 test('A level 2 wetter should make metal wet and slippery', () => {
 
   const source = getWetter(1, 2);

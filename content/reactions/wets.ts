@@ -193,6 +193,27 @@ export const applications: Reactions = {
     };
   },
 
+  // meat gets wet, I guess
+  [Descriptor.Meat]: (args: ReactionExtendedArgs) => {
+
+    const wetsLevel = getInteractionLevel(args.sourceItem, Interaction.Wets);
+
+    const sourceItem = args.sourceItem;
+    const targetItem = args.targetItem;
+
+    if(wetsLevel <= 0) return zeroFail(args);
+
+    decreaseInteractionLevel(args.sourceItem, Interaction.Wets, 1);
+    increaseDescriptorLevelForPart(args.targetPart, Descriptor.Wet, 1);
+
+    return {
+      message: 'Made the meat more wet.',
+      success: true,
+      newSource: sourceItem,
+      newTarget: targetItem
+    };
+  },
+
   // metal gets slippery/wet
   [Descriptor.Metal]: (args: ReactionExtendedArgs) => {
 
