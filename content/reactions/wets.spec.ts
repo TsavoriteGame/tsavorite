@@ -377,6 +377,35 @@ test('A level 2 wetter should make sand more wet', () => {
   expect(getAllDescriptorsForPart(result.newTarget.parts[0]).length).toBe(2);
 });
 
+test('A level 2 wetter should make wet sand into mud', () => {
+
+  const source = getWetter(1, 2);
+
+  const target: ItemConfig = {
+    name: 'Level 2 Sand',
+    parts: [
+      {
+        name: 'Sand',
+        primaryDescriptor: Descriptor.Sand,
+        descriptors: {
+          [Descriptor.Sand]: { level: 2 },
+          [Descriptor.Wet]: { level: 2 }
+        }
+      }
+    ]
+  };
+
+  const result = getReactionBetweenTwoItems(source, target);
+
+  expect(result.success).toBe(true);
+  expect(getInteractionLevel(result.newSource, Interaction.Wets)).toBe(1);
+
+  expect(result.newTarget).toBe(undefined);
+
+  expect(result.extraItems.length).toBe(1);
+  expect(getDescriptorLevel(result.extraItems[0], Descriptor.Mud)).toBe(2);
+});
+
 test('A level 2 wetter should make slippery more wet and slippery', () => {
 
   const source = getWetter(1, 2);

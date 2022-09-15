@@ -269,7 +269,22 @@ export const applications: Reactions = {
     if(wetsLevel <= 0) return zeroFail(args);
 
     decreaseInteractionLevel(args.sourceItem, Interaction.Wets, 1);
-    increaseDescriptorLevelForPart(args.targetPart, Descriptor.Wet, 1);
+    const newWetLevel = increaseDescriptorLevelForPart(args.targetPart, Descriptor.Wet, 1);
+    const sandLevel = getDescriptorLevelFromPart(args.targetPart, Descriptor.Sand);
+
+    if(newWetLevel >= sandLevel) {
+      return {
+        message: 'Made the sand into mud through the power of water.',
+        success: true,
+        newSource: sourceItem,
+        newTarget: undefined,
+        extraItems: [
+          { name: 'Mud', parts: [
+            { name: 'Mud', primaryDescriptor: Descriptor.Mud, descriptors: { [Descriptor.Mud]: { level: sandLevel } } }
+          ] }
+        ]
+      };
+    }
 
     return {
       message: 'Made the sand more wet.',
