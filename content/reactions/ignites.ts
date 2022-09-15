@@ -247,7 +247,7 @@ export const applications: Reactions = {
     };
   },
 
-  // turn mud into rock (eventually)
+  // turn mud into clay (eventually)
   [Descriptor.Mud]: (args: ReactionExtendedArgs) => {
     const ignitesLevel = getInteractionLevel(args.sourceItem, Interaction.Ignites);
 
@@ -315,6 +315,9 @@ export const applications: Reactions = {
       newTarget: targetItem
     };
   },
+
+  // increase cold
+  [Descriptor.Rock]: genericHotIncrease,
 
   // remove sticky stacks from sticky stuff
   [Descriptor.Sticky]: (args: ReactionExtendedArgs) => {
