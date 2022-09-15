@@ -37,7 +37,7 @@ test('A level 2 freezer should chill level 2 blood', () => {
 
   expect(result.success).toBe(true);
 
-  expect(getInteractionLevel(result.newSource, Interaction.Freezes)).toEqual(2);
+  expect(getInteractionLevel(result.newSource, Interaction.Freezes)).toEqual(1);
   expect(getDescriptorLevel(result.newSource, Descriptor.Cold)).toEqual(1);
 
   expect(result.newTarget.parts.length).toBe(1);
@@ -69,7 +69,7 @@ test('A level 2 freezer should freeze level 1 frozen blood', () => {
 
   expect(result.success).toBe(true);
 
-  expect(getInteractionLevel(result.newSource, Interaction.Freezes)).toEqual(2);
+  expect(getInteractionLevel(result.newSource, Interaction.Freezes)).toEqual(1);
   expect(getDescriptorLevel(result.newSource, Descriptor.Cold)).toEqual(1);
 
   expect(result.newTarget.parts.length).toBe(1);
@@ -193,7 +193,7 @@ test('A level 2 freezer should chill level 2 meat', () => {
 
   expect(result.success).toBe(true);
 
-  expect(getInteractionLevel(result.newSource, Interaction.Freezes)).toEqual(2);
+  expect(getInteractionLevel(result.newSource, Interaction.Freezes)).toEqual(1);
   expect(getDescriptorLevel(result.newSource, Descriptor.Cold)).toEqual(1);
 
   expect(getDescriptorLevel(result.newTarget, Descriptor.Cold)).toEqual(1);
@@ -224,7 +224,7 @@ test('A level 2 freezer should freeze chilled level 1 meat', () => {
 
   expect(result.success).toBe(true);
 
-  expect(getInteractionLevel(result.newSource, Interaction.Freezes)).toEqual(2);
+  expect(getInteractionLevel(result.newSource, Interaction.Freezes)).toEqual(1);
   expect(getDescriptorLevel(result.newSource, Descriptor.Cold)).toEqual(1);
 
   expect(getDescriptorLevel(result.newTarget, Descriptor.Cold)).toEqual(2);
@@ -316,7 +316,7 @@ test('A level 2 freezer should chill level 1 water', () => {
 
   expect(result.success).toBe(true);
 
-  expect(getInteractionLevel(result.newSource, Interaction.Freezes)).toEqual(2);
+  expect(getInteractionLevel(result.newSource, Interaction.Freezes)).toEqual(1);
   expect(getDescriptorLevel(result.newSource, Descriptor.Cold)).toEqual(1);
 
   expect(getDescriptorLevel(result.newTarget, Descriptor.Cold)).toEqual(1);
@@ -348,7 +348,7 @@ test('A level 2 freezer should freeze chilled level 1 water', () => {
 
   expect(result.success).toBe(true);
 
-  expect(getInteractionLevel(result.newSource, Interaction.Freezes)).toEqual(2);
+  expect(getInteractionLevel(result.newSource, Interaction.Freezes)).toEqual(1);
   expect(getDescriptorLevel(result.newSource, Descriptor.Cold)).toEqual(1);
 
   expect(getDescriptorLevel(result.newTarget, Descriptor.Cold)).toEqual(2);
@@ -412,7 +412,7 @@ test('A level 2 freezer should turn mud into rock', () => {
 
   expect(result.success).toBe(true);
 
-  expect(getInteractionLevel(result.newSource, Interaction.Freezes)).toEqual(2);
+  expect(getInteractionLevel(result.newSource, Interaction.Freezes)).toEqual(1);
   expect(getDescriptorLevel(result.newSource, Descriptor.Cold)).toEqual(1);
 
   expect(result.newTarget).toBe(undefined);

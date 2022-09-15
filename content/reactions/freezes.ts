@@ -66,6 +66,8 @@ export const applications: Reactions = {
 
     tryToFreeze(args, Descriptor.Bloody);
 
+    decreaseInteractionLevel(args.sourceItem, Interaction.Freezes, 1);
+
     return {
       message: 'The coldness of the target has increased.',
       success: true,
@@ -101,6 +103,8 @@ export const applications: Reactions = {
 
     tryToFreeze(args, Descriptor.Meat);
 
+    decreaseInteractionLevel(args.sourceItem, Interaction.Freezes, 1);
+
     return {
       message: 'The coldness of the target has increased.',
       success: true,
@@ -128,6 +132,8 @@ export const applications: Reactions = {
     if(freezesLevel <= 0) return zeroFail(args);
 
     tryToFreeze(args, Descriptor.Mud);
+
+    decreaseInteractionLevel(args.sourceItem, Interaction.Freezes, 1);
 
     if(hasDescriptor(args.targetItem, Descriptor.Frozen)) {
 
@@ -168,6 +174,8 @@ export const applications: Reactions = {
     if(freezesLevel <= 0) return zeroFail(args);
 
     tryToFreeze(args, Descriptor.Wet);
+
+    decreaseInteractionLevel(args.sourceItem, Interaction.Freezes, 1);
 
     return {
       message: 'The coldness of the target has increased.',
