@@ -460,5 +460,32 @@ test('A level 2 wetter should make wet wood rotten', () => {
   expect(getAllDescriptorsForPart(result.newTarget.parts[0]).length).toBe(3);
 });
 
+test('A level 2 wetter should collapse rotten wood', () => {
+
+  const source = getWetter(1, 2);
+
+  const target: ItemConfig = {
+    name: 'Level 2 Wood',
+    parts: [
+      {
+        name: 'Wood',
+        primaryDescriptor: Descriptor.Wood,
+        descriptors: {
+          [Descriptor.Wood]: { level: 1 },
+          [Descriptor.Wet]: { level: 1 },
+          [Descriptor.Rotten]: { level: 1 }
+        }
+      }
+    ]
+  };
+
+  const result = getReactionBetweenTwoItems(source, target);
+
+  expect(result.success).toBe(true);
+  expect(getInteractionLevel(result.newSource, Interaction.Wets)).toBe(1);
+
+  expect(result.newTarget).toBe(undefined);
+});
+
 
 

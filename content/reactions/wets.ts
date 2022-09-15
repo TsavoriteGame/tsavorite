@@ -318,7 +318,16 @@ export const applications: Reactions = {
 
     if(newWetLevel >= woodLevel) {
       increaseDescriptorLevelForPart(args.targetPart, Descriptor.Rotten, 1);
-      decreaseDescriptorLevelForPart(args.targetPart, Descriptor.Wood, 1);
+      const newWoodLevel = decreaseDescriptorLevelForPart(args.targetPart, Descriptor.Wood, 1);
+
+      if(newWoodLevel <= 0) {
+        return {
+          message: 'The wood collapsed to rot.',
+          success: true,
+          newSource: sourceItem,
+          newTarget: undefined
+        };
+      }
     }
 
     return {
