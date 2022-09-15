@@ -247,6 +247,41 @@ export const applications: Reactions = {
     };
   },
 
+  // turn mud into rock (eventually)
+  [Descriptor.Mud]: (args: ReactionExtendedArgs) => {
+    const ignitesLevel = getInteractionLevel(args.sourceItem, Interaction.Ignites);
+
+    const sourceItem = args.sourceItem;
+    const targetItem = args.targetItem;
+
+    if(ignitesLevel <= 0) return zeroFail(args);
+
+    const mudLevel = getDescriptorLevelFromPart(args.targetPart, Descriptor.Mud);
+    const hotLevel = increaseDescriptorLevelForPart(args.targetPart, Descriptor.Hot, 1);
+
+    if(hotLevel >= mudLevel) {
+
+      return {
+        message: 'The mud has ignited into clay.',
+        success: true,
+        newSource: sourceItem,
+        newTarget: undefined,
+        extraItems: [
+          { name: 'Clay', parts: [
+            { name: 'Clay', primaryDescriptor: Descriptor.Clay, descriptors: { [Descriptor.Clay]: { level: mudLevel } } }
+          ] }
+        ]
+      };
+    }
+
+    return {
+      message: 'The heat of the target has increased.',
+      success: true,
+      newSource: sourceItem,
+      newTarget: targetItem
+    };
+  },
+
   // sand gets hot, and can melt and transform into glass
   [Descriptor.Sand]: (args: ReactionExtendedArgs) => {
     const ignitesLevel = getInteractionLevel(args.sourceItem, Interaction.Ignites);

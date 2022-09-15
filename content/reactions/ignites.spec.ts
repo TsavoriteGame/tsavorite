@@ -723,3 +723,36 @@ test('A level 2 torch should heat up hot clay into glass', () => {
 
 });
 
+test('A level 2 torch should heat up mud into clay', () => {
+
+  const source = getTorch(1, 2);
+
+  const target: ItemConfig = {
+    name: 'Level 1 Mud',
+    parts: [
+      {
+        name: 'Mud',
+        primaryDescriptor: Descriptor.Mud,
+        descriptors: {
+          [Descriptor.Mud]: { level: 2 },
+          [Descriptor.Hot]: { level: 2 }
+        }
+      }
+    ]
+  };
+
+  const result = getReactionBetweenTwoItems(source, target);
+
+  expect(result.success).toBe(true);
+
+  expect(getInteractionLevel(result.newSource, Interaction.Ignites)).toEqual(2);
+  expect(getDescriptorLevel(result.newSource, Descriptor.Hot)).toEqual(1);
+
+  expect(result.newTarget).toBe(undefined);
+
+  expect(result.extraItems.length).toBe(1);
+  expect(getDescriptorLevel(result.extraItems[0], Descriptor.Mud)).toEqual(0);
+  expect(getDescriptorLevel(result.extraItems[0], Descriptor.Clay)).toEqual(2);
+
+});
+
