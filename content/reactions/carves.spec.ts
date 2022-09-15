@@ -48,6 +48,9 @@ test('A level 2 carver should bleed a level 2 meat', () => {
   expect(getDescriptorLevel(result.newTarget, Descriptor.Bloody)).toEqual(1);
   expect(getAllDescriptorsForPart(result.newTarget.parts[0]).length).toBe(2);
 
+  expect(result.extraItems.length).toBe(1);
+  expect(getDescriptorLevel(result.extraItems[0], Descriptor.Meat)).toEqual(1);
+
 });
 
 test('A level 2 carver should bleed a level 2 meat and add blood to the blood pile', () => {

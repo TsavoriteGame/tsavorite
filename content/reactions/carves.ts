@@ -245,7 +245,12 @@ export const applications: Reactions = {
       success: true,
       checkBreaks: true,
       newSource: newCarvesLevel <= 0 ? undefined : sourceItem,
-      newTarget: newLevel <= 0 ? undefined : targetItem
+      newTarget: newLevel <= 0 ? undefined : targetItem,
+      extraItems: [
+        { name: 'Meat Chunk', parts: [
+          { name: 'Meat Chunk', primaryDescriptor: Descriptor.Meat, descriptors: { [Descriptor.Meat]: { level: 1 } } }
+        ] }
+      ]
     };
   },
 
