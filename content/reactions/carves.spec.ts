@@ -418,3 +418,33 @@ test('A level 1 glass carver should NOT be able to carve a wood container', () =
   expect(result.newSource).toEqual(source);
   expect(result.newTarget).toEqual(target);
 });
+
+test('A level 1 carver should be able to carve a clay container', () => {
+
+  const source = getCarver(1, 1);
+
+  const target: ItemConfig = {
+    name: 'Level 3 Clay',
+    parts: [
+      {
+        name: 'Clay',
+        primaryDescriptor: Descriptor.Clay,
+        descriptors: {
+          [Descriptor.Clay]: { level: 3 }
+        }
+      }
+    ]
+  };
+
+  const result = getReactionBetweenTwoItems(source, target);
+
+  expect(result.success).toBe(true);
+  expect(result.newSource).toEqual(undefined);
+  expect(result.newTarget).toBe(undefined);
+
+  expect(result.extraItems.length).toBe(1);
+  expect(hasFoundationalPart(result.extraItems[0])).toEqual(true);
+  expect(getDescriptorLevel(result.extraItems[0], Descriptor.Clay)).toEqual(3);
+  expect(getDescriptorLevel(result.extraItems[0], Descriptor.Container)).toEqual(1);
+  expect(getAllDescriptorsForPart(result.extraItems[0].parts[0]).length).toBe(2);
+});

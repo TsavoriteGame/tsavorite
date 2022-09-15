@@ -15,6 +15,58 @@ const zeroFail = (args: ReactionExtendedArgs) => ({
 
 export const applications: Reactions = {
 
+  [Descriptor.Clay]: (args: ReactionExtendedArgs) => {
+
+    const carvesLevel = getInteractionLevel(args.sourceItem, Interaction.Carves);
+
+    if(carvesLevel <= 0) return zeroFail(args);
+
+    const sourceItem = args.sourceItem;
+    const targetItem = args.targetItem;
+
+    if(hasFoundationalPart(targetItem)) {
+      return {
+        message: 'Can not carve something with a foundational part.',
+        success: false,
+        checkBreaks: false,
+        newSource: sourceItem,
+        newTarget: targetItem
+      };
+    }
+
+    if(hasDescriptor(targetItem, Descriptor.Container)) {
+      return {
+        message: 'Can not create a container from a container.',
+        success: false,
+        checkBreaks: false,
+        newSource: sourceItem,
+        newTarget: targetItem
+      };
+    }
+
+    const newCarvesLevel = decreaseInteractionLevel(sourceItem, Interaction.Carves, 1);
+
+    return {
+      message: 'Created a clay container.',
+      success: true,
+      checkBreaks: false,
+      newSource: newCarvesLevel <= 0 ? undefined : sourceItem,
+      newTarget: undefined,
+      extraItems: [
+        { name: 'Clay Bowl', parts: [
+          { name: 'Clay Bowl',
+            primaryDescriptor: Descriptor.Clay,
+            foundational: true,
+            descriptors: {
+              [Descriptor.Clay]: { level: getDescriptorLevelFromPart(args.targetPart, Descriptor.Clay) },
+              [Descriptor.Container]: { level: 1 }
+            }
+          }
+        ] }
+      ]
+    };
+  },
+
   // cutting cooked meat should make more meat
   [Descriptor.Cooked]: (args: ReactionExtendedArgs) => {
 
