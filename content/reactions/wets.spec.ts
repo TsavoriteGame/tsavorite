@@ -147,11 +147,14 @@ test('A level 2 wetter should make dirt more muddy', () => {
 
   expect(result.success).toBe(true);
   expect(getInteractionLevel(result.newSource, Interaction.Wets)).toBe(1);
+
   expect(result.newTarget.parts.length).toBe(1);
-  expect(getDescriptorLevel(result.newTarget, Descriptor.Wet)).toBe(1);
   expect(getDescriptorLevel(result.newTarget, Descriptor.Dirt)).toBe(1);
-  expect(getDescriptorLevel(result.newTarget, Descriptor.Mud)).toBe(1);
-  expect(getAllDescriptorsForPart(result.newTarget.parts[0]).length).toBe(3);
+
+  expect(result.extraItems.length).toBe(1);
+  expect(getDescriptorLevel(result.extraItems[0], Descriptor.Wet)).toBe(1);
+  expect(getDescriptorLevel(result.extraItems[0], Descriptor.Mud)).toBe(1);
+  expect(getAllDescriptorsForPart(result.extraItems[0].parts[0]).length).toBe(2);
 
 });
 

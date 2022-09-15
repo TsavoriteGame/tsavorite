@@ -87,15 +87,21 @@ export const applications: Reactions = {
     if(wetsLevel <= 0) return zeroFail(args);
 
     decreaseInteractionLevel(args.sourceItem, Interaction.Wets, 1);
-    increaseDescriptorLevelForPart(args.targetPart, Descriptor.Wet, 1);
-    increaseDescriptorLevelForPart(args.targetPart, Descriptor.Mud, 1);
-    decreaseDescriptorLevelForPart(args.targetPart, Descriptor.Dirt, 1);
+    const newDirtLevel = decreaseDescriptorLevelForPart(args.targetPart, Descriptor.Dirt, 1);
 
     return {
       message: 'Made the dirt more muddy.',
       success: true,
       newSource: sourceItem,
-      newTarget: targetItem
+      newTarget: newDirtLevel <= 0 ? undefined : targetItem,
+      extraItems: [
+        { name: 'Mud', parts: [
+          { name: 'Mud', primaryDescriptor: Descriptor.Mud, descriptors: {
+            [Descriptor.Mud]: { level: 1 },
+            [Descriptor.Wet]: { level: 1 }
+          } }
+        ] }
+      ]
     };
   },
 
