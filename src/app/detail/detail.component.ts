@@ -39,6 +39,12 @@ export class DetailComponent implements OnInit {
     this.currentRight = structuredClone(this.activeItem);
   }
 
+  swapLeftAndRight() {
+    const [left, right] = [this.currentLeft, this.currentRight];
+    this.currentLeft = right;
+    this.currentRight = left;
+  }
+
   doReaction() {
     if(!this.currentLeft || !this.currentRight) return;
 
