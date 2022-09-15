@@ -117,6 +117,8 @@ export const applications: Reactions = {
   [Descriptor.Metal]: (args: ReactionExtendedArgs) => {
     const increaseSticky = () => {
       increaseDescriptorLevelForPart(args.targetPart, Descriptor.Sticky, 1);
+
+      decreaseInteractionLevel(args.sourceItem, Interaction.Freezes, 1);
     };
 
     return genericColdIncrease(args, increaseSticky);

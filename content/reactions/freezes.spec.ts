@@ -255,7 +255,7 @@ test('A level 2 freezer should make metal sticky', () => {
 
   expect(result.success).toBe(true);
 
-  expect(getInteractionLevel(result.newSource, Interaction.Freezes)).toEqual(2);
+  expect(getInteractionLevel(result.newSource, Interaction.Freezes)).toEqual(1);
   expect(getDescriptorLevel(result.newSource, Descriptor.Cold)).toEqual(1);
 
   expect(getDescriptorLevel(result.newTarget, Descriptor.Cold)).toEqual(1);
