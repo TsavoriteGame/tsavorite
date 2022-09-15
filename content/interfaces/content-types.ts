@@ -25,7 +25,7 @@ export enum Descriptor {
   Glass = 'Glass',
   Hot = 'Hot',
   Leather = 'Leather',
-  Locked = 'Lock',
+  Locked = 'Locked',
   Magnetic = 'Magnetic',
   Meat = 'Meat',
   Metal = 'Metal',
