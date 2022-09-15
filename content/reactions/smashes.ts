@@ -150,7 +150,14 @@ export const applications: Reactions = {
     decreaseInteractionLevel(sourceItem, Interaction.Smashes, 1);
 
     increaseDescriptorLevelForPart(args.targetPart, Descriptor.Sharp);
-    increaseInteractionLevel(args.targetItem, Interaction.Carves, 1);
+
+    // items without an existing interaction or a carves interaction get to level that up
+    if(!args.targetItem.interaction || args.targetItem.interaction.name === Interaction.Carves)
+      increaseInteractionLevel(args.targetItem, Interaction.Carves, 1);
+
+    // keys get bonus unlock levels
+    if(args.targetItem.interaction?.name === Interaction.Unlocks)
+      increaseInteractionLevel(args.targetItem, Interaction.Unlocks, 1);
 
     return {
       message: 'Sharpened the metal.',

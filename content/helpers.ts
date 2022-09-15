@@ -187,6 +187,12 @@ export function shouldShatter(item: ItemConfig) {
 };
 
 // interaction functions
+export function setInteraction(item: ItemConfig, interaction: Interaction): void {
+  if(!item.interaction) item.interaction = { name: interaction, level: 0 };
+
+  item.interaction.name = interaction;
+}
+
 export function getInteraction(item: ItemConfig, interaction: Interaction): ItemInteraction | undefined {
   if(item.interaction?.name !== interaction) return undefined;
 
@@ -301,6 +307,8 @@ export function getPrimaryPartOfItem(item: ItemConfig) {
 // math functions
 export function increaseInteractionLevel(item: ItemConfig, interaction: Interaction, delta = 1): number {
   item.interaction = item.interaction || { name: interaction, level: 0 };
+
+  if(item.interaction.name !== interaction) return 0;
 
   item.interaction.level = Math.max(0, item.interaction.level + delta);
   return item.interaction.level;

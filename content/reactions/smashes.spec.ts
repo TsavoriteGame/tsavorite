@@ -315,6 +315,74 @@ test('A level 2 smasher should sharpen hot metal', () => {
 
 });
 
+test('A level 2 smasher should not make hot metal with an unrelated interaction level up', () => {
+
+  const source = getSmasher(1, 2);
+
+  const target: ItemConfig = {
+    name: 'Level 1 Metal',
+    parts: [
+      {
+        name: 'Metal',
+        primaryDescriptor: Descriptor.Metal,
+        descriptors: {
+          [Descriptor.Metal]: { level: 1 },
+          [Descriptor.Hot]: { level: 1 }
+        }
+      }
+    ],
+    interaction: {
+      name: Interaction.Smashes,
+      level: 1
+    }
+  };
+
+  const result = getReactionBetweenTwoItems(source, target);
+
+  expect(result.success).toBe(true);
+  expect(getInteractionLevel(result.newSource, Interaction.Smashes)).toBe(1);
+  expect(getDescriptorLevel(result.newTarget, Descriptor.Metal)).toBe(1);
+  expect(getDescriptorLevel(result.newTarget, Descriptor.Hot)).toBe(1);
+  expect(getDescriptorLevel(result.newTarget, Descriptor.Sharp)).toBe(1);
+  expect(getInteractionLevel(result.newTarget, Interaction.Smashes)).toBe(1);
+  expect(getAllDescriptorsForPart(result.newTarget.parts[0]).length).toBe(3);
+
+});
+
+test('A level 2 smasher should level up the unlock ability of keys if the key is hot and molded', () => {
+
+  const source = getSmasher(1, 2);
+
+  const target: ItemConfig = {
+    name: 'Level 1 Key',
+    parts: [
+      {
+        name: 'Key',
+        primaryDescriptor: Descriptor.Metal,
+        descriptors: {
+          [Descriptor.Metal]: { level: 1 },
+          [Descriptor.Hot]: { level: 1 }
+        }
+      }
+    ],
+    interaction: {
+      name: Interaction.Unlocks,
+      level: 1
+    }
+  };
+
+  const result = getReactionBetweenTwoItems(source, target);
+
+  expect(result.success).toBe(true);
+  expect(getInteractionLevel(result.newSource, Interaction.Smashes)).toBe(1);
+  expect(getDescriptorLevel(result.newTarget, Descriptor.Metal)).toBe(1);
+  expect(getDescriptorLevel(result.newTarget, Descriptor.Hot)).toBe(1);
+  expect(getDescriptorLevel(result.newTarget, Descriptor.Sharp)).toBe(1);
+  expect(getInteractionLevel(result.newTarget, Interaction.Unlocks)).toBe(2);
+  expect(getAllDescriptorsForPart(result.newTarget.parts[0]).length).toBe(3);
+
+});
+
 test('A level 2 smasher should smash level 1 wood', () => {
 
   const source = getSmasher(1, 2);
