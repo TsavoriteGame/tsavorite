@@ -198,4 +198,37 @@ export const applications: Reactions = {
       newTarget: targetItem
     };
   },
+
+  // wood can be whittled down (heh)
+  [Descriptor.Wood]: (args: ReactionExtendedArgs) => {
+
+    const smashesLevel = getInteractionLevel(args.sourceItem, Interaction.Smashes);
+
+    const sourceItem = args.sourceItem;
+    const targetItem = args.targetItem;
+
+    if(smashesLevel <= 0) return zeroFail(args);
+
+    const targetWoodLevel = getDescriptorLevelFromPart(args.targetPart, Descriptor.Wood);
+
+    decreaseInteractionLevel(sourceItem, Interaction.Smashes, targetWoodLevel);
+
+    const woodLevel = decreaseDescriptorLevelForPart(args.targetPart, Descriptor.Wood, smashesLevel);
+
+    if(woodLevel <= 0) {
+      return {
+        message: 'Smashed the wood.',
+        success: true,
+        newSource: getInteractionLevel(args.sourceItem, Interaction.Smashes) <= 0 ? undefined : sourceItem,
+        newTarget: undefined
+      };
+    }
+
+    return {
+      message: 'Broke some wood.',
+      success: true,
+      newSource: getInteractionLevel(args.sourceItem, Interaction.Smashes) <= 0 ? undefined : sourceItem,
+      newTarget: targetItem
+    };
+  },
 };

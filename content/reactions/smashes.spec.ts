@@ -314,3 +314,54 @@ test('A level 2 smasher should sharpen hot metal', () => {
   expect(getAllDescriptorsForPart(result.newTarget.parts[0]).length).toBe(3);
 
 });
+
+test('A level 2 smasher should smash level 1 wood', () => {
+
+  const source = getSmasher(1, 2);
+
+  const target: ItemConfig = {
+    name: 'Level 1 Wood',
+    parts: [
+      {
+        name: 'Wood',
+        primaryDescriptor: Descriptor.Wood,
+        descriptors: {
+          [Descriptor.Wood]: { level: 1 }
+        }
+      }
+    ]
+  };
+
+  const result = getReactionBetweenTwoItems(source, target);
+
+  expect(result.success).toBe(true);
+  expect(getInteractionLevel(result.newSource, Interaction.Smashes)).toBe(1);
+  expect(result.newTarget).toBe(undefined);
+
+});
+
+test('A level 2 smasher should chunk off some parts of level 3 wood', () => {
+
+  const source = getSmasher(1, 2);
+
+  const target: ItemConfig = {
+    name: 'Level 3 Wood',
+    parts: [
+      {
+        name: 'Wood',
+        primaryDescriptor: Descriptor.Wood,
+        descriptors: {
+          [Descriptor.Wood]: { level: 3 }
+        }
+      }
+    ]
+  };
+
+  const result = getReactionBetweenTwoItems(source, target);
+
+  expect(result.success).toBe(true);
+  expect(result.newSource).toBe(undefined);
+
+  expect(getDescriptorLevel(result.newTarget, Descriptor.Wood)).toBe(1);
+
+});
