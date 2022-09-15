@@ -400,7 +400,7 @@ export const applications: Reactions = {
     setFoundationalPart(args.targetPart);
 
     return {
-      message: 'Can not create a container from a container.',
+      message: 'Carved a container out of the wood.',
       success: true,
       checkBreaks: false,
       newSource: newCarvesLevel <= 0 ? undefined : sourceItem,
