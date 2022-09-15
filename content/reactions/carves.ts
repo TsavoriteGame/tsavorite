@@ -138,15 +138,24 @@ export const applications: Reactions = {
 
     const newCarvesLevel = decreaseInteractionLevel(sourceItem, Interaction.Carves, 1);
 
-    setDescriptorLevelForPart(args.targetPart, Descriptor.Container, 1);
-    setFoundationalPart(args.targetPart);
-
     return {
-      message: 'Can not create a container from a container.',
+      message: 'Created a glass container.',
       success: true,
       checkBreaks: false,
       newSource: newCarvesLevel <= 0 ? undefined : sourceItem,
-      newTarget: targetItem
+      newTarget: undefined,
+      extraItems: [
+        { name: 'Glass Jar', parts: [
+          { name: 'Glass Jar',
+            primaryDescriptor: Descriptor.Glass,
+            foundational: true,
+            descriptors: {
+              [Descriptor.Glass]: { level: getDescriptorLevelFromPart(args.targetPart, Descriptor.Glass) },
+              [Descriptor.Container]: { level: 1 }
+            }
+          }
+        ] }
+      ]
     };
   },
 
@@ -191,15 +200,24 @@ export const applications: Reactions = {
 
     const newCarvesLevel = decreaseInteractionLevel(sourceItem, Interaction.Carves, 1);
 
-    setDescriptorLevelForPart(args.targetPart, Descriptor.Container, 1);
-    setFoundationalPart(args.targetPart);
-
     return {
       message: 'Can not create a container from a container.',
       success: true,
       checkBreaks: false,
       newSource: newCarvesLevel <= 0 ? undefined : sourceItem,
-      newTarget: targetItem
+      newTarget: undefined,
+      extraItems: [
+        { name: 'Leather Flask', parts: [
+          { name: 'Leather Flask',
+            primaryDescriptor: Descriptor.Leather,
+            foundational: true,
+            descriptors: {
+              [Descriptor.Leather]: { level: getDescriptorLevelFromPart(args.targetPart, Descriptor.Leather) },
+              [Descriptor.Container]: { level: 1 }
+            }
+          }
+        ] }
+      ]
     };
   },
 
@@ -299,11 +317,23 @@ export const applications: Reactions = {
     setFoundationalPart(args.targetPart);
 
     return {
-      message: 'Can not create a container from a container.',
+      message: 'Created a metal cup.',
       success: true,
       checkBreaks: false,
       newSource: newCarvesLevel <= 0 ? undefined : sourceItem,
-      newTarget: targetItem
+      newTarget: undefined,
+      extraItems: [
+        { name: 'Metal Cup', parts: [
+          { name: 'Metal Cup',
+            primaryDescriptor: Descriptor.Metal,
+            foundational: true,
+            descriptors: {
+              [Descriptor.Metal]: { level: getDescriptorLevelFromPart(args.targetPart, Descriptor.Metal) },
+              [Descriptor.Container]: { level: 1 }
+            }
+          }
+        ] }
+      ]
     };
   },
 
@@ -348,15 +378,24 @@ export const applications: Reactions = {
 
     const newCarvesLevel = decreaseInteractionLevel(sourceItem, Interaction.Carves, 1);
 
-    setDescriptorLevelForPart(args.targetPart, Descriptor.Container, 1);
-    setFoundationalPart(args.targetPart);
-
     return {
-      message: 'Can not create a container from a container.',
+      message: 'Created a rock cup.',
       success: true,
       checkBreaks: false,
       newSource: newCarvesLevel <= 0 ? undefined : sourceItem,
-      newTarget: targetItem
+      newTarget: undefined,
+      extraItems: [
+        { name: 'Rock Cup', parts: [
+          { name: 'Rock Cup',
+            primaryDescriptor: Descriptor.Rock,
+            foundational: true,
+            descriptors: {
+              [Descriptor.Rock]: { level: getDescriptorLevelFromPart(args.targetPart, Descriptor.Rock) },
+              [Descriptor.Container]: { level: 1 }
+            }
+          }
+        ] }
+      ]
     };
   },
 
@@ -401,15 +440,24 @@ export const applications: Reactions = {
 
     const newCarvesLevel = decreaseInteractionLevel(sourceItem, Interaction.Carves, 1);
 
-    setDescriptorLevelForPart(args.targetPart, Descriptor.Container, 1);
-    setFoundationalPart(args.targetPart);
-
     return {
       message: 'Carved a container out of the wood.',
       success: true,
       checkBreaks: false,
       newSource: newCarvesLevel <= 0 ? undefined : sourceItem,
-      newTarget: targetItem
+      newTarget: undefined,
+      extraItems: [
+        { name: 'Wood Cup', parts: [
+          { name: 'Wood Cup',
+            primaryDescriptor: Descriptor.Wood,
+            foundational: true,
+            descriptors: {
+              [Descriptor.Wood]: { level: getDescriptorLevelFromPart(args.targetPart, Descriptor.Wood) },
+              [Descriptor.Container]: { level: 1 }
+            }
+          }
+        ] }
+      ]
     };
   },
 
