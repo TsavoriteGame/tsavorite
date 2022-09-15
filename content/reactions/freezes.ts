@@ -1,5 +1,5 @@
 import { decreaseDescriptorLevelForPart, decreaseInteractionLevel, getDescriptorLevelFromPart,
-  getInteractionLevel, increaseDescriptorLevelForPart } from '../helpers';
+  getInteractionLevel, hasDescriptor, increaseDescriptorLevelForPart } from '../helpers';
 import { Descriptor, Interaction, ReactionExtendedArgs, Reactions } from '../interfaces';
 
 const zeroFail = (args: ReactionExtendedArgs) => ({
@@ -116,6 +116,42 @@ export const applications: Reactions = {
     };
 
     return genericColdIncrease(args, increaseSticky);
+  },
+
+  // turn mud into rock (eventually)
+  [Descriptor.Mud]: (args: ReactionExtendedArgs) => {
+    const freezesLevel = getInteractionLevel(args.sourceItem, Interaction.Freezes);
+
+    const sourceItem = args.sourceItem;
+    const targetItem = args.targetItem;
+
+    if(freezesLevel <= 0) return zeroFail(args);
+
+    tryToFreeze(args, Descriptor.Mud);
+
+    if(hasDescriptor(args.targetItem, Descriptor.Frozen)) {
+
+      const mudLevel = getDescriptorLevelFromPart(args.targetPart, Descriptor.Mud);
+
+      return {
+        message: 'The mud has frozen into rock.',
+        success: true,
+        newSource: sourceItem,
+        newTarget: undefined,
+        extraItems: [
+          { name: 'Rock', parts: [
+            { name: 'Rock', primaryDescriptor: Descriptor.Rock, descriptors: { [Descriptor.Rock]: { level: mudLevel } } }
+          ] }
+        ]
+      };
+    }
+
+    return {
+      message: 'The coldness of the target has increased.',
+      success: true,
+      newSource: sourceItem,
+      newTarget: targetItem
+    };
   },
 
   // increase cold

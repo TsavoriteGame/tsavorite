@@ -389,3 +389,35 @@ test('A level 2 freezer should lower brightness on blazing', () => {
   expect(getAllDescriptorsForPart(result.newTarget.parts[0]).length).toBe(3);
 
 });
+
+test('A level 2 freezer should turn mud into rock', () => {
+
+  const source = getFreezer(1, 2);
+
+  const target: ItemConfig = {
+    name: 'Level 1 Mud',
+    parts: [
+      {
+        name: 'Mud',
+        primaryDescriptor: Descriptor.Mud,
+        descriptors: {
+          [Descriptor.Mud]: { level: 1 },
+          [Descriptor.Cold]: { level: 1 }
+        }
+      }
+    ]
+  };
+
+  const result = getReactionBetweenTwoItems(source, target);
+
+  expect(result.success).toBe(true);
+
+  expect(getInteractionLevel(result.newSource, Interaction.Freezes)).toEqual(2);
+  expect(getDescriptorLevel(result.newSource, Descriptor.Cold)).toEqual(1);
+
+  expect(result.newTarget).toBe(undefined);
+
+  expect(result.extraItems.length).toBe(1);
+  expect(getDescriptorLevel(result.extraItems[0], Descriptor.Rock)).toEqual(1);
+
+});
