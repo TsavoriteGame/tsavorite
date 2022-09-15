@@ -208,6 +208,13 @@ export function getAllDescriptorsForPart(part: ItemPart): Descriptor[] {
   return Object.keys(part.descriptors).filter(d => part.descriptors[d].level > 0) as Descriptor[];
 }
 
+export function addDescriptor(item: ItemConfig, descriptor: Descriptor, level = 0): void {
+  if(hasDescriptor(item, descriptor)) return;
+  if(item.parts.length === 0) return;
+
+  setDescriptorLevelForPart(item.parts[0], descriptor, 0);
+}
+
 export function getDescriptor(item: ItemConfig, descriptor: Descriptor, minimum = 0): ItemDescriptor | undefined {
   const partWithDescriptor = item.parts.find(p => (p.descriptors[descriptor]?.level ?? 0) > minimum);
   return partWithDescriptor?.descriptors[descriptor];
@@ -319,8 +326,14 @@ export function decreaseInteractionLevel(item: ItemConfig, interaction: Interact
 }
 
 export function increaseDescriptorLevel(item: ItemConfig, descriptor: Descriptor, delta = 1): number {
-  const descriptorData = getDescriptor(item, descriptor);
-  const descriptorLevel = getDescriptorLevel(item, descriptor);
+  let descriptorData = getDescriptor(item, descriptor, -1);
+  let descriptorLevel = getDescriptorLevel(item, descriptor);
+
+  if(!descriptorData || !descriptorLevel) addDescriptor(item, descriptor, 0);
+
+  // in case they didnt exist before, we try to get them again
+  descriptorData = getDescriptor(item, descriptor, -1);
+  descriptorLevel = getDescriptorLevel(item, descriptor);
 
   descriptorData.level = Math.max(0, descriptorLevel + delta);
 

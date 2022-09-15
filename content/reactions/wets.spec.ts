@@ -267,6 +267,62 @@ test('A level 2 wetter should make leather wet and slippery', () => {
   expect(getAllDescriptorsForPart(result.newTarget.parts[0]).length).toBe(3);
 });
 
+test('A level 2 wetter should make glass wet and slippery', () => {
+
+  const source = getWetter(1, 2);
+
+  const target: ItemConfig = {
+    name: 'Level 2 Glass',
+    parts: [
+      {
+        name: 'Glass',
+        primaryDescriptor: Descriptor.Glass,
+        descriptors: {
+          [Descriptor.Glass]: { level: 2 }
+        }
+      }
+    ]
+  };
+
+  const result = getReactionBetweenTwoItems(source, target);
+
+  expect(result.success).toBe(true);
+  expect(getInteractionLevel(result.newSource, Interaction.Wets)).toBe(1);
+  expect(result.newTarget.parts.length).toBe(1);
+  expect(getDescriptorLevel(result.newTarget, Descriptor.Glass)).toBe(2);
+  expect(getDescriptorLevel(result.newTarget, Descriptor.Wet)).toBe(1);
+  expect(getDescriptorLevel(result.newTarget, Descriptor.Slippery)).toBe(1);
+  expect(getAllDescriptorsForPart(result.newTarget.parts[0]).length).toBe(3);
+});
+
+test('A level 2 wetter should make clay wet and slippery', () => {
+
+  const source = getWetter(1, 2);
+
+  const target: ItemConfig = {
+    name: 'Level 2 Clay',
+    parts: [
+      {
+        name: 'Clay',
+        primaryDescriptor: Descriptor.Clay,
+        descriptors: {
+          [Descriptor.Clay]: { level: 2 }
+        }
+      }
+    ]
+  };
+
+  const result = getReactionBetweenTwoItems(source, target);
+
+  expect(result.success).toBe(true);
+  expect(getInteractionLevel(result.newSource, Interaction.Wets)).toBe(1);
+  expect(result.newTarget.parts.length).toBe(1);
+  expect(getDescriptorLevel(result.newTarget, Descriptor.Clay)).toBe(2);
+  expect(getDescriptorLevel(result.newTarget, Descriptor.Wet)).toBe(1);
+  expect(getDescriptorLevel(result.newTarget, Descriptor.Slippery)).toBe(1);
+  expect(getAllDescriptorsForPart(result.newTarget.parts[0]).length).toBe(3);
+});
+
 test('A level 2 wetter should make meat wet', () => {
 
   const source = getWetter(1, 2);
@@ -541,6 +597,147 @@ test('A level 2 wetter should collapse rotten wood', () => {
   expect(getInteractionLevel(result.newSource, Interaction.Wets)).toBe(1);
 
   expect(result.newTarget).toBe(undefined);
+});
+
+test('A level 2 wetter should add water to a clay container', () => {
+
+  const source = getWetter(1, 2);
+
+  const target: ItemConfig = {
+    name: 'Level 2 Clay Container',
+    parts: [
+      {
+        name: 'Clay',
+        primaryDescriptor: Descriptor.Clay,
+        descriptors: {
+          [Descriptor.Clay]: { level: 1 },
+          [Descriptor.Container]: { level: 1 }
+        }
+      }
+    ]
+  };
+
+  const result = getReactionBetweenTwoItems(source, target);
+
+  expect(result.success).toBe(true);
+  expect(getInteractionLevel(result.newSource, Interaction.Wets)).toBe(1);
+
+  expect(getDescriptorLevel(result.newTarget, Descriptor.Wet)).toBe(1);
+  expect(getDescriptorLevel(result.newTarget, Descriptor.Clay)).toBe(1);
+  expect(getDescriptorLevel(result.newTarget, Descriptor.Container)).toBe(1);
+});
+
+test('A level 2 wetter should add water to a glass container', () => {
+
+  const source = getWetter(1, 2);
+
+  const target: ItemConfig = {
+    name: 'Level 2 Glass Container',
+    parts: [
+      {
+        name: 'Glass',
+        primaryDescriptor: Descriptor.Glass,
+        descriptors: {
+          [Descriptor.Glass]: { level: 1 },
+          [Descriptor.Container]: { level: 1 }
+        }
+      }
+    ]
+  };
+
+  const result = getReactionBetweenTwoItems(source, target);
+
+  expect(result.success).toBe(true);
+  expect(getInteractionLevel(result.newSource, Interaction.Wets)).toBe(1);
+
+  expect(getDescriptorLevel(result.newTarget, Descriptor.Wet)).toBe(1);
+  expect(getDescriptorLevel(result.newTarget, Descriptor.Glass)).toBe(1);
+  expect(getDescriptorLevel(result.newTarget, Descriptor.Container)).toBe(1);
+});
+
+test('A level 2 wetter should add water to a metal container', () => {
+
+  const source = getWetter(1, 2);
+
+  const target: ItemConfig = {
+    name: 'Level 2 Metal Container',
+    parts: [
+      {
+        name: 'Metal',
+        primaryDescriptor: Descriptor.Metal,
+        descriptors: {
+          [Descriptor.Metal]: { level: 1 },
+          [Descriptor.Container]: { level: 1 }
+        }
+      }
+    ]
+  };
+
+  const result = getReactionBetweenTwoItems(source, target);
+
+  expect(result.success).toBe(true);
+  expect(getInteractionLevel(result.newSource, Interaction.Wets)).toBe(1);
+
+  expect(getDescriptorLevel(result.newTarget, Descriptor.Wet)).toBe(1);
+  expect(getDescriptorLevel(result.newTarget, Descriptor.Metal)).toBe(1);
+  expect(getDescriptorLevel(result.newTarget, Descriptor.Container)).toBe(1);
+});
+
+test('A level 2 wetter should add water to a rock container', () => {
+
+  const source = getWetter(1, 2);
+
+  const target: ItemConfig = {
+    name: 'Level 2 Rock Container',
+    parts: [
+      {
+        name: 'Rock',
+        primaryDescriptor: Descriptor.Rock,
+        descriptors: {
+          [Descriptor.Rock]: { level: 1 },
+          [Descriptor.Container]: { level: 1 }
+        }
+      }
+    ]
+  };
+
+  const result = getReactionBetweenTwoItems(source, target);
+
+  expect(result.success).toBe(true);
+  expect(getInteractionLevel(result.newSource, Interaction.Wets)).toBe(1);
+
+  expect(getDescriptorLevel(result.newTarget, Descriptor.Wet)).toBe(1);
+  expect(getDescriptorLevel(result.newTarget, Descriptor.Rock)).toBe(1);
+  expect(getDescriptorLevel(result.newTarget, Descriptor.Container)).toBe(1);
+});
+
+test('A level 2 wetter should add water to a wood container', () => {
+
+  const source = getWetter(1, 2);
+
+  const target: ItemConfig = {
+    name: 'Level 2 Wood Container',
+    parts: [
+      {
+        name: 'Wood',
+        primaryDescriptor: Descriptor.Wood,
+        descriptors: {
+          [Descriptor.Wood]: { level: 1 },
+          [Descriptor.Container]: { level: 1 }
+        }
+      }
+    ]
+  };
+
+  const result = getReactionBetweenTwoItems(source, target);
+
+  expect(result.success).toBe(true);
+  expect(getInteractionLevel(result.newSource, Interaction.Wets)).toBe(1);
+
+  expect(getDescriptorLevel(result.newTarget, Descriptor.Wet)).toBe(1);
+  expect(getDescriptorLevel(result.newTarget, Descriptor.Wood)).toBe(1);
+  expect(getDescriptorLevel(result.newTarget, Descriptor.Rotten)).toBe(0);
+  expect(getDescriptorLevel(result.newTarget, Descriptor.Container)).toBe(1);
 });
 
 

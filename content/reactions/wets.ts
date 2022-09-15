@@ -1,6 +1,6 @@
 import { getInteractionLevel, increaseDescriptorLevelForPart, decreaseInteractionLevel,
-  decreaseDescriptorLevelForPart, getDescriptorLevelFromPart } from '../helpers';
-import { Descriptor, Reactions, Interaction, ReactionExtendedArgs } from '../interfaces';
+  decreaseDescriptorLevelForPart, getDescriptorLevelFromPart, hasDescriptor, increaseDescriptorLevel } from '../helpers';
+import { Descriptor, Reactions, Interaction, ReactionExtendedArgs, ReactionResponse } from '../interfaces';
 
 const zeroFail = (args: ReactionExtendedArgs) => ({
   message: 'This item cannot wet anything.',
@@ -8,6 +8,22 @@ const zeroFail = (args: ReactionExtendedArgs) => ({
   newSource: args.sourceItem,
   newTarget: args.targetItem
 });
+
+const containerCheck: (args: ReactionExtendedArgs) => ReactionResponse = (args: ReactionExtendedArgs) => {
+
+  const wetsLevel = getInteractionLevel(args.sourceItem, Interaction.Wets);
+  if(wetsLevel <= 0) return zeroFail(args);
+
+  decreaseInteractionLevel(args.sourceItem, Interaction.Wets, 1);
+  increaseDescriptorLevel(args.targetItem, Descriptor.Wet, 1);
+
+  return {
+    success: true,
+    message: 'Added some water to the container.',
+    newSource: args.sourceItem,
+    newTarget: args.targetItem
+  };
+};
 
 export const applications: Reactions = {
 
@@ -26,6 +42,30 @@ export const applications: Reactions = {
 
     return {
       message: 'Made the blood more wet.',
+      success: true,
+      newSource: sourceItem,
+      newTarget: targetItem
+    };
+  },
+
+  // clay gets slippery/wet
+  [Descriptor.Clay]: (args: ReactionExtendedArgs) => {
+
+    const wetsLevel = getInteractionLevel(args.sourceItem, Interaction.Wets);
+
+    const sourceItem = args.sourceItem;
+    const targetItem = args.targetItem;
+
+    if(wetsLevel <= 0) return zeroFail(args);
+
+    if(hasDescriptor(args.targetItem, Descriptor.Container)) return containerCheck(args);
+
+    decreaseInteractionLevel(args.sourceItem, Interaction.Wets, 1);
+    increaseDescriptorLevelForPart(args.targetPart, Descriptor.Wet, 1);
+    increaseDescriptorLevelForPart(args.targetPart, Descriptor.Slippery, 1);
+
+    return {
+      message: 'Made the clay more wet.',
       success: true,
       newSource: sourceItem,
       newTarget: targetItem
@@ -150,6 +190,30 @@ export const applications: Reactions = {
     };
   },
 
+  // glass gets slippery/wet
+  [Descriptor.Glass]: (args: ReactionExtendedArgs) => {
+
+    const wetsLevel = getInteractionLevel(args.sourceItem, Interaction.Wets);
+
+    const sourceItem = args.sourceItem;
+    const targetItem = args.targetItem;
+
+    if(wetsLevel <= 0) return zeroFail(args);
+
+    if(hasDescriptor(args.targetItem, Descriptor.Container)) return containerCheck(args);
+
+    decreaseInteractionLevel(args.sourceItem, Interaction.Wets, 1);
+    increaseDescriptorLevelForPart(args.targetPart, Descriptor.Wet, 1);
+    increaseDescriptorLevelForPart(args.targetPart, Descriptor.Slippery, 1);
+
+    return {
+      message: 'Made the glass more wet.',
+      success: true,
+      newSource: sourceItem,
+      newTarget: targetItem
+    };
+  },
+
   // hot things get less hot
   [Descriptor.Hot]: (args: ReactionExtendedArgs) => {
 
@@ -180,6 +244,8 @@ export const applications: Reactions = {
     const targetItem = args.targetItem;
 
     if(wetsLevel <= 0) return zeroFail(args);
+
+    if(hasDescriptor(args.targetItem, Descriptor.Container)) return containerCheck(args);
 
     decreaseInteractionLevel(args.sourceItem, Interaction.Wets, 1);
     increaseDescriptorLevelForPart(args.targetPart, Descriptor.Wet, 1);
@@ -224,6 +290,8 @@ export const applications: Reactions = {
 
     if(wetsLevel <= 0) return zeroFail(args);
 
+    if(hasDescriptor(args.targetItem, Descriptor.Container)) return containerCheck(args);
+
     decreaseInteractionLevel(args.sourceItem, Interaction.Wets, 1);
     increaseDescriptorLevelForPart(args.targetPart, Descriptor.Wet, 1);
     increaseDescriptorLevelForPart(args.targetPart, Descriptor.Slippery, 1);
@@ -245,6 +313,8 @@ export const applications: Reactions = {
     const targetItem = args.targetItem;
 
     if(wetsLevel <= 0) return zeroFail(args);
+
+    if(hasDescriptor(args.targetItem, Descriptor.Container)) return containerCheck(args);
 
     decreaseInteractionLevel(args.sourceItem, Interaction.Wets, 1);
     increaseDescriptorLevelForPart(args.targetPart, Descriptor.Wet, 1);
@@ -348,7 +418,10 @@ export const applications: Reactions = {
 
     if(wetsLevel <= 0) return zeroFail(args);
 
+    if(hasDescriptor(args.targetItem, Descriptor.Container)) return containerCheck(args);
+
     decreaseInteractionLevel(args.sourceItem, Interaction.Wets, 1);
+
     const newWetLevel = increaseDescriptorLevelForPart(args.targetPart, Descriptor.Wet, 1);
     const woodLevel = getDescriptorLevelFromPart(args.targetPart, Descriptor.Wood);
 
