@@ -45,6 +45,30 @@ test('A level 2 zapper should magnetize metal', () => {
 
 });
 
+test('A level 2 zapper should not magnetize metal beyond its electric level', () => {
+
+  const source = getZapper(1, 2);
+
+  const target: ItemConfig = {
+    name: 'Level 1 Metal',
+    parts: [
+      {
+        name: 'Metal Rod',
+        primaryDescriptor: Descriptor.Metal,
+        descriptors: {
+          [Descriptor.Metal]: { level: 1 },
+          [Descriptor.Magnetic]: { level: 2 }
+        }
+      }
+    ]
+  };
+
+  const result = getReactionBetweenTwoItems(source, target);
+
+  expect(result.success).toBe(false);
+
+});
+
 test('A level 2 zapper should not affect wood', () => {
 
   const source = getZapper(1, 2);

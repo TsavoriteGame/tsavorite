@@ -443,6 +443,36 @@ test('A level 2 torch should add hot to metal', () => {
 
 });
 
+test('A level 2 torch should melt metal beyond recognition', () => {
+
+  const source = getTorch(1, 2);
+
+  const target: ItemConfig = {
+    name: 'Level 1 Metal',
+    parts: [
+      {
+        name: 'Metal',
+        primaryDescriptor: Descriptor.Metal,
+        descriptors: {
+          [Descriptor.Metal]: { level: 1 },
+          [Descriptor.Hot]: { level: 1 },
+          [Descriptor.Wet]: { level: 1 }
+        }
+      }
+    ]
+  };
+
+  const result = getReactionBetweenTwoItems(source, target);
+
+  expect(result.success).toBe(true);
+
+  expect(getInteractionLevel(result.newSource, Interaction.Ignites)).toEqual(2);
+  expect(getDescriptorLevel(result.newSource, Descriptor.Hot)).toEqual(1);
+
+  expect(result.newTarget).toBe(undefined);
+
+});
+
 test('A level 2 torch should add wet to metal that is already too hot', () => {
 
   const source = getTorch(1, 2);

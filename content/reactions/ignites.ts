@@ -1,7 +1,6 @@
 import { getInteractionLevel,
   decreaseInteractionLevel,
-  getDescriptorFromPart, decreaseDescriptorLevelForPart, getDescriptor,
-  setDescriptorLevel,
+  decreaseDescriptorLevelForPart,
   increaseDescriptorLevelForPart,
   increaseInteractionLevel,
   getDescriptorLevelFromPart,
@@ -219,8 +218,18 @@ export const applications: Reactions = {
     if(hotLevel > metalLevel) {
 
       const wetLevel = increaseDescriptorLevelForPart(args.targetPart, Descriptor.Wet, 1);
-      if(wetLevel > metalLevel)
-        decreaseDescriptorLevelForPart(args.targetPart, Descriptor.Metal, 1);
+      if(wetLevel > metalLevel) {
+        const newMetalLevel = decreaseDescriptorLevelForPart(args.targetPart, Descriptor.Metal, 1);
+
+        if(newMetalLevel <= 0) {
+          return {
+            message: 'The metal was melted.',
+            success: true,
+            newSource: sourceItem,
+            newTarget: undefined
+          };
+        }
+      }
 
       return {
         message: 'It is melting.',

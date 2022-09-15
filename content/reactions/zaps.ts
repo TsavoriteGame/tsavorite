@@ -1,4 +1,4 @@
-import { getInteractionLevel, increaseDescriptorLevelForPart, getDescriptorFromPart, decreaseInteractionLevel } from '../helpers';
+import { getInteractionLevel, increaseDescriptorLevelForPart, decreaseInteractionLevel, getDescriptorLevelFromPart } from '../helpers';
 import { Descriptor, Reactions, Interaction, ReactionExtendedArgs } from '../interfaces';
 
 const zeroFail = (args: ReactionExtendedArgs) => ({
@@ -17,11 +17,13 @@ export const applications: Reactions = {
 
     const sourceItem = args.sourceItem;
     const targetItem = args.targetItem;
-    const magneticLevel = getDescriptorFromPart(args.targetPart, Descriptor.Magnetic);
+    const magneticLevel = getDescriptorLevelFromPart(args.targetPart, Descriptor.Magnetic);
 
     if(zapsLevel <= 0) return zeroFail(args);
 
     if(magneticLevel > 0) return zeroFail(args);
+
+    if(magneticLevel >= zapsLevel) return zeroFail(args);
 
     increaseDescriptorLevelForPart(args.targetPart, Descriptor.Magnetic);
 

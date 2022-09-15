@@ -1,8 +1,9 @@
 import { getInteractionLevel,
   decreaseInteractionLevel, increaseDescriptorLevelForPart,
-  getDescriptorFromPart, decreaseDescriptorLevelForPart, getDescriptor,
+  decreaseDescriptorLevelForPart, getDescriptor,
   setDescriptorLevel, hasFoundationalPart,
-  setDescriptorLevelForPart, hasDescriptor, setFoundationalPart, shouldItemBreakWhenInteractingWith } from '../helpers';
+  setDescriptorLevelForPart, hasDescriptor, setFoundationalPart,
+  shouldItemBreakWhenInteractingWith, getDescriptorLevelFromPart } from '../helpers';
 import { Descriptor, Reactions, Interaction, ReactionExtendedArgs } from '../interfaces';
 
 const zeroFail = (args: ReactionExtendedArgs) => ({
@@ -21,7 +22,7 @@ export const applications: Reactions = {
 
     const sourceItem = args.sourceItem;
     const targetItem = args.targetItem;
-    const cookedLevel = getDescriptorFromPart(args.targetPart, Descriptor.Cooked);
+    const cookedLevel = getDescriptorLevelFromPart(args.targetPart, Descriptor.Cooked);
 
     if(carvesLevel <= 0)  return zeroFail(args);
 
@@ -62,7 +63,7 @@ export const applications: Reactions = {
 
     const sourceItem = args.sourceItem;
     const targetItem = args.targetItem;
-    const fiberLevel = getDescriptorFromPart(args.targetPart, Descriptor.Fiber);
+    const fiberLevel = getDescriptorLevelFromPart(args.targetPart, Descriptor.Fiber);
 
     if(carvesLevel <= 0) return zeroFail(args);
 
@@ -209,7 +210,7 @@ export const applications: Reactions = {
 
     const sourceItem = args.sourceItem;
     const targetItem = args.targetItem;
-    const meatLevel = getDescriptorFromPart(args.targetPart, Descriptor.Meat);
+    const meatLevel = getDescriptorLevelFromPart(args.targetPart, Descriptor.Meat);
 
     if(carvesLevel <= 0) return zeroFail(args);
 

@@ -1,4 +1,4 @@
-import { getInteractionLevel, increaseDescriptorLevelForPart, getDescriptorFromPart,
+import { getInteractionLevel, increaseDescriptorLevelForPart,
   decreaseInteractionLevel, getDescriptorLevel, decreaseDescriptorLevelForPart,
   getDescriptorLevelFromPart, increaseInteractionLevel } from '../helpers';
 import { Descriptor, Reactions, Interaction, ReactionExtendedArgs } from '../interfaces';
