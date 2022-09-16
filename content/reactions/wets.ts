@@ -273,7 +273,7 @@ export const applications: Reactions = {
     increaseDescriptorLevelForPart(args.targetPart, Descriptor.Wet, 1);
 
     return {
-      message: 'Made the meat more wet.',
+      message: 'Made the meat a sloppy steak.',
       success: true,
       newSource: sourceItem,
       newTarget: targetItem
