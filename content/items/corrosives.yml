@@ -1,6 +1,6 @@
 
 - name: Acid Flask Lv.1
-  icon: questionmark
+  icon: bottle
   parts:
     - name: Bottle
       primaryDescriptor: Glass
@@ -19,7 +19,7 @@
     level: 1
     
 - name: Acid Flask Lv.2
-  icon: questionmark
+  icon: bottle
   parts:
     - name: Bottle
       primaryDescriptor: Glass
@@ -38,7 +38,7 @@
     level: 2
 
 - name: Acid Flask Lv.3
-  icon: questionmark
+  icon: bottle
   parts:
     - name: Bottle
       primaryDescriptor: Glass
