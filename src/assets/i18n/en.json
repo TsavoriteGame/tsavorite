@@ -18,6 +18,7 @@
       "QuitYes": "Yes, Quit",
       "QuitNo": "No, Keep Playing",
       "Links": {
+        "Play": "> Play",
         "ItemTest": "> Item Test",
         "Options": "> Options",
         "News": "> News",
