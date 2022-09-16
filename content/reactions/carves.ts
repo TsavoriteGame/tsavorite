@@ -253,7 +253,7 @@ export const applications: Reactions = {
     const newCarvesLevel = decreaseInteractionLevel(sourceItem, Interaction.Carves, 1);
 
     return {
-      message: 'Can not create a container from a container.',
+      message: 'Created a leather container.',
       success: true,
       checkBreaks: false,
       newSource: newCarvesLevel <= 0 ? undefined : sourceItem,
