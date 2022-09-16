@@ -40,6 +40,15 @@
             <div class="d-grid gap-2 px-3 d-block mt-1">
               <button type="button"
                       class="btn btn-primary d-block"
+                      [disabled]="!electronService.isElectron"
+                      routerLink="/mods">
+                {{ 'Pages.Home.Links.Mods' | translate }}
+              </button>
+            </div>
+
+            <div class="d-grid gap-2 px-3 d-block mt-1">
+              <button type="button"
+                      class="btn btn-primary d-block"
                       routerLink="/options">
                 {{ 'Pages.Home.Links.Options' | translate }}
               </button>
