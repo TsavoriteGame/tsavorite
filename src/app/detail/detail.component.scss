@@ -3,8 +3,11 @@
 }
 
 .item-list {
-  max-height: calc(100vh - 56px - 1rem - 1rem);
-  overflow-y: scroll;
+
+  .card-body {
+    max-height: calc(100vh - 56px - 1rem - 1rem - 53px);
+    overflow-y: scroll;
+  }
 
   li {
     cursor: pointer;
