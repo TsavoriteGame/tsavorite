@@ -70,7 +70,7 @@ export const applications: Reactions = {
 
   // if container, fill container
   [Descriptor.Glass]: (args: ReactionExtendedArgs) => {
-    
+
     if (hasDescriptor(args.targetItem, Descriptor.Container)) return containerCheck(args);
 
     return zeroFail(args);
@@ -159,6 +159,27 @@ export const applications: Reactions = {
       newSource: sourceItem,
       newTarget: targetItem
     };
+  },
+
+  // removes a level of wet from an item
+  [Descriptor.Wet]: (args: ReactionExtendedArgs) => {
+    const corrodesLevel = getInteractionLevel(args.sourceItem, Interaction.Corrodes);
+
+    const sourceItem = args.sourceItem;
+    const targetItem = args.targetItem;
+
+    if (0 >= corrodesLevel) return zeroFail(args);
+    
+    decreaseInteractionLevel(args.sourceItem, Interaction.Corrodes, 1);
+
+    decreaseDescriptorLevelForPart(args.targetPart, Descriptor.Wet, 1);
+
+    return {
+      message: 'The wetness was reduced.',
+      success: true,
+      newSource: sourceItem,
+      newTarget: targetItem
+    }
   },
 
   // make wood rotten, and possibly destroy it

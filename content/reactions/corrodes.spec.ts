@@ -1,3 +1,4 @@
+import { Item } from 'electron';
 import { getAllDescriptorsForPart, getDescriptorLevel, getInteractionLevel, getReactionBetweenTwoItems } from '../helpers';
 import { Descriptor, Interaction, ItemConfig } from '../interfaces';
 
@@ -285,6 +286,35 @@ test('A level 2 corroder should destroy level 1 metal', () => {
   expect(result.newTarget).toEqual(undefined);
 });
 
+test('A level 2 corroder should reduce wetness', () => {
+  const source = getCorroder(1, 2);
+
+  const target: ItemConfig = {
+    name: 'Wet Rock',
+    parts: [
+      {
+        name: 'Wet Leather',
+        primaryDescriptor: Descriptor.Wet,
+        foundational: true,
+        descriptors: {
+          [Descriptor.Leather]: { level: 99 },
+          [Descriptor.Wet]: { level: 2 }
+        }
+      }
+    ]
+  };
+
+  const result = getReactionBetweenTwoItems(source, target);
+  
+  expect(result.success).toBe(true);
+
+  expect(getInteractionLevel(result.newSource, Interaction.Corrodes)).toEqual(1);
+
+  expect(result.newTarget.parts.length).toEqual(1);
+  expect(getDescriptorLevel(result.newTarget, Descriptor.Wet)).toEqual(1);
+  expect(getAllDescriptorsForPart(result.newTarget.parts[0]).length).toEqual(2);
+});
+
 test('A level 2 corroder should rot level 2 wood', () => {
   const source = getCorroder(1, 2);
 
@@ -337,5 +367,3 @@ test('A level 2 corroder should destroy level 1 rotten wood', () => {
 
   expect(result.newTarget).toEqual(undefined);
 });
-
-// TODO(jam): write tests for Metal, Wood
