@@ -2,13 +2,29 @@
 
 ## Getting Started
 
-Ensure you have node v18 (needed for `structuredClone`).
+Ensure you have NodeJS v18 (needed for `structuredClone`).
 
 ```bash
 npm install
 ```
 
-## Project structure
+### Updating Items
+
+If you add new items (new entries or files in `content/items`), run the following command to regenerate `items.json`:
+
+```bash
+npm run setup:data
+```
+
+### Updating Art
+
+If you need to update the art files, run the following command to regenerate the art: 
+
+```bash
+npm run setup:art
+```
+
+## Project Structure
 
 | Folder | Description                                      |
 |--------|--------------------------------------------------|

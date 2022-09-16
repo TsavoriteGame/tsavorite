@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { ElectronService } from '../../../core/services';
 
 @Component({
   selector: 'app-icon',
@@ -10,7 +11,11 @@ export class IconComponent implements OnInit {
   @Input() icon = '';
   @Input() size = 64;
 
-  constructor() { }
+  public get fileExtension(): string {
+    return this.electronService.isElectron ? 'png' : 'webp';
+  }
+
+  constructor(private electronService: ElectronService) { }
 
   ngOnInit(): void {
   }
