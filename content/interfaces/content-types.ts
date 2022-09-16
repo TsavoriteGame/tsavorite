@@ -60,6 +60,7 @@ export interface ItemInteraction {
 
 export interface ItemConfig {
   name: string;
+  icon?: string;
   parts: ItemPart[];
   interaction?: ItemInteraction;
 }

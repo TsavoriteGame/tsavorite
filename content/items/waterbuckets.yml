@@ -1,5 +1,6 @@
 
 - name: Water Bucket Lv.1
+  icon: waterbucket
   parts:
     - name: Bucket
       primaryDescriptor: Wood
@@ -18,6 +19,7 @@
     level: 1
 
 - name: Water Bucket Lv.2
+  icon: waterbucket
   parts:
     - name: Bucket
       primaryDescriptor: Wood
@@ -36,6 +38,7 @@
     level: 2
 
 - name: Water Bucket Lv.3
+  icon: waterbucket
   parts:
     - name: Bucket
       primaryDescriptor: Wood

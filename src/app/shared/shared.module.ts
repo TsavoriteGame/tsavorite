@@ -8,9 +8,10 @@ import { WebviewDirective } from './directives/';
 import { FormsModule } from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
+import { IconComponent } from './components/icon/icon.component';
 
 @NgModule({
-  declarations: [PageNotFoundComponent, WebviewDirective],
+  declarations: [PageNotFoundComponent, WebviewDirective, IconComponent],
   imports: [
     CommonModule,
     TranslateModule,
@@ -22,6 +23,6 @@ import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
       denyButtonColor: '#A50000'
     }))
   })],
-  exports: [TranslateModule, WebviewDirective, FormsModule, NgbModule]
+  exports: [TranslateModule, IconComponent, WebviewDirective, FormsModule, NgbModule]
 })
 export class SharedModule {}

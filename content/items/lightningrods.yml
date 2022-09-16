@@ -1,5 +1,6 @@
 
 - name: Lightning Rod Lv.1
+  icon: electricrod
   parts:
     - name: Rod
       primaryDescriptor: Metal
@@ -13,6 +14,7 @@
     level: 1
 
 - name: Lightning Rod Lv.2
+  icon: electricrod
   parts:
     - name: Rod
       primaryDescriptor: Metal
@@ -26,6 +28,7 @@
     level: 2
 
 - name: Lightning Rod Lv.3
+  icon: electricrod
   parts:
     - name: Rod
       primaryDescriptor: Metal

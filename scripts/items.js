@@ -12,6 +12,10 @@ const validateItems = () => {
       throw new Error(`Item ${JSON.stringify(item)} is missing a name`);
     }
 
+    if (!item.icon) {
+      throw new Error(`Item ${JSON.stringify(item)} is missing a icon`);
+    }
+
     if(item.parts.length === 0) {
       throw new Error(`Item ${item.name} is missing parts`);
     }

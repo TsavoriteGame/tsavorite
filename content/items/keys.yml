@@ -1,5 +1,6 @@
 
 - name: Metal Key Lv.1
+  icon: key
   parts:
     - name: Metal Shaft
       primaryDescriptor: Metal
@@ -11,6 +12,7 @@
     level: 1
 
 - name: Metal Key Lv.2
+  icon: key
   parts:
     - name: Metal Shaft
       primaryDescriptor: Metal
@@ -22,6 +24,7 @@
     level: 2
 
 - name: Metal Key Lv.3
+  icon: key
   parts:
     - name: Metal Shaft
       primaryDescriptor: Metal
@@ -33,6 +36,7 @@
     level: 3
 
 - name: Skeleton Key
+  icon: key
   parts:
     - name: Metal Shaft
       primaryDescriptor: Metal

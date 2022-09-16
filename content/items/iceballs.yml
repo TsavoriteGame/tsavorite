@@ -1,5 +1,6 @@
 
 - name: Iceball Lv.1
+  icon: iceorb
   parts:
     - name: Iceball
       primaryDescriptor: Cold
@@ -11,6 +12,7 @@
     level: 1
 
 - name: Iceball Lv.2
+  icon: iceorb
   parts:
     - name: Iceball
       primaryDescriptor: Cold
@@ -22,6 +24,7 @@
     level: 2
 
 - name: Iceball Lv.3
+  icon: iceorb
   parts:
     - name: Iceball
       primaryDescriptor: Cold

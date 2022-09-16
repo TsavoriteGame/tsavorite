@@ -1,6 +1,7 @@
 
 
 - name: Torch Lv.1
+  icon: candle
   parts:
     - name: Wood Log
       primaryDescriptor: Wood
@@ -20,6 +21,7 @@
     level: 1
 
 - name: Torch Lv.2
+  icon: candle
   parts:
     - name: Wood Log
       primaryDescriptor: Wood
@@ -39,6 +41,7 @@
     level: 2
 
 - name: Torch Lv.3
+  icon: candle
   parts:
     - name: Wood Log
       primaryDescriptor: Wood

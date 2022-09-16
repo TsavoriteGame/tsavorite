@@ -1,5 +1,6 @@
 
 - name: Machete Lv.1
+  icon: bigsword
   parts:
     - name: Handle
       primaryDescriptor: Wood
@@ -18,6 +19,7 @@
     level: 1
 
 - name: Machete Lv.2
+  icon: bigsword
   parts:
     - name: Handle
       primaryDescriptor: Wood
@@ -36,6 +38,7 @@
     level: 2
 
 - name: Machete Lv.3
+  icon: bigsword
   parts:
     - name: Handle
       primaryDescriptor: Wood

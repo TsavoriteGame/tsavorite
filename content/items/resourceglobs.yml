@@ -1,5 +1,6 @@
 
 - name: Clay Ball Lv.1
+  icon: clayball
   parts:
     - name: Clay
       primaryDescriptor: Clay
@@ -7,6 +8,7 @@
         Clay: { level: 1 }
 
 - name: Dirt Ball Lv.1
+  icon: dirtpile
   parts:
     - name: Dirt
       primaryDescriptor: Dirt
@@ -14,6 +16,7 @@
         Dirt: { level: 1 }
 
 - name: String Lv.1
+  icon: ropeloop
   parts:
     - name: String
       primaryDescriptor: Fiber
@@ -21,6 +24,7 @@
         Fiber: { level: 1 }
 
 - name: String Lv.2
+  icon: ropeloop
   parts:
     - name: String
       primaryDescriptor: Fiber
@@ -28,6 +32,7 @@
         Fiber: { level: 2 }
 
 - name: String Lv.3
+  icon: ropeloop
   parts:
     - name: String
       primaryDescriptor: Fiber
@@ -35,6 +40,7 @@
         Fiber: { level: 3 }
 
 - name: Glass Shards Lv.1
+  icon: blueglassorb
   parts:
     - name: Glass Shards
       primaryDescriptor: Glass
@@ -42,6 +48,7 @@
         Glass: { level: 1 }
 
 - name: Leather Scraps Lv.1
+  icon: leatherchunk
   parts:
     - name: Leather Scraps
       primaryDescriptor: Leather
@@ -49,6 +56,7 @@
         Leather: { level: 1 }
 
 - name: Meat Chunk Lv.1
+  icon: uncookedmeat
   parts:
     - name: Meat Chunk
       primaryDescriptor: Meat
@@ -56,6 +64,7 @@
         Meat: { level: 1 }
 
 - name: Cooked Meat Chunk Lv.1
+  icon: uncookedmeat
   parts:
     - name: Meat Chunk
       primaryDescriptor: Meat
@@ -64,6 +73,7 @@
         Cooked: { level: 1 }
 
 - name: Rotten Meat Chunk Lv.1
+  icon: uncookedmeat
   parts:
     - name: Rotten Meat Chunk
       primaryDescriptor: Rotten
@@ -71,6 +81,7 @@
         Rotten: { level: 1 }
 
 - name: Metal Chunk Lv.1
+  icon: metalchunk
   parts:
     - name: Metal Chunk
       primaryDescriptor: Metal
@@ -78,6 +89,7 @@
         Metal: { level: 1 }
 
 - name: Mud Ball Lv.1
+  icon: dirtprism
   parts:
     - name: Mud Ball
       primaryDescriptor: Mud
@@ -85,6 +97,7 @@
         Mud: { level: 1 }
 
 - name: Rock Lv.1
+  icon: rock
   parts:
     - name: Rock
       primaryDescriptor: Rock
@@ -92,6 +105,7 @@
         Rock: { level: 1 }
 
 - name: Sand Pile Lv.1
+  icon: sandpile
   parts:
     - name: Sand
       primaryDescriptor: Sand
@@ -99,6 +113,7 @@
         Sand: { level: 1 }
 
 - name: Wood Log Lv.1
+  icon: log
   parts:
     - name: Wood
       primaryDescriptor: Wood
@@ -106,6 +121,7 @@
         Wood: { level: 1 }
 
 - name: Wood Log Lv.2
+  icon: log
   parts:
     - name: Wood
       primaryDescriptor: Wood
@@ -113,6 +129,7 @@
         Wood: { level: 2 }
 
 - name: Goo Lv.1
+  icon: greengoo
   parts:
     - name: Goo
       primaryDescriptor: Sticky
@@ -120,6 +137,7 @@
         Sticky: { level: 1 }
 
 - name: Goo Lv.2
+  icon: greengoo
   parts:
     - name: Goo
       primaryDescriptor: Sticky
@@ -127,6 +145,7 @@
         Sticky: { level: 2 }
 
 - name: Oil Bucket Lv.1
+  icon: waterbucket
   parts:
     - name: Bucket
       primaryDescriptor: Wood
@@ -141,6 +160,7 @@
         Combustible: { level: 1 }
 
 - name: Oil Bucket Lv.2
+  icon: waterbucket
   parts:
     - name: Bucket
       primaryDescriptor: Wood
@@ -156,6 +176,7 @@
 
 
 - name: Oil Bucket Lv.3
+  icon: waterbucket
   parts:
     - name: Bucket
       primaryDescriptor: Wood

@@ -26,12 +26,21 @@
                   [class.active]="i === activeIndex"
                   (click)="chooseItem(item, i)"
                   *ngFor="let item of allItems; let i = index">
-                <div class="item-title">
-                  {{ item.name }}
-                </div>
 
-                <div class="text-muted item-subtitle" *ngIf="item.interaction">
-                  {{ item.interaction.name }} Lv.{{ item.interaction.level }}
+                <div class="item row align-items-center">
+                  <div class="col-2">
+                    <app-icon [icon]="item.icon" [size]="32"></app-icon>
+                  </div>
+
+                  <div class="col-10">
+                    <div class="item-title">
+                      {{ item.name }}
+                    </div>
+
+                    <div class="text-muted item-subtitle" *ngIf="item.interaction">
+                      {{ item.interaction.name }} Lv.{{ item.interaction.level }}
+                    </div>
+                  </div>
                 </div>
               </li>
             </ul>
@@ -144,6 +153,7 @@
 
 <ng-template #item let-activeItem="activeItem">
   <div class="card-header">
+    <app-icon [icon]="activeItem.icon" [size]="32"></app-icon>
     {{ activeItem.name }}
     <span class="badge bg-secondary" *ngIf="activeItem.interaction">
       {{ activeItem.interaction.name }} Lv.{{ activeItem.interaction.level }}
