@@ -1,6 +1,7 @@
 {
   "Meta": {
-    "GameName": "Tsavorite"
+    "GameName": "Tsavorite",
+    "MainMenu": "Main Menu"
   },
 
   "Alert": {
@@ -43,8 +44,12 @@
       "ReactionExtraItems": "Produced Extra Items",
       "ItemPart": "Part",
       "ItemPrimary": "Primary",
-      "ItemFoundational": "Foundational",
-      "MainMenu": "Main Menu"
+      "ItemFoundational": "Foundational"
+    },
+
+    "Options": {
+      "Title": "Options",
+      "Subtitle": "Set all the game options below."
     },
 
     "Error": {

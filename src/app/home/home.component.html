@@ -40,6 +40,7 @@
             <div class="d-grid gap-2 px-3 d-block mt-1">
               <button type="button"
                       class="btn btn-primary d-block"
+                      [disabled]="!electronService.isElectron"
                       [swal]="quitSwal">
                 {{ 'Pages.Home.Links.Quit' | translate }}
               </button>

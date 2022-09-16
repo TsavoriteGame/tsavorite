@@ -55,7 +55,15 @@
                 "PascalCase"
             ]
           }
-        ]
+        ],
+        "@typescript-eslint/member-ordering": ["error", {
+          "default": [
+            "field",
+            "signature",
+            "constructor",
+            "method"
+          ]
+        }]
       }
     },
     {

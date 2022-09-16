@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { BUILDVARS } from '../../environments/_vars';
+import { ElectronService } from '../core/services';
 
 @Component({
   selector: 'app-home',
@@ -11,6 +12,8 @@ export class HomeComponent implements OnInit {
   public get version() {
     return BUILDVARS.version.tag || BUILDVARS.version.semverString || BUILDVARS.version.raw || BUILDVARS.version.hash;
   }
+
+  constructor(public electronService: ElectronService) {}
 
   ngOnInit(): void {
   }
