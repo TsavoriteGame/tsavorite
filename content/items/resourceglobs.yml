@@ -128,6 +128,24 @@
       descriptors:
         Wood: { level: 2 }
 
+- name: Flammable Goo Lv.1
+  icon: greengoo
+  parts:
+    - name: Goo
+      primaryDescriptor: Sticky
+      descriptors:
+        Sticky: { level: 1 }
+        Combustible: { level: 1 }
+
+- name: Cold Goo Lv.1
+  icon: greengoo
+  parts:
+    - name: Goo
+      primaryDescriptor: Sticky
+      descriptors:
+        Sticky: { level: 1 }
+        Cold: { level: 1 }
+
 - name: Goo Lv.1
   icon: greengoo
   parts:
