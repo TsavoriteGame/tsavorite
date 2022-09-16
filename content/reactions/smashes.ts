@@ -1,6 +1,6 @@
 import { getInteractionLevel, increaseDescriptorLevelForPart,
   decreaseInteractionLevel, getDescriptorLevel, decreaseDescriptorLevelForPart,
-  getDescriptorLevelFromPart, increaseInteractionLevel, hasDescriptor } from '../helpers';
+  getDescriptorLevelFromPart, increaseInteractionLevel, hasDescriptor, getAllDescriptorsForPart } from '../helpers';
 import { Descriptor, Reactions, Interaction, ReactionExtendedArgs } from '../interfaces';
 
 const zeroFail = (args: ReactionExtendedArgs) => ({
@@ -212,6 +212,26 @@ export const applications: Reactions = {
       success: true,
       newSource: sourceItem,
       newTarget: targetItem
+    };
+  },
+
+  // sticky transfers attributes
+  [Descriptor.Sticky]: (args: ReactionExtendedArgs) => {
+
+    const smashesLevel = getInteractionLevel(args.sourceItem, Interaction.Smashes);
+    if(smashesLevel <= 0) return zeroFail(args);
+
+    const targetDescriptors = getAllDescriptorsForPart(args.targetPart);
+    targetDescriptors.forEach(desc => {
+      decreaseDescriptorLevelForPart(args.targetPart, desc, 1);
+      increaseDescriptorLevelForPart(args.sourcePart, desc, 1);
+    });
+
+    return {
+      message: 'Transferred attributes to source from target.',
+      success: true,
+      newSource: args.sourceItem,
+      newTarget: getDescriptorLevelFromPart(args.targetPart, Descriptor.Sticky) <= 0 ? undefined : args.targetItem
     };
   },
 

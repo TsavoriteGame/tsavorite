@@ -460,3 +460,31 @@ test('A level 2 smasher should chunk off some parts of level 3 wood', () => {
   expect(getDescriptorLevel(result.newTarget, Descriptor.Wood)).toBe(1);
 
 });
+
+test('A level 2 smasher should absorb attributes from a sticky target', () => {
+
+  const source = getSmasher(1, 2);
+
+  const target: ItemConfig = {
+    name: 'Level 1 Sticky',
+    parts: [
+      {
+        name: 'Sticky',
+        primaryDescriptor: Descriptor.Sticky,
+        descriptors: {
+          [Descriptor.Sticky]: { level: 1 },
+          [Descriptor.Blazing]: { level: 1 }
+        }
+      }
+    ]
+  };
+
+  const result = getReactionBetweenTwoItems(source, target);
+
+  expect(result.success).toBe(true);
+  expect(result.newTarget).toBe(undefined);
+
+  expect(getDescriptorLevel(result.newSource, Descriptor.Sticky)).toBe(1);
+  expect(getDescriptorLevel(result.newSource, Descriptor.Blazing)).toBe(1);
+
+});
