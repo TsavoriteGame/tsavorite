@@ -173,8 +173,9 @@
         Container: { level: 1 }
 
     - name: Oil
-      primaryDescriptor: Combustible
+      primaryDescriptor: Wet
       descriptors:
+        Wet: { level: 1 }
         Combustible: { level: 1 }
 
 - name: Oil Bucket Lv.2
@@ -188,9 +189,10 @@
         Container: { level: 1 }
 
     - name: Oil
-      primaryDescriptor: Combustible
+      primaryDescriptor: Wet
       descriptors:
-        Combustible: { level: 2 }
+        Wet: { level: 1 }
+        Combustible: { level: 1 }
 
 
 - name: Oil Bucket Lv.3
@@ -204,6 +206,7 @@
         Container: { level: 1 }
 
     - name: Oil
-      primaryDescriptor: Combustible
+      primaryDescriptor: Wet
       descriptors:
-        Combustible: { level: 3 }
+        Wet: { level: 1 }
+        Combustible: { level: 1 }

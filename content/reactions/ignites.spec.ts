@@ -822,3 +822,43 @@ test('A level 2 torch should make a rock hot', () => {
 
 });
 
+test('A level 2 torch should combust oil even if combust is not the primary reaction', () => {
+
+  const source = getTorch(1, 2);
+
+  const target: ItemConfig = {
+    name: 'Level 1 Oil Bucket',
+    parts: [
+      {
+        name: 'Bucket',
+        primaryDescriptor: Descriptor.Wood,
+        foundational: true,
+        descriptors: {
+          [Descriptor.Wood]: { level: 2 },
+          [Descriptor.Container]: { level: 1 }
+        }
+      },
+      {
+        name: 'Oil',
+        primaryDescriptor: Descriptor.Wet,
+        descriptors: {
+          [Descriptor.Wet]: { level: 2 },
+          [Descriptor.Combustible]: { level: 1 }
+        }
+      },
+    ]
+  };
+
+  const result = getReactionBetweenTwoItems(source, target);
+
+  expect(result.success).toBe(true);
+
+  expect(getInteractionLevel(result.newSource, Interaction.Ignites)).toEqual(2);
+  expect(getDescriptorLevel(result.newSource, Descriptor.Hot)).toEqual(1);
+
+  expect(getDescriptorLevel(result.newTarget, Descriptor.Hot)).toEqual(1);
+  expect(getDescriptorLevel(result.newTarget, Descriptor.Blazing)).toEqual(1);
+  expect(getDescriptorLevel(result.newTarget, Descriptor.Combustible)).toEqual(0);
+
+});
+

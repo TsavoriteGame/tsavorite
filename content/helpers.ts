@@ -213,6 +213,10 @@ export function changePrimaryDescriptor(itemPart: ItemPart, descriptor: Descript
   itemPart.primaryDescriptor = descriptor;
 }
 
+export function getPartWithDescriptor(item: ItemConfig, descriptor: Descriptor): ItemPart | undefined {
+  return item.parts.find(p => getDescriptorLevelFromPart(p, descriptor) > 0);
+}
+
 export function isUnbreakable(item: ItemConfig): boolean {
   return hasDescriptor(item, Descriptor.Unbreakable);
 }
