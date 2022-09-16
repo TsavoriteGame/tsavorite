@@ -9,7 +9,7 @@
       "Subtitle": "Some Epic Game",
       "Footer": "Dev Version - Need Git Hash Here",
       "Links": {
-        "ItemTest": "Go To Item Test"
+        "ItemTest": "> Item Test"
       }
     },
 
@@ -32,7 +32,8 @@
       "ReactionExtraItems": "Produced Extra Items",
       "ItemPart": "Part",
       "ItemPrimary": "Primary",
-      "ItemFoundational": "Foundational"
+      "ItemFoundational": "Foundational",
+      "MainMenu": "Main Menu"
     },
 
     "Error": {
