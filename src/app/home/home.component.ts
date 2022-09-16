@@ -18,6 +18,14 @@ export class HomeComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  newGame(): void {
+
+  }
+
+  continueGame(): void {
+
+  }
+
   quit(): void {
     window.close();
   }
