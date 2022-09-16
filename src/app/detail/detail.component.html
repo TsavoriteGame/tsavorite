@@ -150,14 +150,14 @@
     <div class="item-part" [class.divider]="i > 0" *ngFor="let part of activeItem.parts; let i = index">
 
       <div class="part-ident">
-        Part #{{ i }}: {{ part.name }}
+        {{ 'Pages.ItemTest.ItemPart' | translate }} #{{ i }}: {{ part.name }}
 
         <span class="badge bg-info ms-1" *ngIf="part.primaryDescriptor">
-          Primary: {{ part.primaryDescriptor }}
+          {{ 'Pages.ItemTest.ItemPrimary' | translate }}: {{ part.primaryDescriptor }}
         </span>
 
         <span class="badge bg-info ms-1" *ngIf="part.foundational">
-          Foundational
+          {{ 'Pages.ItemTest.ItemFoundational' | translate }}
         </span>
       </div>
 

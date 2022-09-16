@@ -29,7 +29,10 @@
       "ReactionSuccessYes": "Yes",
       "ReactionSuccessNo": "No",
       "ReactionMessage": "Message",
-      "ReactionExtraItems": "Produced Extra Items"
+      "ReactionExtraItems": "Produced Extra Items",
+      "ItemPart": "Part",
+      "ItemPrimary": "Primary",
+      "ItemFoundational": "Foundational"
     },
 
     "Error": {
