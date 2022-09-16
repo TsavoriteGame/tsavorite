@@ -7,7 +7,7 @@
     "Home": {
       "Title": "Tsavorite",
       "Subtitle": "Some Epic Game",
-      "Footer": "Dev Version - Need Git Hash Here",
+      "Footer": "Version",
       "Links": {
         "ItemTest": "> Item Test"
       }
