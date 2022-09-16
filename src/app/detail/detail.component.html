@@ -145,7 +145,7 @@
 <ng-template #item let-activeItem="activeItem">
   <div class="card-header">
     {{ activeItem.name }}
-    <span class="badge bg-info" *ngIf="activeItem.interaction">
+    <span class="badge bg-secondary" *ngIf="activeItem.interaction">
       {{ activeItem.interaction.name }} Lv.{{ activeItem.interaction.level }}
     </span>
   </div>
