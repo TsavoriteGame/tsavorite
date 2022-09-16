@@ -96,7 +96,7 @@ test('A level 2 corroder should not affect normal glass', () => {
   expect(result.success).toBe(false);
 });
 
-test('A level 2 corroder should be poured into a glass container', () => {
+test('A level 2 corroder poured into a glass container should create an acid flask', () => {
   const source = getCorroder(1, 2);
 
   const target: ItemConfig = {
@@ -120,9 +120,12 @@ test('A level 2 corroder should be poured into a glass container', () => {
 
   expect(getInteractionLevel(result.newSource, Interaction.Corrodes)).toEqual(1);
 
-  expect(result.newTarget.parts.length).toEqual(1);
-  expect(getDescriptorLevel(result.newTarget, Descriptor.Corrosive)).toEqual(1);
-  expect(getAllDescriptorsForPart(result.newTarget.parts[0]).length).toEqual(3);
+  expect(result.newTarget).toEqual(undefined);
+
+  expect(result.extraItems.length).toEqual(1);
+  expect(result.extraItems[0].parts.length).toEqual(2);
+  expect(getDescriptorLevel(result.extraItems[0], Descriptor.Corrosive)).toEqual(1);
+  expect(getDescriptorLevel(result.extraItems[0], Descriptor.Glass)).toEqual(3);
 });
 
 test('A level 2 corroder should damage level 2 leather', () => {

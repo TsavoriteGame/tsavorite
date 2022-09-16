@@ -1,5 +1,5 @@
 import { getInteractionLevel, decreaseInteractionLevel, decreaseDescriptorLevelForPart,
-  increaseDescriptorLevelForPart, increaseInteractionLevel, getAllDescriptorsForPart ,getDescriptorLevelFromPart, increaseDescriptorLevel, hasDescriptor } from '../helpers';
+  increaseDescriptorLevelForPart, increaseInteractionLevel, getAllDescriptorsForPart ,getDescriptorLevelFromPart, increaseDescriptorLevel, hasDescriptor, getPartWithDescriptor, getDescriptorLevel } from '../helpers';
 import { Descriptor, Reactions, Interaction, ReactionExtendedArgs, ReactionResponse } from '../interfaces';
 
 const zeroFail = (args: ReactionExtendedArgs) => ({
@@ -9,17 +9,35 @@ const zeroFail = (args: ReactionExtendedArgs) => ({
   newTarget: args.targetItem
 });
 
-const containerCheck: (args: ReactionExtendedArgs) => ReactionResponse = (args:ReactionExtendedArgs) => {
+const containerCheck: (args: ReactionExtendedArgs, glassLevel: number) => ReactionResponse = (args:ReactionExtendedArgs, glassLevel) => {
 
   const corrodesLevel = getInteractionLevel(args.sourceItem, Interaction.Corrodes);
   if (0 >= corrodesLevel) return zeroFail(args);
 
   decreaseInteractionLevel(args.sourceItem, Interaction.Corrodes, 1);
-  increaseDescriptorLevel(args.targetItem, Descriptor.Corrosive, 1);
+
+  // if empty bottle
+  if (1 == args.targetItem.parts.length)
+  {
+    return {
+      success: true,
+      message: 'Introduced corrosive material to the container.',
+      newSource: args.sourceItem,
+      newTarget: undefined,
+      extraItems: [
+        { name: `Acid Flask Lv.1`, parts: [
+          { name: 'Bottle', primaryDescriptor: Descriptor.Glass, foundational: true, descriptors: { [Descriptor.Glass]: { level: glassLevel }, [Descriptor.Container]: { level: 1 } } },
+          { name: 'Acid', primaryDescriptor: Descriptor.Corrosive, descriptors: { [Descriptor.Corrosive]: { level: 1 } } }
+        ] }
+      ]
+    }
+  }
+
+  increaseDescriptorLevelForPart(getPartWithDescriptor(args.targetItem, Descriptor.Corrosive), Descriptor.Corrosive, 1);
 
   return {
     success: true,
-    message: 'Added corrosive material to the container.',
+    message: 'Added more corrosive material to the container.',
     newSource: args.sourceItem,
     newTarget: args.targetItem
   };
@@ -71,7 +89,7 @@ export const applications: Reactions = {
   // if container, fill container
   [Descriptor.Glass]: (args: ReactionExtendedArgs) => {
 
-    if (hasDescriptor(args.targetItem, Descriptor.Container)) return containerCheck(args);
+    if (hasDescriptor(args.targetItem, Descriptor.Container)) return containerCheck(args, getDescriptorLevel(args.targetItem, Descriptor.Glass));
 
     return zeroFail(args);
   },
