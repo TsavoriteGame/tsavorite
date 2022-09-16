@@ -82,7 +82,6 @@ export interface ReactionResponse {
   newSource: ItemConfig;
   newTarget: ItemConfig;
   extraItems?: ItemConfig[];
-  checkBreaks?: boolean;
 }
 
 export type ReactionFunction = (reaction: ReactionArgs) => ReactionResponse;

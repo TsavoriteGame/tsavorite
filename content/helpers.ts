@@ -1,48 +1,10 @@
 import { Interaction, Descriptor, ItemInteraction, ItemConfig,
   ItemDescriptor, ReactionFunction, ReactionArgs, ItemPart, ReactionExtendedArgs, ReactionResponse } from './interfaces';
+import { getAllMiddleware, getPostMiddleware, getPreMiddleware } from './middleware';
 
 import * as Reactions from './reactions';
 
 // reaction functions
-export function shouldItemBreakWhenInteractingWith(sourceItem: ItemConfig, targetItem: ItemConfig): boolean {
-
-  if(!sourceItem || !targetItem) return false;
-
-  const isSourceGlass = getDescriptorLevel(sourceItem, Descriptor.Glass) > 0;
-
-  const isSourceWood = getDescriptorLevel(sourceItem, Descriptor.Wood) > 0;
-
-  const isSourceRock = getDescriptorLevel(sourceItem, Descriptor.Rock) > 0;
-  const isTargetRock = getDescriptorLevel(targetItem, Descriptor.Rock) > 0;
-
-  const sourceMetalLevel = getDescriptorLevel(sourceItem, Descriptor.Metal);
-  const targetMetalLevel = getDescriptorLevel(targetItem, Descriptor.Metal);
-
-  const isSourceUnbreakable = isUnbreakable(sourceItem);
-  const isTargetUnbreakable = isUnbreakable(targetItem);
-
-  // unbreakable is never breakable
-  if(isSourceUnbreakable) return false;
-
-  // if they're unbreakable, we always break
-  if(isTargetUnbreakable) return true;
-
-  // glass always breaks
-  if(isSourceGlass) return true;
-
-  // if we're wood and they're rock or metal, break
-  if(isSourceWood && (isTargetRock || targetMetalLevel > 0)) return true;
-
-  // if we're rock and they're metal, break
-  if(isSourceRock && targetMetalLevel > 0) return true;
-
-  // if they have more metal than me, we break
-  if(sourceMetalLevel > 0 && targetMetalLevel > 0 && sourceMetalLevel < targetMetalLevel) return true;
-
-  // no situation above occurs, don't break
-  return false;
-}
-
 export function hasReaction(interaction: Interaction, descriptor: Descriptor): boolean {
   return !!Reactions[interaction].applications[descriptor];
 }
@@ -69,6 +31,8 @@ export function getReaction(interaction: Interaction, descriptor: Descriptor): R
       targetPart: undefined
     };
 
+    const allMiddleware = getAllMiddleware();
+
     const doesSourceHaveFoundationalPart = hasFoundationalPart(extendedArgs.sourceItem);
     const doesTargetHaveFoundationalPart = hasFoundationalPart(extendedArgs.targetItem);
 
@@ -87,6 +51,22 @@ export function getReaction(interaction: Interaction, descriptor: Descriptor): R
       extendedArgs.targetPart = extendedArgs.targetItem.parts[partIndex];
     }
 
+    // run pre- middleware
+    const preMiddleware = getPreMiddleware(allMiddleware);
+
+    let isPreBlocked = false;
+    preMiddleware.forEach(middleware => {
+      if(isPreBlocked) return;
+      if(!middleware.isEnabled()) return;
+      if(!middleware.shouldPreFire(extendedArgs)) return;
+
+      middleware.pre(extendedArgs);
+
+      if(middleware.shouldPreBlock(extendedArgs))
+        isPreBlocked = true;
+
+    });
+
     const result = calledFunction(extendedArgs);
 
     // always check if we should shatter an item
@@ -96,21 +76,21 @@ export function getReaction(interaction: Interaction, descriptor: Descriptor): R
       result.message = `${result.message} Target shattered due to temperature!`;
     }
 
-    // try to break items, they connected
-    if(result.checkBreaks) {
-      const shouldSourceBreak = shouldItemBreakWhenInteractingWith(result.newSource, result.newTarget);
-      const shouldTargetBreak = shouldItemBreakWhenInteractingWith(result.newTarget, result.newSource);
+    // run post- middleware
+    const postMiddleware = getPostMiddleware(allMiddleware);
 
-      if(result.newSource && shouldSourceBreak) {
-        result.newSource = undefined;
-        result.message = `${result.message} Source was broken!`;
-      }
+    let isPostBlocked = false;
+    postMiddleware.forEach(middleware => {
+      if(isPostBlocked) return;
+      if(!middleware.isEnabled()) return;
+      if(!middleware.shouldPostFire(extendedArgs, result)) return;
 
-      if(result.newTarget && shouldTargetBreak) {
-        result.newTarget = undefined;
-        result.message = `${result.message} Target was broken!`;
-      }
-    }
+      middleware.post(extendedArgs, result);
+
+      if(middleware.shouldPostBlock(extendedArgs, result))
+        isPostBlocked = true;
+
+    });
 
     if(doesSourceHaveFoundationalPart && !hasFoundationalPart(result.newSource)) {
       result.newSource = undefined;

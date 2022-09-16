@@ -3,8 +3,9 @@ import { getInteractionLevel,
   decreaseDescriptorLevelForPart, getDescriptor,
   setDescriptorLevel, hasFoundationalPart,
   setDescriptorLevelForPart, hasDescriptor, setFoundationalPart,
-  shouldItemBreakWhenInteractingWith, getDescriptorLevelFromPart, getAllDescriptorsForPart } from '../helpers';
+  getDescriptorLevelFromPart, getAllDescriptorsForPart } from '../helpers';
 import { Descriptor, Reactions, Interaction, ReactionExtendedArgs } from '../interfaces';
+import { shouldItemBreakWhenInteractingWith } from '../middleware/break-items';
 
 const zeroFail = (args: ReactionExtendedArgs) => ({
   message: 'This item cannot cut anything.',
