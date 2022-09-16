@@ -126,6 +126,60 @@ test('A level 2 wetter should make wet a completely damp combustible', () => {
 
 });
 
+test('A level 2 wetter should dilute a corrosive item', () => {
+  const source = getWetter(1, 2);
+
+  const target: ItemConfig = {
+    name: 'Level 2 Corrosive',
+    parts: [
+      {
+        name: 'Corrosive',
+        primaryDescriptor: Descriptor.Corrosive,
+        descriptors: {
+          [Descriptor.Corrosive]: { level: 2 }
+        }
+      }
+    ]
+  };
+
+  const result = getReactionBetweenTwoItems(source, target);
+
+  expect(result.success).toBe(true);
+  expect(getInteractionLevel(result.newSource, Interaction.Wets)).toBe(1);
+  expect(result.newTarget.parts.length).toBe(1);
+  expect(getDescriptorLevel(result.newTarget, Descriptor.Corrosive)).toBe(1);
+  expect(getAllDescriptorsForPart(result.newTarget.parts[0]).length).toBe(1);
+});
+
+test('A level 2 wetter should fully dilute a pale corrosive item', () => {
+
+  const source = getWetter(1, 2);
+
+  const target: ItemConfig = {
+    name: 'Level 1 Corrosive',
+    parts: [
+      {
+        name: 'Corrosive',
+        primaryDescriptor: Descriptor.Corrosive,
+        descriptors: {
+          [Descriptor.Corrosive]: { level: 1 }
+        }
+      }
+    ]
+  };
+
+  const result = getReactionBetweenTwoItems(source, target);
+
+  expect(result.success).toBe(true);
+  expect(getInteractionLevel(result.newSource, Interaction.Wets)).toBe(1);
+
+  expect(result.extraItems.length).toBe(1);
+  expect(getDescriptorLevel(result.extraItems[0], Descriptor.Corrosive)).toBe(0);
+  expect(getDescriptorLevel(result.extraItems[0], Descriptor.Wet)).toBe(1);
+  expect(getAllDescriptorsForPart(result.extraItems[0].parts[0]).length).toBe(1);
+
+});
+
 test('A level 2 wetter should make dirt more muddy', () => {
 
   const source = getWetter(1, 2);

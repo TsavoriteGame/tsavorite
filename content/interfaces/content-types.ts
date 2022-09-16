@@ -1,6 +1,7 @@
 
 export enum Interaction {
   Carves = 'Carves',
+  Corrodes = 'Corrodes',
   Freezes = 'Freezes',
   Ignites = 'Ignites',
   Smashes = 'Smashes',
@@ -18,6 +19,7 @@ export enum Descriptor {
   Combustible = 'Combustible',
   Container = 'Container',
   Cooked = 'Cooked',
+  Corrosive = 'Corrosive',
   Dirt = 'Dirt',
   Electric = 'Electric',
   Fiber = 'Fiber',

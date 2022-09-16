@@ -1,0 +1,54 @@
+
+- name: Acid Flask Lv.1
+  parts:
+    - name: Bottle
+      primaryDescriptor: Glass
+      foundational: true
+      descriptors:
+        Glass: { level: 1 }
+        Container: { level: 1 }
+
+    - name: Acid
+      primaryDescriptor: Corrosive
+      descriptors:
+        Corrosive: { level: 1 }
+
+  interaction:
+    name: Corrodes
+    level: 1
+    
+- name: Acid Flask Lv.2
+  parts:
+    - name: Bottle
+      primaryDescriptor: Glass
+      foundational: true
+      descriptors:
+        Glass: { level: 2 }
+        Container: { level: 1 }
+
+    - name: Acid
+      primaryDescriptor: Corrosive
+      descriptors:
+        Corrosive: { level: 2 }
+
+  interaction:
+    name: Corrodes
+    level: 2
+
+- name: Acid Flask Lv.3
+  parts:
+    - name: Bottle
+      primaryDescriptor: Glass
+      foundational: true
+      descriptors:
+        Glass: { level: 3 }
+        Container: { level: 1 }
+
+    - name: Acid
+      primaryDescriptor: Corrosive
+      descriptors:
+        Corrosive: { level: 3 }
+
+  interaction:
+    name: Corrodes
+    level: 3
