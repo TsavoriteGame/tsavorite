@@ -18,7 +18,7 @@ npm run setup:data
 
 ### Updating Art
 
-If you need to update the art files, run the following command to regenerate the art: 
+If you need to update the art files (`src/app/assets/images/game`), run the following command to regenerate the art: 
 
 ```bash
 npm run setup:art
