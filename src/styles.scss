@@ -1,6 +1,7 @@
 
 /* custom theme */
 $primary: #7D10FF;
+$danger: #FF1010;
 
 /* Importing Bootstrap SCSS file. */
 @import '~bootstrap/scss/bootstrap';
@@ -66,4 +67,18 @@ body {
 
 .btn:not(.text-sm) {
   font-size: 1.5rem;
+}
+
+.swal2-container {
+  .swal2-title {
+    font-size: 2rem;
+  }
+
+  .swal2-html-container {
+    font-size: 1.5rem;
+  }
+
+  .swal2-actions button {
+    font-size: 1.3rem;
+  }
 }

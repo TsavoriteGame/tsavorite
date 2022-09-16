@@ -13,13 +13,38 @@
           </h2>
 
           <div class="places-to-go">
-            <div class="d-grid gap-2 px-3 d-block">
+            <div class="d-grid gap-2 px-3 d-block mt-1">
               <button type="button"
                       class="btn btn-primary d-block"
                       routerLink="/itemtest">
                 {{ 'Pages.Home.Links.ItemTest' | translate }}
               </button>
             </div>
+
+            <div class="d-grid gap-2 px-3 d-block mt-1">
+              <button type="button"
+                      class="btn btn-primary d-block"
+                      routerLink="/options">
+                {{ 'Pages.Home.Links.Options' | translate }}
+              </button>
+            </div>
+
+            <div class="d-grid gap-2 px-3 d-block mt-1">
+              <a class="btn btn-primary d-block"
+                 target="_blank"
+                 href="https://blog.tsavoritegame.com">
+                {{ 'Pages.Home.Links.News' | translate }}
+              </a>
+            </div>
+
+            <div class="d-grid gap-2 px-3 d-block mt-1">
+              <button type="button"
+                      class="btn btn-primary d-block"
+                      [swal]="quitSwal">
+                {{ 'Pages.Home.Links.Quit' | translate }}
+              </button>
+            </div>
+
           </div>
 
           <div class="card-footer text-muted text-center">
@@ -31,3 +56,15 @@
     </div>
   </div>
 </div>
+
+<swal
+  #quitSwal
+  [title]="'Pages.Home.QuitConfirm' | translate"
+  [text]="'Pages.Home.QuitText' | translate"
+  [confirmButtonText]="'Pages.Home.QuitYes' | translate"
+  [cancelButtonText]="'Pages.Home.QuitNo' | translate"
+  [showCancelButton]="true"
+  [focusCancel]="true"
+  [heightAuto]="false"
+  (confirm)="quit()">
+</swal>

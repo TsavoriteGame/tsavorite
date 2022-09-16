@@ -7,10 +7,21 @@ import { PageNotFoundComponent } from './components/';
 import { WebviewDirective } from './directives/';
 import { FormsModule } from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 
 @NgModule({
   declarations: [PageNotFoundComponent, WebviewDirective],
-  imports: [CommonModule, TranslateModule, FormsModule, NgbModule],
+  imports: [
+    CommonModule,
+    TranslateModule,
+    FormsModule,
+    NgbModule,
+    SweetAlert2Module.forRoot({
+    provideSwal: () => import('sweetalert2').then(({ default: swal }) => swal.mixin({
+      confirmButtonColor: '#7D10FF',
+      denyButtonColor: '#FF1010'
+    }))
+  })],
   exports: [TranslateModule, WebviewDirective, FormsModule, NgbModule]
 })
 export class SharedModule {}

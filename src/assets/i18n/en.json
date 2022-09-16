@@ -3,13 +3,24 @@
     "GameName": "Tsavorite"
   },
 
+  "Alert": {
+
+  },
+
   "Pages": {
     "Home": {
       "Title": "Tsavorite",
       "Subtitle": "Some Epic Game",
       "Footer": "Version",
+      "QuitConfirm": "Quit Tsavorite?",
+      "QuitText": "Boo will miss you!",
+      "QuitYes": "Yes, Quit",
+      "QuitNo": "No, Keep Playing",
       "Links": {
-        "ItemTest": "> Item Test"
+        "ItemTest": "> Item Test",
+        "Options": "> Options",
+        "News": "> News",
+        "Quit": "> Quit"
       }
     },
 
