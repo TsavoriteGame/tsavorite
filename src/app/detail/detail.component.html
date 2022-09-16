@@ -3,7 +3,7 @@
 
   <nav class="navbar navbar-dark bg-primary">
     <div class="container-fluid">
-      <a class="navbar-brand">Tsavorite</a>
+      <a class="navbar-brand">{{ 'Meta.GameName' | translate }}</a>
     </div>
   </nav>
 
@@ -13,7 +13,7 @@
       <div class="col-4">
         <div class="card item-list">
           <div class="card-header">
-            Item List
+            {{ 'Pages.ItemTest.ItemList' | translate }}
           </div>
 
           <div class="card-body p-0">
@@ -41,11 +41,11 @@
           <div class="col">
             <div class="card item-desc" *ngIf="!activeItem">
               <div class="card-header d-flex justify-content-between">
-                Item Information
+                {{ 'Pages.ItemTest.ItemInformation' | translate }}
               </div>
 
               <div class="card-body">
-                Choose an item on the left.
+                {{ 'Pages.ItemTest.ItemInformationChoose' | translate }}
               </div>
             </div>
 
@@ -55,9 +55,9 @@
                             [ngTemplateOutletContext]="{ activeItem: activeItem }"></ng-container>
 
               <div class="card-body d-flex justify-content-between">
-                <a class="btn btn-primary" (click)="makeLeftItem()">Make Left Item</a>
-                <a class="btn btn-primary" (click)="swapLeftAndRight()">Swap Left & Right</a>
-                <a class="btn btn-primary" (click)="makeRightItem()">Make Right Item</a>
+                <a class="btn btn-primary" (click)="makeLeftItem()">{{ 'Pages.ItemTest.ItemInformationActionLeft' | translate }}</a>
+                <a class="btn btn-primary" (click)="swapLeftAndRight()">{{ 'Pages.ItemTest.ItemInformationActionSwap' | translate }}</a>
+                <a class="btn btn-primary" (click)="makeRightItem()">{{ 'Pages.ItemTest.ItemInformationActionRight' | translate }}</a>
               </div>
             </div>
           </div>
@@ -69,7 +69,7 @@
 
             <div class="card item item-left" *ngIf="!currentLeft">
               <div class="card-body">
-                Choose applier item!
+                {{ 'Pages.ItemTest.ItemLeft' | translate }}
               </div>
             </div>
 
@@ -85,7 +85,7 @@
 
             <div class="card item item-right" *ngIf="!currentRight">
               <div class="card-body">
-                Choose target item!
+                {{ 'Pages.ItemTest.ItemRight' | translate }}
               </div>
             </div>
 
@@ -104,21 +104,26 @@
             <div class="card item-desc">
 
               <div class="card-header d-flex justify-content-between">
-                Reaction Results
+                {{ 'Pages.ItemTest.ReactionResults' | translate }}
 
-                <a class="btn btn-primary" (click)="doReaction()" [class.disabled]="!currentLeft || !currentRight">Apply Left to Right</a>
+                <a class="btn btn-primary text-sm" (click)="doReaction()" [class.disabled]="!currentLeft || !currentRight">{{ 'Pages.ItemTest.ReactionActionApply' | translate }}</a>
               </div>
 
               <div class="card-body" *ngIf="!reactionResult">
-                No reaction; add a left and right item then click apply!
+                {{ 'Pages.ItemTest.ReactionDefault' | translate }}
               </div>
 
               <div class="card-body result-body" *ngIf="reactionResult">
-                <h1>Success: {{ reactionResult.success ? 'Yes' : 'No' }}</h1>
-                <h2>Message: {{ reactionResult.message }}</h2>
+                <h1>
+                  {{ 'Pages.ItemTest.ReactionSuccess' | translate }}:
+                  <span *ngIf="reactionResult.success">{{ 'Pages.ItemTest.ReactionSuccessYes' | translate }}</span>
+                  <span *ngIf="!reactionResult.success">{{ 'Pages.ItemTest.ReactionSuccessNo' | translate }}</span>
+                </h1>
+
+                <h2>{{ 'Pages.ItemTest.ReactionMessage' | translate }}: {{ reactionResult.message }}</h2>
 
                 <div *ngIf="reactionResult.extraItems">
-                  <h1>Produced Extra Items</h1>
+                  <h1>{{ 'Pages.ItemTest.ReactionExtraItems' | translate }}</h1>
 
                   <pre>{{ reactionResult.extraItems | json }}</pre>
                 </div>

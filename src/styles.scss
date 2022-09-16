@@ -63,3 +63,7 @@ body {
 .hidden {
   display: none !important;
 }
+
+.btn:not(.text-sm) {
+  font-size: 1.5rem;
+}
