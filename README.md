@@ -35,10 +35,14 @@ npm run setup:art
 
 | Command                  | Description                                                                                           |
 |--------------------------|-------------------------------------------------------------------------------------------------------|
-| `npm run ng:serve`       | Execute the app in the web browser (DEV mode)                                                         |
+| `npm run start:web`      | Execute the app in the web browser (DEV mode)                                                         |
+| `npm run start`          | Execute the app in a local electron container (DEV mode)                                              |
 | `npm run web:build`      | Build the app that can be used directly in the web browser. Your built files are in the /dist folder. |
 | `npm run electron:local` | Builds your application and start electron locally                                                    |
 | `npm run electron:build` | Builds your application and creates an app consumable based on your operating system                  |
+| `npm run test`           | Test your local content against the provided unit tests.                                              |
+| `npm run test:jest:watch`| Watch your local code changes and tests and run them in real time.                                    |
+| `npm run lint`           | Lint your code to make sure it fits the projects style.                                               |
 
 ## Creating "Art"
 
