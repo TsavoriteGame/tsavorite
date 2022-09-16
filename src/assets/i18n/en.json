@@ -49,7 +49,20 @@
 
     "Options": {
       "Title": "Options",
-      "Subtitle": "Set all the game options below."
+      "Subtitle": "",
+      "VideoTitle": "Video Options",
+      "VideoSubtitle": "",
+      "AudioTitle": "Audio Options",
+      "AudioSubtitle": "",
+      "GameTitle": "Gameplay Options",
+      "GameSubtitle": "",
+      "DataTitle": "Data Options",
+      "DataSubtitle": "",
+      "ResetDataAction": "Reset Game Data",
+      "ResetDataConfirm": "Reset All Data?",
+      "ResetDataText": "This will reset all of your save data, achievements, found items, and game progress.",
+      "ResetDataYes": "Yes, Reset All Data",
+      "ResetDataNo": "No, Save My Data"
     },
 
     "Error": {

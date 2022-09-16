@@ -19,7 +19,7 @@ import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
     SweetAlert2Module.forRoot({
     provideSwal: () => import('sweetalert2').then(({ default: swal }) => swal.mixin({
       confirmButtonColor: '#7D10FF',
-      denyButtonColor: '#FF1010'
+      denyButtonColor: '#A50000'
     }))
   })],
   exports: [TranslateModule, WebviewDirective, FormsModule, NgbModule]

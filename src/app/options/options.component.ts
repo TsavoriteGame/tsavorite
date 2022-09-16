@@ -12,4 +12,8 @@ export class OptionsComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  resetData() {
+
+  }
+
 }
