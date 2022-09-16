@@ -69,13 +69,6 @@ export function getReaction(interaction: Interaction, descriptor: Descriptor): R
 
     const result = calledFunction(extendedArgs);
 
-    // always check if we should shatter an item
-    const shouldItemShatter = result.newTarget && shouldShatter(result.newTarget);
-    if(shouldItemShatter) {
-      result.newTarget = undefined;
-      result.message = `${result.message} Target shattered due to temperature!`;
-    }
-
     // run post- middleware
     const postMiddleware = getPostMiddleware(allMiddleware);
 
@@ -155,16 +148,6 @@ export function getReactionBetweenItemAndPart(sourceItem: ItemConfig, targetItem
 
   return getReaction(interaction.name, targetItemPart.primaryDescriptor);
 }
-
-export function shouldShatter(item: ItemConfig) {
-  const hasHot = hasDescriptor(item, Descriptor.Hot);
-  const hasCold = hasDescriptor(item, Descriptor.Cold);
-  const hasBlazing = hasDescriptor(item, Descriptor.Blazing);
-  const hasFrozen = hasDescriptor(item, Descriptor.Frozen);
-  const hasGlass = hasDescriptor(item, Descriptor.Glass);
-
-  return (hasHot || hasBlazing) && (hasCold || hasFrozen) && hasGlass;
-};
 
 // interaction functions
 export function setInteraction(item: ItemConfig, interaction: Interaction): void {

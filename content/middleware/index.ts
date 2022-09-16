@@ -1,8 +1,9 @@
 
 import { Middleware, PostMiddleware, PreMiddleware } from '../interfaces';
 import { BreakItems } from './break-items';
+import { GlassShatter } from './glass-shatter';
 
-const allMiddleware = [BreakItems];
+const allMiddleware = [BreakItems, GlassShatter];
 
 export function getAllMiddleware(): Middleware[] {
   return allMiddleware.map(proto => new proto());
