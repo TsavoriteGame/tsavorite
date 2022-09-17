@@ -197,7 +197,7 @@ test('A level 2 corroder should turn raw meat into rotten meat', () => {
   };
 
   const result = getReactionBetweenTwoItems(source, target);
-  
+
   expect(result.success).toBe(true);
 
   expect(getInteractionLevel(result.newSource, Interaction.Corrodes)).toEqual(1);
@@ -226,7 +226,7 @@ test('A level 2 corroder should turn cooked meat into rotten meat', () => {
   };
 
   const result = getReactionBetweenTwoItems(source, target);
-  
+
   expect(result.success).toBe(true);
 
   expect(getInteractionLevel(result.newSource, Interaction.Corrodes)).toEqual(1);
@@ -254,7 +254,7 @@ test('A level 2 corroder should tarnish level 2 metal', () => {
   };
 
   const result = getReactionBetweenTwoItems(source, target);
-  
+
   expect(result.success).toBe(true);
 
   expect(getInteractionLevel(result.newSource, Interaction.Corrodes)).toEqual(1);
@@ -281,7 +281,7 @@ test('A level 2 corroder should destroy level 1 metal', () => {
   };
 
   const result = getReactionBetweenTwoItems(source, target);
-  
+
   expect(result.success).toBe(true);
 
   expect(getInteractionLevel(result.newSource, Interaction.Corrodes)).toEqual(1);
@@ -308,7 +308,7 @@ test('A level 2 corroder should reduce wetness', () => {
   };
 
   const result = getReactionBetweenTwoItems(source, target);
-  
+
   expect(result.success).toBe(true);
 
   expect(getInteractionLevel(result.newSource, Interaction.Corrodes)).toEqual(1);
@@ -335,7 +335,7 @@ test('A level 2 corroder should rot level 2 wood', () => {
   };
 
   const result = getReactionBetweenTwoItems(source, target);
-  
+
   expect(result.success).toBe(true);
 
   expect(getInteractionLevel(result.newSource, Interaction.Corrodes)).toEqual(1);
@@ -363,7 +363,7 @@ test('A level 2 corroder should destroy level 1 rotten wood', () => {
   };
 
   const result = getReactionBetweenTwoItems(source, target);
-  
+
   expect(result.success).toBe(true);
 
   expect(getInteractionLevel(result.newSource, Interaction.Corrodes)).toEqual(1);

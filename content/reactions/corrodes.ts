@@ -1,5 +1,5 @@
 import { getInteractionLevel, decreaseInteractionLevel, decreaseDescriptorLevelForPart,
-  increaseDescriptorLevelForPart, increaseInteractionLevel, getAllDescriptorsForPart ,getDescriptorLevelFromPart, increaseDescriptorLevel, hasDescriptor, getPartWithDescriptor, getDescriptorLevel } from '../helpers';
+  increaseDescriptorLevelForPart, getAllDescriptorsForPart, hasDescriptor, getPartWithDescriptor, getDescriptorLevel } from '../helpers';
 import { Descriptor, Reactions, Interaction, ReactionExtendedArgs, ReactionResponse } from '../interfaces';
 
 const zeroFail = (args: ReactionExtendedArgs) => ({
@@ -9,7 +9,7 @@ const zeroFail = (args: ReactionExtendedArgs) => ({
   newTarget: args.targetItem
 });
 
-const containerCheck: (args: ReactionExtendedArgs, glassLevel: number) => ReactionResponse = (args:ReactionExtendedArgs, glassLevel) => {
+const containerCheck: (args: ReactionExtendedArgs, glassLevel: number) => ReactionResponse = (args: ReactionExtendedArgs, glassLevel) => {
 
   const corrodesLevel = getInteractionLevel(args.sourceItem, Interaction.Corrodes);
   if (0 >= corrodesLevel) return zeroFail(args);
@@ -26,11 +26,12 @@ const containerCheck: (args: ReactionExtendedArgs, glassLevel: number) => Reacti
       newTarget: undefined,
       extraItems: [
         { name: `Acid Flask Lv.1`, parts: [
-          { name: 'Bottle', primaryDescriptor: Descriptor.Glass, foundational: true, descriptors: { [Descriptor.Glass]: { level: glassLevel }, [Descriptor.Container]: { level: 1 } } },
+          { name: 'Bottle', primaryDescriptor: Descriptor.Glass, foundational: true,
+            descriptors: { [Descriptor.Glass]: { level: glassLevel }, [Descriptor.Container]: { level: 1 } } },
           { name: 'Acid', primaryDescriptor: Descriptor.Corrosive, descriptors: { [Descriptor.Corrosive]: { level: 1 } } }
         ] }
       ]
-    }
+    };
   }
 
   increaseDescriptorLevelForPart(getPartWithDescriptor(args.targetItem, Descriptor.Corrosive), Descriptor.Corrosive, 1);
@@ -89,7 +90,8 @@ export const applications: Reactions = {
   // if container, fill container
   [Descriptor.Glass]: (args: ReactionExtendedArgs) => {
 
-    if (hasDescriptor(args.targetItem, Descriptor.Container)) return containerCheck(args, getDescriptorLevel(args.targetItem, Descriptor.Glass));
+    if (hasDescriptor(args.targetItem, Descriptor.Container))
+      return containerCheck(args, getDescriptorLevel(args.targetItem, Descriptor.Glass));
 
     return zeroFail(args);
   },
@@ -105,7 +107,7 @@ export const applications: Reactions = {
 
     decreaseInteractionLevel(args.sourceItem, Interaction.Corrodes, 1);
     const newLeatherLevel = decreaseDescriptorLevelForPart(args.targetPart, Descriptor.Leather, 1);
-    
+
     if (0 >= newLeatherLevel)
     {
       return {
@@ -126,7 +128,7 @@ export const applications: Reactions = {
 
   // meat becomes rotten
   [Descriptor.Meat]: (args: ReactionExtendedArgs) => {
-    
+
     const corrodesLevel = getInteractionLevel(args.sourceItem, Interaction.Corrodes);
 
     const sourceItem = args.sourceItem;
@@ -160,7 +162,7 @@ export const applications: Reactions = {
 
     decreaseInteractionLevel(args.sourceItem, Interaction.Corrodes, 1);
     const newMetalLevel = decreaseDescriptorLevelForPart(args.targetPart, Descriptor.Metal, 1);
-    
+
     if (0 >= newMetalLevel)
     {
       return {
@@ -187,7 +189,7 @@ export const applications: Reactions = {
     const targetItem = args.targetItem;
 
     if (0 >= corrodesLevel) return zeroFail(args);
-    
+
     decreaseInteractionLevel(args.sourceItem, Interaction.Corrodes, 1);
 
     decreaseDescriptorLevelForPart(args.targetPart, Descriptor.Wet, 1);
@@ -197,7 +199,7 @@ export const applications: Reactions = {
       success: true,
       newSource: sourceItem,
       newTarget: targetItem
-    }
+    };
   },
 
   // make wood rotten, and possibly destroy it
@@ -208,7 +210,7 @@ export const applications: Reactions = {
     const targetItem = args.targetItem;
 
     if (0 >= corrodesLevel) return zeroFail(args);
-    
+
     decreaseInteractionLevel(args.sourceItem, Interaction.Corrodes, 1);
 
     increaseDescriptorLevelForPart(args.targetPart, Descriptor.Rotten, 1);
