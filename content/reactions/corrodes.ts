@@ -98,9 +98,9 @@ export const applications: Reactions = {
       return zeroFail(args);
 
     decreaseInteractionLevel(args.sourceItem, Interaction.Corrodes, 1);
-    decreaseDescriptorLevelForPart(args.targetPart, Descriptor.Clay, 1);
+    const newClayLevel = decreaseDescriptorLevelForPart(args.targetPart, Descriptor.Clay, 1);
 
-    if (getDescriptorLevelFromPart(args.targetPart, Descriptor.Clay) <= 0) {
+    if (newClayLevel <= 0) {
       return {
         message: 'Completely dissolved the clay.',
         success: true,
@@ -129,9 +129,9 @@ export const applications: Reactions = {
       return zeroFail(args);
 
     decreaseInteractionLevel(args.sourceItem, Interaction.Corrodes, 1);
-    decreaseDescriptorLevelForPart(args.targetPart, Descriptor.Dirt, 1);
+    const newDirtLevel = decreaseDescriptorLevelForPart(args.targetPart, Descriptor.Dirt, 1);
 
-    if (getDescriptorLevelFromPart(args.targetPart, Descriptor.Dirt) <= 0) {
+    if (newDirtLevel <= 0) {
       return {
         message: 'Completely dissolved the dirt.',
         success: true,
@@ -160,9 +160,9 @@ export const applications: Reactions = {
       return zeroFail(args);
 
     decreaseInteractionLevel(args.sourceItem, Interaction.Corrodes, 1);
-    decreaseDescriptorLevelForPart(args.targetPart, Descriptor.Fiber, 1);
+    const newFiberLevel = decreaseDescriptorLevelForPart(args.targetPart, Descriptor.Fiber, 1);
 
-    if (getDescriptorLevelFromPart(args.targetPart, Descriptor.Fiber) <= 0) {
+    if (newFiberLevel <= 0) {
       return {
         message: 'Completely dissolved the fiber.',
         success: true,
@@ -283,9 +283,9 @@ export const applications: Reactions = {
       return zeroFail(args);
 
     decreaseInteractionLevel(args.sourceItem, Interaction.Corrodes, 1);
-    decreaseDescriptorLevelForPart(args.targetPart, Descriptor.Mud, 1);
+    const newMudLevel = decreaseDescriptorLevelForPart(args.targetPart, Descriptor.Mud, 1);
 
-    if (getDescriptorLevelFromPart(args.targetPart, Descriptor.Mud) <= 0) {
+    if (newMudLevel <= 0) {
       return {
         message: 'Completely dissolved the fiber.',
         success: true,
