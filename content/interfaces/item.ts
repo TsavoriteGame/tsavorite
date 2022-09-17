@@ -1,5 +1,6 @@
 
 export enum Interaction {
+  Buys = 'Buys',
   Carves = 'Carves',
   Corrodes = 'Corrodes',
   Freezes = 'Freezes',

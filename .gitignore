@@ -52,5 +52,7 @@ testem.log
 Thumbs.db
 .angular
 items.json
+backgrounds.json
+archetypes.json
 src/environments/_vars.ts
 src/assets/images/game

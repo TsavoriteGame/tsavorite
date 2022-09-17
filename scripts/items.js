@@ -13,7 +13,7 @@ const validateItems = () => {
     }
 
     if (!item.icon) {
-      throw new Error(`Item ${JSON.stringify(item)} is missing a icon`);
+      throw new Error(`Item ${item.name} is missing an icon`);
     }
 
     if(item.parts.length === 0) {

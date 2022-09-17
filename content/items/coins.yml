@@ -1,0 +1,12 @@
+
+- name: Gold Coins
+  icon: goldcoin
+  parts:
+    - name: Coinmetal
+      primaryDescriptor: Metal
+      descriptors:
+        Metal: { level: 1 }
+
+  interaction:
+    name: Buys
+    level: 1

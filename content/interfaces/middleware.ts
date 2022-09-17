@@ -1,4 +1,4 @@
-import { ReactionExtendedArgs, ReactionResponse } from './content-types';
+import { ReactionExtendedArgs, ReactionResponse } from './item';
 
 export type MiddlewareType = 'pre' | 'post';
 

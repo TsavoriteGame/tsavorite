@@ -1,0 +1,12 @@
+
+name: Merchant
+icon: background-merchant
+realName: Jams Conrad
+archetype: Villager
+description: Born into nothing, you seek wealth beyond mortal dreams.
+goal: Get 100 gold.
+startingKit:
+  - description: 20 Gold Coins
+    item: Gold Coins
+    changes:
+      'interaction.level': 20
