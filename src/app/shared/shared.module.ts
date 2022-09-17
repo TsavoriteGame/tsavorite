@@ -18,11 +18,11 @@ import { IconComponent } from './components/icon/icon.component';
     FormsModule,
     NgbModule,
     SweetAlert2Module.forRoot({
-    provideSwal: () => import('sweetalert2').then(({ default: swal }) => swal.mixin({
-      confirmButtonColor: '#7D10FF',
-      denyButtonColor: '#A50000'
-    }))
-  })],
+      provideSwal: () => import('sweetalert2').then(({ default: swal }) => swal.mixin({
+        confirmButtonColor: '#7D10FF',
+        denyButtonColor: '#A50000'
+      }))
+    })],
   exports: [TranslateModule, IconComponent, WebviewDirective, FormsModule, NgbModule]
 })
 export class SharedModule {}
