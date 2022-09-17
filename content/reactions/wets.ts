@@ -123,12 +123,12 @@ export const applications: Reactions = {
     const sourceItem = args.sourceItem;
     const targetItem = args.targetItem;
 
-    if (0 >= wetsLevel) return zeroFail(args);
+    if (wetsLevel <= 0) return zeroFail(args);
 
     decreaseInteractionLevel(args.sourceItem, Interaction.Wets, 1);
     const newCorrosiveLevel = decreaseDescriptorLevelForPart(args.targetPart, Descriptor.Corrosive, 1);
 
-    if (0 >= newCorrosiveLevel) {
+    if (newCorrosiveLevel <= 0) {
       return {
         message: 'Diluted the corrosive material into water.',
         success: true,

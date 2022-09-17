@@ -194,7 +194,8 @@
             "named": "never"
           }
         ],
-        "use-isnan": "error"
+        "use-isnan": "error",
+        "yoda": "error"
       }
     },
     {

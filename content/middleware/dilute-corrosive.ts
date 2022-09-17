@@ -2,7 +2,7 @@ import { decreaseDescriptorLevelForPart, getDescriptorLevel, getPartWithDescript
 import { Descriptor, Interaction, ItemConfig, MiddlewareType, PostMiddleware, ReactionExtendedArgs, ReactionResponse } from '../interfaces';
 
 export function shouldDilute(item: ItemConfig) {
-  return !!getPartWithDescriptor(item, Descriptor.Corrosive) && 0 < getDescriptorLevel(item, Descriptor.Container);
+  return !!getPartWithDescriptor(item, Descriptor.Corrosive) && getDescriptorLevel(item, Descriptor.Container) > 0;
 }
 
 /**

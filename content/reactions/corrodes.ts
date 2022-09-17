@@ -12,12 +12,12 @@ const zeroFail = (args: ReactionExtendedArgs) => ({
 const containerCheck: (args: ReactionExtendedArgs, glassLevel: number) => ReactionResponse = (args: ReactionExtendedArgs, glassLevel) => {
 
   const corrodesLevel = getInteractionLevel(args.sourceItem, Interaction.Corrodes);
-  if (0 >= corrodesLevel) return zeroFail(args);
+  if (corrodesLevel <= 0) return zeroFail(args);
 
   decreaseInteractionLevel(args.sourceItem, Interaction.Corrodes, 1);
 
   // if empty bottle
-  if (1 === args.targetItem.parts.length) {
+  if (args.targetItem.parts.length === 1) {
     return {
       success: true,
       message: 'Introduced corrosive material to the container.',
@@ -53,12 +53,12 @@ export const applications: Reactions = {
     const sourceItem = args.sourceItem;
     const targetItem = args.targetItem;
 
-    if (0 >= corrodesLevel) return zeroFail(args);
+    if (corrodesLevel <= 0) return zeroFail(args);
 
     decreaseInteractionLevel(args.sourceItem, Interaction.Corrodes, 1);
     decreaseDescriptorLevelForPart(args.targetPart, Descriptor.Bloody, 1);
 
-    if (0 >= getAllDescriptorsForPart(args.targetPart).length) {
+    if (getAllDescriptorsForPart(args.targetPart).length <= 0) {
       return {
         message: 'Turned all blood into goo.',
         success: true,
@@ -101,12 +101,12 @@ export const applications: Reactions = {
     const sourceItem = args.sourceItem;
     const targetItem = args.targetItem;
 
-    if (0 >= corrodesLevel) return zeroFail(args);
+    if (corrodesLevel <= 0) return zeroFail(args);
 
     decreaseInteractionLevel(args.sourceItem, Interaction.Corrodes, 1);
     const newLeatherLevel = decreaseDescriptorLevelForPart(args.targetPart, Descriptor.Leather, 1);
 
-    if (0 >= newLeatherLevel) {
+    if (newLeatherLevel <= 0) {
       return {
         message: 'The leather was fully corroded.',
         success: true,
@@ -131,7 +131,7 @@ export const applications: Reactions = {
     const sourceItem = args.sourceItem;
     const targetItem = args.targetItem;
 
-    if (0 >= corrodesLevel) return zeroFail(args);
+    if (corrodesLevel <= 0) return zeroFail(args);
 
     decreaseInteractionLevel(args.sourceItem, Interaction.Corrodes, 1);
 
@@ -155,12 +155,12 @@ export const applications: Reactions = {
     const sourceItem = args.sourceItem;
     const targetItem = args.targetItem;
 
-    if (0 >= corrodesLevel) return zeroFail(args);
+    if (corrodesLevel <= 0) return zeroFail(args);
 
     decreaseInteractionLevel(args.sourceItem, Interaction.Corrodes, 1);
     const newMetalLevel = decreaseDescriptorLevelForPart(args.targetPart, Descriptor.Metal, 1);
 
-    if (0 >= newMetalLevel) {
+    if (newMetalLevel <= 0) {
       return {
         message: 'The metal was fully corroded.',
         success: true,
@@ -184,7 +184,7 @@ export const applications: Reactions = {
     const sourceItem = args.sourceItem;
     const targetItem = args.targetItem;
 
-    if (0 >= corrodesLevel) return zeroFail(args);
+    if (corrodesLevel <= 0) return zeroFail(args);
 
     decreaseInteractionLevel(args.sourceItem, Interaction.Corrodes, 1);
 
@@ -205,14 +205,14 @@ export const applications: Reactions = {
     const sourceItem = args.sourceItem;
     const targetItem = args.targetItem;
 
-    if (0 >= corrodesLevel) return zeroFail(args);
+    if (corrodesLevel <= 0) return zeroFail(args);
 
     decreaseInteractionLevel(args.sourceItem, Interaction.Corrodes, 1);
 
     increaseDescriptorLevelForPart(args.targetPart, Descriptor.Rotten, 1);
     const newWoodLevel = decreaseDescriptorLevelForPart(args.targetPart, Descriptor.Wood, 1);
 
-    if (0 >= newWoodLevel) {
+    if (newWoodLevel <= 0) {
       return {
         message: 'The wood collapsed to rot.',
         success: true,
