@@ -175,7 +175,7 @@ export function addDescriptor(item: ItemConfig, descriptor: Descriptor, level = 
   if(hasDescriptor(item, descriptor)) return;
   if(item.parts.length === 0) return;
 
-  setDescriptorLevelForPart(item.parts[0], descriptor, 0);
+  setDescriptorLevelForPart(item.parts[0], descriptor, level);
 }
 
 export function getDescriptor(item: ItemConfig, descriptor: Descriptor, minimum = 0): ItemDescriptor | undefined {
@@ -278,7 +278,7 @@ export function getPrimaryPartOfItem(item: ItemConfig) {
   return item.parts[0];
 }
 
-// math functions
+// other functions
 export function increaseInteractionLevel(item: ItemConfig, interaction: Interaction, delta = 1): number {
   item.interaction = item.interaction || { name: interaction, level: 0 };
 
