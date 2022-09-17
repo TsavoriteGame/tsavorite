@@ -5,18 +5,18 @@ import { Interaction, Descriptor, ItemConfig } from '../interfaces';
 
 const getCarver: (level: number, carvesLevel: number, desc?: Descriptor) => ItemConfig =
                  (level: number, carvesLevel: number, desc = Descriptor.Metal) => ({
-  name: `Level ${level} Carver`,
-  parts: [
-    {
-      name: 'Blade',
-      primaryDescriptor: desc,
-      descriptors: {
-        [desc]: { level }
-      }
-    }
-  ],
-  interaction: { name: Interaction.Carves, level: carvesLevel }
-});
+                   name: `Level ${level} Carver`,
+                   parts: [
+                     {
+                       name: 'Blade',
+                       primaryDescriptor: desc,
+                       descriptors: {
+                         [desc]: { level }
+                       }
+                     }
+                   ],
+                   interaction: { name: Interaction.Carves, level: carvesLevel }
+                 });
 
 test('A level 2 carver should bleed a level 2 meat', () => {
 

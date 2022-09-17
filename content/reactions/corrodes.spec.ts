@@ -4,18 +4,18 @@ import { Descriptor, Interaction, ItemConfig } from '../interfaces';
 
 const getCorroder: (level: number, corrodesLevel: number) => ItemConfig =
                    (level: number, corrodesLevel: number) => ({
-  name: `Level ${level} Corroder`,
-  parts: [
-    {
-      name: 'Acid Flask',
-      primaryDescriptor: Descriptor.Corrosive,
-      descriptors: {
-        [Descriptor.Corrosive]: { level }
-      }
-    }
-  ],
-  interaction: { name: Interaction.Corrodes, level: corrodesLevel }
-});
+                     name: `Level ${level} Corroder`,
+                     parts: [
+                       {
+                         name: 'Acid Flask',
+                         primaryDescriptor: Descriptor.Corrosive,
+                         descriptors: {
+                           [Descriptor.Corrosive]: { level }
+                         }
+                       }
+                     ],
+                     interaction: { name: Interaction.Corrodes, level: corrodesLevel }
+                   });
 
 test('A level 2 corroder should combine with blood to make goo', () => {
   const source = getCorroder(1, 2);

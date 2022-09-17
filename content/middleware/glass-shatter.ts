@@ -14,14 +14,14 @@ export function shouldShatter(item: ItemConfig) {
 /**
  * We check if glass has hot and cold applied to it. If so, we shatter it.
  */
- export class GlassShatter implements PostMiddleware {
+export class GlassShatter implements PostMiddleware {
 
   triggers: MiddlewareType[] = ['post'];
 
   // this is enabled by default
   isEnabled() {
- return true;
-}
+    return true;
+  }
 
   /*
    * Here, we only check if we have glass and it should shatter (temperature-wise)
@@ -34,8 +34,8 @@ export function shouldShatter(item: ItemConfig) {
 
   // this should never block other post- middleware
   shouldPostBlock() {
- return false;
-}
+    return false;
+  }
 
   post(args: ReactionExtendedArgs, response: ReactionResponse) {
     response.newTarget = undefined;

@@ -3,18 +3,18 @@ import { Descriptor, Interaction, ItemConfig } from '../interfaces';
 
 const getSmasher: (level: number, smashesLevel: number) => ItemConfig =
                   (level: number, smashesLevel: number) => ({
-  name: `Level ${level} Smasher`,
-  parts: [
-    {
-      name: 'Hammer',
-      primaryDescriptor: Descriptor.Metal,
-      descriptors: {
-        [Descriptor.Metal]: { level }
-      }
-    }
-  ],
-  interaction: { name: Interaction.Smashes, level: smashesLevel }
-});
+                    name: `Level ${level} Smasher`,
+                    parts: [
+                      {
+                        name: 'Hammer',
+                        primaryDescriptor: Descriptor.Metal,
+                        descriptors: {
+                          [Descriptor.Metal]: { level }
+                        }
+                      }
+                    ],
+                    interaction: { name: Interaction.Smashes, level: smashesLevel }
+                  });
 
 test('A level 2 smasher should shatter level 1 cold items', () => {
 

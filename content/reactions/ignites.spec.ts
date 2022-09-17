@@ -3,18 +3,18 @@ import { Descriptor, Interaction, ItemConfig } from '../interfaces';
 
 const getTorch: (level: number, ignitesLevel: number) => ItemConfig =
                 (level: number, ignitesLevel: number) => ({
-  name: `Level ${level} Torch`,
-  parts: [
-    {
-      name: 'Torch',
-      primaryDescriptor: Descriptor.Hot,
-      descriptors: {
-        [Descriptor.Hot]: { level }
-      }
-    }
-  ],
-  interaction: { name: Interaction.Ignites, level: ignitesLevel }
-});
+                  name: `Level ${level} Torch`,
+                  parts: [
+                    {
+                      name: 'Torch',
+                      primaryDescriptor: Descriptor.Hot,
+                      descriptors: {
+                        [Descriptor.Hot]: { level }
+                      }
+                    }
+                  ],
+                  interaction: { name: Interaction.Ignites, level: ignitesLevel }
+                });
 
 test('A level 2 torch should remove cold and add wet', () => {
 

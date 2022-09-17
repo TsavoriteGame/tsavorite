@@ -13,8 +13,8 @@ export class DiluteCorrosive implements PostMiddleware {
   triggers: MiddlewareType [] = ['post'];
 
   isEnabled() {
- return true;
-}
+    return true;
+  }
 
   shouldPostFire(args: ReactionExtendedArgs, response: ReactionResponse) {
     return args.sourceItem.interaction
@@ -24,8 +24,8 @@ export class DiluteCorrosive implements PostMiddleware {
   }
 
   shouldPostBlock() {
- return false;
-}
+    return false;
+  }
 
   post(args: ReactionExtendedArgs, response: ReactionResponse) {
 
@@ -35,7 +35,7 @@ export class DiluteCorrosive implements PostMiddleware {
     if (response.success)
       response.message = `${response.message} Acid diluted!`;
     else
-      response.message = `Acid diluted!`;
+      response.message = 'Acid diluted!';
 
     response.success = true;
 

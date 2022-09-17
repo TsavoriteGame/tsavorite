@@ -8,14 +8,14 @@ export function shouldCombust(item: ItemConfig) {
 /**
  * We check if the target item is AT ALL combustible, and set it on fire if so.
  */
- export class IgniteCombustible implements PostMiddleware {
+export class IgniteCombustible implements PostMiddleware {
 
   triggers: MiddlewareType[] = ['post'];
 
   // this is enabled by default
   isEnabled() {
- return true;
-}
+    return true;
+  }
 
   /*
    * Here, we only check if we have glass and it should shatter (temperature-wise)
@@ -29,8 +29,8 @@ export function shouldCombust(item: ItemConfig) {
 
   // this should never block other post- middleware
   shouldPostBlock() {
- return false;
-}
+    return false;
+  }
 
   post(args: ReactionExtendedArgs, response: ReactionResponse) {
     const part = getPartWithDescriptor(args.targetItem, Descriptor.Combustible);
@@ -40,8 +40,8 @@ export function shouldCombust(item: ItemConfig) {
 
     if(response.success)
       response.message = `${response.message} Target combusted!`;
-     else
-      response.message = `Target combusted!`;
+    else
+      response.message = 'Target combusted!';
 
     response.success = true;
 

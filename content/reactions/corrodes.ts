@@ -24,7 +24,7 @@ const containerCheck: (args: ReactionExtendedArgs, glassLevel: number) => Reacti
       newSource: args.sourceItem,
       newTarget: undefined,
       extraItems: [
-        { name: `Acid Flask Lv.1`, parts: [
+        { name: 'Acid Flask Lv.1', parts: [
           { name: 'Bottle', primaryDescriptor: Descriptor.Glass, foundational: true,
             descriptors: { [Descriptor.Glass]: { level: glassLevel }, [Descriptor.Container]: { level: 1 } } },
           { name: 'Acid', primaryDescriptor: Descriptor.Corrosive, descriptors: { [Descriptor.Corrosive]: { level: 1 } } }

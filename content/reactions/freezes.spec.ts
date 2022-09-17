@@ -3,18 +3,18 @@ import { Descriptor, Interaction, ItemConfig } from '../interfaces';
 
 const getFreezer: (level: number, freezeLevel: number) => ItemConfig =
                   (level: number, freezeLevel: number) => ({
-  name: `Level ${level} Freezer`,
-  parts: [
-    {
-      name: 'Freezer',
-      primaryDescriptor: Descriptor.Cold,
-      descriptors: {
-        [Descriptor.Cold]: { level }
-      }
-    }
-  ],
-  interaction: { name: Interaction.Freezes, level: freezeLevel }
-});
+                    name: `Level ${level} Freezer`,
+                    parts: [
+                      {
+                        name: 'Freezer',
+                        primaryDescriptor: Descriptor.Cold,
+                        descriptors: {
+                          [Descriptor.Cold]: { level }
+                        }
+                      }
+                    ],
+                    interaction: { name: Interaction.Freezes, level: freezeLevel }
+                  });
 
 test('A level 2 freezer should chill level 2 blood', () => {
 

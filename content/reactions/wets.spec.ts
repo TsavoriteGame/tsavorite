@@ -3,18 +3,18 @@ import { Descriptor, Interaction, ItemConfig } from '../interfaces';
 
 const getWetter: (level: number, wetsLevel: number) => ItemConfig =
                  (level: number, wetsLevel: number) => ({
-  name: `Level ${level} Wetter`,
-  parts: [
-    {
-      name: 'Bucket of Water',
-      primaryDescriptor: Descriptor.Wet,
-      descriptors: {
-        [Descriptor.Wet]: { level }
-      }
-    }
-  ],
-  interaction: { name: Interaction.Wets, level: wetsLevel }
-});
+                   name: `Level ${level} Wetter`,
+                   parts: [
+                     {
+                       name: 'Bucket of Water',
+                       primaryDescriptor: Descriptor.Wet,
+                       descriptors: {
+                         [Descriptor.Wet]: { level }
+                       }
+                     }
+                   ],
+                   interaction: { name: Interaction.Wets, level: wetsLevel }
+                 });
 
 test('A level 2 wetter should make blood wetter', () => {
 

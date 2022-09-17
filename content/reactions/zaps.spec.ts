@@ -3,19 +3,19 @@ import { Descriptor, Interaction, ItemConfig } from '../interfaces';
 
 const getZapper: (level: number, zapsLevel: number) => ItemConfig =
                  (level: number, zapsLevel: number) => ({
-  name: `Level ${level} Zapper`,
-  parts: [
-    {
-      name: 'Baton',
-      primaryDescriptor: Descriptor.Metal,
-      descriptors: {
-        [Descriptor.Metal]: { level },
-        [Descriptor.Electric]: { level }
-      }
-    }
-  ],
-  interaction: { name: Interaction.Zaps, level: zapsLevel }
-});
+                   name: `Level ${level} Zapper`,
+                   parts: [
+                     {
+                       name: 'Baton',
+                       primaryDescriptor: Descriptor.Metal,
+                       descriptors: {
+                         [Descriptor.Metal]: { level },
+                         [Descriptor.Electric]: { level }
+                       }
+                     }
+                   ],
+                   interaction: { name: Interaction.Zaps, level: zapsLevel }
+                 });
 
 test('A level 2 zapper should magnetize metal', () => {
 
