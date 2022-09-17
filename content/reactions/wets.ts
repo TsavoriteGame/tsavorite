@@ -140,7 +140,7 @@ export const applications: Reactions = {
             { name: 'Water', primaryDescriptor: Descriptor.Wet, descriptors: { [Descriptor.Wet]: { level: 1 } } }
           ] }
         ]
-      }
+      };
     }
 
     return {

@@ -180,7 +180,7 @@ test('A level 2 wetter should fully dilute a pale corrosive item', () => {
 });
 
 test('A level 2 wetter should dilute the contents of an acid flask', () => {
-  
+
   const source = getWetter(1, 2);
 
   const target: ItemConfig = {

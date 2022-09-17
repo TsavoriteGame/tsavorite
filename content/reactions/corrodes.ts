@@ -17,7 +17,7 @@ const containerCheck: (args: ReactionExtendedArgs, glassLevel: number) => Reacti
   decreaseInteractionLevel(args.sourceItem, Interaction.Corrodes, 1);
 
   // if empty bottle
-  if (1 == args.targetItem.parts.length)
+  if (1 === args.targetItem.parts.length)
   {
     return {
       success: true,

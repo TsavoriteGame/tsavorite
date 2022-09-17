@@ -28,7 +28,7 @@
     "test:jest:watch": "jest --watch",
     "test:content": "jest",
     "version": "conventional-changelog -i CHANGELOG.md -s -r 0 && git add CHANGELOG.md",
-    "lint": "ng lint"
+    "lint": "ng lint && eslint content/**/*.ts"
   },
   "dependencies": {
     "@angular/common": "14.2.0",
