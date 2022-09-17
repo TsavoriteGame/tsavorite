@@ -1,5 +1,6 @@
 import { getInteractionLevel, decreaseInteractionLevel, decreaseDescriptorLevelForPart,
-  increaseDescriptorLevelForPart, getAllDescriptorsForPart, hasDescriptor, getPartWithDescriptor, getDescriptorLevel } from '../helpers';
+  increaseDescriptorLevelForPart, getAllDescriptorsForPart, hasDescriptor,
+  getPartWithDescriptor, getDescriptorLevel, getDescriptorLevelFromPart } from '../helpers';
 import { Descriptor, Reactions, Interaction, ReactionExtendedArgs, ReactionResponse } from '../interfaces';
 
 const zeroFail = (args: ReactionExtendedArgs) => ({
@@ -82,6 +83,99 @@ export const applications: Reactions = {
           { name: 'Goo', primaryDescriptor: Descriptor.Sticky, descriptors: { [Descriptor.Sticky]: { level: 1 } } }
         ] }
       ]
+    };
+  },
+
+  // dissolve a level of clay
+  [Descriptor.Clay]: (args: ReactionExtendedArgs) => {
+
+    const corrodesLevel = getInteractionLevel(args.sourceItem, Interaction.Corrodes);
+
+    const sourceItem = args.sourceItem;
+    const targetItem = args.targetItem;
+
+    if (corrodesLevel <= 0)
+      return zeroFail(args);
+
+    decreaseInteractionLevel(args.sourceItem, Interaction.Corrodes, 1);
+    const newClayLevel = decreaseDescriptorLevelForPart(args.targetPart, Descriptor.Clay, 1);
+
+    if (newClayLevel <= 0) {
+      return {
+        message: 'Completely dissolved the clay.',
+        success: true,
+        newSource: sourceItem,
+        newTarget: undefined
+      };
+    }
+
+    return {
+      message: 'Dissolved some of the clay.',
+      success: true,
+      newSource: sourceItem,
+      newTarget: targetItem
+    };
+  },
+
+  // dissolve a level of dirt
+  [Descriptor.Dirt]: (args: ReactionExtendedArgs) => {
+
+    const corrodesLevel = getInteractionLevel(args.sourceItem, Interaction.Corrodes);
+
+    const sourceItem = args.sourceItem;
+    const targetItem = args.targetItem;
+
+    if (corrodesLevel <= 0)
+      return zeroFail(args);
+
+    decreaseInteractionLevel(args.sourceItem, Interaction.Corrodes, 1);
+    const newDirtLevel = decreaseDescriptorLevelForPart(args.targetPart, Descriptor.Dirt, 1);
+
+    if (newDirtLevel <= 0) {
+      return {
+        message: 'Completely dissolved the dirt.',
+        success: true,
+        newSource: sourceItem,
+        newTarget: undefined
+      };
+    }
+
+    return {
+      message: 'Dissolved some of the dirt.',
+      success: true,
+      newSource: sourceItem,
+      newTarget: targetItem
+    };
+  },
+
+  // dissolve a level of fiber
+  [Descriptor.Fiber]: (args: ReactionExtendedArgs) => {
+
+    const corrodesLevel = getInteractionLevel(args.sourceItem, Interaction.Corrodes);
+
+    const sourceItem = args.sourceItem;
+    const targetItem = args.targetItem;
+
+    if (corrodesLevel <= 0)
+      return zeroFail(args);
+
+    decreaseInteractionLevel(args.sourceItem, Interaction.Corrodes, 1);
+    const newFiberLevel = decreaseDescriptorLevelForPart(args.targetPart, Descriptor.Fiber, 1);
+
+    if (newFiberLevel <= 0) {
+      return {
+        message: 'Completely dissolved the fiber.',
+        success: true,
+        newSource: sourceItem,
+        newTarget: undefined
+      };
+    }
+
+    return {
+      message: 'Dissolved some of the fiber.',
+      success: true,
+      newSource: sourceItem,
+      newTarget: targetItem
     };
   },
 
@@ -171,6 +265,37 @@ export const applications: Reactions = {
 
     return {
       message: 'The metal has been tarnished.',
+      success: true,
+      newSource: sourceItem,
+      newTarget: targetItem
+    };
+  },
+
+  // dissolve a level of mud
+  [Descriptor.Mud]: (args: ReactionExtendedArgs) => {
+
+    const corrodesLevel = getInteractionLevel(args.sourceItem, Interaction.Corrodes);
+
+    const sourceItem = args.sourceItem;
+    const targetItem = args.targetItem;
+
+    if (corrodesLevel <= 0)
+      return zeroFail(args);
+
+    decreaseInteractionLevel(args.sourceItem, Interaction.Corrodes, 1);
+    const newMudLevel = decreaseDescriptorLevelForPart(args.targetPart, Descriptor.Mud, 1);
+
+    if (newMudLevel <= 0) {
+      return {
+        message: 'Completely dissolved the fiber.',
+        success: true,
+        newSource: sourceItem,
+        newTarget: undefined
+      };
+    }
+
+    return {
+      message: 'Dissolved some of the fiber.',
       success: true,
       newSource: sourceItem,
       newTarget: targetItem
