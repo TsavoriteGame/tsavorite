@@ -1,5 +1,5 @@
 import { getInteractionLevel, decreaseInteractionLevel, decreaseDescriptorLevelForPart,
-  increaseDescriptorLevelForPart, getAllDescriptorsForPart, hasDescriptor, getPartWithDescriptor, getDescriptorLevel } from '../helpers';
+  increaseDescriptorLevelForPart, getAllDescriptorsForPart, hasDescriptor, getPartWithDescriptor, getDescriptorLevel, getDescriptorLevelFromPart } from '../helpers';
 import { Descriptor, Reactions, Interaction, ReactionExtendedArgs, ReactionResponse } from '../interfaces';
 
 const zeroFail = (args: ReactionExtendedArgs) => ({
@@ -83,6 +83,96 @@ export const applications: Reactions = {
         ] }
       ]
     };
+  },
+
+  // dissolve a level of clay
+  [Descriptor.Clay]: (args: ReactionExtendedArgs) => {
+
+    const corrodesLevel = getInteractionLevel(args.sourceItem, Interaction.Corrodes);
+
+    const sourceItem = args.sourceItem;
+    const targetItem = args.targetItem;
+
+    if (corrodesLevel <= 0)
+      return zeroFail(args);
+
+    decreaseInteractionLevel(args.sourceItem, Interaction.Corrodes, 1);
+    decreaseDescriptorLevelForPart(args.targetPart, Descriptor.Clay, 1);
+
+    if (0 >= getDescriptorLevelFromPart(args.targetPart, Descriptor.Clay))
+      return {
+        message: 'Completely dissolved the clay.',
+        success: true,
+        newSource: sourceItem,
+        newTarget: undefined
+      }
+
+    return {
+      message: 'Dissolved some of the clay.',
+      success: true,
+      newSource: sourceItem,
+      newTarget: targetItem
+    }
+  },
+
+  // dissolve a level of dirt
+  [Descriptor.Dirt]: (args: ReactionExtendedArgs) => {
+
+    const corrodesLevel = getInteractionLevel(args.sourceItem, Interaction.Corrodes);
+
+    const sourceItem = args.sourceItem;
+    const targetItem = args.targetItem;
+
+    if (corrodesLevel <= 0)
+      return zeroFail(args);
+
+    decreaseInteractionLevel(args.sourceItem, Interaction.Corrodes, 1);
+    decreaseDescriptorLevelForPart(args.targetPart, Descriptor.Dirt, 1);
+
+    if (0 >= getDescriptorLevelFromPart(args.targetPart, Descriptor.Dirt))
+      return {
+        message: 'Completely dissolved the dirt.',
+        success: true,
+        newSource: sourceItem,
+        newTarget: undefined
+      }
+
+    return {
+      message: 'Dissolved some of the dirt.',
+      success: true,
+      newSource: sourceItem,
+      newTarget: targetItem
+    }
+  },
+
+  // dissolve a level of fiber
+  [Descriptor.Fiber]: (args: ReactionExtendedArgs) => {
+
+    const corrodesLevel = getInteractionLevel(args.sourceItem, Interaction.Corrodes);
+
+    const sourceItem = args.sourceItem;
+    const targetItem = args.targetItem;
+
+    if (corrodesLevel <= 0)
+      return zeroFail(args);
+
+    decreaseInteractionLevel(args.sourceItem, Interaction.Corrodes, 1);
+    decreaseDescriptorLevelForPart(args.targetPart, Descriptor.Fiber, 1);
+
+    if (0 >= getDescriptorLevelFromPart(args.targetPart, Descriptor.Fiber))
+      return {
+        message: 'Completely dissolved the fiber.',
+        success: true,
+        newSource: sourceItem,
+        newTarget: undefined
+      }
+
+    return {
+      message: 'Dissolved some of the fiber.',
+      success: true,
+      newSource: sourceItem,
+      newTarget: targetItem
+    }
   },
 
   // if container, fill container
@@ -175,6 +265,36 @@ export const applications: Reactions = {
       newSource: sourceItem,
       newTarget: targetItem
     };
+  },
+
+  // dissolve a level of mud
+  [Descriptor.Mud]: (args: ReactionExtendedArgs) => {
+
+    const corrodesLevel = getInteractionLevel(args.sourceItem, Interaction.Corrodes);
+
+    const sourceItem = args.sourceItem;
+    const targetItem = args.targetItem;
+
+    if (corrodesLevel <= 0)
+      return zeroFail(args);
+
+    decreaseInteractionLevel(args.sourceItem, Interaction.Corrodes, 1);
+    decreaseDescriptorLevelForPart(args.targetPart, Descriptor.Mud, 1);
+
+    if (0 >= getDescriptorLevelFromPart(args.targetPart, Descriptor.Mud))
+      return {
+        message: 'Completely dissolved the fiber.',
+        success: true,
+        newSource: sourceItem,
+        newTarget: undefined
+      }
+
+    return {
+      message: 'Dissolved some of the fiber.',
+      success: true,
+      newSource: sourceItem,
+      newTarget: targetItem
+    }
   },
 
   // removes a level of wet from an item
