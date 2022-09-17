@@ -19,7 +19,7 @@ export class DetailComponent implements OnInit {
 
   public reactionResult: ReactionResponse;
 
-  public get allItems() {
+  public get allItems(): ItemConfig[] {
     return (items as any).default || items;
   }
 

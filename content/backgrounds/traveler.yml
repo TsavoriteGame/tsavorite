@@ -1,0 +1,9 @@
+
+name: Traveler
+icon: background-traveler
+realName: Walks With Trees
+disabled: true
+archetype: Villager
+description: \???
+goal: \???
+startingKit: []

@@ -1,2 +1,10 @@
-<div class="splash-container">
-</div>
+
+<ng-container *ngIf="hasGame$ | async; then gameplay else gamesetup"></ng-container>
+
+<ng-template #gameplay>
+  <app-gameplay></app-gameplay>
+</ng-template>
+
+<ng-template #gamesetup>
+  <app-pre-game-setup></app-pre-game-setup>
+</ng-template>

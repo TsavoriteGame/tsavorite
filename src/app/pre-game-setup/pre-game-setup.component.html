@@ -1,1 +1,118 @@
-<p>pre-game-setup works!</p>
+<div class="splash-container d-flex justify-content-center align-items-center">
+  <div class="card setup-card">
+    <div class="card-header">
+      Choose Your Hero
+    </div>
+
+    <div class="card-body">
+      <div class="row">
+        <div class="col-6 left-side">
+          <div class="row">
+            <div class="col-4 background-selector"
+                 *ngFor="let background of backgrounds"
+                 [class.disabled]="background.disabled">
+
+              <app-info-card class="background-container"
+                             [active]="selectedBackground && background.name === selectedBackground.name"
+                             [icon]="background.icon"
+                             [title]="background.realName"
+                             [subtitle]="background.name"
+                             (click)="selectBackground(background)"></app-info-card>
+            </div>
+
+          </div>
+        </div>
+
+        <div class="col-6 right-side d-flex flex-column justify-content-between">
+          <div class="blank-slate" *ngIf="!selectedBackground">Choose a character to see more information about them.</div>
+
+          <ng-container *ngIf="selectedBackground">
+            <div>
+              <div class="row title-row">
+                <div class="col">
+                  <h1 class="text-center">Your Hero</h1>
+                </div>
+              </div>
+
+              <div class="row background-row">
+                <div class="col-4 centered image-area">
+                  <app-icon [size]="128"
+                            [icon]="selectedBackground.icon"></app-icon>
+                </div>
+
+                <div class="col-8 text-area">
+                  <div>
+                    <div class="real-name">{{ selectedBackground.realName }}</div>
+                    <div class="background-name">{{ selectedBackground.name }}</div>
+                    <div class="goal">Goal: {{ selectedBackground.goal }}</div>
+                    <div class="description">{{ selectedBackground.description }}</div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row title-row mt-3">
+                <div class="col">
+                  <h1 class="text-center">Your Archetype</h1>
+                </div>
+              </div>
+
+              <div class="row archetype-row mt-3">
+                <div class="col-8 text-area">
+                  <div class="archetype-name">{{ selectedArchetype.name }}</div>
+                  <div class="description">{{ selectedArchetype.description }}</div>
+                </div>
+
+                <div class="col-4 centered image-area">
+                  <app-icon [size]="128"
+                            [icon]="selectedArchetype.icon"></app-icon>
+                </div>
+              </div>
+
+              <div class="row title-row mt-3" *ngIf="selectedBackground.startingKit.length > 0">
+                <div class="col">
+                  <h1 class="text-center">Your Starting Items</h1>
+                </div>
+              </div>
+
+              <div class="row" *ngIf="selectedBackground.startingKit.length > 0">
+                <div class="col-4" *ngFor="let item of selectedBackground.startingKit">
+
+                  <app-info-card class="background-container"
+                                 [icon]="item.icon"
+                                 [title]="item.description"></app-info-card>
+
+                </div>
+              </div>
+            </div>
+
+            <div>
+              <div class="row">
+                <div class="col">
+
+                  <swal
+                    #playSwal
+                    [title]="'Play The Game?'"
+                    [text]="'You will start your adventure as ' + selectedBackground.realName + ' the ' + selectedBackground.name + '.'"
+                    [confirmButtonText]="'Yes, play!'"
+                    [cancelButtonText]="'No'"
+                    [showCancelButton]="true"
+                    [focusCancel]="true"
+                    [heightAuto]="false"
+                    (confirm)="playGame()">
+                  </swal>
+
+                  <button type="button"
+                          class="btn btn-primary d-block play"
+                          [swal]="playSwal">
+                    Play!
+                  </button>
+                </div>
+              </div>
+            </div>
+          </ng-container>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

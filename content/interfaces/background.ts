@@ -1,12 +1,15 @@
 
 export interface BackgroundKitItem {
   description: string;
+  icon: string;
   item: string;
-  changes: Record<string, number>;
+  itemChanges: Record<string, number>;
 }
 
 export interface Background {
   name: string;
+  icon: string;
+  disabled?: boolean;
   realName: string;
   description: string;
   archetype: string;

@@ -7,6 +7,7 @@ description: Born into nothing, you seek wealth beyond mortal dreams.
 goal: Get 100 gold.
 startingKit:
   - description: 20 Gold Coins
-    item: Gold Coins
-    changes:
+    icon: goldcoin
+    itemName: Gold Coins
+    itemChanges:
       'interaction.level': 20

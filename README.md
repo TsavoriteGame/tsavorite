@@ -53,3 +53,7 @@ Permenary assets are generated using Stable Diffusion. While setup of SD is not 
 * Sampling Steps: 150 samples
 * Sampling Method: k_euler
 * Classifier Free Guidance Scale: 18
+
+## Important Information
+
+Minimum supported resolution: 1440x900

@@ -1,0 +1,42 @@
+
+.container {
+  border: 1px solid #000;
+  border-radius: 5px;
+
+  background-color: #000;
+  color: #fff;
+
+  &.active {
+    @keyframes active-glow {
+      from {
+        box-shadow: 0 0 10px -10px #12463C;
+      }
+      to {
+        box-shadow: 0 0 10px 10px #12463C;
+      }
+    }
+
+    animation: active-glow 1s infinite alternate;
+  }
+}
+
+.image-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-top: 0.75rem;
+}
+
+.title, .subtitle {
+  text-align: center;
+}
+
+.title {
+  letter-spacing: 1px;
+  font-size: 1.5rem;
+}
+
+.subtitle {
+  font-size: 1.25rem;
+  font-style: italic;
+}

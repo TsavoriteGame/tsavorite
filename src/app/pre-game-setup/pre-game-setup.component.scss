@@ -1,0 +1,108 @@
+
+.setup-card {
+  width: 90vw;
+  height: 90vh;
+
+  .card-body {
+    padding: 0;
+
+    .row {
+      --bs-gutter-x: 0;
+    }
+  }
+}
+
+.left-side {
+  border-right: 1px solid var(--bs-card-border-color);
+}
+
+.left-side, .right-side {
+  overflow-y: auto;
+  height: calc(90vh - 56px);
+
+  padding: 1rem;
+}
+
+.background-selector {
+  padding: 0.5rem;
+
+  &.disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+  }
+
+  .background-container {
+    cursor: pointer;
+  }
+
+  .image-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-top: 0.75rem;
+  }
+
+  .real-name, .background-name {
+    text-align: center;
+  }
+
+  .real-name {
+    letter-spacing: 1px;
+    font-size: 1.5rem;
+  }
+
+  .background-name {
+    font-size: 1.25rem;
+    font-style: italic;
+  }
+}
+
+.background-row, .archetype-row {
+  background: #000;
+  color: #fff;
+  border: 1px solid #000;
+  border-radius: 5px;
+
+  .image-area {
+    padding: 1rem;
+  }
+
+  .text-area {
+    padding: 1rem;
+  }
+}
+
+.background-row {
+  .real-name {
+    font-size: 1.5rem;
+    letter-spacing: 1px;
+  }
+
+  .background-name {
+    font-size: 1.25rem;
+    font-style: italic;
+  }
+
+  .description {
+    font-style: italic;
+  }
+
+  .goal {
+    font-size: 1.25rem;
+  }
+}
+
+.archetype-row {
+  .archetype-name {
+    font-size: 1.5rem;
+    letter-spacing: 1px;
+  }
+
+  .description {
+    font-size: 1.25rem;
+  }
+}
+
+.play {
+  width: 100%;
+}
