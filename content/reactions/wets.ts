@@ -116,6 +116,41 @@ export const applications: Reactions = {
     };
   },
 
+  // corrosives should be diluted
+  [Descriptor.Corrosive]: (args: ReactionExtendedArgs) => {
+    const wetsLevel = getInteractionLevel(args.sourceItem, Interaction.Wets);
+
+    const sourceItem = args.sourceItem;
+    const targetItem = args.targetItem;
+
+    if (0 >= wetsLevel) return zeroFail(args);
+
+    decreaseInteractionLevel(args.sourceItem, Interaction.Wets, 1);
+    const newCorrosiveLevel = decreaseDescriptorLevelForPart(args.targetPart, Descriptor.Corrosive, 1);
+
+    if (0 >= newCorrosiveLevel)
+    {
+      return {
+        message: 'Diluted the corrosive material into water.',
+        success: true,
+        newSource: sourceItem,
+        newTarget: undefined,
+        extraItems: [
+          { name: 'Water', parts: [
+            { name: 'Water', primaryDescriptor: Descriptor.Wet, descriptors: { [Descriptor.Wet]: { level: 1 } } }
+          ] }
+        ]
+      }
+    }
+
+    return {
+      message: 'Diluted the corrosive substance.',
+      success: true,
+      newSource: sourceItem,
+      newTarget: targetItem
+    };
+  },
+
   // dirt can be made into mud
   [Descriptor.Dirt]: (args: ReactionExtendedArgs) => {
 
