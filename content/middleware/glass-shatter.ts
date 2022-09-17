@@ -19,7 +19,9 @@ export function shouldShatter(item: ItemConfig) {
   triggers: MiddlewareType[] = ['post'];
 
   // this is enabled by default
-  isEnabled() { return true; }
+  isEnabled() {
+ return true;
+}
 
   /*
    * Here, we only check if we have glass and it should shatter (temperature-wise)
@@ -31,7 +33,9 @@ export function shouldShatter(item: ItemConfig) {
   }
 
   // this should never block other post- middleware
-  shouldPostBlock() { return false; }
+  shouldPostBlock() {
+ return false;
+}
 
   post(args: ReactionExtendedArgs, response: ReactionResponse) {
     response.newTarget = undefined;

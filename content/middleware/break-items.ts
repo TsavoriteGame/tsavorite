@@ -49,7 +49,9 @@ export class BreakItems implements PostMiddleware {
   triggers: MiddlewareType[] = ['post'];
 
   // this is enabled by default
-  isEnabled() { return true; }
+  isEnabled() {
+ return true;
+}
 
   /*
    * Here, we only check if we're carving or smashing. And only if we succeeded in interacting to begin with.
@@ -62,7 +64,9 @@ export class BreakItems implements PostMiddleware {
   }
 
   // this should never block other post- middleware
-  shouldPostBlock() { return false; }
+  shouldPostBlock() {
+ return false;
+}
 
   post(args: ReactionExtendedArgs, response: ReactionResponse) {
     const shouldSourceBreak = shouldItemBreakWhenInteractingWith(response.newSource, response.newTarget);

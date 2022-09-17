@@ -25,6 +25,7 @@
       "rules": {
         "prefer-arrow/prefer-arrow-functions": 0,
         "curly": [2, "multi-or-nest", "consistent"],
+        "brace-style": ["error", "1tbs"],
         "@angular-eslint/directive-selector":  0,
         "@angular-eslint/component-selector": [
           "error",

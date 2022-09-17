@@ -12,7 +12,9 @@ export class DiluteCorrosive implements PostMiddleware {
 
   triggers: MiddlewareType [] = ['post'];
 
-  isEnabled() { return true; }
+  isEnabled() {
+ return true;
+}
 
   shouldPostFire(args: ReactionExtendedArgs, response: ReactionResponse) {
     return args.sourceItem.interaction
@@ -21,7 +23,9 @@ export class DiluteCorrosive implements PostMiddleware {
         && shouldDilute(response.newTarget);
   }
 
-  shouldPostBlock() { return false; }
+  shouldPostBlock() {
+ return false;
+}
 
   post(args: ReactionExtendedArgs, response: ReactionResponse) {
 
