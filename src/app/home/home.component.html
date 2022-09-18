@@ -13,13 +13,36 @@
           </h2>
 
           <div class="places-to-go">
-            <div class="d-grid gap-2 px-3 d-block mt-1">
-              <button type="button"
-                      class="btn btn-primary d-block"
-                      routerLink="/play">
-                {{ 'Pages.Home.Links.Play' | translate }}
-              </button>
-            </div>
+
+            <ng-container *ngIf="hasGame$ | async; then hasGame else noGame"></ng-container>
+
+            <ng-template #noGame>
+              <div class="d-grid gap-2 px-3 d-block mt-1">
+                <button type="button"
+                        class="btn btn-primary d-block"
+                        routerLink="/play">
+                  {{ 'Pages.Home.Links.Play' | translate }}
+                </button>
+              </div>
+            </ng-template>
+
+            <ng-template #hasGame>
+              <div class="d-grid gap-2 px-3 d-block mt-1">
+                <button type="button"
+                        class="btn btn-primary d-block"
+                        routerLink="/play">
+                  {{ 'Pages.Home.Links.Continue' | translate }}
+                </button>
+              </div>
+
+              <div class="d-grid gap-2 px-3 d-block mt-1">
+                <button type="button"
+                        class="btn btn-primary d-block"
+                        [swal]="abandonSwal">
+                  {{ 'Pages.Home.Links.Abandon' | translate }}
+                </button>
+              </div>
+            </ng-template>
 
             <div class="d-grid gap-2 px-3 d-block mt-1">
               <button type="button"
@@ -74,6 +97,18 @@
     </div>
   </div>
 </div>
+
+<swal
+  #abandonSwal
+  [title]="'Pages.Home.AbandonConfirm' | translate"
+  [text]="'Pages.Home.AbandonText' | translate"
+  [confirmButtonText]="'Pages.Home.AbandonYes' | translate"
+  [cancelButtonText]="'Pages.Home.AbandonNo' | translate"
+  [showCancelButton]="true"
+  [focusCancel]="true"
+  [heightAuto]="false"
+  (confirm)="abandon()">
+</swal>
 
 <swal
   #quitSwal

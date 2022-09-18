@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Action, Selector, State, StateContext } from '@ngxs/store';
 import { Archetype, Background, ItemConfig } from '../../../../../../content/interfaces';
-import { StartGame } from '../actions';
+import { AbandonGame, StartGame } from '../actions';
 import { ContentService } from '../content.service';
 
 export interface IGameCharacter {
@@ -52,6 +52,11 @@ export class GameState {
     });
 
     ctx.patchState({ character });
+  }
+
+  @Action(AbandonGame)
+  abandonGame(ctx: StateContext<IGame>) {
+    ctx.setState(defaultOptions());
   }
 
 }
