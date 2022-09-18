@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { getReactionBetweenTwoItems } from '../../../content/helpers';
 import { ItemConfig, ItemDescriptor, ReactionResponse } from '../../../content/interfaces';
-
-import * as items from '../../../content/items/items.json';
+import { ContentService } from '../core/services/game/content.service';
 
 @Component({
   selector: 'app-detail',
@@ -19,9 +18,7 @@ export class DetailComponent implements OnInit {
 
   public reactionResult: ReactionResponse;
 
-  public get allItems(): ItemConfig[] {
-    return (items as any).default || items;
-  }
+  constructor(public contentService: ContentService) { }
 
   ngOnInit(): void {
   }

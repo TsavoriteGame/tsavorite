@@ -25,6 +25,12 @@ import { RouterModule } from '@angular/router';
 import { OptionsModule } from './options/options.module';
 import { PlayModule } from './play/play.module';
 
+import { environment } from '../environments/environment';
+
+import * as Stores from './core/services/game/stores';
+
+const allStores = Object.keys(Stores).filter(x => x.includes('State')).map(x => Stores[x]);
+
 // AoT requires an exported function for factories
 const httpLoaderFactory = (http: HttpClient): TranslateHttpLoader =>  new TranslateHttpLoader(http, './assets/i18n/', '.json');
 
@@ -42,9 +48,13 @@ const httpLoaderFactory = (http: HttpClient): TranslateHttpLoader =>  new Transl
     PlayModule,
     AppRoutingModule,
     RouterModule,
-    NgxsModule.forRoot([]),
+    NgxsModule.forRoot(allStores, {
+      developmentMode: !environment.production
+    }),
     NgxsLoggerPluginModule.forRoot(),
-    NgxsStoragePluginModule.forRoot(),
+    NgxsStoragePluginModule.forRoot({
+      key: allStores.filter(x => x !== Stores.GameSetupState)
+    }),
     NgxsReduxDevtoolsPluginModule.forRoot(),
     TranslateModule.forRoot({
       loader: {

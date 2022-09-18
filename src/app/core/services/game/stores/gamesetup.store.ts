@@ -24,7 +24,7 @@ export class GameSetupState {
   }
 
   @Action(SetBackground)
-  startGame(ctx: StateContext<IGameSetup>, { background }: SetBackground) {
+  setBackground(ctx: StateContext<IGameSetup>, { background }: SetBackground) {
     ctx.patchState({ chosenBackground: background });
   }
 

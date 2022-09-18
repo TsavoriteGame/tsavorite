@@ -1,4 +1,4 @@
-import { IGameSetup } from '../stores/gamesetup';
+import { IGameSetup } from '../stores/gamesetup.store';
 
 export class StartGame {
   static type = '[Game] Start Game';

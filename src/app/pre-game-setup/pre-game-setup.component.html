@@ -9,7 +9,7 @@
         <div class="col-6 left-side">
           <div class="row">
             <div class="col-4 background-selector"
-                 *ngFor="let background of backgrounds"
+                 *ngFor="let background of contentService.backgrounds"
                  [class.disabled]="background.disabled">
 
               <app-info-card class="background-container"
@@ -85,7 +85,7 @@
               </div>
             </div>
 
-            <div>
+            <div *ngIf="gameSetup$ | async as gameSetupData">
               <div class="row">
                 <div class="col">
 
@@ -98,7 +98,7 @@
                     [showCancelButton]="true"
                     [focusCancel]="true"
                     [heightAuto]="false"
-                    (confirm)="playGame()">
+                    (confirm)="playGame(gameSetupData)">
                   </swal>
 
                   <button type="button"

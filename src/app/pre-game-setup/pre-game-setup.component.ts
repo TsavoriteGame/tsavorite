@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { Select } from '@ngxs/store';
+import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { Archetype, Background } from '../../../content/interfaces';
 import { GameSetupState, IGameSetup } from '../core/services/game/stores';
 
-import * as archetypes from '../../../content/archetypes/archetypes.json';
-import * as backgrounds from '../../../content/backgrounds/backgrounds.json';
+import { SetBackground, StartGame } from '../core/services/game/actions';
+import { ContentService } from '../core/services/game/content.service';
 
 @Component({
   selector: 'app-pre-game-setup',
@@ -16,18 +16,10 @@ export class PreGameSetupComponent implements OnInit {
 
   @Select(GameSetupState.gameSetup) gameSetup$: Observable<IGameSetup>;
 
-  public get archetypes(): Background[] {
-    return (archetypes as any).default || archetypes;
-  }
-
-  public get backgrounds(): Background[] {
-    return (backgrounds as any).default || backgrounds;
-  }
-
   public selectedBackground: Background;
   public selectedArchetype: Archetype;
 
-  constructor() { }
+  constructor(private store: Store, public contentService: ContentService) { }
 
   ngOnInit(): void {
   }
@@ -36,11 +28,13 @@ export class PreGameSetupComponent implements OnInit {
     if(background.disabled) return;
 
     this.selectedBackground = background;
-    this.selectedArchetype = this.archetypes.find(a => a.name === this.selectedBackground.archetype);
+    this.selectedArchetype = this.contentService.archetypes.find(a => a.name === this.selectedBackground.archetype);
+
+    this.store.dispatch(new SetBackground(background.name));
   }
 
-  playGame() {
-
+  playGame(startData: IGameSetup) {
+    this.store.dispatch(new StartGame(startData));
   }
 
 }

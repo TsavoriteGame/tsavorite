@@ -25,7 +25,7 @@
               <li class="list-group-item"
                   [class.active]="i === activeIndex"
                   (click)="chooseItem(item, i)"
-                  *ngFor="let item of allItems; let i = index">
+                  *ngFor="let item of contentService.items; let i = index">
 
                 <div class="item row align-items-center">
                   <div class="col-2">
