@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-use-before-define */
+
 import { Interaction, Descriptor, ItemInteraction, ItemConfig,
   ItemDescriptor, ReactionFunction, ReactionArgs, ItemPart, ReactionExtendedArgs, ReactionResponse } from './interfaces';
 import { getAllMiddleware, getPostMiddleware, getPreMiddleware } from './middleware';
@@ -264,7 +266,7 @@ export function increasePartOrIncreaseDescriptorLevel(item: ItemConfig, descript
   const checkLevel = getDescriptorLevel(item, descriptor);
   if(checkLevel <= 0)
     addPart(item, part);
-   else
+  else
     increaseDescriptorLevel(item, descriptor, levelDelta);
 }
 

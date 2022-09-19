@@ -27,7 +27,7 @@ test('Setting an interaction should make sure it is at least level 0 and exists'
 
 test('Getting an interaction should return only the expected interaction', () => {
   const item: ItemConfig = {
-    name: `Level 1 Zapper`,
+    name: 'Level 1 Zapper',
     parts: [
       {
         name: 'Baton',
@@ -49,7 +49,7 @@ test('Getting an interaction should return only the expected interaction', () =>
 
 test('Getting a list of descriptors should return all valid descriptors', () => {
   const item: ItemConfig = {
-    name: `Level 1 Zapper`,
+    name: 'Level 1 Zapper',
     parts: [
       {
         name: 'Baton',
@@ -73,7 +73,7 @@ test('Getting a list of descriptors should return all valid descriptors', () => 
 
 test('Adding a descriptor should put it on the first part', () => {
   const item: ItemConfig = {
-    name: `Level 1 Zapper`,
+    name: 'Level 1 Zapper',
     parts: [
       {
         name: 'Baton',
@@ -94,7 +94,7 @@ test('Adding a descriptor should put it on the first part', () => {
 
 test('Getting a descriptor level should take it from the first available part', () => {
   const item: ItemConfig = {
-    name: `Level 1 Zapper`,
+    name: 'Level 1 Zapper',
     parts: [
       {
         name: 'Baton',
@@ -122,7 +122,7 @@ test('Getting a descriptor level should take it from the first available part', 
 
 test('Checking for a descriptor should check all available parts', () => {
   const item: ItemConfig = {
-    name: `Level 1 Zapper`,
+    name: 'Level 1 Zapper',
     parts: [
       {
         name: 'Baton',
@@ -148,7 +148,7 @@ test('Checking for a descriptor should check all available parts', () => {
 
 test('Changing a primary descriptor should work', () => {
   const item: ItemConfig = {
-    name: `Level 1 Zapper`,
+    name: 'Level 1 Zapper',
     parts: [
       {
         name: 'Baton',
@@ -168,7 +168,7 @@ test('Changing a primary descriptor should work', () => {
 
 test('Getting a part with descriptor should get the first available part', () => {
   const item: ItemConfig = {
-    name: `Level 1 Zapper`,
+    name: 'Level 1 Zapper',
     parts: [
       {
         name: 'Baton',
@@ -194,7 +194,7 @@ test('Getting a part with descriptor should get the first available part', () =>
 
 test('Foundational parts/swapping should work', () => {
   const item: ItemConfig = {
-    name: `Level 1 Zapper`,
+    name: 'Level 1 Zapper',
     parts: [
       {
         name: 'Baton',
@@ -225,7 +225,7 @@ test('Foundational parts/swapping should work', () => {
 
 test('Descriptor level setting should work', () => {
   const item: ItemConfig = {
-    name: `Level 1 Zapper`,
+    name: 'Level 1 Zapper',
     parts: [
       {
         name: 'Baton',
@@ -256,7 +256,7 @@ test('Descriptor level setting should work', () => {
 
 test('Descriptor level setting should work', () => {
   const item: ItemConfig = {
-    name: `Level 1 Zapper`,
+    name: 'Level 1 Zapper',
     parts: [
       {
         name: 'Baton',
