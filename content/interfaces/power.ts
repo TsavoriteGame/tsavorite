@@ -1,4 +1,5 @@
+import { Card } from './card';
 
-export interface Power {
-  name: string;
+export interface Power extends Card {
+  timerModifier?: number;
 }

@@ -10,10 +10,10 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 import { IconComponent } from './components/icon/icon.component';
 import { InfoCardComponent } from './components/info-card/info-card.component';
-import { ItemSlotComponent } from './components/item-slot/item-slot.component';
+import { CardSlotComponent } from './components/card-slot/card-slot.component';
 
 @NgModule({
-  declarations: [PageNotFoundComponent, WebviewDirective, IconComponent, InfoCardComponent, ItemSlotComponent],
+  declarations: [PageNotFoundComponent, WebviewDirective, IconComponent, InfoCardComponent, CardSlotComponent],
   imports: [
     CommonModule,
     TranslateModule,
@@ -25,6 +25,6 @@ import { ItemSlotComponent } from './components/item-slot/item-slot.component';
         denyButtonColor: '#A50000'
       }))
     })],
-  exports: [TranslateModule, IconComponent, ItemSlotComponent, InfoCardComponent, WebviewDirective, FormsModule, NgbModule]
+  exports: [TranslateModule, IconComponent, CardSlotComponent, InfoCardComponent, WebviewDirective, FormsModule, NgbModule]
 })
 export class SharedModule {}

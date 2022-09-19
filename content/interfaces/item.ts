@@ -1,3 +1,4 @@
+import { Card } from './card';
 
 export enum Interaction {
   Buys = 'Buys',
@@ -61,9 +62,7 @@ export interface ItemInteraction {
   level?: number;
 }
 
-export interface ItemConfig {
-  name: string;
-  icon?: string;
+export interface ItemConfig extends Card {
   parts: ItemPart[];
   interaction?: ItemInteraction;
 }
