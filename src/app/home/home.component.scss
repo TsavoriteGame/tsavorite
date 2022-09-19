@@ -25,3 +25,24 @@
 .places-to-go {
   padding: 2rem;
 }
+
+.social {
+  position: fixed;
+  bottom: 0;
+  display: flex;
+  justify-content: space-between;
+  height: 100px;
+  margin-left: 30%;
+  margin-right: 30%;
+  width: 40%;
+
+  .icon-container {
+    max-height: 50px;
+
+    .icon {
+      background: var(--bs-card-cap-bg);
+      border-radius: var(--bs-card-border-radius);
+      border: var(--bs-card-border-width) solid var(--bs-card-border-color);
+    }
+  }
+}

@@ -20,6 +20,14 @@ export class HomeComponent implements OnInit {
     return BUILDVARS.version.tag || BUILDVARS.version.semverString || BUILDVARS.version.raw || BUILDVARS.version.hash;
   }
 
+  public readonly socialLinks = [
+    { icon: 'home',     link: 'https://tsavoritegame.com' },
+    { icon: 'discord',  link: 'http://discord.tsavoritegame.com' },
+    { icon: 'twitter',  link: 'http://twitter.tsavoritegame.com' },
+    { icon: 'reddit',   link: 'http://reddit.tsavoritegame.com' },
+    { icon: 'github',   link: 'http://github.tsavoritegame.com' }
+  ];
+
   constructor(private router: Router, private store: Store, public electronService: ElectronService) {}
 
   ngOnInit(): void {
