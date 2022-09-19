@@ -3,6 +3,7 @@ name: Samurai
 icon: background-samurai
 realName: Renzo Setsuken
 disabled: true
+hp: 12
 archetype: Villager
 description: \???
 goal: \???

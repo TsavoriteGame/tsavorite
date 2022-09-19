@@ -3,6 +3,7 @@ name: Tinkerer
 icon: background-tinkerer
 realName: Slippy Opel
 disabled: true
+hp: 8
 archetype: Villager
 description: \???
 goal: \???

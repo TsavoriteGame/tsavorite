@@ -3,6 +3,7 @@ name: Ranger
 icon: background-ranger
 realName: Belut Arenti
 disabled: true
+hp: 11
 archetype: Villager
 description: \???
 goal: \???

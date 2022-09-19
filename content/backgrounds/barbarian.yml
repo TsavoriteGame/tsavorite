@@ -3,6 +3,7 @@ name: Barbarian
 icon: background-barbarian
 realName: Aloysian
 disabled: true
+hp: 15
 archetype: Villager
 description: \???
 goal: \???

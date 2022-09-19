@@ -3,6 +3,7 @@ name: Mysticist
 icon: background-mysticist
 realName: Oscelot Oranj
 disabled: true
+hp: 8
 archetype: Villager
 description: \???
 goal: \???

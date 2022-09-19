@@ -3,6 +3,7 @@ name: King
 icon: background-king
 realName: Selyk Serin
 disabled: true
+hp: 8
 archetype: Villager
 description: \???
 goal: \???

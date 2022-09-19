@@ -2,6 +2,7 @@
 name: Merchant
 icon: background-merchant
 realName: Jams Conrad
+hp: 10
 archetype: Villager
 description: Born into nothing, you seek wealth beyond mortal dreams.
 goal: Get 100 gold.

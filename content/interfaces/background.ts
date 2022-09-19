@@ -11,6 +11,7 @@ export interface Background {
   icon: string;
   disabled?: boolean;
   realName: string;
+  hp: number;
   description: string;
   archetype: string;
   goal: string;

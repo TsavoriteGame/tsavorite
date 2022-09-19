@@ -3,6 +3,7 @@ name: Court Jester
 icon: background-jester
 realName: Revontulet
 disabled: true
+hp: 8
 archetype: Villager
 description: \???
 goal: \???

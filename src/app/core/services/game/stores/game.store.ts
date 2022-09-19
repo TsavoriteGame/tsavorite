@@ -4,19 +4,35 @@ import { Archetype, Background, ItemConfig } from '../../../../../../content/int
 import { AbandonGame, StartGame } from '../actions';
 import { ContentService } from '../content.service';
 
+export enum EquipmentSlot {
+  Head = 'head',
+  Hands = 'hands',
+  Body = 'body',
+  Legs = 'legs'
+}
+
 export interface IGameCharacter {
   name: string;
+  hp: number;
   background: Background;
   archetype: Archetype;
+  equipment: {
+    [EquipmentSlot.Head]: ItemConfig;
+    [EquipmentSlot.Hands]: ItemConfig;
+    [EquipmentSlot.Body]: ItemConfig;
+    [EquipmentSlot.Legs]: ItemConfig;
+  };
   items: ItemConfig[];
 }
 
 export interface IGame {
   character: IGameCharacter;
+  position: { x: number; y: number };
 }
 
 const defaultOptions: () => IGame = () => ({
-  character: undefined
+  character: undefined,
+  position: { x: 0, y: 0 },
 });
 
 @State<IGame>({
@@ -42,9 +58,16 @@ export class GameState {
 
     const character: IGameCharacter = {
       name: background.realName,
+      hp: background.hp,
       background,
       archetype,
-      items: []
+      items: [],
+      equipment: {
+        [EquipmentSlot.Head]: undefined,
+        [EquipmentSlot.Hands]: undefined,
+        [EquipmentSlot.Body]: undefined,
+        [EquipmentSlot.Legs]: undefined
+      }
     };
 
     background.startingKit.forEach(kitItem => {

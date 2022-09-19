@@ -3,6 +3,7 @@ name: Lone Survivor
 icon: background-lonesurvivor
 realName: Axel
 disabled: true
+hp: 12
 archetype: Villager
 description: \???
 goal: \???

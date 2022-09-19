@@ -3,6 +3,7 @@ name: Traveler
 icon: background-traveler
 realName: Walks With Trees
 disabled: true
+hp: 9
 archetype: Villager
 description: \???
 goal: \???

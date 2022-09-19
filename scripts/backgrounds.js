@@ -28,6 +28,10 @@ const validateBackgrounds = () => {
       throw new Error(`Background ${item.name} is missing a goal`);
     }
 
+    if(!item.hp) {
+      throw new Error(`Background ${item.name} is missing an hp value`);
+    }
+
     if(item.startingKit) {
       item.startingKit.forEach(kitItem => {
         if(!kitItem.description) {
