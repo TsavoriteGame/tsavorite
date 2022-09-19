@@ -26,6 +26,16 @@
           </div>
         </div>
       </div>
+
+      <div class="row" *ngFor="let power of character.powers">
+        <div class="col">
+          <div class="ms-3 mt-3 d-flex flex-row align-items-center">
+            <app-item-slot placeholder="Power" [item]="power"></app-item-slot>
+            <span class="icon-text ms-3" *ngIf="power">{{ power.name }}</span>
+            <span class="icon-text ms-3" *ngIf="!power">None</span>
+          </div>
+        </div>
+      </div>
     </div>
 
     <div class="col">

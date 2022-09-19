@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Action, Selector, State, StateContext } from '@ngxs/store';
-import { Archetype, Background, ItemConfig } from '../../../../../../content/interfaces';
+import { Archetype, Background, ItemConfig, Power } from '../../../../../../content/interfaces';
 import { AbandonGame, StartGame } from '../actions';
 import { ContentService } from '../content.service';
 
@@ -23,6 +23,7 @@ export interface IGameCharacter {
     [EquipmentSlot.Legs]: ItemConfig;
   };
   items: ItemConfig[];
+  powers: Power[];
 }
 
 export interface IGame {
@@ -72,7 +73,11 @@ export class GameState {
         [EquipmentSlot.Hands]: undefined,
         [EquipmentSlot.Body]: undefined,
         [EquipmentSlot.Legs]: undefined
-      }
+      },
+      powers: [
+        undefined,
+        undefined,
+      ]
     };
 
     background.startingKit.forEach(kitItem => {
