@@ -54,6 +54,10 @@ Permenary assets are generated using Stable Diffusion. While setup of SD is not 
 * Sampling Method: k_euler
 * Classifier Free Guidance Scale: 18
 
+## Creating Landmarks
+
+* Learning rxjs recommended: [rxmarbles](https://rxmarbles.com/).
+
 ## Important Information
 
 Minimum supported resolution: 1440x900
