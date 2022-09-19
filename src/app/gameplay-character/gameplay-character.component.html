@@ -12,7 +12,7 @@
       <div class="row">
         <div class="col">
           <div class="ms-3 mt-3 d-flex flex-row align-items-center">
-            <app-icon [icon]="character.archetype.icon" size="64"></app-icon>
+            <app-icon [icon]="character.archetype.icon" [size]="64"></app-icon>
             <span class="icon-text ms-3">{{ character.archetype.name }}</span>
           </div>
         </div>
@@ -21,7 +21,7 @@
       <div class="row">
         <div class="col">
           <div class="ms-3 mt-3 d-flex flex-row align-items-center">
-            <app-icon icon="health" size="64"></app-icon>
+            <app-icon icon="health" [size]="64"></app-icon>
             <span class="icon-text ms-3">{{ character.hp }} HP</span>
           </div>
         </div>
@@ -30,7 +30,7 @@
       <div class="row" *ngFor="let power of character.powers">
         <div class="col">
           <div class="ms-3 mt-3 d-flex flex-row align-items-center">
-            <app-item-slot placeholder="Power" [item]="power"></app-item-slot>
+            <app-item-slot placeholder="Power"></app-item-slot>
             <span class="icon-text ms-3" *ngIf="power">{{ power.name }}</span>
             <span class="icon-text ms-3" *ngIf="!power">None</span>
           </div>
@@ -49,36 +49,36 @@
       <div class="row">
         <div class="col">
           <div class="ms-3 mt-3 d-flex flex-row align-items-center">
-            <app-item-slot placeholder="Head" [item]="character.head"></app-item-slot>
-            <span class="icon-text ms-3" *ngIf="character.head">{{ character.head.name }}</span>
-            <span class="icon-text ms-3" *ngIf="!character.head">None</span>
+            <app-item-slot placeholder="Head" [item]="character.equipment.head"></app-item-slot>
+            <span class="icon-text ms-3" *ngIf="character.equipment.head">{{ character.equipment.head.name }}</span>
+            <span class="icon-text ms-3" *ngIf="!character.equipment.head">None</span>
           </div>
         </div>
       </div>
       <div class="row">
         <div class="col">
           <div class="ms-3 mt-3 d-flex flex-row align-items-center">
-            <app-item-slot placeholder="Hands" [item]="character.hands"></app-item-slot>
-            <span class="icon-text ms-3" *ngIf="character.hands">{{ character.hands.name }}</span>
-            <span class="icon-text ms-3" *ngIf="!character.hands">None</span>
+            <app-item-slot placeholder="Hands" [item]="character.equipment.hands"></app-item-slot>
+            <span class="icon-text ms-3" *ngIf="character.equipment.hands">{{ character.equipment.hands.name }}</span>
+            <span class="icon-text ms-3" *ngIf="!character.equipment.hands">None</span>
           </div>
         </div>
       </div>
       <div class="row">
         <div class="col">
           <div class="ms-3 mt-3 d-flex flex-row align-items-center">
-            <app-item-slot placeholder="Body" [item]="character.body"></app-item-slot>
-            <span class="icon-text ms-3" *ngIf="character.body">{{ character.body.name }}</span>
-            <span class="icon-text ms-3" *ngIf="!character.body">None</span>
+            <app-item-slot placeholder="Body" [item]="character.equipment.body"></app-item-slot>
+            <span class="icon-text ms-3" *ngIf="character.equipment.body">{{ character.equipment.body.name }}</span>
+            <span class="icon-text ms-3" *ngIf="!character.equipment.body">None</span>
           </div>
         </div>
       </div>
       <div class="row">
         <div class="col">
           <div class="ms-3 mt-3 d-flex flex-row align-items-center">
-            <app-item-slot placeholder="Feet" [item]="character.feet"></app-item-slot>
-            <span class="icon-text ms-3" *ngIf="character.feet">{{ character.feet.name }}</span>
-            <span class="icon-text ms-3" *ngIf="!character.feet">None</span>
+            <app-item-slot placeholder="Legs" [item]="character.equipment.legs"></app-item-slot>
+            <span class="icon-text ms-3" *ngIf="character.equipment.legs">{{ character.equipment.legs.name }}</span>
+            <span class="icon-text ms-3" *ngIf="!character.equipment.legs">None</span>
           </div>
         </div>
       </div>
