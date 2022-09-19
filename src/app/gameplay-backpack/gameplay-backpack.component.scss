@@ -1,0 +1,12 @@
+
+.item-zone {
+  display: flex;
+  flex-wrap: wrap;
+  max-width: calc((64px + 1.5rem) * 4);
+
+  app-card-slot {
+    display: inline-block;
+    flex-grow: 1;
+    width: 25%;
+  }
+}

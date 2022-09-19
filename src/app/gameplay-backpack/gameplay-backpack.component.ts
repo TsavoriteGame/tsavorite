@@ -12,6 +12,8 @@ export class GameplayBackpackComponent implements OnInit {
 
   @Select(GameState.character) character$: Observable<IGameCharacter>;
 
+  public readonly slots = Array(16).fill(undefined).map((x, i) => i);
+
   constructor() { }
 
   ngOnInit(): void {

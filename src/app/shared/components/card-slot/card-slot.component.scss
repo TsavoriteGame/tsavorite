@@ -5,6 +5,13 @@
   max-height: 64px;
   max-width: 64px;
 
+  overflow: hidden;
+  object-fit: contain;
+
+  .app-icon {
+
+  }
+
   .full-space {
     height: 64px;
     width: 64px;
