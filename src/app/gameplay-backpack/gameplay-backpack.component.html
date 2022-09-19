@@ -1,1 +1,13 @@
-<p>gameplay-backpack works!</p>
+<div class="card full-space gameplay-space">
+  <div class="row" *ngIf="character$ | async as character">
+    <div class="col">
+      <div class="row">
+        <div class="col">
+          <div class="mt-3 ms-3 d-flex flex-row align-items-center">
+            <span class="icon-text">Backpack</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
