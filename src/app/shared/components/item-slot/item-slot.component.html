@@ -1,0 +1,5 @@
+
+<div class="item-slot-container card">
+  <app-icon [icon]="item.icon" size="64" *ngIf="item"></app-icon>
+  <div class="centered full-space" *ngIf="!item">{{ placeholder }}</div>
+</div>

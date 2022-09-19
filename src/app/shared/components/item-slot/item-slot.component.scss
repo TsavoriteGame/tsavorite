@@ -1,0 +1,13 @@
+
+.item-slot-container {
+  min-height: 64px;
+  min-width: 64px;
+  max-height: 64px;
+  max-width: 64px;
+
+  .full-space {
+    height: 64px;
+    width: 64px;
+    font-size: 1.5rem;
+  }
+}

@@ -49,6 +49,11 @@ export class GameState {
     return !!state.character;
   }
 
+  @Selector()
+  static character(state: IGame) {
+    return state.character;
+  }
+
   @Action(StartGame)
   startGame(ctx: StateContext<IGame>, { gameStartData }: StartGame) {
     const { chosenBackground } = gameStartData;

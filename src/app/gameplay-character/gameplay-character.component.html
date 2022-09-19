@@ -1,1 +1,77 @@
-<p>gameplay-character works!</p>
+<div class="card full-space gameplay-space">
+  <div class="row" *ngIf="character$ | async as character">
+    <div class="col">
+      <div class="row">
+        <div class="col">
+          <div class="mt-3 ms-3 d-flex flex-row align-items-center">
+            <span class="icon-text">{{ character.name }}</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col">
+          <div class="ms-3 mt-3 d-flex flex-row align-items-center">
+            <app-icon [icon]="character.archetype.icon" size="64"></app-icon>
+            <span class="icon-text ms-3">{{ character.archetype.name }}</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col">
+          <div class="ms-3 mt-3 d-flex flex-row align-items-center">
+            <app-icon icon="health" size="64"></app-icon>
+            <span class="icon-text ms-3">{{ character.hp }} HP</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col">
+      <div class="row">
+        <div class="col">
+          <div class="mt-3 ms-3 d-flex flex-row align-items-center">
+            <span class="icon-text">&nbsp;</span>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <div class="ms-3 mt-3 d-flex flex-row align-items-center">
+            <app-item-slot placeholder="Head" [item]="character.head"></app-item-slot>
+            <span class="icon-text ms-3" *ngIf="character.head">{{ character.head.name }}</span>
+            <span class="icon-text ms-3" *ngIf="!character.head">None</span>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <div class="ms-3 mt-3 d-flex flex-row align-items-center">
+            <app-item-slot placeholder="Hands" [item]="character.hands"></app-item-slot>
+            <span class="icon-text ms-3" *ngIf="character.hands">{{ character.hands.name }}</span>
+            <span class="icon-text ms-3" *ngIf="!character.hands">None</span>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <div class="ms-3 mt-3 d-flex flex-row align-items-center">
+            <app-item-slot placeholder="Body" [item]="character.body"></app-item-slot>
+            <span class="icon-text ms-3" *ngIf="character.body">{{ character.body.name }}</span>
+            <span class="icon-text ms-3" *ngIf="!character.body">None</span>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <div class="ms-3 mt-3 d-flex flex-row align-items-center">
+            <app-item-slot placeholder="Feet" [item]="character.feet"></app-item-slot>
+            <span class="icon-text ms-3" *ngIf="character.feet">{{ character.feet.name }}</span>
+            <span class="icon-text ms-3" *ngIf="!character.feet">None</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
