@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-use-before-define */
-
 import { Interaction, Descriptor, ItemInteraction, ItemConfig,
   ItemDescriptor, ReactionFunction, ReactionArgs, ItemPart, ReactionExtendedArgs, ReactionResponse } from './interfaces';
 import { getAllMiddleware, getPostMiddleware, getPreMiddleware } from './middleware';
@@ -278,6 +276,56 @@ export function getPrimaryPartOfItem(item: ItemConfig) {
   if(hasFoundationalPart(item)) return item.parts.find(p => p.foundational);
 
   return item.parts[0];
+}
+
+export function hasSharedPrimaryDescriptor(sourceItem: ItemConfig, targetItem: ItemConfig): boolean {
+  const sourcePart = getPrimaryPartOfItem(sourceItem);
+  const targetPart = getPrimaryPartOfItem(targetItem);
+
+  return sourcePart.primaryDescriptor === targetPart.primaryDescriptor;
+}
+
+// combination functions
+export function getCombinationBetweenTwoItems(sourceItem: ItemConfig, targetItem: ItemConfig): ReactionResponse {
+  const failedCombination = () => ({
+    success: false,
+    message: 'The items were not combined.',
+    newSource: sourceItem,
+    newTarget: targetItem
+  });
+
+  // 1) check to see if either item has a foundational part or multiple parts, if so return failedCombination
+  if (hasFoundationalPart(sourceItem) || sourceItem.parts.length > 1
+   || hasFoundationalPart(targetItem) || targetItem.parts.length > 1) return failedCombination();
+
+  const sourcePart = sourceItem.parts[0];
+  const targetPart = targetItem.parts[0];
+
+  // 2) check to see if there is an interaction, if so return failedCombination
+  const interaction = sourceItem.interaction;
+  if (interaction && hasReaction(interaction.name, targetPart.primaryDescriptor))
+    return failedCombination();
+
+  // 3) check to see if their parts match, if not return failedCombination
+  if (!hasSharedPrimaryDescriptor(sourceItem, targetItem))
+    return failedCombination();
+
+  // 4) apply source descriptors to target
+  for (const name in getAllDescriptorsForPart(sourcePart)) {
+    if (name) {
+      const descriptor = Descriptor[name];
+      const descriptorLevel = getDescriptorLevelFromPart(sourcePart, descriptor);
+
+      increaseDescriptorLevelForPart(targetPart, descriptor, descriptorLevel);
+    }
+  }
+
+  return {
+    success: true,
+    message: 'The items were combined.',
+    newSource: undefined,
+    newTarget: targetItem
+  };
 }
 
 // other functions
