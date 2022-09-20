@@ -18,19 +18,33 @@
       <div class="row">
 
         <div class="col-6 item-zone">
-          <div class="ms-3 mt-3 d-flex flex-row align-items-center" *ngFor="let slot of slots">
+          <div class="ms-3 mt-3 d-flex flex-row align-items-center item-slot"
+               *ngFor="let slot of slots"
+               [class.selected]="character.items[slot] && (indexLeft === slot || indexRight === slot)"
+               [dndDraggable]="character.items[slot]"
+               [dndDisableIf]="!character.items[slot]"
+               (dndStart)="startDrag(slot)">
             <app-card-slot [card]="character.items[slot]"></app-card-slot>
           </div>
         </div>
 
         <div class="col-6">
           <div class="ms-3 mt-3 d-flex flex-row justify-content-start">
-            <app-card-slot class="ms-3" placeholder="Source" [card]="combineLeft"></app-card-slot>
 
-            <app-card-slot class="ms-3" placeholder="Target" [card]="combineRight"></app-card-slot>
+            <app-card-slot class="ms-3" placeholder="Source" [card]="combineLeft" dndDropzone (dndDrop)="dropLeft($event)"></app-card-slot>
+            <app-card-slot class="ms-3" placeholder="Target" [card]="combineRight" dndDropzone (dndDrop)="dropRight($event)"></app-card-slot>
 
-            <button class="btn btn-primary ms-3" [disabled]="!combineLeft || !combineRight" *ngIf="combineLeft && combineLeft.interaction">Apply</button>
-            <button class="btn btn-primary ms-3" [disabled]="!combineLeft || !combineRight" *ngIf="combineLeft && !combineLeft.interaction">Combine</button>
+            <div class="button-container ms-3">
+              <button class="btn btn-primary" [disabled]="!combineLeft || !combineRight" *ngIf="combineLeft && combineLeft.interaction" (click)="reaction(character)">Apply</button>
+              <button class="btn btn-primary" [disabled]="!combineLeft || !combineRight" *ngIf="combineLeft && !combineLeft.interaction" (click)="combine(character)">Combine</button>
+              <button class="btn btn-warning" *ngIf="combineLeft && combineRight" (click)="cancelApplicombine()">Cancel</button>
+            </div>
+          </div>
+
+          <div class="row ms-3 mt-3">
+            <div class="col icon-text">
+              {{ applicombineResultMessage$ | async }}
+            </div>
           </div>
         </div>
       </div>

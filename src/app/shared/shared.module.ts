@@ -1,6 +1,8 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
+import { DndModule } from 'ngx-drag-drop';
+
 import { TranslateModule } from '@ngx-translate/core';
 
 import { PageNotFoundComponent } from './components/';
@@ -16,6 +18,7 @@ import { CardSlotComponent } from './components/card-slot/card-slot.component';
   declarations: [PageNotFoundComponent, WebviewDirective, IconComponent, InfoCardComponent, CardSlotComponent],
   imports: [
     CommonModule,
+    DndModule,
     TranslateModule,
     FormsModule,
     NgbModule,
@@ -25,6 +28,6 @@ import { CardSlotComponent } from './components/card-slot/card-slot.component';
         denyButtonColor: '#A50000'
       }))
     })],
-  exports: [TranslateModule, IconComponent, CardSlotComponent, InfoCardComponent, WebviewDirective, FormsModule, NgbModule]
+  exports: [DndModule, TranslateModule, IconComponent, CardSlotComponent, InfoCardComponent, WebviewDirective, FormsModule, NgbModule]
 })
 export class SharedModule {}

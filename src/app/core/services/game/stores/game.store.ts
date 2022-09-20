@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
 import { Action, Selector, State, StateContext } from '@ngxs/store';
-import { append, patch } from '@ngxs/store/operators';
+import { append, patch, removeItem, updateItem } from '@ngxs/store/operators';
 
 
 import { Archetype, Background, ItemConfig, Power } from '../../../../../../content/interfaces';
-import { AbandonGame, AddBackpackItem, StartGame } from '../actions';
+import { AbandonGame, AddBackpackItem, RemoveBackpackItem, StartGame, UpdateBackpackItem } from '../actions';
 import { ContentService } from '../content.service';
-import { GameService } from '../game.service';
+import { GameConstant, GameService } from '../game.service';
 
 export enum EquipmentSlot {
   Head = 'head',
@@ -113,9 +113,33 @@ export class GameState {
   addBackpackItem(ctx: StateContext<IGame>, { item }: AddBackpackItem) {
     if(!this.isInGame(ctx)) return;
 
+    if(ctx.getState().character.items.length >= this.gameService.getConstant(GameConstant.BackpackSize)) return;
+
     ctx.setState(patch<IGame>({
       character: patch({
         items: append<ItemConfig>([item])
+      })
+    }));
+  }
+
+  @Action(UpdateBackpackItem)
+  updateBackpackItem(ctx: StateContext<IGame>, { item, index }: UpdateBackpackItem) {
+    if(!this.isInGame(ctx)) return;
+
+    ctx.setState(patch<IGame>({
+      character: patch({
+        items: updateItem<ItemConfig>(index, item)
+      })
+    }));
+  }
+
+  @Action(RemoveBackpackItem)
+  removeBackpackItem(ctx: StateContext<IGame>, { index }: RemoveBackpackItem) {
+    if(!this.isInGame(ctx)) return;
+
+    ctx.setState(patch<IGame>({
+      character: patch({
+        items: removeItem<ItemConfig>(index)
       })
     }));
   }

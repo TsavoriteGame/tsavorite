@@ -15,3 +15,13 @@ export class AddBackpackItem {
   static type = '[Game] Add Backpack Item';
   constructor(public item: ItemConfig) {}
 }
+
+export class RemoveBackpackItem {
+  static type = '[Game] Remove Backpack Item';
+  constructor(public index: number) {}
+}
+
+export class UpdateBackpackItem {
+  static type = '[Game] Update Backpack Item';
+  constructor(public index: number, public item: ItemConfig) {}
+}

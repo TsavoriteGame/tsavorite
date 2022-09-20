@@ -9,7 +9,7 @@ import * as Reactions from './reactions';
 
 // reaction functions
 export function hasReaction(interaction: Interaction, descriptor: Descriptor): boolean {
-  return !!Reactions[interaction].applications[descriptor];
+  return !!Reactions[interaction]?.applications[descriptor];
 }
 
 export function getReaction(interaction: Interaction, descriptor: Descriptor): ReactionFunction {
