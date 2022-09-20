@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-use-before-define */
-
 import { Interaction, Descriptor, ItemInteraction, ItemConfig,
   ItemDescriptor, ReactionFunction, ReactionArgs, ItemPart, ReactionExtendedArgs, ReactionResponse } from './interfaces';
 import { getAllMiddleware, getPostMiddleware, getPreMiddleware } from './middleware';
@@ -278,6 +276,47 @@ export function getPrimaryPartOfItem(item: ItemConfig) {
   if(hasFoundationalPart(item)) return item.parts.find(p => p.foundational);
 
   return item.parts[0];
+}
+
+export function hasSharedPrimaryDescriptor(sourceItem: ItemConfig, targetItem: ItemConfig): boolean {
+  const sourcePart = getPrimaryPartOfItem(sourceItem);
+  const targetPart = getPrimaryPartOfItem(targetItem);
+
+  return sourcePart.primaryDescriptor === targetPart.primaryDescriptor;
+}
+
+// combination functions
+export function getCombinationBetweenTwoItems(sourceItem: ItemConfig, targetItem: ItemConfig): ReactionResponse {
+  const failedCombination = () => ({
+    success: false,
+    message: 'The items were not combined.',
+    newSource: sourceItem,
+    newTarget: targetItem
+  });
+
+  if (hasFoundationalPart(sourceItem) || sourceItem.parts.length > 1
+   || hasFoundationalPart(targetItem) || targetItem.parts.length > 1) return failedCombination();
+
+  const sourcePart = sourceItem.parts[0];
+  const targetPart = targetItem.parts[0];
+
+  const interaction = sourceItem.interaction;
+  if (interaction && hasReaction(interaction.name, targetPart.primaryDescriptor))
+    return failedCombination();
+
+  if (!hasSharedPrimaryDescriptor(sourceItem, targetItem))
+    return failedCombination();
+
+  Object.keys(sourcePart.descriptors || {}).forEach(
+    desc => increaseDescriptorLevelForPart(targetPart, desc as Descriptor, sourcePart.descriptors[desc].level ?? 0)
+  );
+
+  return {
+    success: true,
+    message: 'The items were combined.',
+    newSource: undefined,
+    newTarget: targetItem
+  };
 }
 
 // other functions

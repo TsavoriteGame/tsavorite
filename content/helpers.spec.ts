@@ -1,9 +1,10 @@
 import { addDescriptor, changePrimaryDescriptor, decreaseDescriptorLevel,
-  decreaseDescriptorLevelForPart, decreaseInteractionLevel, getAllDescriptorsForPart, getDescriptorLevel,
+  decreaseDescriptorLevelForPart, decreaseInteractionLevel, getAllDescriptorsForPart, getCombinationBetweenTwoItems, getDescriptorLevel,
   getDescriptorLevelFromPart, getInteraction, getInteractionLevel, getPartWithDescriptor, hasDescriptor,
   hasFoundationalPart, increaseDescriptorLevel, increaseDescriptorLevelForPart, increaseInteractionLevel, setDescriptorLevelForPart,
   setFoundationalPart, setInteraction } from './helpers';
 import { Descriptor, Interaction, ItemConfig } from './interfaces';
+import { Ignites } from './reactions';
 
 test('Setting an interaction should make sure it is at least level 0 and exists', () => {
   const item: ItemConfig = {
@@ -282,4 +283,285 @@ test('Descriptor level setting should work', () => {
   expect(getInteractionLevel(item, Interaction.Carves)).toBe(0);
 });
 
+test('Combining with a foundational source item should not work', () => {
+  const sourceItem: ItemConfig = {
+    name: 'Foundational Steak',
+    parts: [
+      {
+        name: 'Steak',
+        primaryDescriptor: Descriptor.Meat,
+        foundational: true,
+        descriptors: {
+          [Descriptor.Meat]: { level: 1 }
+        }
+      }
+    ]
+  };
 
+  const targetItem: ItemConfig = {
+    name: 'Steak',
+    parts: [
+      {
+        name: 'Steak',
+        primaryDescriptor: Descriptor.Meat,
+        descriptors: {
+          [Descriptor.Meat]: { level: 1 }
+        }
+      }
+    ]
+  };
+
+  const combination = getCombinationBetweenTwoItems(sourceItem, targetItem);
+
+  expect(combination.success).toBe(false);
+
+  expect(getDescriptorLevel(combination.newSource, Descriptor.Meat)).toEqual(1);
+  expect(combination.newSource.parts[0].foundational).toBe(true);
+
+  expect(getDescriptorLevel(combination.newTarget, Descriptor.Meat)).toEqual(1);
+});
+
+test('Combining with a foundational target item should not work', () => {
+  const sourceItem: ItemConfig = {
+    name: 'Foundational Steak',
+    parts: [
+      {
+        name: 'Steak',
+        primaryDescriptor: Descriptor.Meat,
+        descriptors: {
+          [Descriptor.Meat]: { level: 1 }
+        }
+      }
+    ]
+  };
+
+  const targetItem: ItemConfig = {
+    name: 'Steak',
+    parts: [
+      {
+        name: 'Steak',
+        primaryDescriptor: Descriptor.Meat,
+        foundational: true,
+        descriptors: {
+          [Descriptor.Meat]: { level: 1 }
+        }
+      }
+    ]
+  };
+
+  const combination = getCombinationBetweenTwoItems(sourceItem, targetItem);
+
+  expect(combination.success).toBe(false);
+
+  expect(getDescriptorLevel(combination.newSource, Descriptor.Meat)).toEqual(1);
+
+  expect(getDescriptorLevel(combination.newTarget, Descriptor.Meat)).toEqual(1);
+  expect(combination.newTarget.parts[0].foundational).toBe(true);
+});
+
+test('Combining items with multiple parts should not work', () => {
+  const sourceItem: ItemConfig = {
+    name: 'Compound Steak',
+    parts: [
+      {
+        name: 'Steak',
+        primaryDescriptor: Descriptor.Meat,
+        descriptors: {
+          [Descriptor.Meat]: { level: 1 }
+        }
+      },
+      {
+        name: 'Sand',
+        primaryDescriptor: Descriptor.Sand,
+        descriptors: {
+          [Descriptor.Sand]: { level: 9 }
+        }
+      }
+    ]
+  };
+
+  const targetItem: ItemConfig = {
+    name: 'Compound Steak',
+    parts: [
+      {
+        name: 'Steak',
+        primaryDescriptor: Descriptor.Meat,
+        descriptors: {
+          [Descriptor.Meat]: { level: 1 }
+        }
+      },
+      {
+        name: 'Sand',
+        primaryDescriptor: Descriptor.Sand,
+        descriptors: {
+          [Descriptor.Sand]: { level: 9 }
+        }
+      }
+    ]
+  };
+
+  const combination = getCombinationBetweenTwoItems(sourceItem, targetItem);
+
+  expect(combination.success).toBe(false);
+
+  expect(getDescriptorLevel(combination.newSource, Descriptor.Meat)).toEqual(1);
+  expect(getDescriptorLevel(combination.newSource, Descriptor.Sand)).toEqual(9);
+
+  expect(getDescriptorLevel(combination.newTarget, Descriptor.Meat)).toEqual(1);
+  expect(getDescriptorLevel(combination.newTarget, Descriptor.Sand)).toEqual(9);
+});
+
+test('Combining items that can interact should not work', () => {
+  const sourceItem: ItemConfig = {
+    name: 'Flame',
+    parts: [
+      {
+        name: 'Fire',
+        primaryDescriptor: Descriptor.Hot,
+        descriptors: {
+          [Descriptor.Hot]: { level: 3 },
+          [Descriptor.Blazing]: { level: 3 }
+        }
+      }
+    ],
+    interaction: {
+      name: Interaction.Ignites,
+      level: 3
+    }
+  };
+
+  const targetItem: ItemConfig = {
+    name: 'Steak',
+    parts: [
+      {
+        name: 'Steak',
+        primaryDescriptor: Descriptor.Meat,
+        descriptors: {
+          [Descriptor.Meat]: { level: 1 }
+        }
+      }
+    ]
+  };
+
+  const combination = getCombinationBetweenTwoItems(sourceItem, targetItem);
+
+  expect(combination.success).toBe(false);
+
+  expect(getDescriptorLevel(combination.newSource, Descriptor.Hot)).toEqual(3);
+  expect(getDescriptorLevel(combination.newSource, Descriptor.Blazing)).toEqual(3);
+
+  expect(getDescriptorLevel(combination.newTarget, Descriptor.Meat)).toEqual(1);
+});
+
+test('Combining mismatched items should not work', () => {
+  const sourceItem: ItemConfig = {
+    name: 'Goo',
+    parts: [
+      {
+        name: 'Goo',
+        primaryDescriptor: Descriptor.Sticky,
+        descriptors: {
+          [Descriptor.Sticky]: { level: 1 },
+        }
+      }
+    ]
+  };
+
+  const targetItem: ItemConfig = {
+    name: 'Steak',
+    parts: [
+      {
+        name: 'Steak',
+        primaryDescriptor: Descriptor.Meat,
+        descriptors: {
+          [Descriptor.Meat]: { level: 1 }
+        }
+      }
+    ]
+  };
+
+  const combination = getCombinationBetweenTwoItems(sourceItem, targetItem);
+
+  expect(combination.success).toBe(false);
+
+  expect(getDescriptorLevel(combination.newSource, Descriptor.Sticky)).toEqual(1);
+
+  expect(getDescriptorLevel(combination.newTarget, Descriptor.Meat)).toEqual(1);
+});
+
+test('Combining matching items should work', () => {
+  const sourceItem: ItemConfig = {
+    name: 'Steak',
+    parts: [
+      {
+        name: 'Steak',
+        primaryDescriptor: Descriptor.Meat,
+        descriptors: {
+          [Descriptor.Meat]: { level: 1 }
+        }
+      }
+    ]
+  };
+
+  const targetItem: ItemConfig = {
+    name: 'Steak',
+    parts: [
+      {
+        name: 'Steak',
+        primaryDescriptor: Descriptor.Meat,
+        descriptors: {
+          [Descriptor.Meat]: { level: 1 }
+        }
+      }
+    ]
+  };
+
+  const combination = getCombinationBetweenTwoItems(sourceItem, targetItem);
+
+  expect(combination.success).toBe(true);
+
+  expect(combination.newSource).toBe(undefined);
+
+  expect(getDescriptorLevel(combination.newTarget, Descriptor.Meat)).toEqual(2);
+});
+
+test('Combining matching items should work and transfer secondary descriptors', () => {
+  const sourceItem: ItemConfig = {
+    name: 'Steak',
+    parts: [
+      {
+        name: 'Steak',
+        primaryDescriptor: Descriptor.Meat,
+        descriptors: {
+          [Descriptor.Meat]: { level: 1 },
+          [Descriptor.Bright]: { level: 9 },
+          [Descriptor.Cold]: { level: 3 }
+        }
+      }
+    ]
+  };
+
+  const targetItem: ItemConfig = {
+    name: 'Steak',
+    parts: [
+      {
+        name: 'Steak',
+        primaryDescriptor: Descriptor.Meat,
+        descriptors: {
+          [Descriptor.Meat]: { level: 1 },
+          [Descriptor.Cold]: { level: 2 }
+        }
+      }
+    ]
+  };
+
+  const combination = getCombinationBetweenTwoItems(sourceItem, targetItem);
+
+  expect(combination.success).toBe(true);
+
+  expect(combination.newSource).toBe(undefined);
+
+  expect(getDescriptorLevel(combination.newTarget, Descriptor.Meat)).toEqual(2);
+  expect(getDescriptorLevel(combination.newTarget, Descriptor.Bright)).toEqual(9);
+  expect(getDescriptorLevel(combination.newTarget, Descriptor.Cold)).toEqual(5);
+});
