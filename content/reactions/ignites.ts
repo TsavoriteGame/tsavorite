@@ -76,8 +76,6 @@ export const applications: Reactions = {
   // cold gets less cold
   [Descriptor.Cold]: (args: ReactionExtendedArgs) => {
     const decreaseCold = () => {
-      decreaseDescriptorLevelForPart(args.targetPart, Descriptor.Hot, 1);
-      decreaseDescriptorLevelForPart(args.targetPart, Descriptor.Cold, 1);
       decreaseInteractionLevel(args.sourceItem, Interaction.Ignites, 1);
 
       increaseDescriptorLevelForPart(args.targetPart, Descriptor.Wet, 1);
@@ -151,10 +149,6 @@ export const applications: Reactions = {
   // frozen gets less frozen
   [Descriptor.Frozen]: (args: ReactionExtendedArgs) => {
     const decreaseCold = () => {
-      decreaseDescriptorLevelForPart(args.targetPart, Descriptor.Hot, 1);
-      decreaseDescriptorLevelForPart(args.targetPart, Descriptor.Cold, 1);
-      decreaseDescriptorLevelForPart(args.targetPart, Descriptor.Frozen, 1);
-
       increaseDescriptorLevelForPart(args.targetPart, Descriptor.Wet, 1);
 
       decreaseInteractionLevel(args.sourceItem, Interaction.Ignites, 1);

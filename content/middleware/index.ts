@@ -4,8 +4,9 @@ import { BreakItems } from './break-items';
 import { DiluteCorrosive } from './dilute-corrosive';
 import { GlassShatter } from './glass-shatter';
 import { IgniteCombustible } from './ignite-combustible';
+import { TemperatureRegulation } from './temperature-regulation';
 
-const allMiddleware = [BreakItems, DiluteCorrosive, GlassShatter, IgniteCombustible];
+const allMiddleware = [BreakItems, DiluteCorrosive, GlassShatter, IgniteCombustible, TemperatureRegulation];
 
 export function getAllMiddleware(): Middleware[] {
   return allMiddleware.map(proto => new proto());

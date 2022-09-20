@@ -45,8 +45,6 @@ export const applications: Reactions = {
   [Descriptor.Blazing]: (args: ReactionExtendedArgs) => {
     const decreaseHot = () => {
       decreaseDescriptorLevelForPart(args.targetPart, Descriptor.Bright, 1);
-      decreaseDescriptorLevelForPart(args.targetPart, Descriptor.Blazing, 1);
-      decreaseDescriptorLevelForPart(args.targetPart, Descriptor.Cold, 1);
 
       decreaseInteractionLevel(args.sourceItem, Interaction.Freezes, 1);
     };
@@ -82,9 +80,6 @@ export const applications: Reactions = {
   // lower heat; increase cold
   [Descriptor.Hot]: (args: ReactionExtendedArgs) => {
     const decreaseHot = () => {
-      decreaseDescriptorLevelForPart(args.targetPart, Descriptor.Hot, 1);
-      decreaseDescriptorLevelForPart(args.targetPart, Descriptor.Cold, 1);
-
       decreaseInteractionLevel(args.sourceItem, Interaction.Freezes, 1);
     };
 
