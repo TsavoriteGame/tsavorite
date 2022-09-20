@@ -2,7 +2,8 @@
 
 import { Interaction, Descriptor, ItemInteraction, ItemConfig,
   ItemDescriptor, ReactionFunction, ReactionArgs, ItemPart, ReactionExtendedArgs, ReactionResponse } from './interfaces';
-import { getAllMiddleware, getPostCombineMiddleware, getPostReactionMiddleware, getPreCombineMiddleware, getPreReactionMiddleware } from './middleware';
+import { getAllMiddleware, getPostCombineMiddleware,
+  getPostReactionMiddleware, getPreCombineMiddleware, getPreReactionMiddleware } from './middleware';
 
 import * as Reactions from './reactions';
 

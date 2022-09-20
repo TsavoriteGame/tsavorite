@@ -1,4 +1,4 @@
-import { decreaseDescriptorLevel, decreaseDescriptorLevelForPart, getDescriptorLevel, getPartWithDescriptor, increaseDescriptorLevelForPart } from '../helpers';
+import { decreaseDescriptorLevel, getDescriptorLevel } from '../helpers';
 import { Descriptor, ItemConfig, MiddlewareType,
   PostCombineMiddleware,
   PostReactionMiddleware, ReactionExtendedArgs, ReactionResponse } from '../interfaces';
