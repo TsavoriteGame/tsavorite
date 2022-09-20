@@ -497,7 +497,7 @@ test('Combining matching items should work', () => {
         name: 'Steak',
         primaryDescriptor: Descriptor.Meat,
         descriptors: {
-          [Descriptor.Meat]: { level: 2 }
+          [Descriptor.Meat]: { level: 1 }
         }
       }
     ]
@@ -523,4 +523,45 @@ test('Combining matching items should work', () => {
   expect(combination.newSource).toBe(undefined);
 
   expect(getDescriptorLevel(combination.newTarget, Descriptor.Meat)).toEqual(2);
+});
+
+test('Combining matching items should work and transfer secondary descriptors', () => {
+  const sourceItem: ItemConfig = {
+    name: 'Steak',
+    parts: [
+      {
+        name: 'Steak',
+        primaryDescriptor: Descriptor.Meat,
+        descriptors: {
+          [Descriptor.Meat]: { level: 1 },
+          [Descriptor.Bright]: { level: 9 },
+          [Descriptor.Cold]: { level: 3 }
+        }
+      }
+    ]
+  };
+
+  const targetItem: ItemConfig = {
+    name: 'Steak',
+    parts: [
+      {
+        name: 'Steak',
+        primaryDescriptor: Descriptor.Meat,
+        descriptors: {
+          [Descriptor.Meat]: { level: 1 },
+          [Descriptor.Cold]: { level: 2 }
+        }
+      }
+    ]
+  };
+
+  const combination = getCombinationBetweenTwoItems(sourceItem, targetItem);
+
+  expect(combination.success).toBe(true);
+
+  expect(combination.newSource).toBe(undefined);
+
+  expect(getDescriptorLevel(combination.newTarget, Descriptor.Meat)).toEqual(2);
+  expect(getDescriptorLevel(combination.newTarget, Descriptor.Bright)).toEqual(9);
+  expect(getDescriptorLevel(combination.newTarget, Descriptor.Cold)).toEqual(5);
 });

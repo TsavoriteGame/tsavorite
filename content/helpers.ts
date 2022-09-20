@@ -294,31 +294,22 @@ export function getCombinationBetweenTwoItems(sourceItem: ItemConfig, targetItem
     newTarget: targetItem
   });
 
-  // 1) check to see if either item has a foundational part or multiple parts, if so return failedCombination
   if (hasFoundationalPart(sourceItem) || sourceItem.parts.length > 1
    || hasFoundationalPart(targetItem) || targetItem.parts.length > 1) return failedCombination();
 
   const sourcePart = sourceItem.parts[0];
   const targetPart = targetItem.parts[0];
 
-  // 2) check to see if there is an interaction, if so return failedCombination
   const interaction = sourceItem.interaction;
   if (interaction && hasReaction(interaction.name, targetPart.primaryDescriptor))
     return failedCombination();
 
-  // 3) check to see if their parts match, if not return failedCombination
   if (!hasSharedPrimaryDescriptor(sourceItem, targetItem))
     return failedCombination();
 
-  // 4) apply source descriptors to target
-  for (const name in getAllDescriptorsForPart(sourcePart)) {
-    if (name) {
-      const descriptor = Descriptor[name];
-      const descriptorLevel = getDescriptorLevelFromPart(sourcePart, descriptor);
-
-      increaseDescriptorLevelForPart(targetPart, descriptor, descriptorLevel);
-    }
-  }
+  Object.keys(sourcePart.descriptors || {}).forEach(
+    desc => increaseDescriptorLevelForPart(targetPart, desc as Descriptor, sourcePart.descriptors[desc].level ?? 0)
+  );
 
   return {
     success: true,
