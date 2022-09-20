@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-use-before-define */
+
 import { Interaction, Descriptor, ItemInteraction, ItemConfig,
   ItemDescriptor, ReactionFunction, ReactionArgs, ItemPart, ReactionExtendedArgs, ReactionResponse } from './interfaces';
 import { getAllMiddleware, getPostMiddleware, getPreMiddleware } from './middleware';

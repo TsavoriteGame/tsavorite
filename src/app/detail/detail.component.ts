@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { getReactionBetweenTwoItems } from '../../../content/helpers';
+import { getCombinationBetweenTwoItems, getReactionBetweenTwoItems } from '../../../content/helpers';
 import { ItemConfig, ItemDescriptor, ReactionResponse } from '../../../content/interfaces';
 import { ContentService } from '../core/services/game/content.service';
 
@@ -40,6 +40,19 @@ export class DetailComponent implements OnInit {
     const [left, right] = [this.currentLeft, this.currentRight];
     this.currentLeft = right;
     this.currentRight = left;
+  }
+
+  doCombine() {
+    if(!this.currentLeft || !this.currentRight) return;
+
+    const result = getCombinationBetweenTwoItems(this.currentLeft, this.currentRight);
+
+    this.reactionResult = result;
+
+    if(result.success) {
+      this.currentLeft = result.newSource;
+      this.currentRight = result.newTarget;
+    }
   }
 
   doReaction() {

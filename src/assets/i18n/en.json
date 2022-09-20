@@ -44,6 +44,7 @@
       "ItemRight": "Choose target item!",
       "ReactionResults": "Reaction Results",
       "ReactionActionApply": "Apply Left to Right",
+      "ReactionActionCombine": "Combine Left with Right",
       "ReactionDefault": "No reaction; add a left and right item then click apply!",
       "ReactionSuccess": "Success",
       "ReactionSuccessYes": "Yes",
