@@ -16,6 +16,8 @@ import { NgxsLoggerPluginModule } from '@ngxs/logger-plugin';
 import { NgxsStoragePluginModule } from '@ngxs/storage-plugin';
 import { NgxsReduxDevtoolsPluginModule } from '@ngxs/devtools-plugin';
 
+import { DndModule } from 'ngx-drag-drop';
+
 import { HomeModule } from './home/home.module';
 import { DetailModule } from './detail/detail.module';
 
@@ -48,6 +50,7 @@ const httpLoaderFactory = (http: HttpClient): TranslateHttpLoader =>  new Transl
     PlayModule,
     AppRoutingModule,
     RouterModule,
+    DndModule,
     NgxsModule.forRoot(allStores, {
       developmentMode: !environment.production
     }),

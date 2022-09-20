@@ -10,7 +10,7 @@
         </div>
         <div class="col-6">
           <div class="mt-3 ms-3 d-flex flex-row align-items-center">
-            <span class="icon-text">Combine</span>
+            <span class="icon-text">Apply & Combine</span>
           </div>
         </div>
       </div>
@@ -24,10 +24,13 @@
         </div>
 
         <div class="col-6">
-          <div class="ms-3 mt-3 d-flex flex-row justify-content-around">
-            <app-card-slot placeholder="Source"></app-card-slot>
+          <div class="ms-3 mt-3 d-flex flex-row justify-content-start">
+            <app-card-slot class="ms-3" placeholder="Source" [card]="combineLeft"></app-card-slot>
 
-            <app-card-slot placeholder="Target"></app-card-slot>
+            <app-card-slot class="ms-3" placeholder="Target" [card]="combineRight"></app-card-slot>
+
+            <button class="btn btn-primary ms-3" [disabled]="!combineLeft || !combineRight" *ngIf="combineLeft && combineLeft.interaction">Apply</button>
+            <button class="btn btn-primary ms-3" [disabled]="!combineLeft || !combineRight" *ngIf="combineLeft && !combineLeft.interaction">Combine</button>
           </div>
         </div>
       </div>

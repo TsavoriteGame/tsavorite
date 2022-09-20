@@ -27,8 +27,22 @@ export class ContentService {
 
   constructor() { }
 
+  // getters
+  public getArchetype(name: string): Archetype | undefined {
+    return this.archetypes.find(x => x.name === name);
+  }
+
+  public getBackground(name: string): Background | undefined {
+    return this.backgrounds.find(x => x.name === name);
+  }
+
+  public getItem(itemName: string): ItemConfig | undefined {
+    return this.items.find(x => x.name === itemName);
+  }
+
+  // formatters
   public reformatItem(itemName: string, modifications: Record<string, number>): ItemConfig {
-    const realItem = this.items.find(x => x.name === itemName);
+    const realItem = this.getItem(itemName);
     if(!realItem) return;
 
     // run the modifications through lodash.set for quick deep setting

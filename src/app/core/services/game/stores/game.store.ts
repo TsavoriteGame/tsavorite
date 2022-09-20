@@ -1,8 +1,12 @@
 import { Injectable } from '@angular/core';
 import { Action, Selector, State, StateContext } from '@ngxs/store';
+import { append, patch } from '@ngxs/store/operators';
+
+
 import { Archetype, Background, ItemConfig, Power } from '../../../../../../content/interfaces';
-import { AbandonGame, StartGame } from '../actions';
+import { AbandonGame, AddBackpackItem, StartGame } from '../actions';
 import { ContentService } from '../content.service';
+import { GameService } from '../game.service';
 
 export enum EquipmentSlot {
   Head = 'head',
@@ -43,7 +47,7 @@ const defaultOptions: () => IGame = () => ({
 @Injectable()
 export class GameState {
 
-  constructor(private contentService: ContentService) {}
+  constructor(private gameService: GameService, private contentService: ContentService) {}
 
   @Selector()
   static hasGame(state: IGame) {
@@ -55,12 +59,25 @@ export class GameState {
     return state.character;
   }
 
+  private isInGame(ctx: StateContext<IGame>) {
+    return !!ctx.getState().character;
+  }
+
   @Action(StartGame)
   startGame(ctx: StateContext<IGame>, { gameStartData }: StartGame) {
     const { chosenBackground } = gameStartData;
 
-    const background = this.contentService.backgrounds.find(x => x.name === chosenBackground);
-    const archetype = this.contentService.archetypes.find(x => x.name === background.archetype);
+    const background = this.contentService.getBackground(chosenBackground);
+    if(!background) {
+      console.error('Background does not exist; game cannot start.');
+      return;
+    }
+
+    const archetype = this.contentService.getArchetype(background.archetype);
+    if(!archetype) {
+      console.error('Archetype does not exist; game cannot start.');
+      return;
+    }
 
     const character: IGameCharacter = {
       name: background.realName,
@@ -90,6 +107,17 @@ export class GameState {
   @Action(AbandonGame)
   abandonGame(ctx: StateContext<IGame>) {
     ctx.setState(defaultOptions());
+  }
+
+  @Action(AddBackpackItem)
+  addBackpackItem(ctx: StateContext<IGame>, { item }: AddBackpackItem) {
+    if(!this.isInGame(ctx)) return;
+
+    ctx.setState(patch<IGame>({
+      character: patch({
+        items: append<ItemConfig>([item])
+      })
+    }));
   }
 
 }
