@@ -1,5 +1,6 @@
 import { decreaseDescriptorLevelForPart, getDescriptorLevel, getPartWithDescriptor, increaseDescriptorLevelForPart } from '../helpers';
-import { Descriptor, Interaction, ItemConfig, MiddlewareType, PostMiddleware, ReactionExtendedArgs, ReactionResponse } from '../interfaces';
+import { Descriptor, Interaction, ItemConfig, MiddlewareType,
+  PostReactionMiddleware, ReactionExtendedArgs, ReactionResponse } from '../interfaces';
 
 export function shouldCombust(item: ItemConfig) {
   return getDescriptorLevel(item, Descriptor.Combustible) > 0;
@@ -8,9 +9,9 @@ export function shouldCombust(item: ItemConfig) {
 /**
  * We check if the target item is AT ALL combustible, and set it on fire if so.
  */
-export class IgniteCombustible implements PostMiddleware {
+export class IgniteCombustible implements PostReactionMiddleware {
 
-  triggers: MiddlewareType[] = ['post'];
+  triggers: MiddlewareType[] = ['postreaction'];
 
   // this is enabled by default
   isEnabled() {

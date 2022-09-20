@@ -1,5 +1,6 @@
 import { getDescriptorLevel, isUnbreakable } from '../helpers';
-import { Descriptor, Interaction, ItemConfig, MiddlewareType, PostMiddleware, ReactionExtendedArgs, ReactionResponse } from '../interfaces';
+import { Descriptor, Interaction, ItemConfig, MiddlewareType,
+  PostReactionMiddleware, ReactionExtendedArgs, ReactionResponse } from '../interfaces';
 
 // whether or not source should break when hitting target
 export function shouldItemBreakWhenInteractingWith(sourceItem: ItemConfig, targetItem: ItemConfig): boolean {
@@ -44,9 +45,9 @@ export function shouldItemBreakWhenInteractingWith(sourceItem: ItemConfig, targe
 /**
  * We check if an item should break when hitting something physically, with force.
  */
-export class BreakItems implements PostMiddleware {
+export class BreakItems implements PostReactionMiddleware {
 
-  triggers: MiddlewareType[] = ['post'];
+  triggers: MiddlewareType[] = ['postreaction'];
 
   // this is enabled by default
   isEnabled() {

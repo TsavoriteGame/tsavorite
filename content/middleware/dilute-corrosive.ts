@@ -1,5 +1,6 @@
 import { decreaseDescriptorLevelForPart, getDescriptorLevel, getPartWithDescriptor } from '../helpers';
-import { Descriptor, Interaction, ItemConfig, MiddlewareType, PostMiddleware, ReactionExtendedArgs, ReactionResponse } from '../interfaces';
+import { Descriptor, Interaction, ItemConfig, MiddlewareType,
+  PostReactionMiddleware, ReactionExtendedArgs, ReactionResponse } from '../interfaces';
 
 export function shouldDilute(item: ItemConfig) {
   return !!getPartWithDescriptor(item, Descriptor.Corrosive) && getDescriptorLevel(item, Descriptor.Container) > 0;
@@ -8,9 +9,9 @@ export function shouldDilute(item: ItemConfig) {
 /**
  * We check if the target item has any corrosive element, and if so dilute that corrosive
  */
-export class DiluteCorrosive implements PostMiddleware {
+export class DiluteCorrosive implements PostReactionMiddleware {
 
-  triggers: MiddlewareType [] = ['post'];
+  triggers: MiddlewareType [] = ['postreaction'];
 
   isEnabled() {
     return true;

@@ -1,5 +1,5 @@
 import { hasDescriptor } from '../helpers';
-import { Descriptor, ItemConfig, MiddlewareType, PostMiddleware, ReactionExtendedArgs, ReactionResponse } from '../interfaces';
+import { Descriptor, ItemConfig, MiddlewareType, PostReactionMiddleware, ReactionExtendedArgs, ReactionResponse } from '../interfaces';
 
 export function shouldShatter(item: ItemConfig) {
   const hasHot = hasDescriptor(item, Descriptor.Hot);
@@ -14,9 +14,9 @@ export function shouldShatter(item: ItemConfig) {
 /**
  * We check if glass has hot and cold applied to it. If so, we shatter it.
  */
-export class GlassShatter implements PostMiddleware {
+export class GlassShatter implements PostReactionMiddleware {
 
-  triggers: MiddlewareType[] = ['post'];
+  triggers: MiddlewareType[] = ['postreaction'];
 
   // this is enabled by default
   isEnabled() {

@@ -1,5 +1,5 @@
 
-import { Middleware, PostMiddleware, PreMiddleware } from '../interfaces';
+import { Middleware, PostCombineMiddleware, PostReactionMiddleware, PreCombineMiddleware, PreReactionMiddleware } from '../interfaces';
 import { BreakItems } from './break-items';
 import { DiluteCorrosive } from './dilute-corrosive';
 import { GlassShatter } from './glass-shatter';
@@ -11,10 +11,18 @@ export function getAllMiddleware(): Middleware[] {
   return allMiddleware.map(proto => new proto());
 }
 
-export function getPreMiddleware(middlewareInstances: Middleware[]): PreMiddleware[] {
-  return middlewareInstances.filter(inst => inst.triggers.includes('pre')) as PreMiddleware[];
+export function getPreReactionMiddleware(middlewareInstances: Middleware[]): PreReactionMiddleware[] {
+  return middlewareInstances.filter(inst => inst.triggers.includes('prereaction')) as PreReactionMiddleware[];
 };
 
-export function getPostMiddleware(middlewareInstances: Middleware[]): PostMiddleware[] {
-  return middlewareInstances.filter(inst => inst.triggers.includes('post')) as PostMiddleware[];
+export function getPostReactionMiddleware(middlewareInstances: Middleware[]): PostReactionMiddleware[] {
+  return middlewareInstances.filter(inst => inst.triggers.includes('postreaction')) as PostReactionMiddleware[];
+};
+
+export function getPreCombineMiddleware(middlewareInstances: Middleware[]): PreCombineMiddleware[] {
+  return middlewareInstances.filter(inst => inst.triggers.includes('precombine')) as PreCombineMiddleware[];
+};
+
+export function getPostCombineMiddleware(middlewareInstances: Middleware[]): PostCombineMiddleware[] {
+  return middlewareInstances.filter(inst => inst.triggers.includes('postcombine')) as PostCombineMiddleware[];
 };

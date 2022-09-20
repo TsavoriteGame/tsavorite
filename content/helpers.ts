@@ -2,7 +2,7 @@
 
 import { Interaction, Descriptor, ItemInteraction, ItemConfig,
   ItemDescriptor, ReactionFunction, ReactionArgs, ItemPart, ReactionExtendedArgs, ReactionResponse } from './interfaces';
-import { getAllMiddleware, getPostMiddleware, getPreMiddleware } from './middleware';
+import { getAllMiddleware, getPostCombineMiddleware, getPostReactionMiddleware, getPreCombineMiddleware, getPreReactionMiddleware } from './middleware';
 
 import * as Reactions from './reactions';
 
@@ -54,7 +54,7 @@ export function getReaction(interaction: Interaction, descriptor: Descriptor): R
     }
 
     // run pre- middleware
-    const preMiddleware = getPreMiddleware(allMiddleware);
+    const preMiddleware = getPreReactionMiddleware(allMiddleware);
 
     let isPreBlocked = false;
     preMiddleware.forEach(middleware => {
@@ -72,7 +72,7 @@ export function getReaction(interaction: Interaction, descriptor: Descriptor): R
     const result = calledFunction(extendedArgs);
 
     // run post- middleware
-    const postMiddleware = getPostMiddleware(allMiddleware);
+    const postMiddleware = getPostReactionMiddleware(allMiddleware);
 
     let isPostBlocked = false;
     postMiddleware.forEach(middleware => {
@@ -309,16 +309,61 @@ export function getCombinationBetweenTwoItems(sourceItem: ItemConfig, targetItem
   if (!hasSharedPrimaryDescriptor(sourceItem, targetItem))
     return failedCombination();
 
+  const extendedArgs: ReactionExtendedArgs = {
+    sourceItem: structuredClone(sourceItem),
+    targetItem: structuredClone(targetItem),
+
+    sourcePart,
+    targetPart
+  };
+
+  const allMiddleware = getAllMiddleware();
+
+  // run pre- middleware
+  const preMiddleware = getPreCombineMiddleware(allMiddleware);
+
+  let isPreBlocked = false;
+  preMiddleware.forEach(middleware => {
+    if(isPreBlocked) return;
+    if(!middleware.isEnabled()) return;
+    if(!middleware.shouldPreFire(extendedArgs)) return;
+
+    middleware.pre(extendedArgs);
+
+    if(middleware.shouldPreBlock(extendedArgs))
+      isPreBlocked = true;
+
+  });
+
+  // combine the items
   Object.keys(sourcePart.descriptors || {}).forEach(
     desc => increaseDescriptorLevelForPart(targetPart, desc as Descriptor, sourcePart.descriptors[desc].level ?? 0)
   );
 
-  return {
+  const result = {
     success: true,
     message: 'The items were combined.',
     newSource: undefined,
     newTarget: targetItem
   };
+
+  // run post- middleware
+  const postMiddleware = getPostCombineMiddleware(allMiddleware);
+
+  let isPostBlocked = false;
+  postMiddleware.forEach(middleware => {
+    if(isPostBlocked) return;
+    if(!middleware.isEnabled()) return;
+    if(!middleware.shouldPostFire(extendedArgs, result)) return;
+
+    middleware.post(extendedArgs, result);
+
+    if(middleware.shouldPostBlock(extendedArgs, result))
+      isPostBlocked = true;
+
+  });
+
+  return result;
 }
 
 // other functions
