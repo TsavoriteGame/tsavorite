@@ -299,23 +299,23 @@ export function getCombinationBetweenTwoItems(sourceItem: ItemConfig, targetItem
   if (hasFoundationalPart(sourceItem) || sourceItem.parts.length > 1
    || hasFoundationalPart(targetItem) || targetItem.parts.length > 1) return failedCombination();
 
-  const sourcePart = sourceItem.parts[0];
-  const targetPart = targetItem.parts[0];
-
-  const interaction = sourceItem.interaction;
-  if (interaction && hasReaction(interaction.name, targetPart.primaryDescriptor))
-    return failedCombination();
-
-  if (!hasSharedPrimaryDescriptor(sourceItem, targetItem))
-    return failedCombination();
-
   const extendedArgs: ReactionExtendedArgs = {
     sourceItem: structuredClone(sourceItem),
     targetItem: structuredClone(targetItem),
 
-    sourcePart,
-    targetPart
+    sourcePart: undefined,
+    targetPart: undefined
   };
+
+  extendedArgs.sourcePart = extendedArgs.sourceItem.parts[0];
+  extendedArgs.targetPart = extendedArgs.targetItem.parts[0];
+
+  const interaction = extendedArgs.sourceItem.interaction;
+  if (interaction && hasReaction(interaction.name, extendedArgs.targetPart.primaryDescriptor))
+    return failedCombination();
+
+  if (!hasSharedPrimaryDescriptor(extendedArgs.sourceItem, extendedArgs.targetItem))
+    return failedCombination();
 
   const allMiddleware = getAllMiddleware();
 
@@ -336,15 +336,19 @@ export function getCombinationBetweenTwoItems(sourceItem: ItemConfig, targetItem
   });
 
   // combine the items
-  Object.keys(sourcePart.descriptors || {}).forEach(
-    desc => increaseDescriptorLevelForPart(targetPart, desc as Descriptor, sourcePart.descriptors[desc].level ?? 0)
+  Object.keys(extendedArgs.sourcePart.descriptors || {}).forEach(
+    desc => increaseDescriptorLevelForPart(
+      extendedArgs.targetPart,
+      desc as Descriptor,
+      extendedArgs.sourcePart.descriptors[desc].level ?? 0
+    )
   );
 
   const result = {
     success: true,
     message: 'The items were combined.',
     newSource: undefined,
-    newTarget: targetItem
+    newTarget: extendedArgs.targetItem
   };
 
   // run post- middleware

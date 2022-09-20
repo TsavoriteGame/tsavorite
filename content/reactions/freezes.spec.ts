@@ -384,8 +384,6 @@ test('A level 2 freezer should lower brightness on blazing', () => {
   expect(getInteractionLevel(result.newSource, Interaction.Freezes)).toEqual(1);
   expect(getDescriptorLevel(result.newSource, Descriptor.Cold)).toEqual(1);
 
-  console.log(JSON.stringify(result.newTarget));
-
   expect(getDescriptorLevel(result.newTarget, Descriptor.Hot)).toEqual(1);
   expect(getDescriptorLevel(result.newTarget, Descriptor.Blazing)).toEqual(1);
   expect(getDescriptorLevel(result.newTarget, Descriptor.Bright)).toEqual(1);

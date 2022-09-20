@@ -137,6 +137,16 @@
         Sticky: { level: 1 }
         Combustible: { level: 1 }
 
+- name: Flaming Goo Lv.1
+  icon: greengoo
+  parts:
+    - name: Goo
+      primaryDescriptor: Sticky
+      descriptors:
+        Sticky: { level: 1 }
+        Hot: { level: 2 }
+        Blazing: { level: 1 }
+
 - name: Cold Goo Lv.1
   icon: greengoo
   parts:

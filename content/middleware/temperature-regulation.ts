@@ -28,15 +28,21 @@ export class TemperatureRegulation implements PostReactionMiddleware, PostCombin
   private regulateTemperature(item: ItemConfig): boolean {
     if(!item) return false;
 
-    const hotLevel = getDescriptorLevel(item, Descriptor.Hot) + getDescriptorLevel(item, Descriptor.Blazing);
-    const coldLevel = getDescriptorLevel(item, Descriptor.Cold) + getDescriptorLevel(item, Descriptor.Frozen);
+    let hotLevel = 0;
+    let coldLevel = 0;
 
-    if(hotLevel > 0 && coldLevel > 0) {
-      decreaseDescriptorLevel(item, Descriptor.Hot, 1);
-      decreaseDescriptorLevel(item, Descriptor.Blazing, 1);
-      decreaseDescriptorLevel(item, Descriptor.Cold, 1);
-      decreaseDescriptorLevel(item, Descriptor.Frozen, 1);
-    }
+    do {
+      hotLevel = getDescriptorLevel(item, Descriptor.Hot) + getDescriptorLevel(item, Descriptor.Blazing);
+      coldLevel = getDescriptorLevel(item, Descriptor.Cold) + getDescriptorLevel(item, Descriptor.Frozen);
+
+      if(hotLevel > 0 && coldLevel > 0) {
+        decreaseDescriptorLevel(item, Descriptor.Hot, 1);
+        decreaseDescriptorLevel(item, Descriptor.Blazing, 1);
+        decreaseDescriptorLevel(item, Descriptor.Cold, 1);
+        decreaseDescriptorLevel(item, Descriptor.Frozen, 1);
+      }
+
+    } while(hotLevel > 0 && coldLevel > 0);
 
     return true;
   }
