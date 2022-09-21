@@ -1,5 +1,6 @@
+import { getItemById } from '../getters';
 import { getInteractionLevel, increaseDescriptorLevelForPart, decreaseInteractionLevel,
-  decreaseDescriptorLevelForPart, getDescriptorLevelFromPart, hasDescriptor, increaseDescriptorLevel } from '../helpers';
+  decreaseDescriptorLevelForPart, getDescriptorLevelFromPart, hasDescriptor, increaseDescriptorLevel, setDescriptorLevelForPart } from '../helpers';
 import { Descriptor, Reactions, Interaction, ReactionExtendedArgs, ReactionResponse } from '../interfaces';
 
 const zeroFail = (args: ReactionExtendedArgs) => ({
@@ -135,9 +136,7 @@ export const applications: Reactions = {
         newSource: sourceItem,
         newTarget: undefined,
         extraItems: [
-          { name: 'Water', parts: [
-            { name: 'Water', primaryDescriptor: Descriptor.Wet, descriptors: { [Descriptor.Wet]: { level: 1 } } }
-          ] }
+          getItemById('Water-1')
         ]
       };
     }
@@ -163,18 +162,16 @@ export const applications: Reactions = {
     decreaseInteractionLevel(args.sourceItem, Interaction.Wets, 1);
     const newDirtLevel = decreaseDescriptorLevelForPart(args.targetPart, Descriptor.Dirt, 1);
 
+    const mud = getItemById('MudBall-1');
+    setDescriptorLevelForPart(mud.parts[0], Descriptor.Wet, 1);
+
     return {
       message: 'Made the dirt more muddy.',
       success: true,
       newSource: sourceItem,
       newTarget: newDirtLevel <= 0 ? undefined : targetItem,
       extraItems: [
-        { name: 'Mud', parts: [
-          { name: 'Mud', primaryDescriptor: Descriptor.Mud, descriptors: {
-            [Descriptor.Mud]: { level: 1 },
-            [Descriptor.Wet]: { level: 1 }
-          } }
-        ] }
+        mud
       ]
     };
   },
@@ -377,15 +374,17 @@ export const applications: Reactions = {
     const sandLevel = getDescriptorLevelFromPart(args.targetPart, Descriptor.Sand);
 
     if(newWetLevel >= sandLevel) {
+
+      const mud = getItemById('MudBall-1');
+      setDescriptorLevelForPart(mud.parts[0], Descriptor.Mud, sandLevel);
+
       return {
         message: 'Made the sand into mud through the power of water.',
         success: true,
         newSource: sourceItem,
         newTarget: undefined,
         extraItems: [
-          { name: 'Mud', parts: [
-            { name: 'Mud', primaryDescriptor: Descriptor.Mud, descriptors: { [Descriptor.Mud]: { level: sandLevel } } }
-          ] }
+          mud
         ]
       };
     }

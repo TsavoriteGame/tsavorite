@@ -1,3 +1,4 @@
+import { getItemById } from '../getters';
 import { getInteractionLevel,
   decreaseInteractionLevel, increaseDescriptorLevelForPart,
   decreaseDescriptorLevelForPart, getDescriptor,
@@ -47,6 +48,9 @@ export const applications: Reactions = {
 
     decreaseInteractionLevel(sourceItem, Interaction.Carves, 1);
 
+    const clayBowl = getItemById('ClayBowl-1');
+    setDescriptorLevelForPart(clayBowl.parts[0], Descriptor.Clay, getDescriptorLevelFromPart(args.targetPart, Descriptor.Clay));
+
     return {
       message: 'Created a clay container.',
       success: true,
@@ -54,16 +58,7 @@ export const applications: Reactions = {
       newSource: sourceItem,
       newTarget: undefined,
       extraItems: [
-        { name: 'Clay Bowl', parts: [
-          { name: 'Clay Bowl',
-            primaryDescriptor: Descriptor.Clay,
-            foundational: true,
-            descriptors: {
-              [Descriptor.Clay]: { level: getDescriptorLevelFromPart(args.targetPart, Descriptor.Clay) },
-              [Descriptor.Container]: { level: 1 }
-            }
-          }
-        ] }
+        clayBowl
       ]
     };
   },
@@ -191,6 +186,9 @@ export const applications: Reactions = {
 
     decreaseInteractionLevel(sourceItem, Interaction.Carves, 1);
 
+    const glassJar = getItemById('GlassJar-1');
+    setDescriptorLevelForPart(glassJar.parts[0], Descriptor.Glass, getDescriptorLevelFromPart(args.targetPart, Descriptor.Glass));
+
     return {
       message: 'Created a glass container.',
       success: true,
@@ -198,16 +196,7 @@ export const applications: Reactions = {
       newSource: sourceItem,
       newTarget: undefined,
       extraItems: [
-        { name: 'Glass Jar', parts: [
-          { name: 'Glass Jar',
-            primaryDescriptor: Descriptor.Glass,
-            foundational: true,
-            descriptors: {
-              [Descriptor.Glass]: { level: getDescriptorLevelFromPart(args.targetPart, Descriptor.Glass) },
-              [Descriptor.Container]: { level: 1 }
-            }
-          }
-        ] }
+        glassJar
       ]
     };
   },
@@ -253,6 +242,9 @@ export const applications: Reactions = {
 
     decreaseInteractionLevel(sourceItem, Interaction.Carves, 1);
 
+    const leatherFlask = getItemById('LeatherFlask-1');
+    setDescriptorLevelForPart(leatherFlask.parts[0], Descriptor.Leather, getDescriptorLevelFromPart(args.targetPart, Descriptor.Leather));
+
     return {
       message: 'Created a leather container.',
       success: true,
@@ -260,16 +252,7 @@ export const applications: Reactions = {
       newSource: sourceItem,
       newTarget: undefined,
       extraItems: [
-        { name: 'Leather Flask', parts: [
-          { name: 'Leather Flask',
-            primaryDescriptor: Descriptor.Leather,
-            foundational: true,
-            descriptors: {
-              [Descriptor.Leather]: { level: getDescriptorLevelFromPart(args.targetPart, Descriptor.Leather) },
-              [Descriptor.Container]: { level: 1 }
-            }
-          }
-        ] }
+        leatherFlask
       ]
     };
   },
@@ -311,6 +294,8 @@ export const applications: Reactions = {
       1
     );
 
+    const meatChunk = getItemById('MeatChunk-1');
+
     return {
       message: 'Cut the meat successfully.',
       success: true,
@@ -318,9 +303,7 @@ export const applications: Reactions = {
       newSource: sourceItem,
       newTarget: newLevel <= 0 ? undefined : targetItem,
       extraItems: [
-        { name: 'Meat Chunk', parts: [
-          { name: 'Meat Chunk', primaryDescriptor: Descriptor.Meat, descriptors: { [Descriptor.Meat]: { level: 1 } } }
-        ] }
+        meatChunk
       ]
     };
   },
@@ -369,6 +352,9 @@ export const applications: Reactions = {
     setDescriptorLevelForPart(args.targetPart, Descriptor.Container, 1);
     setFoundationalPart(args.targetPart);
 
+    const metalCup = getItemById('MetalCup-1');
+    setDescriptorLevelForPart(metalCup.parts[0], Descriptor.Metal, getDescriptorLevelFromPart(args.targetPart, Descriptor.Metal));
+
     return {
       message: 'Created a metal cup.',
       success: true,
@@ -376,16 +362,7 @@ export const applications: Reactions = {
       newSource: sourceItem,
       newTarget: undefined,
       extraItems: [
-        { name: 'Metal Cup', parts: [
-          { name: 'Metal Cup',
-            primaryDescriptor: Descriptor.Metal,
-            foundational: true,
-            descriptors: {
-              [Descriptor.Metal]: { level: getDescriptorLevelFromPart(args.targetPart, Descriptor.Metal) },
-              [Descriptor.Container]: { level: 1 }
-            }
-          }
-        ] }
+        metalCup
       ]
     };
   },
@@ -431,6 +408,9 @@ export const applications: Reactions = {
 
     decreaseInteractionLevel(sourceItem, Interaction.Carves, 1);
 
+    const rockBowl = getItemById('RockBowl-1');
+    setDescriptorLevelForPart(rockBowl.parts[0], Descriptor.Rock, getDescriptorLevelFromPart(args.targetPart, Descriptor.Rock));
+
     return {
       message: 'Created a rock cup.',
       success: true,
@@ -438,16 +418,7 @@ export const applications: Reactions = {
       newSource: sourceItem,
       newTarget: undefined,
       extraItems: [
-        { name: 'Rock Cup', parts: [
-          { name: 'Rock Cup',
-            primaryDescriptor: Descriptor.Rock,
-            foundational: true,
-            descriptors: {
-              [Descriptor.Rock]: { level: getDescriptorLevelFromPart(args.targetPart, Descriptor.Rock) },
-              [Descriptor.Container]: { level: 1 }
-            }
-          }
-        ] }
+        rockBowl
       ]
     };
   },
@@ -513,6 +484,9 @@ export const applications: Reactions = {
 
     decreaseInteractionLevel(sourceItem, Interaction.Carves, 1);
 
+    const woodBucket = getItemById('WoodBucket-1');
+    setDescriptorLevelForPart(woodBucket.parts[0], Descriptor.Wood, getDescriptorLevelFromPart(args.targetPart, Descriptor.Wood));
+
     return {
       message: 'Carved a container out of the wood.',
       success: true,
@@ -520,16 +494,7 @@ export const applications: Reactions = {
       newSource: sourceItem,
       newTarget: undefined,
       extraItems: [
-        { name: 'Wood Cup', parts: [
-          { name: 'Wood Cup',
-            primaryDescriptor: Descriptor.Wood,
-            foundational: true,
-            descriptors: {
-              [Descriptor.Wood]: { level: getDescriptorLevelFromPart(args.targetPart, Descriptor.Wood) },
-              [Descriptor.Container]: { level: 1 }
-            }
-          }
-        ] }
+        woodBucket
       ]
     };
   },

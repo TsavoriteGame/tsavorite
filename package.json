@@ -7,7 +7,7 @@
   "main": "app/main.js",
   "private": true,
   "scripts": {
-    "postinstall": "electron-builder install-app-deps && npm run setup:data && npm run setup:art && npm run generate:hashes",
+    "postinstall": "electron-builder install-app-deps && npm run setup && npm run generate:hashes",
     "ng": "ng",
     "start": "npm-run-all -p electron:serve ng:serve",
     "start:web": "npm run ng:serve",
@@ -21,6 +21,7 @@
     "electron:serve": "wait-on tcp:4889 && npm run electron:serve-tsc && electron . --serve",
     "electron:local": "npm run build:prod && electron .",
     "electron:build": "npm run build:prod && electron-builder build --publish=never",
+    "setup": "npm run setup:data && npm run setup:art",
     "setup:data": "node scripts/items && node scripts/backgrounds && node scripts/archetypes",
     "setup:art": "node scripts/art",
     "generate:hashes": "node scripts/generate-hashes",

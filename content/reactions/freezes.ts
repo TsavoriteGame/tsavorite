@@ -1,3 +1,4 @@
+import { getItemById } from '../getters';
 import { decreaseDescriptorLevelForPart, decreaseInteractionLevel, getDescriptorLevelFromPart,
   getInteractionLevel, hasDescriptor, increaseDescriptorLevelForPart } from '../helpers';
 import { Descriptor, Interaction, ReactionExtendedArgs, Reactions } from '../interfaces';
@@ -142,9 +143,7 @@ export const applications: Reactions = {
         newSource: sourceItem,
         newTarget: undefined,
         extraItems: [
-          { name: 'Rock', parts: [
-            { name: 'Rock', primaryDescriptor: Descriptor.Rock, descriptors: { [Descriptor.Rock]: { level: mudLevel } } }
-          ] }
+          getItemById('Rock-1')
         ]
       };
     }

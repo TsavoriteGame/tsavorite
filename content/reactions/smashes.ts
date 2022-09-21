@@ -1,6 +1,7 @@
+import { getItemById } from '../getters';
 import { getInteractionLevel, increaseDescriptorLevelForPart,
   decreaseInteractionLevel, getDescriptorLevel, decreaseDescriptorLevelForPart,
-  getDescriptorLevelFromPart, increaseInteractionLevel, hasDescriptor, getAllDescriptorsForPart } from '../helpers';
+  getDescriptorLevelFromPart, increaseInteractionLevel, hasDescriptor, getAllDescriptorsForPart, setDescriptorLevelForPart } from '../helpers';
 import { Descriptor, Reactions, Interaction, ReactionExtendedArgs } from '../interfaces';
 
 const zeroFail = (args: ReactionExtendedArgs) => ({
@@ -84,15 +85,16 @@ export const applications: Reactions = {
 
     const glassLevel = getDescriptorLevel(targetItem, Descriptor.Glass);
 
+    const sand = getItemById('SandPile-1');
+    setDescriptorLevelForPart(sand.parts[0], Descriptor.Sand, glassLevel);
+
     return {
       message: 'Destroyed the glass item.',
       success: true,
       newSource: sourceItem,
       newTarget: undefined,
       extraItems: [
-        { name: 'Sand', parts: [
-          { name: 'Sand', primaryDescriptor: Descriptor.Sand, descriptors: { [Descriptor.Sand]: { level: glassLevel } } }
-        ] }
+        sand
       ]
     };
   },
@@ -122,15 +124,16 @@ export const applications: Reactions = {
     if(meatLevel <= 0) {
       const bloodLevel = getDescriptorLevelFromPart(args.targetPart, Descriptor.Bloody);
 
+      const blood = getItemById('Blood-1');
+      setDescriptorLevelForPart(blood.parts[0], Descriptor.Bloody, bloodLevel);
+
       return {
         message: 'Pulverized the meat into blood.',
         success: true,
         newSource: sourceItem,
         newTarget: undefined,
         extraItems: [
-          { name: 'Blood', parts: [
-            { name: 'Blood', primaryDescriptor: Descriptor.Bloody, descriptors: { [Descriptor.Bloody]: { level: bloodLevel } } }
-          ] }
+          blood
         ]
       };
     }
@@ -194,15 +197,16 @@ export const applications: Reactions = {
     if(rockLevel <= 0) {
       const sandLevel = getDescriptorLevelFromPart(args.targetPart, Descriptor.Sand);
 
+      const sand = getItemById('SandPile-1');
+      setDescriptorLevelForPart(sand.parts[0], Descriptor.Sand, sandLevel);
+
       return {
         message: 'Pulverized the rock into sand.',
         success: true,
         newSource: sourceItem,
         newTarget: undefined,
         extraItems: [
-          { name: 'Sand', parts: [
-            { name: 'Sand', primaryDescriptor: Descriptor.Sand, descriptors: { [Descriptor.Sand]: { level: sandLevel } } }
-          ] }
+          sand
         ]
       };
     }

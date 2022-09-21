@@ -1,6 +1,7 @@
+import { getItemById } from '../getters';
 import { getInteractionLevel, decreaseInteractionLevel, decreaseDescriptorLevelForPart,
   increaseDescriptorLevelForPart, getAllDescriptorsForPart, hasDescriptor,
-  getPartWithDescriptor, getDescriptorLevel, getDescriptorLevelFromPart } from '../helpers';
+  getPartWithDescriptor, getDescriptorLevel, getDescriptorLevelFromPart, setDescriptorLevelForPart } from '../helpers';
 import { Descriptor, Reactions, Interaction, ReactionExtendedArgs, ReactionResponse } from '../interfaces';
 
 const zeroFail = (args: ReactionExtendedArgs) => ({
@@ -16,6 +17,9 @@ const containerCheck: (args: ReactionExtendedArgs, glassLevel: number) => Reacti
   if (corrodesLevel <= 0) return zeroFail(args);
 
   decreaseInteractionLevel(args.sourceItem, Interaction.Corrodes, 1);
+
+  const glass = getItemById('AcidFlask-1');
+  setDescriptorLevelForPart(glass.parts[0], Descriptor.Glass, glassLevel);
 
   // if empty bottle
   if (args.targetItem.parts.length === 1) {
@@ -66,9 +70,7 @@ export const applications: Reactions = {
         newSource: sourceItem,
         newTarget: undefined,
         extraItems: [
-          { name: 'Goo', parts: [
-            { name: 'Goo', primaryDescriptor: Descriptor.Sticky, descriptors: { [Descriptor.Sticky]: { level: 1 } } }
-          ] }
+          getItemById('Goo-1')
         ]
       };
     }
@@ -79,9 +81,7 @@ export const applications: Reactions = {
       newSource: sourceItem,
       newTarget: targetItem,
       extraItems: [
-        { name: 'Goo', parts: [
-          { name: 'Goo', primaryDescriptor: Descriptor.Sticky, descriptors: { [Descriptor.Sticky]: { level: 1 } } }
-        ] }
+        getItemById('Goo-1')
       ]
     };
   },
@@ -235,9 +235,7 @@ export const applications: Reactions = {
       newSource: sourceItem,
       newTarget: undefined,
       extraItems: [
-        { name: 'Rotten Meat Chunk Lv.1', parts: [
-          { name: 'Rotten Meat Chunk Lv.1', primaryDescriptor: Descriptor.Rotten, descriptors: { [Descriptor.Rotten]: { level: 1 } }}
-        ] }
+        getItemById('RottenMeatChunk-1')
       ]
     };
   },
