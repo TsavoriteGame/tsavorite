@@ -23,9 +23,7 @@
                [class.selected]="character.items[slot] && (indexLeft === slot || indexRight === slot)"
                [dndDraggable]="character.items[slot]"
                [dndDisableIf]="!character.items[slot]"
-               (dndStart)="startDrag(slot)"
-               (mouseover)="hoverItem(character.items[slot])"
-               (mouseout)="unhoverItem()">
+               (dndStart)="startDrag(slot)">
             <app-card-slot [card]="character.items[slot]"></app-card-slot>
           </div>
         </div>
@@ -39,33 +37,13 @@
             <div class="button-container ms-3">
               <button class="btn btn-primary" [disabled]="!combineLeft || !combineRight" *ngIf="combineLeft && combineLeft.interaction" (click)="reaction(character)">Apply</button>
               <button class="btn btn-primary" [disabled]="!combineLeft || !combineRight" *ngIf="combineLeft && !combineLeft.interaction" (click)="combine(character)">Combine</button>
-              <button class="btn btn-warning" *ngIf="combineLeft && combineRight" (click)="cancelApplicombine()">Cancel</button>
+              <button class="btn btn-warning" *ngIf="combineLeft || combineRight" (click)="cancelApplicombine()">Cancel</button>
             </div>
           </div>
 
           <div class="row ms-3 mt-3">
             <div class="col icon-text">
               {{ applicombineResultMessage$ | async }}
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="row">
-        <div class="col">
-          <div *ngIf="activeHoverItem" class="icon-text">
-            <div>
-              {{ activeHoverItem.name }}
-            </div>
-
-            <div *ngIf="activeHoverItem.interaction">
-              {{ activeHoverItem.interaction.name }} Lv. {{ activeHoverItem.interaction.level }}
-            </div>
-
-            <div>
-              <span class="descriptor" *ngFor="let descriptor of activeHoverDescriptors">
-                ({{ descriptor.descriptor }} Lv.{{ descriptor.level }})
-              </span>
             </div>
           </div>
         </div>
