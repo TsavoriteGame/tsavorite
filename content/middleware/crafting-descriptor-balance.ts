@@ -20,7 +20,8 @@ export class CraftingDescriptorBalance implements PostReactionMiddleware {
   shouldPostFire(args: ReactionExtendedArgs, response: ReactionResponse) {
     return args.sourceItem.interaction
         && args.sourceItem.interaction.name === Interaction.Tailors
-        && getPrimaryPartOfItem(args.targetItem).primaryDescriptor === Descriptor.Sticky;
+        && getPrimaryPartOfItem(args.targetItem).primaryDescriptor === Descriptor.Sticky
+        && response.extraItems !== undefined && response.extraItems.length > 0;
   }
 
   shouldPostBlock() {

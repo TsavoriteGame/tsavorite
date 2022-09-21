@@ -14,6 +14,51 @@ const getGlue = (glueLevel: number): ItemConfig => ({
   ]
 });
 
+test('An empty kit should tailor nothing', () => {
+  const source: ItemConfig = {
+    name: 'Kit',
+    parts: [
+      {
+        name: 'Kit',
+        primaryDescriptor: Descriptor.Kit,
+        descriptors: {
+          [Descriptor.Kit]: { level: 2 }
+        }
+      }
+    ],
+    interaction: { name: Interaction.Tailors, level: 2 }
+  };
+
+  const target = getGlue(2);
+
+  const result = getReactionBetweenTwoItems(source, target);
+
+  expect(result.success).toBe(false);
+});
+
+test('An under-filled kit should tailor nothing', () => {
+  const source: ItemConfig = {
+    name: 'Kit',
+    parts: [
+      {
+        name: 'Kit',
+        primaryDescriptor: Descriptor.Kit,
+        descriptors: {
+          [Descriptor.Kit]: { level: 2 },
+          [Descriptor.Fiber]: { level: 1 }
+        }
+      }
+    ],
+    interaction: { name: Interaction.Tailors, level: 2 }
+  };
+
+  const target = getGlue(2);
+
+  const result = getReactionBetweenTwoItems(source, target);
+
+  expect(result.success).toBe(false);
+});
+
 test('A filled kit (3 leather, 1 fiber) should tailor a Leather Boots', () => {
   const source: ItemConfig = {
     name: 'Kit',

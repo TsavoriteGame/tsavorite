@@ -420,7 +420,7 @@ export function getValidFulfilledRecipeForItem(item: ItemConfig): Recipe | undef
   if (!item.interaction) return undefined;
 
   const fulfilledRecipes = getAllFulfilledRecipesForItem(item);
-  if (fulfilledRecipes.length <= 0) return undefined;
+  if (fulfilledRecipes === undefined || fulfilledRecipes.length <= 0) return undefined;
 
   return fulfilledRecipes[0];
 }
