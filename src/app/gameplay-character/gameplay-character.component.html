@@ -21,7 +21,12 @@
       <div class="row">
         <div class="col">
           <div class="ms-3 mt-3 d-flex flex-row align-items-center">
-            <app-icon icon="health" [size]="64"></app-icon>
+            <app-icon icon="health"
+                      [size]="64"
+                      [dndDisableDragIf]="shouldDisableHealthStealing(character)"
+                      [dndDraggable]="{ takeHealth: 1 }"
+                      dndDropzone
+                      (dndDrop)="dropHealth($event)"></app-icon>
             <span class="icon-text ms-3">{{ character.hp }} HP</span>
           </div>
         </div>

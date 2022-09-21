@@ -21,10 +21,11 @@
           <div class="item-zone">
             <div class="ms-3 mt-3 d-flex flex-row align-items-center item-slot"
                  *ngFor="let slot of slots"
-                 [class.selected]="character.items[slot] && (indexLeft === slot || indexRight === slot)"
-                 [dndDraggable]="character.items[slot]"
-                 [dndDisableIf]="!character.items[slot]"
-                 (dndStart)="startDrag(slot)">
+                 [class.selected]="character.items[slot] && (isItemInSlot(character.items[slot], slot))"
+                 dndDropzone
+                 (dndDrop)="dropOnBackpack($event)"
+                 [dndDraggable]="{ backpackIndex: slot, item: character.items[slot] }"
+                 [dndDisableDragIf]="!canDragItem(character.items[slot], slot)">
               <app-card-slot [card]="character.items[slot]"></app-card-slot>
             </div>
           </div>

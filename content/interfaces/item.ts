@@ -5,6 +5,7 @@ export enum Interaction {
   Carves = 'Carves',
   Corrodes = 'Corrodes',
   Freezes = 'Freezes',
+  Heals = 'Heals',
   Ignites = 'Ignites',
   Smashes = 'Smashes',
   Unlocks = 'Unlocks',

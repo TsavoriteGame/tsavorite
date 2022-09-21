@@ -4,7 +4,7 @@ import { append, patch, removeItem, updateItem } from '@ngxs/store/operators';
 
 
 import { Archetype, Background, ItemConfig, Power } from '../../../../../../content/interfaces';
-import { AbandonGame, AddBackpackItem, RemoveBackpackItem, StartGame, UpdateBackpackItem } from '../actions';
+import { AbandonGame, AddBackpackItem, AddHealth, ReduceHealth, RemoveBackpackItem, StartGame, UpdateBackpackItem } from '../actions';
 import { ContentService } from '../content.service';
 import { GameConstant, GameService } from '../game.service';
 
@@ -140,6 +140,20 @@ export class GameState {
     ctx.setState(patch<IGame>({
       character: patch({
         items: removeItem<ItemConfig>(index)
+      })
+    }));
+  }
+
+  @Action(AddHealth)
+  @Action(ReduceHealth)
+  changeHealth(ctx: StateContext<IGame>, { amount }: AddHealth) {
+    if(!this.isInGame(ctx)) return;
+
+    const currentHP = ctx.getState().character.hp;
+
+    ctx.setState(patch<IGame>({
+      character: patch({
+        hp: currentHP + amount
       })
     }));
   }

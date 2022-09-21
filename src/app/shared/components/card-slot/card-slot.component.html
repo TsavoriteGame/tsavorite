@@ -14,7 +14,7 @@
 
 <ng-template #tipContent>
   <div class="sub-tooltip" [class.fantasy]="(options$ | async).fantasyFont">
-    <div class="card-name">
+    <div class="card-name" *ngIf="card">
       {{ card.name }}
     </div>
 
@@ -23,7 +23,7 @@
       {{ activeInteraction.name }} Lv. {{ activeInteraction.level }}
     </div>
 
-    <div class="card-descriptors">
+    <div class="card-descriptors" *ngIf="activeDescriptors.length > 0">
       <span class="descriptor" *ngFor="let descriptor of activeDescriptors">
         ({{ descriptor.descriptor }} Lv.{{ descriptor.level }})
       </span>
