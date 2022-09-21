@@ -1,0 +1,12 @@
+
+- name: Healing Heart
+  icon: health
+  parts:
+    - name: Heart
+      primaryDescriptor: Meat
+      descriptors:
+        Meat: { level: 1 }
+
+  interaction:
+    name: Heals
+    level: 1
