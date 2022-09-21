@@ -1,13 +1,6 @@
-import { decreaseDescriptorLevel, getDescriptorLevel, getPrimaryPartOfItem } from '../helpers';
-import { Descriptor, Interaction, ItemConfig, MiddlewareType,
+import { balanceOppositeDescriptors, getPrimaryPartOfItem } from '../helpers';
+import { Descriptor, Interaction, MiddlewareType,
   PostReactionMiddleware, ReactionExtendedArgs, ReactionResponse } from '../interfaces';
-
-function balanceOpposites(item: ItemConfig, a: Descriptor, b: Descriptor) {
-  while (getDescriptorLevel(item, a) > 0 && getDescriptorLevel(item, b) > 0) {
-    decreaseDescriptorLevel(item, a, 1);
-    decreaseDescriptorLevel(item, b, 1);
-  }
-}
 
 export class CraftingDescriptorBalance implements PostReactionMiddleware {
 
@@ -33,8 +26,8 @@ export class CraftingDescriptorBalance implements PostReactionMiddleware {
 
     const item = response.extraItems[0];
 
-    balanceOpposites(item, Descriptor.Hot, Descriptor.Cold);
-    balanceOpposites(item, Descriptor.Blazing, Descriptor.Frozen);
+    balanceOppositeDescriptors(item, Descriptor.Hot, Descriptor.Cold);
+    balanceOppositeDescriptors(item, Descriptor.Blazing, Descriptor.Frozen);
 
     return response;
   }

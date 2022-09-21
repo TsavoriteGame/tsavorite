@@ -290,6 +290,13 @@ export function hasSharedPrimaryDescriptor(sourceItem: ItemConfig, targetItem: I
   return sourcePart.primaryDescriptor === targetPart.primaryDescriptor;
 }
 
+export function balanceOppositeDescriptors(item: ItemConfig, a: Descriptor, b: Descriptor) {
+  while (getDescriptorLevel(item, a) > 0 && getDescriptorLevel(item, b) > 0) {
+    decreaseDescriptorLevel(item, a, 1);
+    decreaseDescriptorLevel(item, b, 1);
+  }
+}
+
 // combination functions
 export function getCombinationBetweenTwoItems(sourceItem: ItemConfig, targetItem: ItemConfig): ReactionResponse {
   const failedCombination = () => ({
