@@ -38,7 +38,7 @@
             <app-card-slot class="ms-3" placeholder="Discard" [card]="discardItem" dndDropzone (dndDrop)="dropDiscard($event)"></app-card-slot>
 
             <div class="button-container ms-3">
-              <button class="btn btn-danger" *ngIf="discardItem" (click)="discard(character)">Discard</button>
+              <button class="btn btn-danger" *ngIf="discardItem" (click)="discard()">Discard</button>
               <button class="btn btn-warning" *ngIf="discardItem" (click)="cancelDiscard()">Cancel</button>
             </div>
           </div>
