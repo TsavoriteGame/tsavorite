@@ -63,6 +63,7 @@ export interface ItemInteraction {
 }
 
 export interface ItemConfig extends Card {
+  id?: string;
   parts: ItemPart[];
   interaction?: ItemInteraction;
 }

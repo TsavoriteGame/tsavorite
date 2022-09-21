@@ -162,6 +162,10 @@
   </div>
 
   <div class="card-body">
+    <div class="item-id">
+      ID: {{ activeItem.id }}
+    </div>
+
     <div class="item-part" [class.divider]="i > 0" *ngFor="let part of activeItem.parts; let i = index">
 
       <div class="part-ident">

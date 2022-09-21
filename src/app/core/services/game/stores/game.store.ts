@@ -98,7 +98,7 @@ export class GameState {
     };
 
     background.startingKit.forEach(kitItem => {
-      character.items.push(this.contentService.reformatItem(kitItem.itemName, kitItem.itemChanges));
+      character.items.push(this.contentService.reformatItem(kitItem.itemId, kitItem.itemChanges));
     });
 
     ctx.patchState({ character });

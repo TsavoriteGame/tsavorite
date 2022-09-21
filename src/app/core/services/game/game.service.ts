@@ -26,7 +26,7 @@ export class GameService {
 
   private initConsole() {
     (window as any).__addItem = (id: string) => {
-      const item = this.contentService.getItem(id);
+      const item = this.contentService.getItemById(id);
       if(!item) {
         console.error('Item does not exist.');
         return;

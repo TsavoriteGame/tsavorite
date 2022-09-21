@@ -6,6 +6,25 @@ const { sortBy } = require('lodash');
 
 const allItems = [];
 
+const itemNames = {};
+
+const assignItemIds = () => {
+  allItems.forEach((item) => {
+    let id = item.name.split(' ').join('') + '-1';
+
+    if(itemNames[id]) {
+      let i = 1;
+      do {
+        id = `${item.name.split(' ').join('')}-${i}`;
+        i++;
+      } while(itemNames[id]);
+    }
+
+    item.id = id;
+    itemNames[id] = true;
+  });
+}
+
 const validateItems = () => {
   allItems.forEach(item => {
     if (!item.name) {
@@ -65,6 +84,7 @@ const loadItems = async () => {
     allItems.push(...data);
   });
 
+  assignItemIds();
   validateItems();
 
   const sortedItems = sortBy(allItems, item => item.name);

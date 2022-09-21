@@ -42,8 +42,8 @@ const validateBackgrounds = () => {
           throw new Error(`Background ${item.name} is missing an icon for a starting kit item`);
         }
 
-        if(!kitItem.itemName) {
-          throw new Error(`Background ${item.name} is missing an item for a starting kit item name`);
+        if(!kitItem.itemId) {
+          throw new Error(`Background ${item.name} is missing an item for a starting kit item item`);
         }
       });
     }

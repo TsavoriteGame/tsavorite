@@ -29,20 +29,20 @@ export class ContentService {
 
   // getters
   public getArchetype(name: string): Archetype | undefined {
-    return this.archetypes.find(x => x.name === name);
+    return structuredClone(this.archetypes.find(x => x.name === name));
   }
 
   public getBackground(name: string): Background | undefined {
-    return this.backgrounds.find(x => x.name === name);
+    return structuredClone(this.backgrounds.find(x => x.name === name));
   }
 
-  public getItem(itemName: string): ItemConfig | undefined {
-    return this.items.find(x => x.name === itemName);
+  public getItemById(itemId: string): ItemConfig | undefined {
+    return structuredClone(this.items.find(x => x.id === itemId));
   }
 
   // formatters
-  public reformatItem(itemName: string, modifications: Record<string, number>): ItemConfig {
-    const realItem = this.getItem(itemName);
+  public reformatItem(itemId: string, modifications: Record<string, number>): ItemConfig {
+    const realItem = this.getItemById(itemId);
     if(!realItem) return;
 
     // run the modifications through lodash.set for quick deep setting
