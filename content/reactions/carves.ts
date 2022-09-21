@@ -45,13 +45,13 @@ export const applications: Reactions = {
       };
     }
 
-    const newCarvesLevel = decreaseInteractionLevel(sourceItem, Interaction.Carves, 1);
+    decreaseInteractionLevel(sourceItem, Interaction.Carves, 1);
 
     return {
       message: 'Created a clay container.',
       success: true,
       checkBreaks: false,
-      newSource: newCarvesLevel <= 0 ? undefined : sourceItem,
+      newSource: sourceItem,
       newTarget: undefined,
       extraItems: [
         { name: 'Clay Bowl', parts: [
@@ -89,7 +89,7 @@ export const applications: Reactions = {
     }
 
     // lower the number of carves
-    const newCarvesLevel = decreaseInteractionLevel(sourceItem, Interaction.Carves, 1);
+    decreaseInteractionLevel(sourceItem, Interaction.Carves, 1);
 
     // copy the item pre-cut
     const itemCopy = structuredClone(args.targetItem);
@@ -103,7 +103,7 @@ export const applications: Reactions = {
       message: 'Cut the food successfully.',
       success: true,
       checkBreaks: true,
-      newSource: newCarvesLevel <= 0 ? undefined : sourceItem,
+      newSource: sourceItem,
       newTarget: newLevel <= 0 ? undefined : targetItem,
       extraItems: [itemCopy]
     };
@@ -130,7 +130,7 @@ export const applications: Reactions = {
     }
 
     // lower the number of carves
-    const newCarvesLevel = decreaseInteractionLevel(sourceItem, Interaction.Carves, 1);
+    decreaseInteractionLevel(sourceItem, Interaction.Carves, 1);
 
     // copy the item pre-cut
     const itemCopy = structuredClone(args.targetItem);
@@ -144,7 +144,7 @@ export const applications: Reactions = {
       message: 'Cut the fiber successfully.',
       success: true,
       checkBreaks: true,
-      newSource: newCarvesLevel <= 0 ? undefined : sourceItem,
+      newSource: sourceItem,
       newTarget: newLevel <= 0 ? undefined : targetItem,
       extraItems: [itemCopy]
     };
@@ -189,13 +189,13 @@ export const applications: Reactions = {
       };
     }
 
-    const newCarvesLevel = decreaseInteractionLevel(sourceItem, Interaction.Carves, 1);
+    decreaseInteractionLevel(sourceItem, Interaction.Carves, 1);
 
     return {
       message: 'Created a glass container.',
       success: true,
       checkBreaks: false,
-      newSource: newCarvesLevel <= 0 ? undefined : sourceItem,
+      newSource: sourceItem,
       newTarget: undefined,
       extraItems: [
         { name: 'Glass Jar', parts: [
@@ -251,13 +251,13 @@ export const applications: Reactions = {
       };
     }
 
-    const newCarvesLevel = decreaseInteractionLevel(sourceItem, Interaction.Carves, 1);
+    decreaseInteractionLevel(sourceItem, Interaction.Carves, 1);
 
     return {
       message: 'Created a leather container.',
       success: true,
       checkBreaks: false,
-      newSource: newCarvesLevel <= 0 ? undefined : sourceItem,
+      newSource: sourceItem,
       newTarget: undefined,
       extraItems: [
         { name: 'Leather Flask', parts: [
@@ -295,7 +295,7 @@ export const applications: Reactions = {
     }
 
     // lower the number of carves
-    const newCarvesLevel = decreaseInteractionLevel(sourceItem, Interaction.Carves, 1);
+    decreaseInteractionLevel(sourceItem, Interaction.Carves, 1);
 
     // make it more slippery because blood
     increaseDescriptorLevelForPart(args.sourcePart, Descriptor.Slippery, 1);
@@ -315,7 +315,7 @@ export const applications: Reactions = {
       message: 'Cut the meat successfully.',
       success: true,
       checkBreaks: true,
-      newSource: newCarvesLevel <= 0 ? undefined : sourceItem,
+      newSource: sourceItem,
       newTarget: newLevel <= 0 ? undefined : targetItem,
       extraItems: [
         { name: 'Meat Chunk', parts: [
@@ -364,7 +364,7 @@ export const applications: Reactions = {
       };
     }
 
-    const newCarvesLevel = decreaseInteractionLevel(sourceItem, Interaction.Carves, 1);
+    decreaseInteractionLevel(sourceItem, Interaction.Carves, 1);
 
     setDescriptorLevelForPart(args.targetPart, Descriptor.Container, 1);
     setFoundationalPart(args.targetPart);
@@ -373,7 +373,7 @@ export const applications: Reactions = {
       message: 'Created a metal cup.',
       success: true,
       checkBreaks: false,
-      newSource: newCarvesLevel <= 0 ? undefined : sourceItem,
+      newSource: sourceItem,
       newTarget: undefined,
       extraItems: [
         { name: 'Metal Cup', parts: [
@@ -429,13 +429,13 @@ export const applications: Reactions = {
       };
     }
 
-    const newCarvesLevel = decreaseInteractionLevel(sourceItem, Interaction.Carves, 1);
+    decreaseInteractionLevel(sourceItem, Interaction.Carves, 1);
 
     return {
       message: 'Created a rock cup.',
       success: true,
       checkBreaks: false,
-      newSource: newCarvesLevel <= 0 ? undefined : sourceItem,
+      newSource: sourceItem,
       newTarget: undefined,
       extraItems: [
         { name: 'Rock Cup', parts: [
@@ -511,13 +511,13 @@ export const applications: Reactions = {
       };
     }
 
-    const newCarvesLevel = decreaseInteractionLevel(sourceItem, Interaction.Carves, 1);
+    decreaseInteractionLevel(sourceItem, Interaction.Carves, 1);
 
     return {
       message: 'Carved a container out of the wood.',
       success: true,
       checkBreaks: false,
-      newSource: newCarvesLevel <= 0 ? undefined : sourceItem,
+      newSource: sourceItem,
       newTarget: undefined,
       extraItems: [
         { name: 'Wood Cup', parts: [

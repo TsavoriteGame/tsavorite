@@ -255,7 +255,7 @@ export const applications: Reactions = {
       return {
         message: 'Smashed the wood.',
         success: true,
-        newSource: getInteractionLevel(args.sourceItem, Interaction.Smashes) <= 0 ? undefined : sourceItem,
+        newSource: sourceItem,
         newTarget: undefined
       };
     }
@@ -263,7 +263,7 @@ export const applications: Reactions = {
     return {
       message: 'Broke some wood.',
       success: true,
-      newSource: getInteractionLevel(args.sourceItem, Interaction.Smashes) <= 0 ? undefined : sourceItem,
+      newSource: sourceItem,
       newTarget: targetItem
     };
   },
