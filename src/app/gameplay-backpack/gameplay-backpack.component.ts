@@ -6,7 +6,7 @@ import { getCombinationBetweenTwoItems,
 import { Descriptor, ItemConfig } from '../../../content/interfaces';
 import { AddBackpackItem, RemoveBackpackItem, UpdateBackpackItem } from '../core/services/game/actions';
 import { GameConstant, GameService } from '../core/services/game/game.service';
-import { GameState, IGameCharacter } from '../core/services/game/stores';
+import { GameState, IGame, IGameCharacter } from '../core/services/game/stores';
 
 @Component({
   selector: 'app-gameplay-backpack',
@@ -22,6 +22,9 @@ export class GameplayBackpackComponent implements OnInit {
     .map((x, i) => i);
 
   public dragIndex = -1;
+
+  public discardItem: ItemConfig;
+  public indexDiscard = -1;
 
   public combineLeft: ItemConfig;
   public combineRight: ItemConfig;
@@ -39,6 +42,15 @@ export class GameplayBackpackComponent implements OnInit {
 
   startDrag(slot: number): void {
     this.dragIndex = slot;
+  }
+
+  dropDiscard($event) {
+    const item = $event.data;
+    if(!item) return;
+
+    this.discardItem = item;
+    this.indexDiscard = this.dragIndex;
+    this.dragIndex = -1;
   }
 
   dropLeft($event) {
@@ -145,6 +157,14 @@ export class GameplayBackpackComponent implements OnInit {
     this.cancelApplicombine();
   }
 
+  discard() {
+    if(!this.discardItem) return;
+
+    this.store.dispatch(new RemoveBackpackItem(this.indexDiscard)).subscribe(() => {
+      this.cancelDiscard();
+    });
+  }
+
   flashMessage(message: string) {
     if(this.timer$) this.timer$.unsubscribe();
 
@@ -158,6 +178,12 @@ export class GameplayBackpackComponent implements OnInit {
     this.combineRight = undefined;
     this.indexLeft = -1;
     this.indexRight = -1;
+    this.dragIndex = -1;
+  }
+
+  cancelDiscard() {
+    this.discardItem = undefined;
+    this.indexDiscard = -1;
     this.dragIndex = -1;
   }
 
