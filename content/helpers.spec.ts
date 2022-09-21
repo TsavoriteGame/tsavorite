@@ -1,6 +1,6 @@
 import { addDescriptor, changePrimaryDescriptor, decreaseDescriptorLevel,
-  decreaseDescriptorLevelForPart, decreaseInteractionLevel, getAllDescriptorsForPart, getCombinationBetweenTwoItems, getDescriptorLevel,
-  getDescriptorLevelFromPart, getInteraction, getInteractionLevel, getPartWithDescriptor, hasDescriptor,
+  decreaseDescriptorLevelForPart, decreaseInteractionLevel, getAllDescriptorsForItem, getAllDescriptorsForPart, getCombinationBetweenTwoItems, getDescriptorLevel,
+  getDescriptorLevelFromPart, getInteraction, getInteractionLevel, getPartWithDescriptor, getTotalDescriptorLevel, hasDescriptor,
   hasFoundationalPart, increaseDescriptorLevel, increaseDescriptorLevelForPart, increaseInteractionLevel, setDescriptorLevelForPart,
   setFoundationalPart, setInteraction } from './helpers';
 import { Descriptor, Interaction, ItemConfig } from './interfaces';
@@ -70,6 +70,70 @@ test('Getting a list of descriptors should return all valid descriptors', () => 
   expect(descriptorsForPart.includes(Descriptor.Metal)).toBe(true);
   expect(descriptorsForPart.includes(Descriptor.Electric)).toBe(true);
   expect(descriptorsForPart.includes(Descriptor.Unbreakable)).toBe(false);
+});
+
+test('Getting a list of descriptors for an item should return all valid descriptors', () => {
+  const item: ItemConfig = {
+    name: 'Level 1 Zapper',
+    parts: [
+      {
+        name: 'Baton',
+        primaryDescriptor: Descriptor.Metal,
+        descriptors: {
+          [Descriptor.Metal]: { level: 1 },
+          [Descriptor.Electric]: { level: 1 },
+          [Descriptor.Unbreakable]: { level: 0 }
+        }
+      },
+      {
+        name: 'Baton',
+        primaryDescriptor: Descriptor.Metal,
+        descriptors: {
+          [Descriptor.Metal]: { level: 1 },
+          [Descriptor.Blazing]: { level: 1 }
+        }
+      }
+    ],
+    interaction: { name: Interaction.Zaps, level: 1 }
+  };
+
+  const descriptorsForPart = getAllDescriptorsForItem(item);
+  expect(descriptorsForPart.length).toBe(3);
+  expect(descriptorsForPart.includes(Descriptor.Metal)).toBe(true);
+  expect(descriptorsForPart.includes(Descriptor.Electric)).toBe(true);
+  expect(descriptorsForPart.includes(Descriptor.Blazing)).toBe(true);
+  expect(descriptorsForPart.includes(Descriptor.Unbreakable)).toBe(false);
+});
+
+test('Getting a total descriptor level should work across multiple parts', () => {
+  const item: ItemConfig = {
+    name: 'Level 1 Zapper',
+    parts: [
+      {
+        name: 'Baton',
+        primaryDescriptor: Descriptor.Metal,
+        descriptors: {
+          [Descriptor.Metal]: { level: 1 },
+          [Descriptor.Electric]: { level: 1 },
+          [Descriptor.Unbreakable]: { level: 0 }
+        }
+      },
+      {
+        name: 'Baton',
+        primaryDescriptor: Descriptor.Metal,
+        descriptors: {
+          [Descriptor.Metal]: { level: 1 },
+          [Descriptor.Blazing]: { level: 1 }
+        }
+      }
+    ],
+    interaction: { name: Interaction.Zaps, level: 1 }
+  };
+
+  expect(getTotalDescriptorLevel(item, Descriptor.Metal)).toBe(2);
+  expect(getTotalDescriptorLevel(item, Descriptor.Electric)).toBe(1);
+  expect(getTotalDescriptorLevel(item, Descriptor.Blazing)).toBe(1);
+  expect(getTotalDescriptorLevel(item, Descriptor.Unbreakable)).toBe(0);
 });
 
 test('Adding a descriptor should put it on the first part', () => {

@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Select, Store } from '@ngxs/store';
 import { Observable, Subject, Subscription, timer } from 'rxjs';
-import { getCombinationBetweenTwoItems, getReactionBetweenTwoItems } from '../../../content/helpers';
-import { ItemConfig } from '../../../content/interfaces';
+import { getAllDescriptorsForItem, getCombinationBetweenTwoItems,
+  getReactionBetweenTwoItems, getTotalDescriptorLevel } from '../../../content/helpers';
+import { Descriptor, ItemConfig } from '../../../content/interfaces';
 import { AddBackpackItem, RemoveBackpackItem, UpdateBackpackItem } from '../core/services/game/actions';
 import { GameConstant, GameService } from '../core/services/game/game.service';
 import { GameState, IGameCharacter } from '../core/services/game/stores';
@@ -21,6 +22,8 @@ export class GameplayBackpackComponent implements OnInit {
     .map((x, i) => i);
 
   public dragIndex = -1;
+  public activeHoverItem: ItemConfig;
+  public activeHoverDescriptors: Array<{ descriptor: Descriptor; level: number }> = [];
 
   public combineLeft: ItemConfig;
   public combineRight: ItemConfig;
@@ -158,6 +161,23 @@ export class GameplayBackpackComponent implements OnInit {
     this.indexLeft = -1;
     this.indexRight = -1;
     this.dragIndex = -1;
+  }
+
+  hoverItem(item: ItemConfig) {
+    if(!item) return;
+
+    this.activeHoverItem = item;
+
+    const descriptors = getAllDescriptorsForItem(item);
+    this.activeHoverDescriptors = descriptors.map(descriptor => {
+      const level = getTotalDescriptorLevel(item, descriptor);
+      return { descriptor, level };
+    });
+  }
+
+  unhoverItem() {
+    this.activeHoverItem = undefined;
+    this.activeHoverDescriptors = [];
   }
 
 }

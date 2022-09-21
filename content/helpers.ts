@@ -174,6 +174,15 @@ export function getAllDescriptorsForPart(part: ItemPart): Descriptor[] {
   return Object.keys(part.descriptors).filter(d => part.descriptors[d].level > 0) as Descriptor[];
 }
 
+export function getAllDescriptorsForItem(item: ItemConfig): Descriptor[] {
+  return [...new Set(
+    item.parts.map(part => Object.keys(part.descriptors)
+      .filter(d => part.descriptors[d].level > 0) as Descriptor[])
+      .flat()
+  )
+  ] as Descriptor[];
+}
+
 export function addDescriptor(item: ItemConfig, descriptor: Descriptor, level = 0): void {
   if(hasDescriptor(item, descriptor)) return;
   if(item.parts.length === 0) return;
@@ -188,6 +197,10 @@ export function getDescriptor(item: ItemConfig, descriptor: Descriptor, minimum 
 
 export function getDescriptorLevel(item: ItemConfig, descriptor: Descriptor): number {
   return getDescriptor(item, descriptor)?.level ?? 0;
+}
+
+export function getTotalDescriptorLevel(item: ItemConfig, descriptor: Descriptor): number {
+  return item.parts.reduce((total, part) => total + (part.descriptors[descriptor]?.level ?? 0), 0);
 }
 
 export function setDescriptorLevel(itemDescriptor: ItemDescriptor, level = 1): number {
