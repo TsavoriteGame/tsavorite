@@ -1,6 +1,7 @@
 import { getItemById } from '../getters';
 import { getInteractionLevel, increaseDescriptorLevelForPart, decreaseInteractionLevel,
-  decreaseDescriptorLevelForPart, getDescriptorLevelFromPart, hasDescriptor, increaseDescriptorLevel, setDescriptorLevelForPart } from '../helpers';
+  decreaseDescriptorLevelForPart, getDescriptorLevelFromPart, hasDescriptor,
+  increaseDescriptorLevel, setDescriptorLevelForPart } from '../helpers';
 import { Descriptor, Reactions, Interaction, ReactionExtendedArgs, ReactionResponse } from '../interfaces';
 
 const zeroFail = (args: ReactionExtendedArgs) => ({
