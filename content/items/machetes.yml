@@ -1,5 +1,5 @@
 
-- name: Machete Lv.1
+- name: Machete
   icon: bigsword
   parts:
     - name: Handle
@@ -18,7 +18,7 @@
     name: Carves
     level: 1
 
-- name: Machete Lv.2
+- name: Machete
   icon: bigsword
   parts:
     - name: Handle
@@ -37,7 +37,7 @@
     name: Carves
     level: 2
 
-- name: Machete Lv.3
+- name: Machete
   icon: bigsword
   parts:
     - name: Handle

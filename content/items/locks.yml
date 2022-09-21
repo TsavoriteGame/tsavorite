@@ -1,5 +1,5 @@
 
-- name: Padlock Lv.1
+- name: Padlock
   icon: padlock
   parts:
     - name: Metal Casing
@@ -13,7 +13,7 @@
       descriptors:
         Locked: { level: 1 }
 
-- name: Padlock Lv.2
+- name: Padlock
   icon: padlock
   parts:
     - name: Metal Casing
@@ -27,7 +27,7 @@
       descriptors:
         Locked: { level: 2 }
 
-- name: Padlock Lv.3
+- name: Padlock
   icon: padlock
   parts:
     - name: Metal Casing
@@ -41,7 +41,7 @@
       descriptors:
         Locked: { level: 3 }
 
-- name: Locked Wood Door Lv.1
+- name: Locked Wood Door
   icon: door
   parts:
     - name: Wood Frame
@@ -61,7 +61,7 @@
       descriptors:
         Locked: { level: 1 }
 
-- name: Locked Wood Door Lv.2
+- name: Locked Wood Door
   icon: door
   parts:
     - name: Wood Frame
@@ -81,7 +81,7 @@
       descriptors:
         Locked: { level: 2 }
 
-- name: Locked Wood Door Lv.3
+- name: Locked Wood Door
   icon: door
   parts:
     - name: Wood Frame
@@ -101,7 +101,7 @@
       descriptors:
         Locked: { level: 3 }
 
-- name: Locked Meat Door Lv.1
+- name: Locked Meat Door
   icon: door
   parts:
     - name: Meat Frame
@@ -115,7 +115,7 @@
       descriptors:
         Locked: { level: 1 }
 
-- name: Locked Meat Door Lv.2
+- name: Locked Meat Door
   icon: door
   parts:
     - name: Meat Frame
@@ -129,7 +129,7 @@
       descriptors:
         Locked: { level: 2 }
 
-- name: Locked Meat Door Lv.3
+- name: Locked Meat Door
   icon: door
   parts:
     - name: Meat Frame

@@ -1,5 +1,5 @@
 
-- name: Rock Smasher Lv.1
+- name: Rock Smasher
   icon: haxe
   parts:
     - name: Rock
@@ -11,7 +11,7 @@
     name: Smashes
     level: 1
 
-- name: Rock Smasher Lv.2
+- name: Rock Smasher
   icon: haxe
   parts:
     - name: Rock
@@ -23,7 +23,7 @@
     name: Smashes
     level: 2
 
-- name: Rock Smasher Lv.3
+- name: Rock Smasher
   icon: haxe
   parts:
     - name: Rock

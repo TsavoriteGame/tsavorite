@@ -1,5 +1,5 @@
 
-- name: Metal Key Lv.1
+- name: Metal Key
   icon: key
   parts:
     - name: Metal Shaft
@@ -11,7 +11,7 @@
     name: Unlocks
     level: 1
 
-- name: Metal Key Lv.2
+- name: Metal Key
   icon: key
   parts:
     - name: Metal Shaft
@@ -23,7 +23,7 @@
     name: Unlocks
     level: 2
 
-- name: Metal Key Lv.3
+- name: Metal Key
   icon: key
   parts:
     - name: Metal Shaft
