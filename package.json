@@ -21,7 +21,7 @@
     "electron:serve": "wait-on tcp:4889 && npm run electron:serve-tsc && electron . --serve",
     "electron:local": "npm run build:prod && electron .",
     "electron:build": "npm run build:prod && electron-builder build --publish=never",
-    "setup:data": "node scripts/items && node scripts/backgrounds && node scripts/archetypes",
+    "setup:data": "node scripts/items && node scripts/backgrounds && node scripts/archetypes && node scripts/recipes",
     "setup:art": "node scripts/art",
     "generate:hashes": "node scripts/generate-hashes",
     "test": "npm run test:content",

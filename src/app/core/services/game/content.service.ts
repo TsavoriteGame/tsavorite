@@ -2,11 +2,12 @@ import { Injectable } from '@angular/core';
 
 import { set } from 'lodash';
 
-import { Archetype, Background, ItemConfig } from '../../../../../content/interfaces';
+import { Archetype, Background, ItemConfig, Recipe } from '../../../../../content/interfaces';
 
 import * as items from '../../../../../content/items/items.json';
 import * as archetypes from '../../../../../content/archetypes/archetypes.json';
 import * as backgrounds from '../../../../../content/backgrounds/backgrounds.json';
+import * as recipes from '../../../../../content/recipes/recipes.json';
 
 @Injectable({
   providedIn: 'root'
@@ -25,6 +26,10 @@ export class ContentService {
     return (items as any).default || items;
   }
 
+  public get recipes(): Recipe[] {
+    return (recipes as any).default || recipes;
+  }
+
   constructor() { }
 
   // getters
@@ -38,6 +43,10 @@ export class ContentService {
 
   public getItem(itemName: string): ItemConfig | undefined {
     return this.items.find(x => x.name === itemName);
+  }
+
+  public getRecipe(recipeName: string): Recipe | undefined {
+    return this.recipes.find(x => x.name === recipeName);
   }
 
   // formatters
