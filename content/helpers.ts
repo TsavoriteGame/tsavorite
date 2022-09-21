@@ -5,6 +5,7 @@ import { Interaction, Descriptor, ItemInteraction, ItemConfig,
   Recipe, RecipeIngredient } from './interfaces';
 import { getAllMiddleware, getPostCombineMiddleware,
   getPostReactionMiddleware, getPreCombineMiddleware, getPreReactionMiddleware } from './middleware';
+const { reverse, sortBy, sumBy } = require('lodash');
 
 import * as Reactions from './reactions';
 import allRecipes from './recipes/recipes.json';
@@ -395,22 +396,9 @@ export function getCombinationBetweenTwoItems(sourceItem: ItemConfig, targetItem
 
 // recipe functions
 export function getAllRecipesForInteraction(interaction: Interaction): Recipe[] {
-  const recipes: Recipe[] = [];
+  let recipes: Recipe[] = (allRecipes as Recipe[]).filter(recipe => recipe.interaction === interaction);
 
-  for (const recipe of allRecipes) {
-    if (recipe.interaction === interaction)
-      recipes.push(recipe as Recipe);
-  }
-
-  recipes.sort((a, b): number => {
-    let aDescriptorTotal = 0;
-    a.ingredients.forEach(ingredient => aDescriptorTotal += ingredient.level);
-
-    let bDescriptorTotal = 0;
-    b.ingredients.forEach(ingredient => bDescriptorTotal += ingredient.level);
-
-    return bDescriptorTotal - aDescriptorTotal;
-  });
+  recipes = sortBy(recipes, recipe => -sumBy(recipe.ingredients.map(i => i.level)));
 
   return recipes;
 }
@@ -419,7 +407,7 @@ export function getAllFulfilledRecipesForItem(item: ItemConfig): Recipe[] | unde
   if (!item.interaction) return undefined;
 
   const recipes: Recipe[] = getAllRecipesForInteraction(item.interaction.name).filter(recipe => {
-    if (recipe.ingredients === undefined) return false;
+    if (!recipe.ingredients) return false;
 
     let fulfilled = true;
     recipe.ingredients.forEach(ingredient => {

@@ -70,7 +70,7 @@ export const applications: Reactions = {
     if (tailorsLevel <= 0) return zeroFail(args);
 
     const recipe = getValidFulfilledRecipeForItem(sourceItem);
-    if (recipe === undefined) {
+    if (!recipe) {
       return {
         message: 'There are insufficient materials to tailor an item.',
         success: false,
