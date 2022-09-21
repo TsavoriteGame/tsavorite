@@ -1,14 +1,13 @@
 
 import { Middleware, PostCombineMiddleware, PostReactionMiddleware, PreCombineMiddleware, PreReactionMiddleware } from '../interfaces';
 import { BreakItems } from './break-items';
-import { CraftingDescriptorBalance } from './crafting-descriptor-balance';
 import { DiluteCorrosive } from './dilute-corrosive';
 import { GlassShatter } from './glass-shatter';
 import { IgniteCombustible } from './ignite-combustible';
 import { RemoveLv0Interactable } from './remove-lv0-interactables';
 import { TemperatureRegulation } from './temperature-regulation';
 
-const allMiddleware = [BreakItems, CraftingDescriptorBalance, DiluteCorrosive, GlassShatter,
+const allMiddleware = [BreakItems, DiluteCorrosive, GlassShatter,
   IgniteCombustible, TemperatureRegulation, RemoveLv0Interactable];
 
 export function getAllMiddleware(): Middleware[] {
