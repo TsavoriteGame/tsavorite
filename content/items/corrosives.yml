@@ -1,5 +1,5 @@
 
-- name: Acid Flask Lv.1
+- name: Acid Flask
   icon: bottle
   parts:
     - name: Bottle
@@ -17,8 +17,8 @@
   interaction:
     name: Corrodes
     level: 1
-    
-- name: Acid Flask Lv.2
+
+- name: Acid Flask
   icon: bottle
   parts:
     - name: Bottle
@@ -37,7 +37,7 @@
     name: Corrodes
     level: 2
 
-- name: Acid Flask Lv.3
+- name: Acid Flask
   icon: bottle
   parts:
     - name: Bottle

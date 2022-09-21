@@ -5,9 +5,10 @@ import { CraftingDescriptorBalance } from './crafting-descriptor-balance';
 import { DiluteCorrosive } from './dilute-corrosive';
 import { GlassShatter } from './glass-shatter';
 import { IgniteCombustible } from './ignite-combustible';
+import { RemoveLv0Interactable } from './remove-lv0-interactables';
 import { TemperatureRegulation } from './temperature-regulation';
 
-const allMiddleware = [BreakItems, CraftingDescriptorBalance, DiluteCorrosive, GlassShatter, IgniteCombustible, TemperatureRegulation];
+const allMiddleware = [BreakItems, CraftingDescriptorBalance, DiluteCorrosive, GlassShatter, IgniteCombustible, TemperatureRegulation, RemoveLv0Interactable];
 
 export function getAllMiddleware(): Middleware[] {
   return allMiddleware.map(proto => new proto());

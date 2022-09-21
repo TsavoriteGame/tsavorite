@@ -54,6 +54,14 @@ Permenary assets are generated using Stable Diffusion. While setup of SD is not 
 * Sampling Method: k_euler
 * Classifier Free Guidance Scale: 18
 
+## Adding New Interactions
+
+Adding new interactions requires an SVG to represent it. There are some important steps to follow so it will render properly:
+
+- Get the icon from [Game Icons Font](https://seiyria.com/gameicons-font/) as an SVG
+- Add it to `src/app/assets/images/reactions`
+- Remove `fill="#000"` from the SVG, or any other fills
+
 ## Creating Landmarks
 
 * Learning rxjs recommended: [rxmarbles](https://rxmarbles.com/).

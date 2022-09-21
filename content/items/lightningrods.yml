@@ -1,5 +1,5 @@
 
-- name: Lightning Rod Lv.1
+- name: Lightning Rod
   icon: electricrod
   parts:
     - name: Rod
@@ -13,7 +13,7 @@
     name: Zaps
     level: 1
 
-- name: Lightning Rod Lv.2
+- name: Lightning Rod
   icon: electricrod
   parts:
     - name: Rod
@@ -27,7 +27,7 @@
     name: Zaps
     level: 2
 
-- name: Lightning Rod Lv.3
+- name: Lightning Rod
   icon: electricrod
   parts:
     - name: Rod

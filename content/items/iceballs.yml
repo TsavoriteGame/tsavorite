@@ -1,5 +1,5 @@
 
-- name: Iceball Lv.1
+- name: Iceball
   icon: iceorb
   parts:
     - name: Iceball
@@ -11,7 +11,7 @@
     name: Freezes
     level: 1
 
-- name: Iceball Lv.2
+- name: Iceball
   icon: iceorb
   parts:
     - name: Iceball
@@ -23,7 +23,7 @@
     name: Freezes
     level: 2
 
-- name: Iceball Lv.3
+- name: Iceball
   icon: iceorb
   parts:
     - name: Iceball

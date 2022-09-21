@@ -1,21 +1,50 @@
 
-.card-slot-container {
-  min-height: 64px;
-  min-width: 64px;
-  max-height: 64px;
-  max-width: 64px;
 
-  overflow: hidden;
-  object-fit: contain;
-  user-select: none;
+.card-container {
+  position: relative;
 
-  .app-icon {
-
+  .corner-interaction {
+    position: absolute;
+    color: #fff;
+    text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+    font-size: 1.1rem;
+    top: -12px;
+    left: -10px;
+    z-index: 30;
   }
 
-  .full-space {
-    height: 64px;
-    width: 64px;
+  .card-slot-container {
+    min-height: 64px;
+    min-width: 64px;
+    max-height: 64px;
+    max-width: 64px;
+
+    overflow: hidden;
+    object-fit: contain;
+    user-select: none;
+
+    .app-icon {
+
+    }
+
+    .full-space {
+      height: 64px;
+      width: 64px;
+      font-size: 1.5rem;
+    }
+  }
+}
+
+.sub-tooltip {
+  .card-name {
     font-size: 1.5rem;
+  }
+
+  .card-interaction {
+    font-size: 1.3rem;
+  }
+
+  .card-descriptors {
+    font-size: 1.3rem;
   }
 }

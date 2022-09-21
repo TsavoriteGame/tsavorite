@@ -3,15 +3,18 @@ import { Action, Selector, State, StateContext } from '@ngxs/store';
 import { SetOption } from '../actions';
 
 export enum GameOption {
-  MasterVolume = 'masterVolume'
+  MasterVolume = 'masterVolume',
+  FantasyFont = 'fantasyFont'
 }
 
 export interface IOptions {
   [GameOption.MasterVolume]: number;
+  [GameOption.FantasyFont]: boolean;
 }
 
 const defaultOptions: () => IOptions = () => ({
-  [GameOption.MasterVolume]: 0.5
+  [GameOption.MasterVolume]: 0.5,
+  [GameOption.FantasyFont]: true
 });
 
 @State<IOptions>({

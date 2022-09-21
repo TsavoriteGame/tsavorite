@@ -102,7 +102,7 @@
   <div class="icon-container card" *ngFor="let linkData of socialLinks">
     <div class="icon">
       <a target="_blank" [href]="linkData.link">
-        <img [src]="'assets/static/' + linkData.icon + '.svg'" />
+        <svg-icon [src]="'assets/static/' + linkData.icon + '.svg'" [svgStyle]="{ 'width.px': 50, fill: 'rgb(0, 0, 0)' }"></svg-icon>
       </a>
     </div>
   </div>

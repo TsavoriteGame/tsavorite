@@ -4,9 +4,28 @@
   flex-wrap: wrap;
   max-width: calc((64px + 1.5rem) * 4);
 
-  app-card-slot {
-    display: inline-block;
-    flex-grow: 1;
-    width: 25%;
+  .item-slot {
+    &.selected {
+      opacity: 0.5;
+    }
+
+    app-card-slot {
+      display: inline-block;
+      flex-grow: 1;
+      width: 25%;
+    }
+  }
+}
+
+.button-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  .btn {
+    --bs-btn-line-height: 1;
+    --bs-btn-padding-y: 0;
+    max-height: 30px;
+    width: 86px;
   }
 }

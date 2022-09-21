@@ -2,7 +2,7 @@
 export interface BackgroundKitItem {
   description: string;
   icon: string;
-  itemName: string;
+  itemId: string;
   itemChanges: Record<string, number>;
 }
 

@@ -1,6 +1,6 @@
 
 
-- name: Torch Lv.1
+- name: Torch
   icon: candle
   parts:
     - name: Wood Log
@@ -20,7 +20,7 @@
     name: Ignites
     level: 1
 
-- name: Torch Lv.2
+- name: Torch
   icon: candle
   parts:
     - name: Wood Log
@@ -40,7 +40,7 @@
     name: Ignites
     level: 2
 
-- name: Torch Lv.3
+- name: Torch
   icon: candle
   parts:
     - name: Wood Log
