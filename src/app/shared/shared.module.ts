@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { DndModule } from 'ngx-drag-drop';
+import { AngularSvgIconModule } from 'angular-svg-icon';
 
 import { TranslateModule } from '@ngx-translate/core';
 
@@ -22,12 +23,14 @@ import { CardSlotComponent } from './components/card-slot/card-slot.component';
     TranslateModule,
     FormsModule,
     NgbModule,
+    AngularSvgIconModule.forRoot(),
     SweetAlert2Module.forRoot({
       provideSwal: () => import('sweetalert2').then(({ default: swal }) => swal.mixin({
         confirmButtonColor: '#7D10FF',
         denyButtonColor: '#A50000'
       }))
     })],
-  exports: [DndModule, TranslateModule, IconComponent, CardSlotComponent, InfoCardComponent, WebviewDirective, FormsModule, NgbModule]
+  exports: [AngularSvgIconModule, DndModule, TranslateModule, IconComponent,
+    CardSlotComponent, InfoCardComponent, WebviewDirective, FormsModule, NgbModule]
 })
 export class SharedModule {}

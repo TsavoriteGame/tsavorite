@@ -47,6 +47,7 @@
     "@ngxs/store": "3.7.5",
     "@popperjs/core": "^2.10.2",
     "@sweetalert2/ngx-sweetalert2": "11.0.0",
+    "angular-svg-icon": "14.0.0",
     "bootstrap": "^5.2.0",
     "fs-extra": "10.1.0",
     "git-describe": "4.1.1",

@@ -27,7 +27,11 @@ export class CardSlotComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(): void {
-    if(!this.card) return;
+    if(!this.card) {
+      this.activeInteraction = undefined;
+      this.activeDescriptors = [];
+      return;
+    }
 
     if(this.cardType === 'item') {
       const item: ItemConfig = this.card as ItemConfig;

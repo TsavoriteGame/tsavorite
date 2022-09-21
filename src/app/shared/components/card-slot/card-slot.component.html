@@ -1,7 +1,15 @@
 
-<div class="card-slot-container card" [ngbTooltip]="tipContent" [disableTooltip]="!card" container="body">
-  <app-icon [icon]="card.icon" [size]="64" *ngIf="card"></app-icon>
-  <div class="centered full-space" *ngIf="!card">{{ placeholder }}</div>
+
+<div class="card-container">
+  <div class="corner-interaction" *ngIf="activeInteraction">
+    <svg-icon [src]="'assets/images/reactions/' + activeInteraction.name.toLowerCase() + '.svg'" [svgStyle]="{ 'width.px': 24, fill: 'rgb(255, 255, 255)' }"></svg-icon>
+    Lv. {{ activeInteraction.level }}
+  </div>
+
+  <div class="card-slot-container card" [ngbTooltip]="tipContent" [disableTooltip]="!card" container="body">
+    <app-icon [icon]="card.icon" [size]="64" *ngIf="card"></app-icon>
+    <div class="centered full-space" *ngIf="!card">{{ placeholder }}</div>
+  </div>
 </div>
 
 <ng-template #tipContent>
@@ -11,6 +19,7 @@
     </div>
 
     <div class="card-interaction" *ngIf="activeInteraction">
+      <svg-icon [src]="'assets/images/reactions/' + activeInteraction.name.toLowerCase() + '.svg'" [svgStyle]="{ 'width.px': 24, fill: 'rgb(255, 255, 255)' }"></svg-icon>
       {{ activeInteraction.name }} Lv. {{ activeInteraction.level }}
     </div>
 
