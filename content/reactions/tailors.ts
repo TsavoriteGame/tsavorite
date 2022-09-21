@@ -84,6 +84,7 @@ export const applications: Reactions = {
     const leftoverMaterials: ItemConfig[] = [];
     const tailorItem: ItemConfig = {
       name: recipe.name,
+      icon: recipe.icon,
       parts: [
         {
           name: recipe.name,
@@ -134,7 +135,6 @@ export const applications: Reactions = {
     });
 
     increaseDescriptorLevel(tailorItem, recipe.descriptor as Descriptor, armorLevel);
-    tailorItem.icon = recipe.icon;
 
     const newTailorLevel = decreaseInteractionLevel(sourceItem, Interaction.Tailors, 1);
     const newStickyLevel = decreaseDescriptorLevelForPart(args.targetPart, Descriptor.Sticky, 1);
