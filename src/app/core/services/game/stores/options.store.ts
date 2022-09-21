@@ -3,16 +3,19 @@ import { Action, Selector, State, StateContext } from '@ngxs/store';
 import { SetOption } from '../actions';
 
 export enum GameOption {
+  IsPaused = 'isPaused',
   MasterVolume = 'masterVolume',
   FantasyFont = 'fantasyFont'
 }
 
 export interface IOptions {
+  [GameOption.IsPaused]: boolean;
   [GameOption.MasterVolume]: number;
   [GameOption.FantasyFont]: boolean;
 }
 
 const defaultOptions: () => IOptions = () => ({
+  [GameOption.IsPaused]: false,
   [GameOption.MasterVolume]: 0.5,
   [GameOption.FantasyFont]: true
 });
