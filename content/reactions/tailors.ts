@@ -83,7 +83,6 @@ export const applications: Reactions = {
 
     const sourcePart = args.sourcePart;
 
-    const leftoverMaterials: ItemConfig[] = [];
     const tailorItem = getItemById(recipe.produces);
 
     Object.keys(sourcePart.descriptors || {}).forEach(d => {
@@ -98,35 +97,7 @@ export const applications: Reactions = {
       decreaseDescriptorLevelForPart(sourcePart, descriptor, descriptorLevel);
     });
 
-    recipe.ingredients.forEach(ingredient => {
-      const ingredientName = ingredient.name;
-      const descriptor = ingredient.descriptor;
-      const ingredientLevel = ingredient.level;
-
-      const newIngredientLevel = decreaseDescriptorLevelForPart(sourcePart, descriptor, ingredientLevel);
-
-      if (newIngredientLevel > 0) {
-        let surplusItem = getItemById(descriptor);
-        if (!surplusItem) {
-          surplusItem = {
-            name: ingredientName,
-            parts: [
-              {
-                name: ingredientName,
-                primaryDescriptor: descriptor,
-                descriptors: { [descriptor]: { level: getDescriptorLevelFromPart(sourcePart, descriptor) } }
-              }
-            ]
-          };
-        } else {
-          setDescriptorLevelForPart(surplusItem.parts[0], descriptor, ingredientLevel);
-        }
-
-        decreaseDescriptorLevelForPart(sourcePart, descriptor, newIngredientLevel);
-
-        leftoverMaterials.push(surplusItem);
-      }
-    });
+    recipe.ingredients.forEach(ingredient => sourcePart.descriptors[ingredient.descriptor] = { level: 0 });
 
     const newTailorLevel = decreaseInteractionLevel(sourceItem, Interaction.Tailors, 1);
     const newStickyLevel = decreaseDescriptorLevelForPart(args.targetPart, Descriptor.Sticky, 1);
@@ -135,7 +106,7 @@ export const applications: Reactions = {
       success: true,
       newSource: newTailorLevel > 0 ? sourceItem : undefined,
       newTarget: newStickyLevel > 0 ? targetItem : undefined,
-      extraItems: [ tailorItem, ...leftoverMaterials ]
+      extraItems: [ tailorItem ]
     };
   }
 };
