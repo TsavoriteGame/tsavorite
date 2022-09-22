@@ -2,7 +2,7 @@
   icon: boots
   parts:
     - name: Leather Boots
-      primaryDescriptor: FeetArmor
+      primaryDescriptor: Leather
       foundational: true
       descriptors:
         FeetArmor: { level: 4 }
@@ -13,7 +13,7 @@
   icon: helmet
   parts:
     - name: Leather Helmet
-      primaryDescriptor: HeadArmor
+      primaryDescriptor: Leather
       foundational: true
       descriptors:
         HeadArmor: { level: 7 }
@@ -24,7 +24,7 @@
   icon: breastplate
   parts:
     - name: Leather Armor
-      primaryDescriptor: BodyArmor
+      primaryDescriptor: Leather
       foundational: true
       descriptors:
         BodyArmor: { level: 10 }
