@@ -1,10 +1,12 @@
+import { getItemById } from '../getters';
 import { getInteractionLevel, increaseDescriptorLevelForPart,
   decreaseInteractionLevel, getDescriptorLevel, decreaseDescriptorLevelForPart,
   getDescriptorLevelFromPart, increaseInteractionLevel, hasDescriptor, getAllDescriptorsForPart,
   getAllFulfilledRecipesForItem,
   getValidFulfilledRecipeForItem,
   setDescriptorLevel,
-  increaseDescriptorLevel} from '../helpers';
+  increaseDescriptorLevel,
+  setDescriptorLevelForPart} from '../helpers';
 import { Descriptor, Reactions, Interaction, ReactionExtendedArgs, ItemConfig } from '../interfaces';
 
 const zeroFail = (args: ReactionExtendedArgs) => ({
@@ -82,17 +84,18 @@ export const applications: Reactions = {
     const sourcePart = args.sourcePart;
 
     const leftoverMaterials: ItemConfig[] = [];
-    const tailorItem: ItemConfig = {
-      name: recipe.name,
-      icon: recipe.icon,
-      parts: [
-        {
-          name: recipe.name,
-          primaryDescriptor: recipe.ingredients[0].descriptor,
-          descriptors: {}
-        }
-      ]
-    };
+    const tailorItem = getItemById(recipe.produces);
+    // const tailorItem: ItemConfig = {
+    //   name: recipe.name,
+    //   icon: recipe.icon,
+    //   parts: [
+    //     {
+    //       name: recipe.name,
+    //       primaryDescriptor: recipe.ingredients[0].descriptor,
+    //       descriptors: {}
+    //     }
+    //   ]
+    // };
 
     Object.keys(sourcePart.descriptors || {}).forEach(d => {
       const descriptor = d as Descriptor;
@@ -101,12 +104,10 @@ export const applications: Reactions = {
 
       const descriptorLevel = getDescriptorLevelFromPart(sourcePart, descriptor);
 
-      increaseDescriptorLevelForPart(tailorItem.parts[0], descriptor, descriptorLevel);
-
+      tailorItem.parts[0].descriptors[descriptor] = { level: descriptorLevel };
       decreaseDescriptorLevelForPart(sourcePart, descriptor, descriptorLevel);
     });
 
-    let armorLevel = 0;
     recipe.ingredients.forEach(ingredient => {
       const ingredientName = ingredient.name;
       const descriptor = ingredient.descriptor;
@@ -114,27 +115,28 @@ export const applications: Reactions = {
 
       const newIngredientLevel = decreaseDescriptorLevelForPart(sourcePart, descriptor, ingredientLevel);
 
-      tailorItem.parts[0].descriptors[descriptor] = { level: ingredientLevel };
-
       if (newIngredientLevel > 0) {
-        leftoverMaterials.push({
-          name: ingredientName,
-          parts: [
-            {
-              name: ingredientName,
-              primaryDescriptor: descriptor,
-              descriptors: { [descriptor]: { level: getDescriptorLevelFromPart(sourcePart, descriptor) } }
-            }
-          ]
-        });
+        let surplusItem = getItemById(descriptor);
+        if (!surplusItem) {
+          surplusItem = {
+            name: ingredientName,
+            parts: [
+              {
+                name: ingredientName,
+                primaryDescriptor: descriptor,
+                descriptors: { [descriptor]: { level: getDescriptorLevelFromPart(sourcePart, descriptor) } }
+              }
+            ]
+          };
+        } else {
+          setDescriptorLevelForPart(surplusItem.parts[0], descriptor, ingredientLevel);
+        }
 
         decreaseDescriptorLevelForPart(sourcePart, descriptor, newIngredientLevel);
+
+        leftoverMaterials.push(surplusItem);
       }
-
-      armorLevel += ingredientLevel;
     });
-
-    increaseDescriptorLevel(tailorItem, recipe.descriptor as Descriptor, armorLevel);
 
     const newTailorLevel = decreaseInteractionLevel(sourceItem, Interaction.Tailors, 1);
     const newStickyLevel = decreaseDescriptorLevelForPart(args.targetPart, Descriptor.Sticky, 1);
