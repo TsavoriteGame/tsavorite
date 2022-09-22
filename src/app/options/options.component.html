@@ -8,20 +8,37 @@
 
   <div class="splash-container">
 
-    <div class="container">
+    <div class="container" *ngIf="options$ | async as options">
 
       <div class="row">
         <div class="col-6">
           <div class="card">
             <div class="card-body">
 
-              <h1 class="card-title text-center">
+              <h1 class="card-title size-subheader text-center">
                 {{ 'Pages.Options.VideoTitle' | translate }}
               </h1>
 
-              <h2 class="card-subtitle text-muted text-center">
+              <h2 class="card-subtitle size-big text-muted text-center">
                 {{ 'Pages.Options.VideoSubtitle' | translate }}
               </h2>
+
+              <ng-container *ngFor="let option of displayOptions">
+
+                <!-- checkbox inputs -->
+                <div class="form-check size-big" *ngIf="option.type === 'checkbox'">
+                  <input class="form-check-input"
+                         type="checkbox"
+                         [checked]="options[option.option]"
+                         [id]="option.option"
+                         (change)="toggleOption(option.option, !options[option.option])">
+
+                  <label class="form-check-label" [for]="option.option">
+                    {{ option.label }}
+                  </label>
+                </div>
+
+              </ng-container>
 
             </div>
           </div>
@@ -31,11 +48,11 @@
           <div class="card">
             <div class="card-body">
 
-              <h1 class="card-title text-center">
+              <h1 class="card-title size-subheader text-center">
                 {{ 'Pages.Options.AudioTitle' | translate }}
               </h1>
 
-              <h2 class="card-subtitle text-muted text-center">
+              <h2 class="card-subtitle size-big text-muted text-center">
                 {{ 'Pages.Options.AudioSubtitle' | translate }}
               </h2>
 
@@ -49,11 +66,11 @@
           <div class="card">
             <div class="card-body">
 
-              <h1 class="card-title text-center">
+              <h1 class="card-title size-subheader text-center">
                 {{ 'Pages.Options.GameTitle' | translate }}
               </h1>
 
-              <h2 class="card-subtitle text-muted text-center">
+              <h2 class="card-subtitle size-big text-muted text-center">
                 {{ 'Pages.Options.GameSubtitle' | translate }}
               </h2>
 
@@ -65,11 +82,11 @@
           <div class="card">
             <div class="card-body">
 
-              <h1 class="card-title text-center">
+              <h1 class="card-title size-subheader text-center">
                 {{ 'Pages.Options.DataTitle' | translate }}
               </h1>
 
-              <h2 class="card-subtitle text-muted text-center">
+              <h2 class="card-subtitle size-big text-muted text-center">
                 {{ 'Pages.Options.DataSubtitle' | translate }}
               </h2>
 

@@ -1,4 +1,4 @@
-import { Component, HostListener } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { ElectronService } from './core/services';
 import { TranslateService } from '@ngx-translate/core';
 import { GameService } from './core/services/game/game.service';
@@ -14,30 +14,42 @@ import { SetOption } from './core/services/game/actions';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
 
   @Select(OptionsState.isPaused) isPaused$: Observable<boolean>;
+  @Select(OptionsState.isFantasyFont) isFantasyFont$: Observable<boolean>;
 
   constructor(
-    private electronService: ElectronService,
     private translate: TranslateService,
     private modalService: NgbModal,
     private store: Store,
     private gameService: GameService
   ) {
+  }
+
+  ngOnInit(): void {
+    this.initTranslation();
+    this.unpause();
+    this.watchFontChanges();
+  }
+
+  private initTranslation() {
     this.translate.setDefaultLang('en');
+  }
 
-    // unpause the game any time it's loaded
+  // unpause the game any time it's loaded
+  private unpause() {
     this.store.dispatch(new SetOption(GameOption.IsPaused, false));
+  }
 
-    if (electronService.isElectron) {
-      console.log(process.env);
-      console.log('Run in electron');
-      console.log('Electron ipcRenderer', this.electronService.ipcRenderer);
-      console.log('NodeJS childProcess', this.electronService.childProcess);
-    } else {
-      console.log('Run in browser');
-    }
+  // watch for changes to the font setting and update the game
+  private watchFontChanges() {
+    this.isFantasyFont$.subscribe(isFantasyFont => {
+      if(isFantasyFont)
+        document.body.classList.add('fantasy');
+      else
+        document.body.classList.remove('fantasy');
+    });
   }
 
   @HostListener('document:keydown.escape', ['$event'])
