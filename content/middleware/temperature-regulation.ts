@@ -14,6 +14,11 @@ export class TemperatureRegulation implements PostReactionMiddleware, PostCombin
 
   triggers: MiddlewareType[] = ['postreaction', 'postcombine'];
 
+  // check whether there is at least one extra item
+  private isExtraItemsDefined(response: ReactionResponse): boolean {
+    return response.extraItems && response.extraItems.length > 0;
+  }
+
   // check the number of hots vs the number of colds
   private needsTemperatureChange(item: ItemConfig): boolean {
     if(!item) return false;
@@ -56,8 +61,19 @@ export class TemperatureRegulation implements PostReactionMiddleware, PostCombin
    * Here, we only check if we have glass and it should shatter (temperature-wise)
    */
   shouldPostFire(args: ReactionExtendedArgs, response: ReactionResponse) {
+
+    let extraItemsShouldFire = this.isExtraItemsDefined(response);
+    if (extraItemsShouldFire) {
+      extraItemsShouldFire = false;
+      response.extraItems.forEach(item => {
+        if (extraItemsShouldFire) return;
+        if (this.needsTemperatureChange(item)) extraItemsShouldFire = true;
+      });
+    }
+
     return response.success
-        && (this.needsTemperatureChange(args.sourceItem) || this.needsTemperatureChange(args.targetItem));
+        && (this.needsTemperatureChange(args.sourceItem) || this.needsTemperatureChange(args.targetItem)
+          || extraItemsShouldFire);
   }
 
   // this should never block other post- middleware
@@ -75,6 +91,15 @@ export class TemperatureRegulation implements PostReactionMiddleware, PostCombin
 
     if(sourceChanged) response.message = `${response.message} Source temperature regulated!`;
     if(targetChanged) response.message = `${response.message} Target temperature regulated!`;
+
+    if (this.isExtraItemsDefined(response)) {
+      response.extraItems.forEach((item, idx) => {
+        let itemChanged = false;
+        if(this.needsTemperatureChange(item)) itemChanged = this.regulateTemperature(item);
+
+        if (itemChanged) response.message = `${response.message} Extra item ${idx} temperature regulated!`;
+      });
+    }
 
     response.success = true;
 

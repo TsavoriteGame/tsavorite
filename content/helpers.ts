@@ -1,11 +1,14 @@
 /* eslint-disable @typescript-eslint/no-use-before-define */
 
 import { Interaction, Descriptor, ItemInteraction, ItemConfig,
-  ItemDescriptor, ReactionFunction, ReactionArgs, ItemPart, ReactionExtendedArgs, ReactionResponse } from './interfaces';
+  ItemDescriptor, ReactionFunction, ReactionArgs, ItemPart, ReactionExtendedArgs, ReactionResponse,
+  Recipe, RecipeIngredient } from './interfaces';
 import { getAllMiddleware, getPostCombineMiddleware,
   getPostReactionMiddleware, getPreCombineMiddleware, getPreReactionMiddleware } from './middleware';
+const { reverse, sortBy, sumBy } = require('lodash');
 
 import * as Reactions from './reactions';
+import allRecipes from './recipes/recipes.json';
 
 // reaction functions
 export function hasReaction(interaction: Interaction, descriptor: Descriptor): boolean {
@@ -301,6 +304,13 @@ export function hasSharedPrimaryDescriptor(sourceItem: ItemConfig, targetItem: I
   return sourcePart.primaryDescriptor === targetPart.primaryDescriptor;
 }
 
+export function balanceOppositeDescriptors(item: ItemConfig, a: Descriptor, b: Descriptor) {
+  while (getDescriptorLevel(item, a) > 0 && getDescriptorLevel(item, b) > 0) {
+    decreaseDescriptorLevel(item, a, 1);
+    decreaseDescriptorLevel(item, b, 1);
+  }
+}
+
 // combination functions
 export function getCombinationBetweenTwoItems(sourceItem: ItemConfig, targetItem: ItemConfig): ReactionResponse {
   const failedCombination = () => ({
@@ -382,6 +392,45 @@ export function getCombinationBetweenTwoItems(sourceItem: ItemConfig, targetItem
   });
 
   return result;
+}
+
+// recipe functions
+export function getAllRecipesForInteraction(interaction: Interaction): Recipe[] {
+  let recipes: Recipe[] = (allRecipes as Recipe[]).filter(recipe => recipe.interaction === interaction);
+
+  recipes = sortBy(recipes, recipe => -sumBy(recipe.ingredients.map(i => i.level)));
+
+  return recipes;
+}
+
+export function getAllFulfilledRecipesForItem(item: ItemConfig): Recipe[] | undefined {
+  if (!item.interaction) return undefined;
+
+  const recipes: Recipe[] = getAllRecipesForInteraction(item.interaction.name).filter(recipe => {
+    if (!recipe.ingredients) return false;
+
+    let fulfilled = true;
+    recipe.ingredients.forEach(ingredient => {
+      if (!fulfilled) return;
+
+      fulfilled = (ingredient.level <= getDescriptorLevel(item, ingredient.descriptor));
+    });
+
+    return fulfilled;
+  });
+
+  if (recipes.length === 0) return undefined;
+
+  return recipes;
+}
+
+export function getValidFulfilledRecipeForItem(item: ItemConfig): Recipe | undefined {
+  if (!item.interaction) return undefined;
+
+  const fulfilledRecipes = getAllFulfilledRecipesForItem(item);
+  if (fulfilledRecipes === undefined || fulfilledRecipes.length <= 0) return undefined;
+
+  return fulfilledRecipes[0];
 }
 
 // other functions
