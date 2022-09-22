@@ -166,6 +166,10 @@ body.fantasy, .tooltip .fantasy {
 }
 
 /* ng bootstrap overrides / helpers */
+.modal-header {
+  --bs-modal-header-border-width: 0;
+}
+
 .modal-title {
   font-size: var(--ts-fontsize-header);
   --bs-modal-title-line-height: 1;

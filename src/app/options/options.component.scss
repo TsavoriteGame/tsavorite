@@ -8,22 +8,14 @@
   height: 40px;
   width: 40px;
 
+  position: absolute;
+  right: 10px;
+
   &:focus {
     outline: none;
     box-shadow: none;
   }
 }
-
-.btn-close {
-  color: #fff;
-  width: 1.5em;
-  height: 1.5em;
-  background: #C136C7;
-  border-radius: 50%;
-  margin: 0;
-  padding: 0;
-}
-
 .modal-body {
   height: 100%;
   --bs-modal-padding: 0;

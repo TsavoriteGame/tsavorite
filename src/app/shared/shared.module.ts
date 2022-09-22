@@ -15,9 +15,11 @@ import { IconComponent } from './components/icon/icon.component';
 import { InfoCardComponent } from './components/info-card/info-card.component';
 import { CardSlotComponent } from './components/card-slot/card-slot.component';
 import { PauseComponent } from './components/pause/pause.component';
+import { FancyTitleBackgroundComponent } from './components/fancy-title-background/fancy-title-background.component';
 
 @NgModule({
-  declarations: [PageNotFoundComponent, WebviewDirective, IconComponent, InfoCardComponent, CardSlotComponent, PauseComponent],
+  declarations: [PageNotFoundComponent, WebviewDirective, IconComponent,
+    InfoCardComponent, CardSlotComponent, PauseComponent, FancyTitleBackgroundComponent],
   imports: [
     CommonModule,
     DndModule,
@@ -31,7 +33,7 @@ import { PauseComponent } from './components/pause/pause.component';
         denyButtonColor: '#A50000'
       }))
     })],
-  exports: [AngularSvgIconModule, DndModule, TranslateModule, IconComponent,
+  exports: [AngularSvgIconModule, DndModule, TranslateModule, IconComponent, FancyTitleBackgroundComponent,
     CardSlotComponent, InfoCardComponent, WebviewDirective, FormsModule, NgbModule]
 })
 export class SharedModule {}

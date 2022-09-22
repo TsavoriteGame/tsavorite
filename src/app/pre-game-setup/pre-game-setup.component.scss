@@ -1,4 +1,12 @@
 
+.card {
+  --bs-card-border-color: #000;
+}
+
+.card-header {
+  padding: 0;
+}
+
 .setup-card {
   width: 90vw;
   height: 90vh;
