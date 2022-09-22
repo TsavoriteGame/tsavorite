@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 
 import { set } from 'lodash';
-import { allArchetypes, allBackgrounds, allItems, getItemById } from '../../../../../content/getters';
+import { allArchetypes, allBackgrounds, allItems, allRecipes, getItemById } from '../../../../../content/getters';
 
-import { Archetype, Background, ItemConfig, Recipe } from '../../../../../content/interfaces';master
+import { Archetype, Background, ItemConfig, Recipe } from '../../../../../content/interfaces';
 @Injectable({
   providedIn: 'root'
 })
@@ -21,9 +21,9 @@ export class ContentService {
     return allItems;
   }
 
-  // public get recipes(): Recipe[] {
-  //   return (recipes as any).default || recipes;
-  // }
+  public get recipes(): Recipe[] {
+    return allRecipes;
+  }
 
   constructor() { }
 
@@ -40,8 +40,8 @@ export class ContentService {
     return getItemById(itemId);
   }
 
-  public getRecipe(recipeName: string): Recipe | undefined {
-    return this.recipes.find(x => x.name === recipeName);
+  public getRecipe(name: string): Recipe | undefined {
+    return structuredClone(this.recipes.find(x => x.name === name));
   }
 
   // formatters
