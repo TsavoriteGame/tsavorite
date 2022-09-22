@@ -1,0 +1,39 @@
+
+- name: Tailor Kit
+  icon: toolbelt
+  parts:
+    - name: Tailor Kit
+      primaryDescriptor: Kit
+      foundational: true
+      descriptors:
+        Kit: { level: 1 }
+
+  interaction:
+    name: Tailors
+    level: 1
+
+- name: Tailor Kit
+  icon: toolbelt
+  parts:
+    - name: Tailor Kit
+      primaryDescriptor: Kit
+      foundational: true
+      descriptors:
+        Kit: { level: 2 }
+
+  interaction:
+    name: Tailors
+    level: 2
+
+- name: Tailor Kit
+  icon: toolbelt
+  parts:
+    - name: Tailor Kit
+      primaryDescriptor: Kit
+      foundational: true
+      descriptors:
+        Kit: { level: 3 }
+
+  interaction:
+    name: Tailors
+    level: 3

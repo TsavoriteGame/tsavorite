@@ -1,0 +1,39 @@
+
+- name: Leather Boots
+  description: Comfortable footwear to keep your toes safe.
+  produces: LeatherBoots-1
+  interaction: Tailors
+  ingredients:
+    - name: Leather
+      descriptor: Leather
+      level: 3
+
+    - name: Fiber
+      descriptor: Fiber
+      level: 1
+
+- name: Leather Helmet
+  description: A tough piece of protection for your noggin.
+  produces: LeatherHelmet-1
+  interaction: Tailors
+  ingredients:
+    - name: Leather
+      descriptor: Leather
+      level: 5
+
+    - name: Fiber
+      descriptor: Fiber
+      level: 2
+
+- name: Leather Armor
+  description: Nice flexible armor to keep your squishy bits intact.
+  produces: LeatherArmor-1
+  interaction: Tailors
+  ingredients:
+    - name: Leather
+      descriptor: Leather
+      level: 7
+
+    - name: Fiber
+      descriptor: Fiber
+      level: 3
