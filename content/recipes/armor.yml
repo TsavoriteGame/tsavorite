@@ -1,8 +1,7 @@
 
 - name: Leather Boots
   description: Comfortable footwear to keep your toes safe.
-  icon: boots
-  descriptor: FeetArmor
+  produces: Leather Boots
   interaction: Tailors
   ingredients:
     - name: Leather
@@ -15,8 +14,7 @@
 
 - name: Leather Helmet
   description: A tough piece of protection for your noggin.
-  icon: helmet
-  descriptor: HeadArmor
+  produces: Leather Helmet
   interaction: Tailors
   ingredients:
     - name: Leather
@@ -29,8 +27,7 @@
 
 - name: Leather Armor
   description: Nice flexible armor to keep your squishy bits intact.
-  icon: breastplate
-  descriptor: BodyArmor
+  produces: Leather Armor
   interaction: Tailors
   ingredients:
     - name: Leather

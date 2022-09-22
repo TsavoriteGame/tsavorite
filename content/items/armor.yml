@@ -1,0 +1,32 @@
+- name: Leather Boots
+  icon: boots
+  parts:
+    - name: Leather Boots
+      primaryDescriptor: FeetArmor
+      foundational: true
+      descriptors:
+        FeetArmor: { level: 4 }
+        Fiber: { level: 1 }
+        Leather: { level: 3 }
+
+- name: Leather Helmet
+  icon: helmet
+  parts:
+    - name: Leather Helmet
+      primaryDescriptor: HeadArmor
+      foundational: true
+      descriptors:
+        HeadArmor: { level: 7 }
+        Fiber: { level: 2 }
+        Leather: { level: 5 }
+
+- name: Leather Armor
+  icon: breastplate
+  parts:
+    - name: Leather Armor
+      primaryDescriptor: BodyArmor
+      foundational: true
+      descriptors:
+        BodyArmor: { level: 10 }
+        Fiber: { level: 3 }
+        Leather: { level: 7 }

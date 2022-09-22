@@ -19,8 +19,8 @@ const validateIngredients = (recipe) => {
 
 const validateRecipes = () => {
   allRecipes.forEach(item => {
-    if (!item.name || !item.icon || !item.descriptor
-     || !item.interaction || !validateIngredients(item)) {
+    if (!item.name || !item.produces || !item.interaction
+     || !validateIngredients(item)) {
       throw new Error(`Recipe ${JSON.stringify(item)} is missing a name`);
     }
   });

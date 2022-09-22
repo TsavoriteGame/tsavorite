@@ -9,8 +9,7 @@ export interface RecipeIngredient {
 export interface Recipe {
   name: string;
   description?: string;
-  icon: string;
-  descriptor: Descriptor;
   interaction: Interaction;
+  produces: string;
   ingredients: RecipeIngredient[];
 }
