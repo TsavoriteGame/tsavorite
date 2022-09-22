@@ -176,48 +176,7 @@ test('A filled kit (7 leather, 3 fiber) should tailor a Leather Armor', () => {
   expect(getDescriptorLevel(result.extraItems[0], Descriptor.BodyArmor)).toEqual(10);
 });
 
-test('An over-filled kit (5 leather, 5 fiber) should tailor a Leather Helmet and a level 3 Fiber', () => {
-  const source: ItemConfig = {
-    name: 'Kit',
-    parts: [
-      {
-        name: 'Kit',
-        primaryDescriptor: Descriptor.Kit,
-        descriptors: {
-          [Descriptor.Kit]: { level: 2 },
-          [Descriptor.Leather]: { level: 5 },
-          [Descriptor.Fiber]: { level: 5 }
-        }
-      }
-    ],
-    interaction: { name: Interaction.Tailors, level: 2 }
-  };
-
-  const target = getGlue(2);
-
-  const result = getReactionBetweenTwoItems(source, target);
-
-  expect(result.success).toBe(true);
-
-  expect(result.newSource.parts.length).toEqual(1);
-  expect(getInteractionLevel(result.newSource, Interaction.Tailors)).toEqual(1);
-  expect(getDescriptorLevel(result.newSource, Descriptor.Leather)).toEqual(0);
-  expect(getDescriptorLevel(result.newSource, Descriptor.Fiber)).toEqual(0);
-
-  expect(result.newTarget.parts.length).toEqual(1);
-  expect(getDescriptorLevel(result.newTarget, Descriptor.Sticky)).toEqual(1);
-
-  expect(result.extraItems.length).toEqual(2);
-  expect(result.extraItems[0].name).toEqual('Leather Helmet');
-  expect(result.extraItems[0].parts.length).toEqual(1);
-  expect(getDescriptorLevel(result.extraItems[0], Descriptor.Leather)).toEqual(5);
-  expect(getDescriptorLevel(result.extraItems[0], Descriptor.Fiber)).toEqual(2);
-  expect(getDescriptorLevel(result.extraItems[0], Descriptor.HeadArmor)).toEqual(7);
-  expect(result.extraItems[1].parts.length).toEqual(1);
-  expect(getDescriptorLevel(result.extraItems[1], Descriptor.Fiber)).toEqual(3);
-});
-
-test('An over-filled kit (8 leather, 5 fiber) should tailor a Leather Armor, a level 1 Leather, and a level 3 Fiber', () => {
+test('An over-filled kit (8 leather, 5 fiber) should tailor a Leather Armor and discard the surplus', () => {
   const source: ItemConfig = {
     name: 'Kit',
     parts: [
@@ -248,15 +207,11 @@ test('An over-filled kit (8 leather, 5 fiber) should tailor a Leather Armor, a l
   expect(result.newTarget.parts.length).toEqual(1);
   expect(getDescriptorLevel(result.newTarget, Descriptor.Sticky)).toEqual(1);
 
-  expect(result.extraItems.length).toEqual(3);
+  expect(result.extraItems.length).toEqual(1);
   expect(result.extraItems[0].name).toEqual('Leather Armor');
   expect(result.extraItems[0].parts.length).toEqual(1);
   expect(getDescriptorLevel(result.extraItems[0], Descriptor.Leather)).toEqual(7);
   expect(getDescriptorLevel(result.extraItems[0], Descriptor.Fiber)).toEqual(3);
-  expect(result.extraItems[1].parts.length).toEqual(1);
-  expect(getDescriptorLevel(result.extraItems[1], Descriptor.Leather)).toEqual(1);
-  expect(result.extraItems[2].parts.length).toEqual(1);
-  expect(getDescriptorLevel(result.extraItems[2], Descriptor.Fiber)).toEqual(2);
 });
 
 test('A filled lv. 1 kit (7 leather, 3 fiber) should tailor a Leather Armor and break', () => {
