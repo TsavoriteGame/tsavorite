@@ -16,7 +16,7 @@ export class TemperatureRegulation implements PostReactionMiddleware, PostCombin
 
   // check whether there is at least one extra item
   private isExtraItemsDefined(response: ReactionResponse): boolean {
-    return response.extraItems !== undefined && response.extraItems.length > 0;
+    return response.extraItems && response.extraItems.length > 0;
   }
 
   // check the number of hots vs the number of colds
@@ -93,14 +93,12 @@ export class TemperatureRegulation implements PostReactionMiddleware, PostCombin
     if(targetChanged) response.message = `${response.message} Target temperature regulated!`;
 
     if (this.isExtraItemsDefined(response)) {
-      for (let idx = 0; idx < response.extraItems.length; idx++) {
-        const item = response.extraItems[idx];
-
+      response.extraItems.forEach((item, idx) => {
         let itemChanged = false;
         if(this.needsTemperatureChange(item)) itemChanged = this.regulateTemperature(item);
 
         if (itemChanged) response.message = `${response.message} Extra item ${idx} temperature regulated!`;
-      }
+      });
     }
 
     response.success = true;
