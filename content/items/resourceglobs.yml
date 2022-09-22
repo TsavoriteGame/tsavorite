@@ -14,6 +14,9 @@
       primaryDescriptor: Wet
       descriptors:
         Wet: { level: 1 }
+  interaction:
+    name: Wets
+    level: 1
 
 - name: Clay Ball
   icon: clayball
