@@ -232,8 +232,8 @@ export function changePrimaryDescriptor(itemPart: ItemPart, descriptor: Descript
   itemPart.primaryDescriptor = descriptor;
 }
 
-export function getPartWithDescriptor(item: ItemConfig, descriptor: Descriptor): ItemPart | undefined {
-  return item.parts.find(p => getDescriptorLevelFromPart(p, descriptor) > 0);
+export function getPartWithDescriptor(item: ItemConfig, descriptor: Descriptor, minimum = 0): ItemPart | undefined {
+  return item.parts.find(p => getDescriptorLevelFromPart(p, descriptor) > minimum);
 }
 
 export function isUnbreakable(item: ItemConfig): boolean {
@@ -448,18 +448,14 @@ export function decreaseInteractionLevel(item: ItemConfig, interaction: Interact
 }
 
 export function increaseDescriptorLevel(item: ItemConfig, descriptor: Descriptor, delta = 1): number {
-  let descriptorData = getDescriptor(item, descriptor, -1);
-  let descriptorLevel = getDescriptorLevel(item, descriptor);
+  let part = getPartWithDescriptor(item, descriptor, 0);
+  if(!part) {
+    addDescriptor(item, descriptor, 0);
+    part = getPartWithDescriptor(item, descriptor, -1);
+  }
 
-  if(!descriptorData || !descriptorLevel) addDescriptor(item, descriptor, 0);
-
-  // in case they didnt exist before, we try to get them again
-  descriptorData = getDescriptor(item, descriptor, -1);
-  descriptorLevel = getDescriptorLevel(item, descriptor);
-
-  descriptorData.level = Math.max(0, descriptorLevel + delta);
-
-  return descriptorData.level;
+  const newLevel = increaseDescriptorLevelForPart(part, descriptor, delta);
+  return newLevel;
 }
 
 export function decreaseDescriptorLevel(item: ItemConfig, descriptor: Descriptor, delta = 1): number {
