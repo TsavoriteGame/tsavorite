@@ -1,5 +1,5 @@
 - name: Leather Boots
-  icon: boots
+  icon: leatherboots
   parts:
     - name: Leather Boots
       primaryDescriptor: Leather
@@ -10,7 +10,7 @@
         Leather: { level: 3 }
 
 - name: Leather Helmet
-  icon: helmet
+  icon: leatherhelmet
   parts:
     - name: Leather Helmet
       primaryDescriptor: Leather
@@ -21,7 +21,7 @@
         Leather: { level: 5 }
 
 - name: Leather Armor
-  icon: breastplate
+  icon: leatherarmor
   parts:
     - name: Leather Armor
       primaryDescriptor: Leather
