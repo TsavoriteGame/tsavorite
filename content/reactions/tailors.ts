@@ -85,17 +85,6 @@ export const applications: Reactions = {
 
     const leftoverMaterials: ItemConfig[] = [];
     const tailorItem = getItemById(recipe.produces);
-    // const tailorItem: ItemConfig = {
-    //   name: recipe.name,
-    //   icon: recipe.icon,
-    //   parts: [
-    //     {
-    //       name: recipe.name,
-    //       primaryDescriptor: recipe.ingredients[0].descriptor,
-    //       descriptors: {}
-    //     }
-    //   ]
-    // };
 
     Object.keys(sourcePart.descriptors || {}).forEach(d => {
       const descriptor = d as Descriptor;
