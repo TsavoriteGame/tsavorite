@@ -28,6 +28,11 @@ const defaultOptions: () => IOptions = () => ({
 export class OptionsState {
 
   @Selector()
+  static isPaused(state: IOptions) {
+    return state[GameOption.IsPaused];
+  }
+
+  @Selector()
   static allOptions(state: IOptions) {
     return state;
   }

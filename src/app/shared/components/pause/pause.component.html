@@ -1,0 +1,76 @@
+
+
+<div class="modal-header">
+  <h4 class="modal-title text-center full-width">{{ 'Pages.Pause.Title' | translate }}</h4>
+</div>
+
+<div class="modal-body">
+  <div class="splash-container">
+
+    <div class="d-grid gap-2 px-3 d-block mt-1">
+      <button type="button"
+              (click)="continue()"
+              class="btn btn-primary d-block">
+        {{ 'Pages.Pause.Links.Continue' | translate }}
+      </button>
+    </div>
+
+    <div class="d-grid gap-2 px-3 d-block mt-1">
+      <button type="button"
+              (click)="toMainMenu()"
+              class="btn btn-primary d-block">
+        {{ 'Pages.Pause.Links.MainMenu' | translate }}
+      </button>
+    </div>
+
+    <div class="d-grid gap-2 px-3 d-block mt-1">
+      <button type="button"
+              [swal]="abandonSwal"
+              class="btn btn-warning d-block">
+        {{ 'Pages.Pause.Links.AbandonRun' | translate }}
+      </button>
+    </div>
+
+    <div class="d-grid gap-2 px-3 d-block mt-1">
+      <button type="button"
+              (click)="options()"
+              class="btn btn-primary d-block">
+        {{ 'Pages.Pause.Links.Options' | translate }}
+      </button>
+    </div>
+
+    <div class="d-grid gap-2 px-3 d-block mt-1">
+      <button type="button"
+              [disabled]="!electronService.isElectron"
+              [swal]="quitSwal"
+              class="btn btn-primary d-block">
+        {{ 'Pages.Pause.Links.Quit' | translate }}
+      </button>
+    </div>
+
+  </div>
+</div>
+
+<swal
+  #abandonSwal
+  [title]="'Pages.Home.AbandonConfirm' | translate"
+  [text]="'Pages.Home.AbandonText' | translate"
+  [confirmButtonText]="'Pages.Home.AbandonYes' | translate"
+  [cancelButtonText]="'Pages.Home.AbandonNo' | translate"
+  [showCancelButton]="true"
+  [focusCancel]="true"
+  [heightAuto]="false"
+  (confirm)="abandon()">
+</swal>
+
+<swal
+  #quitSwal
+  [title]="'Pages.Home.QuitConfirm' | translate"
+  [text]="'Pages.Home.QuitText' | translate"
+  [confirmButtonText]="'Pages.Home.QuitYes' | translate"
+  [cancelButtonText]="'Pages.Home.QuitNo' | translate"
+  [showCancelButton]="true"
+  [focusCancel]="true"
+  [heightAuto]="false"
+  (confirm)="quit()">
+</swal>

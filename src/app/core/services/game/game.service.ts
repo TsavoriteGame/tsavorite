@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 import { Store } from '@ngxs/store';
 import { AddBackpackItem } from './actions';
 import { ContentService } from './content.service';
@@ -16,7 +17,12 @@ export class GameService {
     [GameConstant.BackpackSize]: 16
   };
 
-  constructor(private store: Store, private contentService: ContentService) {
+  // rudimentary, but it works
+  public get isInGame(): boolean {
+    return this.router.url.includes('/play');
+  }
+
+  constructor(private router: Router, private store: Store, private contentService: ContentService) {
     this.initConsole();
   }
 

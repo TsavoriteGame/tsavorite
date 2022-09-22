@@ -1,113 +1,94 @@
-<div class="splash-container">
 
-  <nav class="navbar navbar-dark bg-primary">
-    <div class="container-fluid">
-      <a class="navbar-brand">{{ 'Meta.GameName' | translate }}</a>
+<div class="modal-header">
+  <h4 class="modal-title text-center full-width">{{ 'Pages.Options.Title' | translate }}</h4>
+  <button type="button" class="btn-close" (click)="modal.dismiss()"></button>
+</div>
 
-      <div class="d-flex">
-        <button class="btn btn-secondary text-sm" routerLink="/home">{{ 'Meta.MainMenu' | translate }}</button>
-      </div>
-    </div>
-  </nav>
+<div class="modal-body">
 
-  <div class="container mt-3">
+  <div class="splash-container">
 
-    <div class="row">
-      <div class="col">
-        <div class="card">
-          <div class="card-body">
+    <div class="container">
 
-            <h1 class="card-title text-center">
-              {{ 'Pages.Options.Title' | translate }}
-            </h1>
+      <div class="row">
+        <div class="col-6">
+          <div class="card">
+            <div class="card-body">
 
-            <h2 class="card-subtitle text-muted text-center">
-              {{ 'Pages.Options.Subtitle' | translate }}
-            </h2>
+              <h1 class="card-title text-center">
+                {{ 'Pages.Options.VideoTitle' | translate }}
+              </h1>
 
-          </div>
-        </div>
-      </div>
-    </div>
+              <h2 class="card-subtitle text-muted text-center">
+                {{ 'Pages.Options.VideoSubtitle' | translate }}
+              </h2>
 
-    <div class="row mt-3">
-      <div class="col-6">
-        <div class="card">
-          <div class="card-body">
-
-            <h1 class="card-title text-center">
-              {{ 'Pages.Options.VideoTitle' | translate }}
-            </h1>
-
-            <h2 class="card-subtitle text-muted text-center">
-              {{ 'Pages.Options.VideoSubtitle' | translate }}
-            </h2>
-
-          </div>
-        </div>
-      </div>
-
-      <div class="col-6">
-        <div class="card">
-          <div class="card-body">
-
-            <h1 class="card-title text-center">
-              {{ 'Pages.Options.AudioTitle' | translate }}
-            </h1>
-
-            <h2 class="card-subtitle text-muted text-center">
-              {{ 'Pages.Options.AudioSubtitle' | translate }}
-            </h2>
-
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="row mt-3">
-      <div class="col-6">
-        <div class="card">
-          <div class="card-body">
-
-            <h1 class="card-title text-center">
-              {{ 'Pages.Options.GameTitle' | translate }}
-            </h1>
-
-            <h2 class="card-subtitle text-muted text-center">
-              {{ 'Pages.Options.GameSubtitle' | translate }}
-            </h2>
-
-          </div>
-        </div>
-      </div>
-
-      <div class="col-6">
-        <div class="card">
-          <div class="card-body">
-
-            <h1 class="card-title text-center">
-              {{ 'Pages.Options.DataTitle' | translate }}
-            </h1>
-
-            <h2 class="card-subtitle text-muted text-center">
-              {{ 'Pages.Options.DataSubtitle' | translate }}
-            </h2>
-
-            <div class="d-grid gap-2 px-3 d-block mt-1">
-              <button type="button"
-                      class="btn btn-danger d-block"
-                      [swal]="resetSwal">
-                {{ 'Pages.Options.ResetDataAction' | translate }}
-              </button>
             </div>
+          </div>
+        </div>
 
+        <div class="col-6">
+          <div class="card">
+            <div class="card-body">
+
+              <h1 class="card-title text-center">
+                {{ 'Pages.Options.AudioTitle' | translate }}
+              </h1>
+
+              <h2 class="card-subtitle text-muted text-center">
+                {{ 'Pages.Options.AudioSubtitle' | translate }}
+              </h2>
+
+            </div>
           </div>
         </div>
       </div>
+
+      <div class="row mt-3">
+        <div class="col-6">
+          <div class="card">
+            <div class="card-body">
+
+              <h1 class="card-title text-center">
+                {{ 'Pages.Options.GameTitle' | translate }}
+              </h1>
+
+              <h2 class="card-subtitle text-muted text-center">
+                {{ 'Pages.Options.GameSubtitle' | translate }}
+              </h2>
+
+            </div>
+          </div>
+        </div>
+
+        <div class="col-6">
+          <div class="card">
+            <div class="card-body">
+
+              <h1 class="card-title text-center">
+                {{ 'Pages.Options.DataTitle' | translate }}
+              </h1>
+
+              <h2 class="card-subtitle text-muted text-center">
+                {{ 'Pages.Options.DataSubtitle' | translate }}
+              </h2>
+
+              <div class="d-grid gap-2 px-3 d-block mt-1">
+                <button type="button"
+                        class="btn btn-danger d-block"
+                        [swal]="resetSwal">
+                  {{ 'Pages.Options.ResetDataAction' | translate }}
+                </button>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+
     </div>
 
   </div>
-
 </div>
 
 <swal

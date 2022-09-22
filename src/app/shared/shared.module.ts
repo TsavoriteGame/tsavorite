@@ -14,9 +14,10 @@ import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 import { IconComponent } from './components/icon/icon.component';
 import { InfoCardComponent } from './components/info-card/info-card.component';
 import { CardSlotComponent } from './components/card-slot/card-slot.component';
+import { PauseComponent } from './components/pause/pause.component';
 
 @NgModule({
-  declarations: [PageNotFoundComponent, WebviewDirective, IconComponent, InfoCardComponent, CardSlotComponent],
+  declarations: [PageNotFoundComponent, WebviewDirective, IconComponent, InfoCardComponent, CardSlotComponent, PauseComponent],
   imports: [
     CommonModule,
     DndModule,

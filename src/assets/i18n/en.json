@@ -74,6 +74,18 @@
       "ResetDataNo": "No, Save My Data"
     },
 
+    "Pause": {
+      "Title": "Paused",
+      "Links": {
+        "Continue": "> Continue Game",
+        "MainMenu": "> Main Menu",
+        "RestartRun": "> Restart Run",
+        "AbandonRun": "> Abandon Run",
+        "Options": "> Options",
+        "Quit": "> Quit"
+      }
+    },
+
     "Error": {
       "Title": "Unknown Error",
       "Subtitle": "Something weird happened!"

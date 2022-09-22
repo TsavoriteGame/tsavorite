@@ -27,6 +27,8 @@ html, body {
   padding: 0;
 
   height: 100%;
+
+  user-select: none;
 }
 
 .tooltip {
@@ -52,6 +54,11 @@ body:not(.no-fantasy-font) {
   .badge {
     letter-spacing: 2px;
     font-weight: 100;
+  }
+
+  .modal-title {
+    font-size: 3rem;
+    --bs-modal-title-line-height: 1;
   }
 
   .card-header {
@@ -89,7 +96,8 @@ body.no-fantasy-font {
 /* Global styles */
 .splash-container {
   height: 100%;
-  background: url(./assets/images/core/splash.png) no-repeat center fixed;
+  width: 100%;
+  background: url(./assets/images/core/splash.png) no-repeat center local;
   background-size: cover;
 }
 
@@ -104,14 +112,34 @@ body.no-fantasy-font {
   display: none !important;
 }
 
-.full-space {
+.full-width {
   width: 100%;
+}
+
+.full-height {
   height: 100%;
+}
+
+.full-space {
+  @extend .full-width;
+  @extend .full-height;
 }
 
 .gameplay-space {
   --bs-card-border-radius: 0;
   background-color: rgba(0, 0, 0, 0.8);
+}
+
+.options-dialog {
+  width: 80vw;
+  height: 80vh;
+
+  --bs-modal-width: 80vw;
+  min-height: unset;
+
+  .modal-content {
+    height: 100%;
+  }
 }
 
 .icon-text {
@@ -128,4 +156,12 @@ body.no-fantasy-font {
   color: #999;
   text-align: center;
   padding: 2rem;
+}
+
+.darker-backdrop {
+  --bs-backdrop-opacity: 0.9;
+}
+
+.no-backdrop-opacity {
+  --bs-backdrop-opacity: 0;
 }
