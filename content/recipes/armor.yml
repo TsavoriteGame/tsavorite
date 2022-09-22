@@ -1,7 +1,7 @@
 
 - name: Leather Boots
   description: Comfortable footwear to keep your toes safe.
-  produces: Leather Boots
+  produces: LeatherBoots-1
   interaction: Tailors
   ingredients:
     - name: Leather
@@ -14,7 +14,7 @@
 
 - name: Leather Helmet
   description: A tough piece of protection for your noggin.
-  produces: Leather Helmet
+  produces: LeatherHelmet-1
   interaction: Tailors
   ingredients:
     - name: Leather
@@ -27,7 +27,7 @@
 
 - name: Leather Armor
   description: Nice flexible armor to keep your squishy bits intact.
-  produces: Leather Armor
+  produces: LeatherArmor-1
   interaction: Tailors
   ingredients:
     - name: Leather
