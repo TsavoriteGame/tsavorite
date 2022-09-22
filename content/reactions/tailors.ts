@@ -1,12 +1,6 @@
 import { getItemById } from '../getters';
-import { getInteractionLevel, increaseDescriptorLevelForPart,
-  decreaseInteractionLevel, getDescriptorLevel, decreaseDescriptorLevelForPart,
-  getDescriptorLevelFromPart, increaseInteractionLevel, hasDescriptor, getAllDescriptorsForPart,
-  getAllFulfilledRecipesForItem,
-  getValidFulfilledRecipeForItem,
-  setDescriptorLevel,
-  increaseDescriptorLevel,
-  setDescriptorLevelForPart} from '../helpers';
+import { getInteractionLevel, increaseDescriptorLevelForPart, decreaseInteractionLevel, decreaseDescriptorLevelForPart,
+  getDescriptorLevelFromPart, getValidFulfilledRecipeForItem, hasFoundationalPart } from '../helpers';
 import { Descriptor, Reactions, Interaction, ReactionExtendedArgs, ItemConfig } from '../interfaces';
 
 const zeroFail = (args: ReactionExtendedArgs) => ({
@@ -20,6 +14,8 @@ export const applications: Reactions = {
 
   // add full item to kit
   [Descriptor.Fiber]: (args: ReactionExtendedArgs) => {
+
+    if (hasFoundationalPart(args.targetItem)) return zeroFail(args);
 
     const sourcePart = args.sourcePart;
     const targetPart = args.targetPart;
@@ -41,6 +37,8 @@ export const applications: Reactions = {
   },
 
   [Descriptor.Leather]: (args: ReactionExtendedArgs) => {
+
+    if (hasFoundationalPart(args.targetItem)) return zeroFail(args);
 
     const sourcePart = args.sourcePart;
     const targetPart = args.targetPart;
