@@ -98,7 +98,13 @@ export class GameState {
     };
 
     background.startingKit.forEach(kitItem => {
-      character.items.push(this.contentService.reformatItem(kitItem.itemId, kitItem.itemChanges));
+      const item = this.contentService.reformatItem(kitItem.itemId, kitItem.itemChanges);
+      if(!item) {
+        console.error(`Could not find item ${kitItem.itemId} for starting kit.`);
+        return;
+      }
+
+      character.items.push(item);
     });
 
     ctx.patchState({ character });
