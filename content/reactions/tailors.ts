@@ -89,7 +89,8 @@ export const applications: Reactions = {
     Object.keys(sourcePart.descriptors || {}).forEach(d => {
       const descriptor = d as Descriptor;
 
-      if (descriptor === Descriptor.Leather || descriptor === Descriptor.Fiber) return;
+      if (descriptor === Descriptor.Kit
+       || descriptor === Descriptor.Leather || descriptor === Descriptor.Fiber) return;
 
       const descriptorLevel = getDescriptorLevelFromPart(sourcePart, descriptor);
 
