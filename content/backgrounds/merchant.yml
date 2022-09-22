@@ -9,6 +9,6 @@ goal: Get 100 gold.
 startingKit:
   - description: 20 Gold Coins
     icon: goldcoin
-    itemId: GoldCoins
+    itemId: GoldCoins-1
     itemChanges:
       'interaction.level': 20

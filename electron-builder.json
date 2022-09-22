@@ -1,4 +1,7 @@
 {
+  "productName": "Tsavorite",
+  "artifactName": "Tsavorite.${ext}",
+  "appId": "com.tsavorite.game",
   "asar": true,
   "directories": {
     "output": "release/"
@@ -19,9 +22,6 @@
     "target": [
       "portable"
     ]
-  },
-  "portable": {
-    "splashImage": "dist/assets/icons/electron.bmp"
   },
   "mac": {
     "icon": "dist/assets/icons",

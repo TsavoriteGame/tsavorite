@@ -6,8 +6,9 @@ $info: #0256E8;
 $warning: #C136C7;
 $danger: #B3001B;
 
-/* Importing Bootstrap SCSS file. */
+/* Importing Bootstrap SCSS file - applies above colors as a theme. */
 @import '~bootstrap/scss/bootstrap';
+@import '@fontsource/roboto';
 
 @font-face {
   font-family: 'CelticTime';
@@ -22,28 +23,59 @@ $danger: #B3001B;
   font-display: swap;
 }
 
+/* Reset & Defaults */
 html, body {
   margin: 0;
   padding: 0;
 
   height: 100%;
+
+  user-select: none;
+  font-family: Roboto, Arial, Helvetica, sans-serif;
 }
 
-.tooltip {
-  --bs-tooltip-max-width: 500px;
-}
+/* Default font sizes */
+:root {
+  --ts-fontsize-hero: 5rem;
+  --ts-fontsize-header: 2rem;
+  --ts-fontsize-subheader: 1.75rem;
+  --ts-fontsize-big: 1.1rem;
+  --ts-fontsize-medium: 1rem;
+  --ts-fontsize-normal: 0.9rem;
 
-body, .tooltip .fantasy {
-  font-family: CelticTime, Arial, Helvetica, sans-serif;
-  text-rendering: optimizeLegibility;
+  .size-hero {
+    font-size: var(--ts-fontsize-hero);
+  }
 
-  &.no-fantasy-font {
-    font-family: Arial, Helvetica, sans-serif;
+  .size-header {
+    font-size: var(--ts-fontsize-header);
+  }
+
+  .size-subheader {
+    font-size: var(--ts-fontsize-subheader);
+  }
+
+  .size-big {
+    font-size: var(--ts-fontsize-big);
+  }
+
+  .size-medium {
+    font-size: var(--ts-fontsize-medium);
+  }
+
+  .size-mediumnormal {
+    font-size: var(--ts-fontsize-mediumnormal);
   }
 }
 
 /* Default settings: Fantasy font styles */
-body:not(.no-fantasy-font) {
+body.fantasy {
+  --ts-fontsize-hero: 5rem;
+  --ts-fontsize-header: 3rem;
+  --ts-fontsize-subheader: 2rem;
+  --ts-fontsize-big: 1.5rem;
+  --ts-fontsize-medium: 1.25rem;
+  --ts-fontsize-normal: 1.1rem;
 
   .navbar-brand {
     letter-spacing: 3px;
@@ -54,42 +86,26 @@ body:not(.no-fantasy-font) {
     font-weight: 100;
   }
 
-  .card-header {
-    font-size: 1.5rem;
-  }
-
   .btn:not(.text-sm) {
-    font-size: 1.5rem;
+    font-size: var(--ts-fontsize-big);
   }
 
-  .swal2-container {
-    .swal2-title {
-      font-size: 2rem;
-    }
-
-    .swal2-html-container {
-      font-size: 1.5rem;
-    }
-
-    .swal2-actions button {
-      font-size: 1.3rem;
-    }
-  }
-
-  .tooltip {
-    font-size: 1.5rem;
+  .swal2-title {
+    font-size: var(--ts-fontsize-header);
   }
 }
 
-/* Non-default setting: No fantasy font */
-body.no-fantasy-font {
-
+/* Set the fantasy font when the class is set */
+body.fantasy, .tooltip .fantasy {
+  font-family: CelticTime, Arial, Helvetica, sans-serif;
+  text-rendering: optimizeLegibility;
 }
 
 /* Global styles */
 .splash-container {
   height: 100%;
-  background: url(./assets/images/core/splash.png) no-repeat center fixed;
+  width: 100%;
+  background: url(./assets/images/core/splash.png) no-repeat center local;
   background-size: cover;
 }
 
@@ -104,9 +120,17 @@ body.no-fantasy-font {
   display: none !important;
 }
 
-.full-space {
+.full-width {
   width: 100%;
+}
+
+.full-height {
   height: 100%;
+}
+
+.full-space {
+  @extend .full-width;
+  @extend .full-height;
 }
 
 .gameplay-space {
@@ -114,8 +138,19 @@ body.no-fantasy-font {
   background-color: rgba(0, 0, 0, 0.8);
 }
 
+.options-dialog {
+  width: 80vw;
+  height: 80vh;
+
+  --bs-modal-width: 80vw;
+  min-height: unset;
+
+  .modal-content {
+    height: 100%;
+  }
+}
+
 .icon-text {
-  font-size: 32px;
   color: #fff;
   text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
 }
@@ -124,8 +159,48 @@ body.no-fantasy-font {
   @extend .centered;
   @extend .full-space;
 
-  font-size: 3rem;
+  font-size: var(--ts-fontsize-header);
   color: #999;
   text-align: center;
   padding: 2rem;
+}
+
+/* ng bootstrap overrides / helpers */
+.modal-title {
+  font-size: var(--ts-fontsize-header);
+  --bs-modal-title-line-height: 1;
+}
+
+.card-header {
+  font-size: var(--ts-fontsize-big);
+}
+
+.swal2-container {
+  .swal2-title {
+    font-size: var(--ts-fontsize-subheader);
+  }
+
+  .swal2-html-container {
+    font-size: var(--ts-fontsize-big);
+  }
+
+  .swal2-actions button {
+    font-size: var(--ts-fontsize-medium);
+  }
+}
+
+.tooltip {
+  font-size: var(--ts-fontsize-big);
+}
+
+.darker-backdrop {
+  --bs-backdrop-opacity: 0.9;
+}
+
+.no-backdrop-opacity {
+  --bs-backdrop-opacity: 0;
+}
+
+.tooltip {
+  --bs-tooltip-max-width: 500px;
 }

@@ -7,7 +7,7 @@
   "main": "app/main.js",
   "private": true,
   "scripts": {
-    "postinstall": "electron-builder install-app-deps && npm run setup:data && npm run setup:art && npm run generate:hashes",
+    "postinstall": "electron-builder install-app-deps && npm run setup && npm run generate:hashes",
     "ng": "ng",
     "start": "npm-run-all -p electron:serve ng:serve",
     "start:web": "npm run ng:serve",
@@ -21,6 +21,7 @@
     "electron:serve": "wait-on tcp:4889 && npm run electron:serve-tsc && electron . --serve",
     "electron:local": "npm run build:prod && electron .",
     "electron:build": "npm run build:prod && electron-builder build --publish=never",
+    "setup": "npm run setup:data && npm run setup:art",
     "setup:data": "node scripts/items && node scripts/backgrounds && node scripts/archetypes && node scripts/recipes",
     "setup:art": "node scripts/art",
     "generate:hashes": "node scripts/generate-hashes",
@@ -28,7 +29,17 @@
     "test:jest:watch": "jest --watch",
     "test:content": "jest",
     "version": "conventional-changelog -i CHANGELOG.md -s -r 0 && git add CHANGELOG.md",
-    "lint": "ng lint && eslint content/**/*.ts"
+    "lint": "ng lint && eslint content/**/*.ts",
+    "changelog:generate": "conventional-changelog -p angular -i CHANGELOG.md -s -r 0",
+    "changelog:generate:current": "conventional-changelog -p angular -o CHANGELOG-current.md -r 2",
+    "changelog:commit": "git commit CHANGELOG.md CHANGELOG-current.md -m \"Update changelog\" || true",
+    "preversion": "npm run lint && npm run build",
+    "postversion": "npm run changelog:generate && npm run changelog:generate:current && npm run changelog:commit && npm run version:reversion && npm run push",
+    "version:reversion": "node scripts/postversion.reversion",
+    "push": "git push && git push --tags",
+    "bump:patch": "npm version patch -m \"chore(release): Patch %s\"",
+    "bump:minor": "npm version minor -m \"chore(release): Minor %s\"",
+    "bump:major": "npm version major -m \"chore(release): Major %s\""
   },
   "dependencies": {
     "@angular/common": "14.2.0",
@@ -40,6 +51,7 @@
     "@angular/platform-browser": "14.2.0",
     "@angular/platform-browser-dynamic": "14.2.0",
     "@angular/router": "14.2.0",
+    "@fontsource/roboto": "4.5.8",
     "@ng-bootstrap/ng-bootstrap": "13.0.0",
     "@ngxs/devtools-plugin": "3.7.5",
     "@ngxs/logger-plugin": "3.7.5",

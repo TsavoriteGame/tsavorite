@@ -59,7 +59,7 @@
     "Options": {
       "Title": "Options",
       "Subtitle": "",
-      "VideoTitle": "Video Options",
+      "VideoTitle": "Display Options",
       "VideoSubtitle": "",
       "AudioTitle": "Audio Options",
       "AudioSubtitle": "",
@@ -72,6 +72,18 @@
       "ResetDataText": "This will reset all of your save data, achievements, found items, and game progress.",
       "ResetDataYes": "Yes, Reset All Data",
       "ResetDataNo": "No, Save My Data"
+    },
+
+    "Pause": {
+      "Title": "Paused",
+      "Links": {
+        "Continue": "> Continue Game",
+        "MainMenu": "> Main Menu",
+        "RestartRun": "> Restart Run",
+        "AbandonRun": "> Abandon Run",
+        "Options": "> Options",
+        "Quit": "> Quit"
+      }
     },
 
     "Error": {

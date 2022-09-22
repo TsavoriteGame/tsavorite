@@ -1,34 +1,29 @@
 import { Injectable } from '@angular/core';
 
 import { set } from 'lodash';
+import { allArchetypes, allBackgrounds, allItems, getItemById } from '../../../../../content/getters';
 
-import { Archetype, Background, ItemConfig, Recipe } from '../../../../../content/interfaces';
-
-import * as items from '../../../../../content/items/items.json';
-import * as archetypes from '../../../../../content/archetypes/archetypes.json';
-import * as backgrounds from '../../../../../content/backgrounds/backgrounds.json';
-import * as recipes from '../../../../../content/recipes/recipes.json';
-
+import { Archetype, Background, ItemConfig, Recipe } from '../../../../../content/interfaces';master
 @Injectable({
   providedIn: 'root'
 })
 export class ContentService {
 
   public get archetypes(): Archetype[] {
-    return (archetypes as any).default || archetypes;
+    return allArchetypes;
   }
 
   public get backgrounds(): Background[] {
-    return (backgrounds as any).default || backgrounds;
+    return allBackgrounds;
   }
 
   public get items(): ItemConfig[] {
-    return (items as any).default || items;
+    return allItems;
   }
 
-  public get recipes(): Recipe[] {
-    return (recipes as any).default || recipes;
-  }
+  // public get recipes(): Recipe[] {
+  //   return (recipes as any).default || recipes;
+  // }
 
   constructor() { }
 
@@ -42,7 +37,7 @@ export class ContentService {
   }
 
   public getItemById(itemId: string): ItemConfig | undefined {
-    return structuredClone(this.items.find(x => x.id === itemId));
+    return getItemById(itemId);
   }
 
   public getRecipe(recipeName: string): Recipe | undefined {

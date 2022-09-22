@@ -1,31 +1,31 @@
 
 
 <div class="card-container">
-  <div class="corner-interaction" *ngIf="activeInteraction">
+  <div class="corner-interaction size-normal" *ngIf="activeInteraction">
     <svg-icon [src]="'assets/images/reactions/' + activeInteraction.name.toLowerCase() + '.svg'" [svgStyle]="{ 'width.px': 24, fill: 'rgb(255, 255, 255)' }"></svg-icon>
     Lv. {{ activeInteraction.level }}
   </div>
 
   <div class="card-slot-container card" [ngbTooltip]="tipContent" [disableTooltip]="!card" container="body">
     <app-icon [icon]="card.icon" [size]="64" *ngIf="card"></app-icon>
-    <div class="centered full-space" *ngIf="!card">{{ placeholder }}</div>
+    <div class="centered full-space size-big" *ngIf="!card">{{ placeholder }}</div>
   </div>
 </div>
 
 <ng-template #tipContent>
-  <div class="sub-tooltip" [class.fantasy]="(options$ | async).fantasyFont">
-    <div class="card-name">
+  <div class="sub-tooltip" [class.fantasy]="(options$ | async).isFantasyFont">
+    <div class="card-name size-big" *ngIf="card">
       {{ card.name }}
     </div>
 
-    <div class="card-interaction" *ngIf="activeInteraction">
+    <div class="card-interaction size-medium" *ngIf="activeInteraction">
       <svg-icon [src]="'assets/images/reactions/' + activeInteraction.name.toLowerCase() + '.svg'" [svgStyle]="{ 'width.px': 24, fill: 'rgb(255, 255, 255)' }"></svg-icon>
       {{ activeInteraction.name }} Lv. {{ activeInteraction.level }}
     </div>
 
-    <div class="card-descriptors">
+    <div class="card-descriptors size-medium" *ngIf="activeDescriptors.length > 0">
       <span class="descriptor" *ngFor="let descriptor of activeDescriptors">
-        ({{ descriptor.descriptor }} Lv.{{ descriptor.level }})
+        ( {{ descriptor.descriptor }} Lv.{{ descriptor.level }} )
       </span>
     </div>
   </div>

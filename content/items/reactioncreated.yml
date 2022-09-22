@@ -1,0 +1,61 @@
+
+- name: Clay Bowl
+  icon: claybowl
+  parts:
+    - name: Bowl
+      primaryDescriptor: Clay
+      foundational: true
+      descriptors:
+        Clay: { level: 1 }
+        Container: { level: 1 }
+
+- name: Glass Jar
+  icon: honeyjar
+  parts:
+    - name: Jar
+      primaryDescriptor: Glass
+      foundational: true
+      descriptors:
+        Glass: { level: 1 }
+        Container: { level: 1 }
+
+- name: Leather Flask
+  icon: leatherflask
+  parts:
+    - name: Flask
+      primaryDescriptor: Leather
+      foundational: true
+      descriptors:
+        Leather: { level: 1 }
+        Container: { level: 1 }
+
+- name: Metal Cup
+  icon: metalcup
+  parts:
+    - name: Cup
+      primaryDescriptor: Metal
+      foundational: true
+      descriptors:
+        Metal: { level: 1 }
+        Container: { level: 1 }
+
+- name: Rock Bowl
+  icon: rockbowl
+  parts:
+    - name: Bowl
+      primaryDescriptor: Rock
+      foundational: true
+      descriptors:
+        Rock: { level: 1 }
+        Container: { level: 1 }
+
+- name: Wood Bucket
+  icon: woodcup
+  parts:
+    - name: Bucket
+      primaryDescriptor: Wood
+      foundational: true
+      descriptors:
+        Wood: { level: 1 }
+        Container: { level: 1 }
+

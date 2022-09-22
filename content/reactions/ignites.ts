@@ -1,9 +1,11 @@
+import { getItemById } from '../getters';
 import { getInteractionLevel,
   decreaseInteractionLevel,
   decreaseDescriptorLevelForPart,
   increaseDescriptorLevelForPart,
   increaseInteractionLevel,
-  getDescriptorLevelFromPart } from '../helpers';
+  getDescriptorLevelFromPart,
+  setDescriptorLevelForPart} from '../helpers';
 import { Descriptor, Reactions, Interaction, ReactionExtendedArgs } from '../interfaces';
 
 const zeroFail = (args: ReactionExtendedArgs) => ({
@@ -48,6 +50,9 @@ export const applications: Reactions = {
     const clayLevel = getDescriptorLevelFromPart(args.targetPart, Descriptor.Clay);
     const hotLevel = increaseDescriptorLevelForPart(args.targetPart, Descriptor.Hot, 1);
 
+    const glassJar = getItemById('GlassJar-1');
+    setDescriptorLevelForPart(glassJar.parts[0], Descriptor.Glass, getDescriptorLevelFromPart(args.targetPart, Descriptor.Clay));
+
     if(hotLevel > clayLevel) {
       return {
         message: 'It is turned into glass.',
@@ -55,12 +60,7 @@ export const applications: Reactions = {
         newSource: sourceItem,
         newTarget: undefined,
         extraItems: [
-          { name: 'Glass', parts: [
-            { name: 'Glass', primaryDescriptor: Descriptor.Glass, descriptors: {
-              [Descriptor.Glass]: { level: clayLevel },
-              [Descriptor.Container]: { level: getDescriptorLevelFromPart(args.targetPart, Descriptor.Container) }
-            } }
-          ] }
+          glassJar
         ]
       };
     }
@@ -178,10 +178,9 @@ export const applications: Reactions = {
         success: true,
         newSource: sourceItem,
         newTarget: undefined,
-        extraItems: [{
-          name: 'Overcooked Meat',
-          parts: [{ name: 'Rock Meat', primaryDescriptor: Descriptor.Rock, descriptors: { [Descriptor.Rock]: { level: 1 } } }]
-        }]
+        extraItems: [
+          getItemById('OvercookedMeat-1')
+        ]
       };
     }
 
@@ -256,15 +255,16 @@ export const applications: Reactions = {
 
     if(hotLevel >= mudLevel) {
 
+      const clay = getItemById('ClayBall-1');
+      setDescriptorLevelForPart(clay.parts[0], Descriptor.Clay, mudLevel);
+
       return {
         message: 'The mud has ignited into clay.',
         success: true,
         newSource: sourceItem,
         newTarget: undefined,
         extraItems: [
-          { name: 'Clay', parts: [
-            { name: 'Clay', primaryDescriptor: Descriptor.Clay, descriptors: { [Descriptor.Clay]: { level: mudLevel } } }
-          ] }
+          clay
         ]
       };
     }
@@ -291,15 +291,16 @@ export const applications: Reactions = {
 
     if(hotLevel > sandLevel) {
 
+      const glass = getItemById('GlassShards-1');
+      setDescriptorLevelForPart(glass.parts[0], Descriptor.Glass, sandLevel);
+
       return {
         message: 'The sand has become glass.',
         success: true,
         newSource: sourceItem,
         newTarget: undefined,
         extraItems: [
-          { name: 'Glass', parts: [
-            { name: 'Glass', primaryDescriptor: Descriptor.Glass, descriptors: { [Descriptor.Glass]: { level: sandLevel } } }
-          ] }
+          glass
         ]
       };
     }

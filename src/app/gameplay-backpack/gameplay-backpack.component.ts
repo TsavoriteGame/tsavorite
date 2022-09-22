@@ -4,7 +4,8 @@ import { Observable, Subject, Subscription, timer } from 'rxjs';
 import { getCombinationBetweenTwoItems,
   getReactionBetweenTwoItems } from '../../../content/helpers';
 import { Descriptor, ItemConfig } from '../../../content/interfaces';
-import { AddBackpackItem, RemoveBackpackItem, UpdateBackpackItem } from '../core/services/game/actions';
+import { AddBackpackItem, ReduceHealth, RemoveBackpackItem, UpdateBackpackItem } from '../core/services/game/actions';
+import { ContentService } from '../core/services/game/content.service';
 import { GameConstant, GameService } from '../core/services/game/game.service';
 import { GameState, IGame, IGameCharacter } from '../core/services/game/stores';
 
@@ -21,8 +22,6 @@ export class GameplayBackpackComponent implements OnInit {
     .fill(undefined)
     .map((x, i) => i);
 
-  public dragIndex = -1;
-
   public discardItem: ItemConfig;
   public indexDiscard = -1;
 
@@ -35,40 +34,33 @@ export class GameplayBackpackComponent implements OnInit {
   public applicombineResultMessage$ = this.applicombineResultMessage.asObservable();
   public timer$: Subscription;
 
-  constructor(private store: Store, private gameService: GameService) { }
+  constructor(private store: Store, private contentService: ContentService, private gameService: GameService) { }
 
   ngOnInit(): void {
   }
 
-  startDrag(slot: number): void {
-    this.dragIndex = slot;
-  }
-
   dropDiscard($event) {
-    const item = $event.data;
+    const { backpackIndex, item } = $event.data;
     if(!item) return;
 
     this.discardItem = item;
-    this.indexDiscard = this.dragIndex;
-    this.dragIndex = -1;
+    this.indexDiscard = backpackIndex;
   }
 
   dropLeft($event) {
-    const item = $event.data;
+    const { backpackIndex, item } = $event.data;
     if(!item || item === this.combineRight) return;
 
     this.combineLeft = item;
-    this.indexLeft = this.dragIndex;
-    this.dragIndex = -1;
+    this.indexLeft = backpackIndex;
   }
 
   dropRight($event) {
-    const item = $event.data;
+    const { backpackIndex, item } = $event.data;
     if(!item || item === this.combineLeft) return;
 
-    this.indexRight = this.dragIndex;
     this.combineRight = item;
-    this.dragIndex = -1;
+    this.indexRight = backpackIndex;
   }
 
   reaction(character: IGameCharacter) {
@@ -178,13 +170,36 @@ export class GameplayBackpackComponent implements OnInit {
     this.combineRight = undefined;
     this.indexLeft = -1;
     this.indexRight = -1;
-    this.dragIndex = -1;
   }
 
   cancelDiscard() {
     this.discardItem = undefined;
     this.indexDiscard = -1;
-    this.dragIndex = -1;
+  }
+
+  isItemInSlot(item: ItemConfig, index: number): boolean {
+    return index === this.indexLeft || index === this.indexRight || index === this.indexDiscard;
+  }
+
+  canDragItem(item: ItemConfig | undefined, slot: number): boolean {
+    if(!item) return false;
+    if(this.isItemInSlot(item, slot)) return false;
+
+    return true;
+  }
+
+  dropOnBackpack($event) {
+    const { takeHealth } = $event.data;
+
+    // if this drop is a take-health drop, we make a new heart item
+    if(takeHealth > 0) {
+      const healthItem = this.contentService.getItemById('HealingHeart-1');
+
+      this.store.dispatch(new AddBackpackItem(healthItem))
+        .subscribe(() => {
+          this.store.dispatch(new ReduceHealth(1));
+        });
+    }
   }
 
 }

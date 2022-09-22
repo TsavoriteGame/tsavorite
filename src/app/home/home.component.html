@@ -4,11 +4,11 @@
       <div class="card">
         <div class="card-body">
 
-          <h1 class="card-title">
+          <h1 class="card-title size-hero">
             {{ 'Pages.Home.Title' | translate }}
           </h1>
 
-          <h2 class="card-subtitle text-muted">
+          <h2 class="card-subtitle size-subheader text-muted">
             {{ 'Pages.Home.Subtitle' | translate }}
           </h2>
 
@@ -37,7 +37,7 @@
 
               <div class="d-grid gap-2 px-3 d-block mt-1">
                 <button type="button"
-                        class="btn btn-primary d-block"
+                        class="btn btn-warning d-block"
                         [swal]="abandonSwal">
                   {{ 'Pages.Home.Links.Abandon' | translate }}
                 </button>
@@ -72,7 +72,7 @@
             <div class="d-grid gap-2 px-3 d-block mt-1">
               <button type="button"
                       class="btn btn-primary d-block"
-                      routerLink="/options">
+                      (click)="openOptions()">
                 {{ 'Pages.Home.Links.Options' | translate }}
               </button>
             </div>

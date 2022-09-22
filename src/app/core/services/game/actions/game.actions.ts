@@ -25,3 +25,15 @@ export class UpdateBackpackItem {
   static type = '[Game] Update Backpack Item';
   constructor(public index: number, public item: ItemConfig) {}
 }
+
+export class AddHealth {
+  static type = '[Game] Add Health';
+  constructor(public amount: number) {}
+}
+
+export class ReduceHealth {
+  static type = '[Game] Reduce Health';
+  constructor(public amount: number) {
+    this.amount = -amount;
+  }
+}

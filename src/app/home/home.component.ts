@@ -1,11 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { BUILDVARS } from '../../environments/_vars';
 import { ElectronService } from '../core/services';
 import { AbandonGame } from '../core/services/game/actions';
 import { GameState } from '../core/services/game/stores';
+import { OptionsComponent } from '../options/options.component';
 
 @Component({
   selector: 'app-home',
@@ -28,7 +30,12 @@ export class HomeComponent implements OnInit {
     { icon: 'github',   link: 'http://github.tsavoritegame.com' }
   ];
 
-  constructor(private router: Router, private store: Store, public electronService: ElectronService) {}
+  constructor(
+    private router: Router,
+    private modalService: NgbModal,
+    private store: Store,
+    public electronService: ElectronService
+  ) {}
 
   ngOnInit(): void {
 
@@ -37,6 +44,14 @@ export class HomeComponent implements OnInit {
   abandon(): void {
     this.store.dispatch(new AbandonGame()).subscribe(() => {
       this.router.navigate(['/play']);
+    });
+  }
+
+  openOptions(): void {
+    this.modalService.open(OptionsComponent, {
+      modalDialogClass: 'options-dialog',
+      backdropClass: 'darker-backdrop',
+      backdrop: 'static'
     });
   }
 
