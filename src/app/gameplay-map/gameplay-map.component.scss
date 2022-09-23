@@ -1,0 +1,36 @@
+
+.map-grid {
+  display: flex;
+  flex-direction: column;
+
+  .map-row {
+    display: flex;
+    flex-direction: row;
+
+    .map-cell {
+      width: 64px;
+      height: 64px;
+      min-width: 64px;
+      min-height: 64px;
+
+      &:not(.empty-space):not(.can-move-to) {
+        outline: 1px solid #fff;
+      }
+
+      &.can-move-to {
+        cursor: pointer;
+        outline: 1px solid #0f0;
+        animation: move-glow 0.5s infinite alternate;
+
+        @keyframes move-glow {
+          from {
+            box-shadow: 0 0 3px -3px #0f0;
+          }
+          to {
+            box-shadow: 0 0 3px 3px #0f0;
+          }
+        }
+      }
+    }
+  }
+}

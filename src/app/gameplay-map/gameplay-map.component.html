@@ -1,1 +1,29 @@
-<p>gameplay-map works!</p>
+<div class="card full-space gameplay-space">
+
+  <ng-container *ngIf="mapInfo$ | async as mapInfo">
+
+    <div class="row mt-3">
+      <div class="col centered">
+        <div class="map-grid">
+          <div class="map-row" *ngFor="let row of mapInfo.map; let rowIdx = index">
+            <div class="map-cell" *ngFor="let col of mapInfo.map[rowIdx]; let colIdx = index"
+                 [class.can-move-to]="canMoveTo(col, colIdx, rowIdx)"
+                 [class.empty-space]="!col"
+                 (click)="move(col, colIdx, rowIdx)">
+              <app-icon [icon]="mapInfo.character.background.icon" *ngIf="rowIdx === 3 && colIdx === 3"></app-icon>
+              <app-icon [icon]="col.icon" *ngIf="col && !(rowIdx === 3 && colIdx === 3)"></app-icon>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row mt-3">
+      <div class="col icon-text size-header text-center">
+        {{ mapInfo.scenario.worlds[mapInfo.position.worldId].name }} - {{ mapInfo.position.x + 1 }},{{ mapInfo.position.y + 1 }}
+      </div>
+    </div>
+
+  </ng-container>
+
+</div>

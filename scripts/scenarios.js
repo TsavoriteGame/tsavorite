@@ -15,6 +15,7 @@ const validateScenarios = () => {
 
     Object.keys(item.worlds).forEach(worldId => {
       const world = item.worlds[worldId];
+      world.id = +worldId;
 
       if(!world.name) {
         throw new Error(`Scenario ${item.name} is missing a name for world ${worldId}`);
@@ -22,9 +23,9 @@ const validateScenarios = () => {
 
       const allNodes = world.layout.flat();
       allNodes.forEach(nodeId => {
-        if(nodeId === 0) return;
-
         const node = item.nodes[nodeId];
+        node.id = +nodeId;
+
         if(!node) {
           throw new Error(`Scenario ${item.name} is missing node ${nodeId}`);
         }

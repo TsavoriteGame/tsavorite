@@ -2,6 +2,7 @@
 export interface ScenarioNode {
   name: string;
   icon: string;
+  id: number;
 
   landmark?: string;
   playerSpawnLocation?: boolean;
@@ -12,6 +13,7 @@ export interface ScenarioNode {
 
 export interface ScenarioWorld {
   name: string;
+  id: number;
   layout: number[][];
 }
 

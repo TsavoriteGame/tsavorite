@@ -1,10 +1,12 @@
 import { Injectable } from '@angular/core';
-import { Action, Selector, State, StateContext } from '@ngxs/store';
+import { Action, Select, Selector, State, StateContext } from '@ngxs/store';
 import { append, patch, removeItem, updateItem } from '@ngxs/store/operators';
+import { getScenarioByName } from '../../../../../../content/getters';
 
 
-import { Archetype, Background, ItemConfig, Power } from '../../../../../../content/interfaces';
-import { AbandonGame, AddBackpackItem, AddHealth, ReduceHealth, RemoveBackpackItem, StartGame, UpdateBackpackItem } from '../actions';
+import { Archetype, Background, ItemConfig, Power, Scenario, ScenarioNode } from '../../../../../../content/interfaces';
+import { findSpawnCoordinates } from '../../../../../../content/scenario.helpers';
+import { AbandonGame, AddBackpackItem, AddHealth, Move, ReduceHealth, RemoveBackpackItem, StartGame, UpdateBackpackItem } from '../actions';
 import { ContentService } from '../content.service';
 import { GameConstant, GameService } from '../game.service';
 
@@ -30,14 +32,30 @@ export interface IGameCharacter {
   powers: Power[];
 }
 
+export interface IMapPosition {
+  worldId: number;
+  x: number;
+  y: number;
+}
+
 export interface IGame {
   character: IGameCharacter;
-  position: { x: number; y: number };
+  position: IMapPosition;
+  scenario: Scenario;
+}
+
+
+export interface IMapDisplayInfo {
+  scenario: Scenario;
+  position: IMapPosition;
+  map: ScenarioNode[][];
+  character: IGameCharacter;
 }
 
 const defaultOptions: () => IGame = () => ({
   character: undefined,
-  position: { x: 0, y: 0 },
+  position: { worldId: 0, x: 0, y: 0 },
+  scenario: undefined
 });
 
 @State<IGame>({
@@ -57,6 +75,34 @@ export class GameState {
   @Selector()
   static character(state: IGame) {
     return state.character;
+  }
+
+  @Selector()
+  static mapInfo(state: IGame): IMapDisplayInfo {
+
+    const { scenario, position } = state;
+    const { worldId, x, y } = position;
+    const world = scenario.worlds[worldId];
+
+    const map: ScenarioNode[][] = [];
+
+    for(let my = y - 3; my <= y + 3; my++) {
+      const row: ScenarioNode[] = [];
+
+      for(let mx = x - 3; mx <= x + 3; mx++) {
+        const nodeId = world.layout[my]?.[mx] ?? -1;
+        row.push(scenario.nodes[nodeId]);
+      }
+
+      map.push(row);
+    }
+
+    return {
+      scenario,
+      position,
+      map,
+      character: state.character
+    };
   }
 
   private isInGame(ctx: StateContext<IGame>) {
@@ -107,7 +153,10 @@ export class GameState {
       character.items.push(item);
     });
 
-    ctx.patchState({ character });
+    const scenario = getScenarioByName('Tutorial');
+    const position = findSpawnCoordinates(scenario);
+
+    ctx.patchState({ character, scenario, position });
   }
 
   @Action(AbandonGame)
@@ -160,6 +209,27 @@ export class GameState {
     ctx.setState(patch<IGame>({
       character: patch({
         hp: currentHP + amount
+      })
+    }));
+  }
+
+  @Action(Move)
+  move(ctx: StateContext<IGame>, { xDelta, yDelta }: Move) {
+    if(!this.isInGame(ctx)) return;
+    if(xDelta > 1 || xDelta < -1 || yDelta > 1 || yDelta < -1) return;
+
+    const { x, y } = ctx.getState().position;
+
+    const targetNodeId = ctx.getState().scenario.worlds[0].layout[y + yDelta]?.[x + xDelta];
+    const targetNode = ctx.getState().scenario.nodes[targetNodeId];
+
+    if(!targetNode) return;
+    if(targetNode.blockMovement) return;
+
+    ctx.setState(patch<IGame>({
+      position: patch({
+        x: x + xDelta,
+        y: y + yDelta
       })
     }));
   }

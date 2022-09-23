@@ -37,3 +37,8 @@ export class ReduceHealth {
     this.amount = -amount;
   }
 }
+
+export class Move {
+  static type = '[Game] Move';
+  constructor(public xDelta: number, public yDelta: number) {}
+}

@@ -3,7 +3,7 @@ name: Tutorial
 
 worlds:
   0:
-    name: World
+    name: Overworld
     layout:
       - [2,    2,    2,    2,    0,    0,    0,    0,    0,    0,    0]
       - [2,    14,   0,    2,    0,    0,    0,    0,    0,    0,    0]
@@ -17,7 +17,7 @@ worlds:
       - [0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0]
       - [0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0]
   1:
-    name: Cave
+    name: Nearly Empty Cave
     layout:
       - [ 0,  0,  0,  0,  0 ]
       - [ 0,  0,  0,  0,  0 ]
@@ -26,9 +26,13 @@ worlds:
       - [ 0,  0,  0,  0,  0 ]
 
 nodes:
+  0:
+    name: Empty Space
+    icon: blank
+
   1:
     name: Spawn
-    icon: teleporter
+    icon: blank
     playerSpawnLocation: true
 
   2:
