@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
-import { Action, Select, Selector, State, StateContext } from '@ngxs/store';
+import { Action, Selector, State, StateContext } from '@ngxs/store';
 import { append, patch, removeItem, updateItem } from '@ngxs/store/operators';
+
+import { isUndefined } from 'lodash';
+
 import { getScenarioByName } from '../../../../../../content/getters';
-
-
 import { Archetype, Background, ItemConfig, Power, Scenario, ScenarioNode } from '../../../../../../content/interfaces';
-import { findSpawnCoordinates } from '../../../../../../content/scenario.helpers';
+import { findFirstLandmarkInWorld, findSpawnCoordinates, getNodeAt } from '../../../../../../content/scenario.helpers';
 import { AbandonGame, AddBackpackItem, AddHealth, Move, ReduceHealth, RemoveBackpackItem, StartGame, UpdateBackpackItem } from '../actions';
 import { ContentService } from '../content.service';
 import { GameConstant, GameService } from '../game.service';
@@ -107,6 +108,31 @@ export class GameState {
 
   private isInGame(ctx: StateContext<IGame>) {
     return !!ctx.getState().character;
+  }
+
+  private handleCurrentTile(ctx: StateContext<IGame>) {
+
+    const { scenario, position } = ctx.getState();
+    const node = getNodeAt(scenario, position.worldId, position.x, position.y);
+
+    const { landmark, warpToWorld, warpToLandmark } = node;
+
+    // handle landmark
+    if(!isUndefined(landmark)) {
+
+    }
+
+    // warp to a landmark in a world
+    if(!isUndefined(warpToWorld) && !isUndefined(warpToLandmark)) {
+      const nodePosition = findFirstLandmarkInWorld(scenario, warpToWorld, warpToLandmark);
+
+      ctx.setState(patch<IGame>({
+        position: patch({
+          ...nodePosition
+        })
+      }));
+    }
+
   }
 
   @Action(StartGame)
@@ -232,6 +258,8 @@ export class GameState {
         y: y + yDelta
       })
     }));
+
+    this.handleCurrentTile(ctx);
   }
 
 }
