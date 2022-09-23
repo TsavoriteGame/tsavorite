@@ -6,7 +6,6 @@ import { Landmark, LandmarkSlot } from '../interfaces';
 
 export class Shrine implements Landmark {
 
-  readonly icon = 'fireplaceshrine';
   readonly canCancel = false;
 
   // return slots, what they're filled with

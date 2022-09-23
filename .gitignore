@@ -55,5 +55,6 @@ items.json
 backgrounds.json
 archetypes.json
 recipes.json
+scenarios.json
 src/environments/_vars.ts
 src/assets/images/game

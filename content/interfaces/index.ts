@@ -7,3 +7,4 @@ export * from './landmark';
 export * from './middleware';
 export * from './power';
 export * from './recipe';
+export * from './scenario';

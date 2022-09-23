@@ -22,9 +22,6 @@ export interface LandmarkSlot {
 
 export interface Landmark {
 
-  // the icon for the landmark
-  readonly icon: string;
-
   // whether or not the landmark can be escaped from
   readonly canCancel: boolean;
 }

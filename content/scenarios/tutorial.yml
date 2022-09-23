@@ -1,0 +1,65 @@
+
+name: Tutorial
+
+worlds:
+  0:
+    name: World
+    layout:
+      - [2,    2,    2,    2,    0,    0,    0,    0,    0,    0,    0]
+      - [2,    14,   0,    2,    0,    0,    0,    0,    0,    0,    0]
+      - [2,    0,    0,    2,    0,    0,    0,    0,    0,    0,    0]
+      - [2,    0,    0,    2,    0,    0,    10,   0,    0,    0,    0]
+      - [2,    2,    2,    2,    1,    0,    0,    0,    0,    0,    0]
+      - [0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0]
+      - [0,    0,    0,    0,    0,    0,    11,   0,    0,    0,    0]
+      - [0,    0,    0,    0,    13,   0,    0,    0,    0,    0,    0]
+      - [0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0]
+      - [0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0]
+      - [0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0]
+  1:
+    name: Cave
+    layout:
+      - [ 0,  0,  0,  0,  0 ]
+      - [ 0,  0,  0,  0,  0 ]
+      - [ 0,  12, 0,  0,  0 ]
+      - [ 0,  0,  0,  0,  0 ]
+      - [ 0,  0,  0,  0,  0 ]
+
+nodes:
+  1:
+    name: Spawn
+    playerSpawnLocation: true
+
+  2:
+    name: Rock
+    icon: sandpile
+    blockMovement: true
+
+  10:
+    name: Shrine
+    icon: shrine
+    landmark: Shrine
+
+  11:
+    name: Cave Entrance
+    icon: caveentrance
+    warpToWorld: 1
+    warpToLandmark: 12
+
+  12:
+    name: Cave Exit
+    icon: caveentrance
+    warpToWorld: 0
+    warpToLandmark: 11
+
+  13:
+    name: Rock Teleporter Entrance
+    icon: teleporter
+    warpToWorld: 0
+    warpToLandmark: 14
+
+  14:
+    name: Rock Teleporter Exit
+    icon: teleporter
+    warpToWorld: 0
+    warpToLandmark: 13
