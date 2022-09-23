@@ -28,6 +28,7 @@ worlds:
 nodes:
   1:
     name: Spawn
+    icon: teleporter
     playerSpawnLocation: true
 
   2:
