@@ -32,6 +32,8 @@ export class GameplayMapComponent implements OnInit {
   }
 
   public move(node: ScenarioNode, gridXPos: number, gridYPos: number): void {
+    if(!this.canMoveTo(node, gridXPos, gridYPos)) return;
+
     this.store.dispatch(new Move(gridXPos - 3, gridYPos - 3));
   }
 
