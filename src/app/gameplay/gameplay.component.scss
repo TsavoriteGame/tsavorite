@@ -13,3 +13,25 @@
 .row, .col {
   padding: 0;
 }
+
+.warning-alert-container {
+  position: absolute;
+  display: flex;
+  top: 0;
+  height: 30px;
+  z-index: 100;
+  width: 100%;
+  text-align: center;
+  justify-content: center;
+
+  .warning-alert {
+    background-color: var(--bs-danger);
+    color: #fff;
+    text-align: center;
+
+    &:last-child {
+      border-bottom-left-radius: 5px;
+      border-bottom-right-radius: 5px;
+    }
+  }
+}

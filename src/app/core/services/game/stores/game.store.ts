@@ -79,6 +79,11 @@ export class GameState {
   }
 
   @Selector()
+  static isOutdatedScenario(state: IGame) {
+    return getScenarioByName(state.scenario.name).hash !== state.scenario.hash;
+  }
+
+  @Selector()
   static mapInfo(state: IGame): IMapDisplayInfo {
 
     const { scenario, position } = state;

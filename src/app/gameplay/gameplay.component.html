@@ -1,4 +1,12 @@
+
+
 <div class="splash-container game-container">
+  <div class="warning-alert-container">
+    <div class="warning-alert px-3" *ngIf="isOutdatedScenario$ | async">
+      This scenario is outdated. Please abandon your run and restart it to attempt the newest version.
+    </div>
+  </div>
+
   <div class="row">
     <div class="col">
       <app-gameplay-character></app-gameplay-character>

@@ -68,6 +68,7 @@
     "imagemin-webp": "5.1.0",
     "js-yaml": "4.1.0",
     "lodash": "4.17.21",
+    "md5": "2.3.0",
     "ngx-drag-drop": "14.0.0",
     "recursive-readdir": "2.2.2",
     "rimraf": "3.0.2",

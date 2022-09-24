@@ -2,6 +2,7 @@
 export interface ScenarioNode {
   name: string;
   icon: string;
+  description: string;
   id: number;
 
   landmark?: string;
@@ -21,4 +22,5 @@ export interface Scenario {
   name: string;
   worlds: Record<number, ScenarioWorld>;
   nodes: Record<number, ScenarioNode>;
+  hash: string;
 }

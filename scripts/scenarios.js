@@ -2,6 +2,7 @@
 const fs = require('fs');
 const readdir = require('recursive-readdir');
 const yaml = require('js-yaml');
+const md5 = require('md5');
 const { sortBy } = require('lodash');
 
 const allScenarios = [];
@@ -37,6 +38,10 @@ const validateScenarios = () => {
         if(!node.icon) {
           throw new Error(`Scenario ${item.name} node ${nodeId} is missing an icon`);
         }
+
+        if(!node.description) {
+          throw new Error(`Scenario ${item.name} node ${nodeId} is missing a description`);
+        }
       });
     });
 
@@ -46,6 +51,8 @@ const validateScenarios = () => {
     if(!hasSpawn) {
       throw new Error(`Scenario ${item.name} is missing a player spawn location`);
     }
+
+  item.hash = md5(JSON.stringify(item));
 
   });
 };

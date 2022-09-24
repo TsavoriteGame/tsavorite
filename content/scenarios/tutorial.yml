@@ -29,42 +29,50 @@ nodes:
   0:
     name: Empty Space
     icon: blank
+    description: There is nothing here.
 
   1:
     name: Spawn
     icon: blank
+    description: There is nothing here.
     playerSpawnLocation: true
 
   2:
     name: Rock
     icon: sandpile
+    description: You shouldn't be standing here.
     blockMovement: true
 
   10:
     name: Shrine
     icon: shrine
+    description: There's a shrine here.
     landmark: Shrine
 
   11:
     name: Cave Entrance
     icon: caveentrance
+    description: This is the entrance to a cave! Who knows where you'll end up?
     warpToWorld: 1
     warpToLandmark: 12
 
   12:
     name: Cave Exit
     icon: caveentrance
+    description: This is the entrance to a cave! You probably don't want to go back there any time soon.
     warpToWorld: 0
     warpToLandmark: 11
 
   13:
     name: Rock Teleporter Entrance
     icon: teleporter
+    description: This is the teleporter to a secret area!
     warpToWorld: 0
     warpToLandmark: 14
 
   14:
     name: Rock Teleporter Exit
     icon: teleporter
+    description: This is the teleporter out of a secret area!
     warpToWorld: 0
     warpToLandmark: 13
