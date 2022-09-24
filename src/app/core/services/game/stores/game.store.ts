@@ -51,6 +51,7 @@ export interface IMapDisplayInfo {
   position: IMapPosition;
   map: ScenarioNode[][];
   character: IGameCharacter;
+  currentNode: ScenarioNode;
 }
 
 const defaultOptions: () => IGame = () => ({
@@ -107,7 +108,8 @@ export class GameState {
       scenario,
       position,
       map,
-      character: state.character
+      character: state.character,
+      currentNode: map[3][3]
     };
   }
 

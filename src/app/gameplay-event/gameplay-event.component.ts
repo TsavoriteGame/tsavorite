@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { Select } from '@ngxs/store';
+import { Observable } from 'rxjs';
+import { GameState, IMapDisplayInfo } from '../core/services/game/stores';
 
 @Component({
   selector: 'app-gameplay-event',
@@ -6,6 +9,8 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./gameplay-event.component.scss']
 })
 export class GameplayEventComponent implements OnInit {
+
+  @Select(GameState.mapInfo) mapInfo$: Observable<IMapDisplayInfo>;
 
   constructor() { }
 
