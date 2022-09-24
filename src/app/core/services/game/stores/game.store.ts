@@ -244,9 +244,9 @@ export class GameState {
     if(!this.isInGame(ctx)) return;
     if(xDelta > 1 || xDelta < -1 || yDelta > 1 || yDelta < -1) return;
 
-    const { x, y } = ctx.getState().position;
+    const { worldId, x, y } = ctx.getState().position;
 
-    const targetNodeId = ctx.getState().scenario.worlds[0].layout[y + yDelta]?.[x + xDelta];
+    const targetNodeId = ctx.getState().scenario.worlds[worldId].layout[y + yDelta]?.[x + xDelta];
     const targetNode = ctx.getState().scenario.nodes[targetNodeId];
 
     if(!targetNode) return;
