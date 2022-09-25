@@ -3,7 +3,7 @@ import { Select, Store } from '@ngxs/store';
 import { Observable, Subject, Subscription, timer } from 'rxjs';
 import { getCombinationBetweenTwoItems,
   getReactionBetweenTwoItems } from '../../../content/helpers';
-import { Descriptor, ItemConfig } from '../../../content/interfaces';
+import { Descriptor, IItemConfig } from '../../../content/interfaces';
 import { AddBackpackItem, ReduceHealth, RemoveBackpackItem, UpdateBackpackItem } from '../core/services/game/actions';
 import { ContentService } from '../core/services/game/content.service';
 import { GameConstant, GameService } from '../core/services/game/game.service';
@@ -22,11 +22,11 @@ export class GameplayBackpackComponent implements OnInit {
     .fill(undefined)
     .map((x, i) => i);
 
-  public discardItem: ItemConfig;
+  public discardItem: IItemConfig;
   public indexDiscard = -1;
 
-  public combineLeft: ItemConfig;
-  public combineRight: ItemConfig;
+  public combineLeft: IItemConfig;
+  public combineRight: IItemConfig;
   public indexLeft = -1;
   public indexRight = -1;
 
@@ -177,11 +177,11 @@ export class GameplayBackpackComponent implements OnInit {
     this.indexDiscard = -1;
   }
 
-  isItemInSlot(item: ItemConfig, index: number): boolean {
+  isItemInSlot(item: IItemConfig, index: number): boolean {
     return index === this.indexLeft || index === this.indexRight || index === this.indexDiscard;
   }
 
-  canDragItem(item: ItemConfig | undefined, slot: number): boolean {
+  canDragItem(item: IItemConfig | undefined, slot: number): boolean {
     if(!item) return false;
     if(this.isItemInSlot(item, slot)) return false;
 

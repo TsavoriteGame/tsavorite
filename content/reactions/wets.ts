@@ -2,16 +2,16 @@ import { getItemById } from '../getters';
 import { getInteractionLevel, increaseDescriptorLevelForPart, decreaseInteractionLevel,
   decreaseDescriptorLevelForPart, getDescriptorLevelFromPart, hasDescriptor,
   increaseDescriptorLevel, setDescriptorLevelForPart } from '../helpers';
-import { Descriptor, Reactions, Interaction, ReactionExtendedArgs, ReactionResponse } from '../interfaces';
+import { Descriptor, Reactions, Interaction, IReactionExtendedArgs, IReactionResponse } from '../interfaces';
 
-const zeroFail = (args: ReactionExtendedArgs) => ({
+const zeroFail = (args: IReactionExtendedArgs) => ({
   message: 'This item cannot wet anything.',
   success: false,
   newSource: args.sourceItem,
   newTarget: args.targetItem
 });
 
-const containerCheck: (args: ReactionExtendedArgs) => ReactionResponse = (args: ReactionExtendedArgs) => {
+const containerCheck: (args: IReactionExtendedArgs) => IReactionResponse = (args: IReactionExtendedArgs) => {
 
   const wetsLevel = getInteractionLevel(args.sourceItem, Interaction.Wets);
   if(wetsLevel <= 0) return zeroFail(args);
@@ -30,7 +30,7 @@ const containerCheck: (args: ReactionExtendedArgs) => ReactionResponse = (args: 
 export const applications: Reactions = {
 
   // blood can be made wet
-  [Descriptor.Bloody]: (args: ReactionExtendedArgs) => {
+  [Descriptor.Bloody]: (args: IReactionExtendedArgs) => {
 
     const wetsLevel = getInteractionLevel(args.sourceItem, Interaction.Wets);
 
@@ -51,7 +51,7 @@ export const applications: Reactions = {
   },
 
   // clay gets slippery/wet
-  [Descriptor.Clay]: (args: ReactionExtendedArgs) => {
+  [Descriptor.Clay]: (args: IReactionExtendedArgs) => {
 
     const wetsLevel = getInteractionLevel(args.sourceItem, Interaction.Wets);
 
@@ -75,7 +75,7 @@ export const applications: Reactions = {
   },
 
   // cold can be stacked more
-  [Descriptor.Cold]: (args: ReactionExtendedArgs) => {
+  [Descriptor.Cold]: (args: IReactionExtendedArgs) => {
 
     const wetsLevel = getInteractionLevel(args.sourceItem, Interaction.Wets);
 
@@ -96,7 +96,7 @@ export const applications: Reactions = {
   },
 
   // combustibles can be made less so
-  [Descriptor.Combustible]: (args: ReactionExtendedArgs) => {
+  [Descriptor.Combustible]: (args: IReactionExtendedArgs) => {
 
     const wetsLevel = getInteractionLevel(args.sourceItem, Interaction.Wets);
 
@@ -119,7 +119,7 @@ export const applications: Reactions = {
   },
 
   // corrosives should be diluted
-  [Descriptor.Corrosive]: (args: ReactionExtendedArgs) => {
+  [Descriptor.Corrosive]: (args: IReactionExtendedArgs) => {
     const wetsLevel = getInteractionLevel(args.sourceItem, Interaction.Wets);
 
     const sourceItem = args.sourceItem;
@@ -151,7 +151,7 @@ export const applications: Reactions = {
   },
 
   // dirt can be made into mud
-  [Descriptor.Dirt]: (args: ReactionExtendedArgs) => {
+  [Descriptor.Dirt]: (args: IReactionExtendedArgs) => {
 
     const wetsLevel = getInteractionLevel(args.sourceItem, Interaction.Wets);
 
@@ -178,7 +178,7 @@ export const applications: Reactions = {
   },
 
   // electricity conducts and propagates
-  [Descriptor.Electric]: (args: ReactionExtendedArgs) => {
+  [Descriptor.Electric]: (args: IReactionExtendedArgs) => {
 
     const wetsLevel = getInteractionLevel(args.sourceItem, Interaction.Wets);
 
@@ -200,7 +200,7 @@ export const applications: Reactions = {
   },
 
   // frozen things get more frozen and sticky
-  [Descriptor.Frozen]: (args: ReactionExtendedArgs) => {
+  [Descriptor.Frozen]: (args: IReactionExtendedArgs) => {
 
     const wetsLevel = getInteractionLevel(args.sourceItem, Interaction.Wets);
 
@@ -223,7 +223,7 @@ export const applications: Reactions = {
   },
 
   // glass gets slippery/wet
-  [Descriptor.Glass]: (args: ReactionExtendedArgs) => {
+  [Descriptor.Glass]: (args: IReactionExtendedArgs) => {
 
     const wetsLevel = getInteractionLevel(args.sourceItem, Interaction.Wets);
 
@@ -247,7 +247,7 @@ export const applications: Reactions = {
   },
 
   // hot things get less hot
-  [Descriptor.Hot]: (args: ReactionExtendedArgs) => {
+  [Descriptor.Hot]: (args: IReactionExtendedArgs) => {
 
     const wetsLevel = getInteractionLevel(args.sourceItem, Interaction.Wets);
 
@@ -268,7 +268,7 @@ export const applications: Reactions = {
   },
 
   // leather gets slippery/wet
-  [Descriptor.Leather]: (args: ReactionExtendedArgs) => {
+  [Descriptor.Leather]: (args: IReactionExtendedArgs) => {
 
     const wetsLevel = getInteractionLevel(args.sourceItem, Interaction.Wets);
 
@@ -292,7 +292,7 @@ export const applications: Reactions = {
   },
 
   // meat gets wet, I guess
-  [Descriptor.Meat]: (args: ReactionExtendedArgs) => {
+  [Descriptor.Meat]: (args: IReactionExtendedArgs) => {
 
     const wetsLevel = getInteractionLevel(args.sourceItem, Interaction.Wets);
 
@@ -313,7 +313,7 @@ export const applications: Reactions = {
   },
 
   // metal gets slippery/wet
-  [Descriptor.Metal]: (args: ReactionExtendedArgs) => {
+  [Descriptor.Metal]: (args: IReactionExtendedArgs) => {
 
     const wetsLevel = getInteractionLevel(args.sourceItem, Interaction.Wets);
 
@@ -337,7 +337,7 @@ export const applications: Reactions = {
   },
 
   // rock gets slippery/wet
-  [Descriptor.Rock]: (args: ReactionExtendedArgs) => {
+  [Descriptor.Rock]: (args: IReactionExtendedArgs) => {
 
     const wetsLevel = getInteractionLevel(args.sourceItem, Interaction.Wets);
 
@@ -361,7 +361,7 @@ export const applications: Reactions = {
   },
 
   // sand gets wet
-  [Descriptor.Sand]: (args: ReactionExtendedArgs) => {
+  [Descriptor.Sand]: (args: IReactionExtendedArgs) => {
 
     const wetsLevel = getInteractionLevel(args.sourceItem, Interaction.Wets);
 
@@ -399,7 +399,7 @@ export const applications: Reactions = {
   },
 
   // slippery gets more slippery. and wet.
-  [Descriptor.Slippery]: (args: ReactionExtendedArgs) => {
+  [Descriptor.Slippery]: (args: IReactionExtendedArgs) => {
 
     const wetsLevel = getInteractionLevel(args.sourceItem, Interaction.Wets);
 
@@ -421,7 +421,7 @@ export const applications: Reactions = {
   },
 
   // wet gets more slippery. and wet.
-  [Descriptor.Wet]: (args: ReactionExtendedArgs) => {
+  [Descriptor.Wet]: (args: IReactionExtendedArgs) => {
 
     const wetsLevel = getInteractionLevel(args.sourceItem, Interaction.Wets);
 
@@ -443,7 +443,7 @@ export const applications: Reactions = {
   },
 
   // wood gets wet, and potentially rotten
-  [Descriptor.Wood]: (args: ReactionExtendedArgs) => {
+  [Descriptor.Wood]: (args: IReactionExtendedArgs) => {
 
     const wetsLevel = getInteractionLevel(args.sourceItem, Interaction.Wets);
 

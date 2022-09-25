@@ -1,10 +1,10 @@
 import { getInteractionLevel, isUnbreakable, getDescriptorLevelFromItemDescriptor, getDescriptorFromPart, removePart } from '../helpers';
-import { Descriptor, Reactions, Interaction, ReactionExtendedArgs } from '../interfaces';
+import { Descriptor, Reactions, Interaction, IReactionExtendedArgs } from '../interfaces';
 
 export const applications: Reactions = {
 
   // locked things can be unlocked by an item that can do unlocks
-  [Descriptor.Locked]: (args: ReactionExtendedArgs) => {
+  [Descriptor.Locked]: (args: IReactionExtendedArgs) => {
 
     const unlockLevel = getInteractionLevel(args.sourceItem, Interaction.Unlocks);
 

@@ -1,14 +1,14 @@
 import { Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { Descriptor, Interaction } from './item';
-import { Scenario, ScenarioNode } from './scenario';
+import { IScenario, IScenarioNode } from './scenario';
 
 export interface LandmarkSlotChoice {
   text: string;
-  callback: (landmarkEncounter: LandmarkEncounter) => Observable<LandmarkEncounter>;
+  callback: (landmarkEncounter: ILandmarkEncounter) => Observable<ILandmarkEncounter>;
 }
 
-export interface LandmarkSlot {
+export interface ILandmarkSlot {
 
   // the icon used for the slot
   readonly icon: string;
@@ -29,7 +29,7 @@ export interface LandmarkSlot {
   readonly acceptsInteraction?: Interaction;
 }
 
-export interface LandmarkData {
+export interface ILandmarkData {
 
   // if the thing can warp, this is where it would store that data
   warpToWorld?: number;
@@ -42,14 +42,14 @@ export interface ILandmark {
   readonly canLeave: boolean;
 
   // encounter this landmark
-  encounter(scenario: Scenario, scenarioNode: ScenarioNode): Observable<LandmarkEncounter>;
+  encounter(scenario: IScenario, scenarioNode: IScenarioNode): Observable<ILandmarkEncounter>;
 }
 
 export class Landmark {
   constructor(protected store: Store) {}
 }
 
-export interface LandmarkEncounter {
+export interface ILandmarkEncounter {
 
   // the name of the landmark
   readonly landmarkName: string;
@@ -64,7 +64,7 @@ export interface LandmarkEncounter {
   readonly landmarkData: Record<string, any>;
 
   // the slot data for the landmark
-  readonly slots: LandmarkSlot[];
+  readonly slots: ILandmarkSlot[];
 
   // whether or not the landmark should be removed
   readonly removeAfterEncounter: boolean;

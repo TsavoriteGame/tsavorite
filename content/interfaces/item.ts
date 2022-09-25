@@ -1,4 +1,4 @@
-import { Card } from './card';
+import { ICard } from './card';
 
 export enum Interaction {
   Buys = 'Buys',
@@ -52,47 +52,47 @@ export enum Descriptor {
   Wood = 'Wood'
 }
 
-export interface ItemPart {
+export interface IItemPart {
   name: string;
   foundational?: boolean;
   primaryDescriptor: Descriptor;
-  descriptors: Partial<Record<Descriptor, ItemDescriptor>>;
+  descriptors: Partial<Record<Descriptor, IItemDescriptor>>;
 }
 
-export interface ItemDescriptor {
+export interface IItemDescriptor {
   level?: number;
 }
 
-export interface ItemInteraction {
+export interface IItemInteraction {
   name: Interaction;
   level?: number;
 }
 
-export interface ItemConfig extends Card {
+export interface IItemConfig extends ICard {
   id?: string;
-  parts: ItemPart[];
-  interaction?: ItemInteraction;
+  parts: IItemPart[];
+  interaction?: IItemInteraction;
 }
 
-export interface ReactionArgs {
-  sourceItem: ItemConfig;
-  targetItem: ItemConfig;
-  sourcePart?: ItemPart;
-  targetPart: ItemPart;
+export interface IReactionArgs {
+  sourceItem: IItemConfig;
+  targetItem: IItemConfig;
+  sourcePart?: IItemPart;
+  targetPart: IItemPart;
 }
 
-export interface ReactionExtendedArgs extends ReactionArgs {
-  sourcePart: ItemPart;
+export interface IReactionExtendedArgs extends IReactionArgs {
+  sourcePart: IItemPart;
 };
 
-export interface ReactionResponse {
+export interface IReactionResponse {
   message: string;
   success?: boolean;
-  newSource: ItemConfig;
-  newTarget: ItemConfig;
-  extraItems?: ItemConfig[];
+  newSource: IItemConfig;
+  newTarget: IItemConfig;
+  extraItems?: IItemConfig[];
 }
 
-export type ReactionFunction = (reaction: ReactionArgs) => ReactionResponse;
+export type ReactionFunction = (reaction: IReactionArgs) => IReactionResponse;
 
 export type Reactions = Partial<Record<Descriptor, ReactionFunction>>;

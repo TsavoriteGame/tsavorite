@@ -1,9 +1,9 @@
 import { decreaseDescriptorLevel, getDescriptorLevel } from '../helpers';
-import { Descriptor, ItemConfig, MiddlewareType,
+import { Descriptor, IItemConfig, MiddlewareType,
   PostCombineMiddleware,
-  PostReactionMiddleware, ReactionExtendedArgs, ReactionResponse } from '../interfaces';
+  PostReactionMiddleware, IReactionExtendedArgs, IReactionResponse } from '../interfaces';
 
-export function shouldCombust(item: ItemConfig) {
+export function shouldCombust(item: IItemConfig) {
   return getDescriptorLevel(item, Descriptor.Combustible) > 0;
 }
 
@@ -15,12 +15,12 @@ export class TemperatureRegulation implements PostReactionMiddleware, PostCombin
   triggers: MiddlewareType[] = ['postreaction', 'postcombine'];
 
   // check whether there is at least one extra item
-  private isExtraItemsDefined(response: ReactionResponse): boolean {
+  private isExtraItemsDefined(response: IReactionResponse): boolean {
     return response.extraItems && response.extraItems.length > 0;
   }
 
   // check the number of hots vs the number of colds
-  private needsTemperatureChange(item: ItemConfig): boolean {
+  private needsTemperatureChange(item: IItemConfig): boolean {
     if(!item) return false;
 
     const hotLevel = getDescriptorLevel(item, Descriptor.Hot) + getDescriptorLevel(item, Descriptor.Blazing);
@@ -30,7 +30,7 @@ export class TemperatureRegulation implements PostReactionMiddleware, PostCombin
   }
 
   // lower the number of hots vs number of colds, based on how many of each there is
-  private regulateTemperature(item: ItemConfig): boolean {
+  private regulateTemperature(item: IItemConfig): boolean {
     if(!item) return false;
 
     let hotLevel = 0;
@@ -60,7 +60,7 @@ export class TemperatureRegulation implements PostReactionMiddleware, PostCombin
   /*
    * Here, we only check if we have glass and it should shatter (temperature-wise)
    */
-  shouldPostFire(args: ReactionExtendedArgs, response: ReactionResponse) {
+  shouldPostFire(args: IReactionExtendedArgs, response: IReactionResponse) {
 
     let extraItemsShouldFire = this.isExtraItemsDefined(response);
     if (extraItemsShouldFire) {
@@ -81,7 +81,7 @@ export class TemperatureRegulation implements PostReactionMiddleware, PostCombin
     return false;
   }
 
-  post(args: ReactionExtendedArgs, response: ReactionResponse) {
+  post(args: IReactionExtendedArgs, response: IReactionResponse) {
 
     let sourceChanged = false;
     let targetChanged = false;

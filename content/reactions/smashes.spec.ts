@@ -1,7 +1,7 @@
 import { getAllDescriptorsForPart, getDescriptorLevel, getInteractionLevel, getReactionBetweenTwoItems } from '../helpers';
-import { Descriptor, Interaction, ItemConfig } from '../interfaces';
+import { Descriptor, Interaction, IItemConfig } from '../interfaces';
 
-const getSmasher: (level: number, smashesLevel: number) => ItemConfig =
+const getSmasher: (level: number, smashesLevel: number) => IItemConfig =
                   (level: number, smashesLevel: number) => ({
                     name: `Level ${level} Smasher`,
                     parts: [
@@ -20,7 +20,7 @@ test('A level 2 smasher should shatter level 1 cold items', () => {
 
   const source = getSmasher(1, 2);
 
-  const target: ItemConfig = {
+  const target: IItemConfig = {
     name: 'Level 1 Ice',
     parts: [
       {
@@ -45,7 +45,7 @@ test('A level 2 smasher should not shatter level 3 cold items', () => {
 
   const source = getSmasher(1, 2);
 
-  const target: ItemConfig = {
+  const target: IItemConfig = {
     name: 'Level 3 Ice',
     parts: [
       {
@@ -71,7 +71,7 @@ test('A level 2 smasher should shatter level 1 frozen items', () => {
 
   const source = getSmasher(1, 2);
 
-  const target: ItemConfig = {
+  const target: IItemConfig = {
     name: 'Level 1 Ice',
     parts: [
       {
@@ -96,7 +96,7 @@ test('A level 2 smasher should not shatter level 3 frozen items', () => {
 
   const source = getSmasher(1, 2);
 
-  const target: ItemConfig = {
+  const target: IItemConfig = {
     name: 'Level 3 Ice',
     parts: [
       {
@@ -122,7 +122,7 @@ test('A level 2 smasher should shatter glass into sand', () => {
 
   const source = getSmasher(1, 2);
 
-  const target: ItemConfig = {
+  const target: IItemConfig = {
     name: 'Level 3 Glass',
     parts: [
       {
@@ -152,7 +152,7 @@ test('A level 2 smasher should smash meat into blood', () => {
 
   const source = getSmasher(1, 2);
 
-  const target: ItemConfig = {
+  const target: IItemConfig = {
     name: 'Level 3 Meat',
     parts: [
       {
@@ -180,7 +180,7 @@ test('A level 2 smasher should pulverize meat into blood', () => {
 
   const source = getSmasher(1, 2);
 
-  const target: ItemConfig = {
+  const target: IItemConfig = {
     name: 'Level 1 Meat',
     parts: [
       {
@@ -210,7 +210,7 @@ test('A level 2 smasher should delete frozen meat', () => {
 
   const source = getSmasher(1, 2);
 
-  const target: ItemConfig = {
+  const target: IItemConfig = {
     name: 'Level 3 Meat',
     parts: [
       {
@@ -237,7 +237,7 @@ test('A level 2 smasher should smash rock into sand', () => {
 
   const source = getSmasher(1, 2);
 
-  const target: ItemConfig = {
+  const target: IItemConfig = {
     name: 'Level 3 Rock',
     parts: [
       {
@@ -264,7 +264,7 @@ test('A level 2 smasher should pulverize rock into sand', () => {
 
   const source = getSmasher(1, 2);
 
-  const target: ItemConfig = {
+  const target: IItemConfig = {
     name: 'Level 1 Rock',
     parts: [
       {
@@ -293,7 +293,7 @@ test('A level 2 smasher should not interact with raw metal', () => {
 
   const source = getSmasher(1, 2);
 
-  const target: ItemConfig = {
+  const target: IItemConfig = {
     name: 'Level 1 Metal',
     parts: [
       {
@@ -316,7 +316,7 @@ test('A level 2 smasher should sharpen hot metal', () => {
 
   const source = getSmasher(1, 2);
 
-  const target: ItemConfig = {
+  const target: IItemConfig = {
     name: 'Level 1 Metal',
     parts: [
       {
@@ -346,7 +346,7 @@ test('A level 2 smasher should not make hot metal with an unrelated interaction 
 
   const source = getSmasher(1, 2);
 
-  const target: ItemConfig = {
+  const target: IItemConfig = {
     name: 'Level 1 Metal',
     parts: [
       {
@@ -380,7 +380,7 @@ test('A level 2 smasher should level up the unlock ability of keys if the key is
 
   const source = getSmasher(1, 2);
 
-  const target: ItemConfig = {
+  const target: IItemConfig = {
     name: 'Level 1 Key',
     parts: [
       {
@@ -414,7 +414,7 @@ test('A level 2 smasher should smash level 1 wood', () => {
 
   const source = getSmasher(1, 2);
 
-  const target: ItemConfig = {
+  const target: IItemConfig = {
     name: 'Level 1 Wood',
     parts: [
       {
@@ -439,7 +439,7 @@ test('A level 2 smasher should chunk off some parts of level 3 wood', () => {
 
   const source = getSmasher(1, 2);
 
-  const target: ItemConfig = {
+  const target: IItemConfig = {
     name: 'Level 3 Wood',
     parts: [
       {
@@ -465,7 +465,7 @@ test('A level 2 smasher should absorb attributes from a sticky target', () => {
 
   const source = getSmasher(1, 2);
 
-  const target: ItemConfig = {
+  const target: IItemConfig = {
     name: 'Level 1 Sticky',
     parts: [
       {

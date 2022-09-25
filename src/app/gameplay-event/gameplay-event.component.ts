@@ -1,7 +1,7 @@
 import { Component, HostListener, OnInit } from '@angular/core';
 import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
-import { LandmarkEncounter } from '../../../content/interfaces';
+import { ILandmarkEncounter } from '../../../content/interfaces';
 import { MakeChoice } from '../core/services/game/actions';
 import { GameState } from '../core/services/game/stores';
 
@@ -12,7 +12,7 @@ import { GameState } from '../core/services/game/stores';
 })
 export class GameplayEventComponent implements OnInit {
 
-  @Select(GameState.landmarkEncounterData) landmarkEncounterData$: Observable<LandmarkEncounter>;
+  @Select(GameState.landmarkEncounterData) landmarkEncounterData$: Observable<ILandmarkEncounter>;
 
   constructor(private store: Store) { }
 

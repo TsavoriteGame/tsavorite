@@ -1,9 +1,9 @@
 
 import { getAllDescriptorsForPart, getDescriptorLevel,
   getInteractionLevel, getReactionBetweenTwoItems, hasFoundationalPart } from '../helpers';
-import { Interaction, Descriptor, ItemConfig } from '../interfaces';
+import { Interaction, Descriptor, IItemConfig } from '../interfaces';
 
-const getCarver: (level: number, carvesLevel: number, desc?: Descriptor) => ItemConfig =
+const getCarver: (level: number, carvesLevel: number, desc?: Descriptor) => IItemConfig =
                  (level: number, carvesLevel: number, desc = Descriptor.Metal) => ({
                    name: `Level ${level} Carver`,
                    parts: [
@@ -22,7 +22,7 @@ test('A level 2 carver should bleed a level 2 meat', () => {
 
   const source = getCarver(1, 2);
 
-  const target: ItemConfig = {
+  const target: IItemConfig = {
     name: 'Level 2 Meat',
     parts: [
       {
@@ -57,7 +57,7 @@ test('A level 2 carver should bleed a level 2 meat and add blood to the blood pi
 
   const source = getCarver(1, 2);
 
-  const target: ItemConfig = {
+  const target: IItemConfig = {
     name: 'Level 2 Meat',
     parts: [
       {
@@ -90,7 +90,7 @@ test('A level 1 carver should break after bleeding any meat', () => {
 
   const source = getCarver(1, 1);
 
-  const target: ItemConfig = {
+  const target: IItemConfig = {
     name: 'Level 2 Meat',
     parts: [
       {
@@ -119,7 +119,7 @@ test('A level 1 carver should cut a level 2 fiber in half', () => {
 
   const source = getCarver(1, 1);
 
-  const target: ItemConfig = {
+  const target: IItemConfig = {
     name: 'Level 2 Fiber',
     parts: [
       {
@@ -148,7 +148,7 @@ test('A level 1 carver should cut a level 1 from a level 3 cooked meat', () => {
 
   const source = getCarver(1, 1);
 
-  const target: ItemConfig = {
+  const target: IItemConfig = {
     name: 'Level 3 Meat',
     parts: [
       {
@@ -177,7 +177,7 @@ test('A level 1 carver should be able to carve a glass container', () => {
 
   const source = getCarver(1, 1);
 
-  const target: ItemConfig = {
+  const target: IItemConfig = {
     name: 'Level 3 Glass',
     parts: [
       {
@@ -207,7 +207,7 @@ test('A level 1 carver should be able to carve a leather container', () => {
 
   const source = getCarver(1, 1);
 
-  const target: ItemConfig = {
+  const target: IItemConfig = {
     name: 'Level 3 Leather',
     parts: [
       {
@@ -237,7 +237,7 @@ test('A level 1 glass carver should NOT be able to carve a leather container', (
 
   const source = getCarver(1, 1, Descriptor.Glass);
 
-  const target: ItemConfig = {
+  const target: IItemConfig = {
     name: 'Level 3 Leather',
     parts: [
       {
@@ -261,7 +261,7 @@ test('A level 1 carver should be able to carve a metal container', () => {
 
   const source = getCarver(1, 1);
 
-  const target: ItemConfig = {
+  const target: IItemConfig = {
     name: 'Level 1 Metal',
     parts: [
       {
@@ -291,7 +291,7 @@ test('A level 1 glass carver should NOT be able to carve a metal container', () 
 
   const source = getCarver(1, 1, Descriptor.Glass);
 
-  const target: ItemConfig = {
+  const target: IItemConfig = {
     name: 'Level 3 Metal',
     parts: [
       {
@@ -315,7 +315,7 @@ test('A level 1 carver should be able to carve a rock container', () => {
 
   const source = getCarver(1, 1);
 
-  const target: ItemConfig = {
+  const target: IItemConfig = {
     name: 'Level 3 Rock',
     parts: [
       {
@@ -345,7 +345,7 @@ test('A level 1 glass carver should NOT be able to carve a rock container', () =
 
   const source = getCarver(1, 1, Descriptor.Glass);
 
-  const target: ItemConfig = {
+  const target: IItemConfig = {
     name: 'Level 3 Rock',
     parts: [
       {
@@ -369,7 +369,7 @@ test('A level 1 carver should be able to carve a wood container', () => {
 
   const source = getCarver(1, 1);
 
-  const target: ItemConfig = {
+  const target: IItemConfig = {
     name: 'Level 3 Wood',
     parts: [
       {
@@ -399,7 +399,7 @@ test('A level 1 glass carver should NOT be able to carve a wood container', () =
 
   const source = getCarver(1, 1, Descriptor.Glass);
 
-  const target: ItemConfig = {
+  const target: IItemConfig = {
     name: 'Level 3 Wood',
     parts: [
       {
@@ -423,7 +423,7 @@ test('A level 1 carver should be able to carve a clay container', () => {
 
   const source = getCarver(1, 1);
 
-  const target: ItemConfig = {
+  const target: IItemConfig = {
     name: 'Level 3 Clay',
     parts: [
       {
@@ -453,7 +453,7 @@ test('A level 2 carver should absorb attributes from a sticky target', () => {
 
   const source = getCarver(1, 2);
 
-  const target: ItemConfig = {
+  const target: IItemConfig = {
     name: 'Level 1 Sticky',
     parts: [
       {

@@ -1,7 +1,7 @@
 import { Component, HostListener, OnInit } from '@angular/core';
 import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
-import { ScenarioNode } from '../../../content/interfaces';
+import { IScenarioNode } from '../../../content/interfaces';
 import { Move } from '../core/services/game/actions';
 import { GameState, IMapDisplayInfo } from '../core/services/game/stores';
 
@@ -19,7 +19,7 @@ export class GameplayMapComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  public canMoveTo(node: ScenarioNode, gridXPos: number, gridYPos: number): boolean {
+  public canMoveTo(node: IScenarioNode, gridXPos: number, gridYPos: number): boolean {
     if(!node) return false;
     if(node.blockMovement) return false;
 
@@ -31,7 +31,7 @@ export class GameplayMapComponent implements OnInit {
     return false;
   }
 
-  public move(node: ScenarioNode, gridXPos: number, gridYPos: number): void {
+  public move(node: IScenarioNode, gridXPos: number, gridYPos: number): void {
     if(!this.canMoveTo(node, gridXPos, gridYPos)) return;
 
     this.store.dispatch(new Move(gridXPos - 3, gridYPos - 3));

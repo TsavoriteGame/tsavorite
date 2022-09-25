@@ -2,16 +2,16 @@ import { getItemById } from '../getters';
 import { getInteractionLevel, decreaseInteractionLevel, decreaseDescriptorLevelForPart,
   increaseDescriptorLevelForPart, getAllDescriptorsForPart, hasDescriptor,
   getPartWithDescriptor, getDescriptorLevel, getDescriptorLevelFromPart, setDescriptorLevelForPart } from '../helpers';
-import { Descriptor, Reactions, Interaction, ReactionExtendedArgs, ReactionResponse } from '../interfaces';
+import { Descriptor, Reactions, Interaction, IReactionExtendedArgs, IReactionResponse } from '../interfaces';
 
-const zeroFail = (args: ReactionExtendedArgs) => ({
+const zeroFail = (args: IReactionExtendedArgs) => ({
   message: 'This item cannot corrode anything.',
   success: false,
   newSource: args.sourceItem,
   newTarget: args.targetItem
 });
 
-const containerCheck: (args: ReactionExtendedArgs, glassLevel: number) => ReactionResponse = (args: ReactionExtendedArgs, glassLevel) => {
+const containerCheck: (args: IReactionExtendedArgs, glassLevel: number) => IReactionResponse = (args: IReactionExtendedArgs, glassLevel) => {
 
   const corrodesLevel = getInteractionLevel(args.sourceItem, Interaction.Corrodes);
   if (corrodesLevel <= 0) return zeroFail(args);
@@ -51,7 +51,7 @@ const containerCheck: (args: ReactionExtendedArgs, glassLevel: number) => Reacti
 export const applications: Reactions = {
 
   // combines acid and blood into goo
-  [Descriptor.Bloody]: (args: ReactionExtendedArgs) => {
+  [Descriptor.Bloody]: (args: IReactionExtendedArgs) => {
 
     const corrodesLevel = getInteractionLevel(args.sourceItem, Interaction.Corrodes);
 
@@ -87,7 +87,7 @@ export const applications: Reactions = {
   },
 
   // dissolve a level of clay
-  [Descriptor.Clay]: (args: ReactionExtendedArgs) => {
+  [Descriptor.Clay]: (args: IReactionExtendedArgs) => {
 
     const corrodesLevel = getInteractionLevel(args.sourceItem, Interaction.Corrodes);
 
@@ -118,7 +118,7 @@ export const applications: Reactions = {
   },
 
   // dissolve a level of dirt
-  [Descriptor.Dirt]: (args: ReactionExtendedArgs) => {
+  [Descriptor.Dirt]: (args: IReactionExtendedArgs) => {
 
     const corrodesLevel = getInteractionLevel(args.sourceItem, Interaction.Corrodes);
 
@@ -149,7 +149,7 @@ export const applications: Reactions = {
   },
 
   // dissolve a level of fiber
-  [Descriptor.Fiber]: (args: ReactionExtendedArgs) => {
+  [Descriptor.Fiber]: (args: IReactionExtendedArgs) => {
 
     const corrodesLevel = getInteractionLevel(args.sourceItem, Interaction.Corrodes);
 
@@ -180,7 +180,7 @@ export const applications: Reactions = {
   },
 
   // if container, fill container
-  [Descriptor.Glass]: (args: ReactionExtendedArgs) => {
+  [Descriptor.Glass]: (args: IReactionExtendedArgs) => {
 
     if (hasDescriptor(args.targetItem, Descriptor.Container))
       return containerCheck(args, getDescriptorLevel(args.targetItem, Descriptor.Glass));
@@ -189,7 +189,7 @@ export const applications: Reactions = {
   },
 
   // damage leather, and possibly destroy it
-  [Descriptor.Leather]: (args: ReactionExtendedArgs) => {
+  [Descriptor.Leather]: (args: IReactionExtendedArgs) => {
     const corrodesLevel = getInteractionLevel(args.sourceItem, Interaction.Corrodes);
 
     const sourceItem = args.sourceItem;
@@ -218,7 +218,7 @@ export const applications: Reactions = {
   },
 
   // meat becomes rotten
-  [Descriptor.Meat]: (args: ReactionExtendedArgs) => {
+  [Descriptor.Meat]: (args: IReactionExtendedArgs) => {
 
     const corrodesLevel = getInteractionLevel(args.sourceItem, Interaction.Corrodes);
 
@@ -241,7 +241,7 @@ export const applications: Reactions = {
   },
 
   // tarnish metal, and possibly destroy it
-  [Descriptor.Metal]: (args: ReactionExtendedArgs) => {
+  [Descriptor.Metal]: (args: IReactionExtendedArgs) => {
     const corrodesLevel = getInteractionLevel(args.sourceItem, Interaction.Corrodes);
 
     const sourceItem = args.sourceItem;
@@ -270,7 +270,7 @@ export const applications: Reactions = {
   },
 
   // dissolve a level of mud
-  [Descriptor.Mud]: (args: ReactionExtendedArgs) => {
+  [Descriptor.Mud]: (args: IReactionExtendedArgs) => {
 
     const corrodesLevel = getInteractionLevel(args.sourceItem, Interaction.Corrodes);
 
@@ -301,7 +301,7 @@ export const applications: Reactions = {
   },
 
   // removes a level of wet from an item
-  [Descriptor.Wet]: (args: ReactionExtendedArgs) => {
+  [Descriptor.Wet]: (args: IReactionExtendedArgs) => {
     const corrodesLevel = getInteractionLevel(args.sourceItem, Interaction.Corrodes);
 
     const sourceItem = args.sourceItem;
@@ -322,7 +322,7 @@ export const applications: Reactions = {
   },
 
   // make wood rotten, and possibly destroy it
-  [Descriptor.Wood]: (args: ReactionExtendedArgs) => {
+  [Descriptor.Wood]: (args: IReactionExtendedArgs) => {
     const corrodesLevel = getInteractionLevel(args.sourceItem, Interaction.Corrodes);
 
     const sourceItem = args.sourceItem;

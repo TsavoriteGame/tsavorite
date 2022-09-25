@@ -3,9 +3,9 @@ import { getInteractionLevel, increaseDescriptorLevelForPart,
   decreaseInteractionLevel, getDescriptorLevel, decreaseDescriptorLevelForPart,
   getDescriptorLevelFromPart, increaseInteractionLevel, hasDescriptor,
   getAllDescriptorsForPart, setDescriptorLevelForPart } from '../helpers';
-import { Descriptor, Reactions, Interaction, ReactionExtendedArgs } from '../interfaces';
+import { Descriptor, Reactions, Interaction, IReactionExtendedArgs } from '../interfaces';
 
-const zeroFail = (args: ReactionExtendedArgs) => ({
+const zeroFail = (args: IReactionExtendedArgs) => ({
   message: 'This item cannot smash anything.',
   success: false,
   newSource: args.sourceItem,
@@ -15,7 +15,7 @@ const zeroFail = (args: ReactionExtendedArgs) => ({
 export const applications: Reactions = {
 
   // cold things can be destroyed
-  [Descriptor.Cold]: (args: ReactionExtendedArgs) => {
+  [Descriptor.Cold]: (args: IReactionExtendedArgs) => {
 
     const smashesLevel = getInteractionLevel(args.sourceItem, Interaction.Smashes);
 
@@ -45,7 +45,7 @@ export const applications: Reactions = {
   },
 
   // frozen things can also be destroyed
-  [Descriptor.Frozen]: (args: ReactionExtendedArgs) => {
+  [Descriptor.Frozen]: (args: IReactionExtendedArgs) => {
 
     const smashesLevel = getInteractionLevel(args.sourceItem, Interaction.Smashes);
 
@@ -75,7 +75,7 @@ export const applications: Reactions = {
   },
 
   // glass can be turned into sand
-  [Descriptor.Glass]: (args: ReactionExtendedArgs) => {
+  [Descriptor.Glass]: (args: IReactionExtendedArgs) => {
 
     const smashesLevel = getInteractionLevel(args.sourceItem, Interaction.Smashes);
 
@@ -101,7 +101,7 @@ export const applications: Reactions = {
   },
 
   // meat can be turned into blood
-  [Descriptor.Meat]: (args: ReactionExtendedArgs) => {
+  [Descriptor.Meat]: (args: IReactionExtendedArgs) => {
 
     const smashesLevel = getInteractionLevel(args.sourceItem, Interaction.Smashes);
 
@@ -148,7 +148,7 @@ export const applications: Reactions = {
   },
 
   // metal can be made sharp
-  [Descriptor.Metal]: (args: ReactionExtendedArgs) => {
+  [Descriptor.Metal]: (args: IReactionExtendedArgs) => {
 
     const smashesLevel = getInteractionLevel(args.sourceItem, Interaction.Smashes);
 
@@ -181,7 +181,7 @@ export const applications: Reactions = {
   },
 
   // rock can be turned into sand
-  [Descriptor.Rock]: (args: ReactionExtendedArgs) => {
+  [Descriptor.Rock]: (args: IReactionExtendedArgs) => {
 
     const smashesLevel = getInteractionLevel(args.sourceItem, Interaction.Smashes);
 
@@ -221,7 +221,7 @@ export const applications: Reactions = {
   },
 
   // sticky transfers attributes
-  [Descriptor.Sticky]: (args: ReactionExtendedArgs) => {
+  [Descriptor.Sticky]: (args: IReactionExtendedArgs) => {
 
     const smashesLevel = getInteractionLevel(args.sourceItem, Interaction.Smashes);
     if(smashesLevel <= 0) return zeroFail(args);
@@ -241,7 +241,7 @@ export const applications: Reactions = {
   },
 
   // wood can be whittled down (heh)
-  [Descriptor.Wood]: (args: ReactionExtendedArgs) => {
+  [Descriptor.Wood]: (args: IReactionExtendedArgs) => {
 
     const smashesLevel = getInteractionLevel(args.sourceItem, Interaction.Smashes);
 

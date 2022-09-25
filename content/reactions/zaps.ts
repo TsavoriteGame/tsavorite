@@ -1,7 +1,7 @@
 import { getInteractionLevel, increaseDescriptorLevelForPart, decreaseInteractionLevel, getDescriptorLevelFromPart } from '../helpers';
-import { Descriptor, Reactions, Interaction, ReactionExtendedArgs } from '../interfaces';
+import { Descriptor, Reactions, Interaction, IReactionExtendedArgs } from '../interfaces';
 
-const zeroFail = (args: ReactionExtendedArgs) => ({
+const zeroFail = (args: IReactionExtendedArgs) => ({
   message: 'This item cannot zap anything.',
   success: false,
   newSource: args.sourceItem,
@@ -11,7 +11,7 @@ const zeroFail = (args: ReactionExtendedArgs) => ({
 export const applications: Reactions = {
 
   // metal can be magnetized
-  [Descriptor.Metal]: (args: ReactionExtendedArgs) => {
+  [Descriptor.Metal]: (args: IReactionExtendedArgs) => {
 
     const zapsLevel = getInteractionLevel(args.sourceItem, Interaction.Zaps);
 
@@ -36,7 +36,7 @@ export const applications: Reactions = {
   },
 
   // wet things can be electrified
-  [Descriptor.Wet]: (args: ReactionExtendedArgs) => {
+  [Descriptor.Wet]: (args: IReactionExtendedArgs) => {
 
     const zapsLevel = getInteractionLevel(args.sourceItem, Interaction.Zaps);
 

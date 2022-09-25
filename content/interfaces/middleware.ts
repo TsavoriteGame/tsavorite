@@ -1,42 +1,42 @@
-import { ReactionExtendedArgs, ReactionResponse } from './item';
+import { IReactionExtendedArgs, IReactionResponse } from './item';
 
 export type MiddlewareType = 'prereaction' | 'postreaction' | 'precombine' | 'postcombine';
 
-export interface Middleware {
+export interface IMiddleware {
   triggers: MiddlewareType[];
   isEnabled: () => boolean;
 }
 
 // reaction middleware
-export type PreReactionMiddleware = Middleware & {
-  shouldPreFire: (args: ReactionExtendedArgs) => boolean;
+export type PreReactionMiddleware = IMiddleware & {
+  shouldPreFire: (args: IReactionExtendedArgs) => boolean;
 
-  shouldPreBlock: (args: ReactionExtendedArgs) => boolean;
+  shouldPreBlock: (args: IReactionExtendedArgs) => boolean;
 
-  pre: (args: ReactionExtendedArgs) => ReactionResponse;
+  pre: (args: IReactionExtendedArgs) => IReactionResponse;
 };
 
-export type PostReactionMiddleware = Middleware & {
-  shouldPostFire: (args: ReactionExtendedArgs, result: ReactionResponse) => boolean;
+export type PostReactionMiddleware = IMiddleware & {
+  shouldPostFire: (args: IReactionExtendedArgs, result: IReactionResponse) => boolean;
 
-  shouldPostBlock: (args: ReactionExtendedArgs, result: ReactionResponse) => boolean;
+  shouldPostBlock: (args: IReactionExtendedArgs, result: IReactionResponse) => boolean;
 
-  post: (args: ReactionExtendedArgs, result: ReactionResponse) => ReactionResponse;
+  post: (args: IReactionExtendedArgs, result: IReactionResponse) => IReactionResponse;
 };
 
 // combine middleware
-export type PreCombineMiddleware = Middleware & {
-  shouldPreFire: (args: ReactionExtendedArgs) => boolean;
+export type PreCombineMiddleware = IMiddleware & {
+  shouldPreFire: (args: IReactionExtendedArgs) => boolean;
 
-  shouldPreBlock: (args: ReactionExtendedArgs) => boolean;
+  shouldPreBlock: (args: IReactionExtendedArgs) => boolean;
 
-  pre: (args: ReactionExtendedArgs) => ReactionResponse;
+  pre: (args: IReactionExtendedArgs) => IReactionResponse;
 };
 
-export type PostCombineMiddleware = Middleware & {
-  shouldPostFire: (args: ReactionExtendedArgs, result: ReactionResponse) => boolean;
+export type PostCombineMiddleware = IMiddleware & {
+  shouldPostFire: (args: IReactionExtendedArgs, result: IReactionResponse) => boolean;
 
-  shouldPostBlock: (args: ReactionExtendedArgs, result: ReactionResponse) => boolean;
+  shouldPostBlock: (args: IReactionExtendedArgs, result: IReactionResponse) => boolean;
 
-  post: (args: ReactionExtendedArgs, result: ReactionResponse) => ReactionResponse;
+  post: (args: IReactionExtendedArgs, result: IReactionResponse) => IReactionResponse;
 };

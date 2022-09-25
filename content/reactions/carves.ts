@@ -5,10 +5,10 @@ import { getInteractionLevel,
   setDescriptorLevel, hasFoundationalPart,
   setDescriptorLevelForPart, hasDescriptor, setFoundationalPart,
   getDescriptorLevelFromPart, getAllDescriptorsForPart } from '../helpers';
-import { Descriptor, Reactions, Interaction, ReactionExtendedArgs } from '../interfaces';
+import { Descriptor, Reactions, Interaction, IReactionExtendedArgs } from '../interfaces';
 import { shouldItemBreakWhenInteractingWith } from '../middleware/break-items';
 
-const zeroFail = (args: ReactionExtendedArgs) => ({
+const zeroFail = (args: IReactionExtendedArgs) => ({
   message: 'This item cannot cut anything.',
   success: false,
   newSource: args.sourceItem,
@@ -17,7 +17,7 @@ const zeroFail = (args: ReactionExtendedArgs) => ({
 
 export const applications: Reactions = {
 
-  [Descriptor.Clay]: (args: ReactionExtendedArgs) => {
+  [Descriptor.Clay]: (args: IReactionExtendedArgs) => {
 
     const carvesLevel = getInteractionLevel(args.sourceItem, Interaction.Carves);
 
@@ -64,7 +64,7 @@ export const applications: Reactions = {
   },
 
   // cutting cooked meat should make more meat
-  [Descriptor.Cooked]: (args: ReactionExtendedArgs) => {
+  [Descriptor.Cooked]: (args: IReactionExtendedArgs) => {
 
     const carvesLevel = getInteractionLevel(args.sourceItem, Interaction.Carves);
 
@@ -105,7 +105,7 @@ export const applications: Reactions = {
   },
 
   // fiber can be split into more fiber
-  [Descriptor.Fiber]: (args: ReactionExtendedArgs) => {
+  [Descriptor.Fiber]: (args: IReactionExtendedArgs) => {
 
     const carvesLevel = getInteractionLevel(args.sourceItem, Interaction.Carves);
 
@@ -145,7 +145,7 @@ export const applications: Reactions = {
     };
   },
 
-  [Descriptor.Glass]: (args: ReactionExtendedArgs) => {
+  [Descriptor.Glass]: (args: IReactionExtendedArgs) => {
 
     const carvesLevel = getInteractionLevel(args.sourceItem, Interaction.Carves);
 
@@ -201,7 +201,7 @@ export const applications: Reactions = {
     };
   },
 
-  [Descriptor.Leather]: (args: ReactionExtendedArgs) => {
+  [Descriptor.Leather]: (args: IReactionExtendedArgs) => {
 
     const carvesLevel = getInteractionLevel(args.sourceItem, Interaction.Carves);
 
@@ -258,7 +258,7 @@ export const applications: Reactions = {
   },
 
   // meaty things can be bled more, at the cost of meat levels
-  [Descriptor.Meat]: (args: ReactionExtendedArgs) => {
+  [Descriptor.Meat]: (args: IReactionExtendedArgs) => {
 
     const carvesLevel = getInteractionLevel(args.sourceItem, Interaction.Carves);
 
@@ -308,7 +308,7 @@ export const applications: Reactions = {
     };
   },
 
-  [Descriptor.Metal]: (args: ReactionExtendedArgs) => {
+  [Descriptor.Metal]: (args: IReactionExtendedArgs) => {
 
     const carvesLevel = getInteractionLevel(args.sourceItem, Interaction.Carves);
 
@@ -367,7 +367,7 @@ export const applications: Reactions = {
     };
   },
 
-  [Descriptor.Rock]: (args: ReactionExtendedArgs) => {
+  [Descriptor.Rock]: (args: IReactionExtendedArgs) => {
 
     const carvesLevel = getInteractionLevel(args.sourceItem, Interaction.Carves);
 
@@ -424,7 +424,7 @@ export const applications: Reactions = {
   },
 
   // sticky transfers attributes
-  [Descriptor.Sticky]: (args: ReactionExtendedArgs) => {
+  [Descriptor.Sticky]: (args: IReactionExtendedArgs) => {
 
     const carvesLevel = getInteractionLevel(args.sourceItem, Interaction.Carves);
     if(carvesLevel <= 0) return zeroFail(args);
@@ -443,7 +443,7 @@ export const applications: Reactions = {
     };
   },
 
-  [Descriptor.Wood]: (args: ReactionExtendedArgs) => {
+  [Descriptor.Wood]: (args: IReactionExtendedArgs) => {
 
     const carvesLevel = getInteractionLevel(args.sourceItem, Interaction.Carves);
 

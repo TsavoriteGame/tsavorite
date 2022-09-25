@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { getCombinationBetweenTwoItems, getReactionBetweenTwoItems } from '../../../content/helpers';
-import { ItemConfig, ItemDescriptor, ReactionResponse } from '../../../content/interfaces';
+import { IItemConfig, IItemDescriptor, IReactionResponse } from '../../../content/interfaces';
 import { ContentService } from '../core/services/game/content.service';
 
 @Component({
@@ -11,19 +11,19 @@ import { ContentService } from '../core/services/game/content.service';
 export class DetailComponent implements OnInit {
 
   public activeIndex = -1;
-  public activeItem: ItemConfig;
+  public activeItem: IItemConfig;
 
-  public currentLeft: ItemConfig;
-  public currentRight: ItemConfig;
+  public currentLeft: IItemConfig;
+  public currentRight: IItemConfig;
 
-  public reactionResult: ReactionResponse;
+  public reactionResult: IReactionResponse;
 
   constructor(public contentService: ContentService) { }
 
   ngOnInit(): void {
   }
 
-  chooseItem(item: ItemConfig, index: number) {
+  chooseItem(item: IItemConfig, index: number) {
     this.activeIndex = index;
     this.activeItem = item;
   }
@@ -68,7 +68,7 @@ export class DetailComponent implements OnInit {
     }
   }
 
-  getLevel(value: ItemDescriptor): number {
+  getLevel(value: IItemDescriptor): number {
     return value.level ?? 0;
   }
 

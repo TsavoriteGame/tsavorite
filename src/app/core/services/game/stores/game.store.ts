@@ -6,8 +6,8 @@ import { isUndefined } from 'lodash';
 
 import { getScenarioByName } from '../../../../../../content/getters';
 import * as AllLandmarks from '../../../../../../content/landmarks';
-import { Archetype, Background, ILandmark, ItemConfig,
-  LandmarkEncounter, Power, Scenario, ScenarioNode } from '../../../../../../content/interfaces';
+import { IArchetype, IBackground, ILandmark, IItemConfig,
+  ILandmarkEncounter, IPower, IScenario, IScenarioNode } from '../../../../../../content/interfaces';
 import { findFirstLandmarkInWorld, findSpawnCoordinates, getNodeAt } from '../../../../../../content/scenario.helpers';
 import { AbandonGame, AddBackpackItem, AddHealth, MakeChoice, Move, ReduceHealth,
   RemoveBackpackItem, StartGame, UpdateBackpackItem, Warp } from '../actions';
@@ -25,16 +25,16 @@ export enum EquipmentSlot {
 export interface IGameCharacter {
   name: string;
   hp: number;
-  background: Background;
-  archetype: Archetype;
+  background: IBackground;
+  archetype: IArchetype;
   equipment: {
-    [EquipmentSlot.Head]: ItemConfig;
-    [EquipmentSlot.Hands]: ItemConfig;
-    [EquipmentSlot.Body]: ItemConfig;
-    [EquipmentSlot.Legs]: ItemConfig;
+    [EquipmentSlot.Head]: IItemConfig;
+    [EquipmentSlot.Hands]: IItemConfig;
+    [EquipmentSlot.Body]: IItemConfig;
+    [EquipmentSlot.Legs]: IItemConfig;
   };
-  items: ItemConfig[];
-  powers: Power[];
+  items: IItemConfig[];
+  powers: IPower[];
 }
 
 export interface IMapPosition {
@@ -46,17 +46,17 @@ export interface IMapPosition {
 export interface IGame {
   character: IGameCharacter;
   position: IMapPosition;
-  scenario: Scenario;
-  landmarkEncounter: LandmarkEncounter;
+  scenario: IScenario;
+  landmarkEncounter: ILandmarkEncounter;
 }
 
 
 export interface IMapDisplayInfo {
-  scenario: Scenario;
+  scenario: IScenario;
   position: IMapPosition;
-  map: ScenarioNode[][];
+  map: IScenarioNode[][];
   character: IGameCharacter;
-  currentNode: ScenarioNode;
+  currentNode: IScenarioNode;
 }
 
 const defaultOptions: () => IGame = () => ({
@@ -104,10 +104,10 @@ export class GameState {
     const { worldId, x, y } = position;
     const world = scenario.worlds[worldId];
 
-    const map: ScenarioNode[][] = [];
+    const map: IScenarioNode[][] = [];
 
     for(let my = y - 3; my <= y + 3; my++) {
-      const row: ScenarioNode[] = [];
+      const row: IScenarioNode[] = [];
 
       for(let mx = x - 3; mx <= x + 3; mx++) {
         const nodeId = world.layout[my]?.[mx] ?? -1;
@@ -229,7 +229,7 @@ export class GameState {
 
     ctx.setState(patch<IGame>({
       character: patch({
-        items: append<ItemConfig>([item])
+        items: append<IItemConfig>([item])
       })
     }));
   }
@@ -240,7 +240,7 @@ export class GameState {
 
     ctx.setState(patch<IGame>({
       character: patch({
-        items: updateItem<ItemConfig>(index, item)
+        items: updateItem<IItemConfig>(index, item)
       })
     }));
   }
@@ -251,7 +251,7 @@ export class GameState {
 
     ctx.setState(patch<IGame>({
       character: patch({
-        items: removeItem<ItemConfig>(index)
+        items: removeItem<IItemConfig>(index)
       })
     }));
   }

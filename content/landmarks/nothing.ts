@@ -1,12 +1,12 @@
 import { Observable, of } from 'rxjs';
-import { ILandmark, Landmark, LandmarkEncounter, Scenario, ScenarioNode } from '../interfaces';
+import { ILandmark, Landmark, ILandmarkEncounter, IScenario, IScenarioNode } from '../interfaces';
 
 export class Nothing extends Landmark implements ILandmark {
 
   readonly canLeave = true;
 
   // return slots, what they're filled with
-  encounter(scenario: Scenario, scenarioNode: ScenarioNode): Observable<LandmarkEncounter> {
+  encounter(scenario: IScenario, scenarioNode: IScenarioNode): Observable<ILandmarkEncounter> {
     return of({
       landmarkName: scenarioNode.name,
       landmarkDescription: scenarioNode.description,

@@ -1,5 +1,5 @@
-import { Card } from './card';
+import { ICard } from './card';
 
-export interface Power extends Card {
+export interface IPower extends ICard {
   timerModifier?: number;
 }

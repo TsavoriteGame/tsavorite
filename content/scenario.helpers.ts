@@ -1,24 +1,24 @@
-import { Scenario, ScenarioNode } from './interfaces';
+import { IScenario, IScenarioNode } from './interfaces';
 
 // get the spawn node from a scenario
-export function getSpawnNode(scenario: Scenario): ScenarioNode {
+export function getSpawnNode(scenario: IScenario): IScenarioNode {
   return Object.values(scenario.nodes).find(node => node.playerSpawnLocation);
 }
 
 // get node at w,x,y
-export function getNodeAt(scenario: Scenario, worldId: number, x: number, y: number): ScenarioNode {
+export function getNodeAt(scenario: IScenario, worldId: number, x: number, y: number): IScenarioNode {
   const world = scenario.worlds[worldId];
   const nodeId = world.layout[y]?.[x] ?? -1;
   return scenario.nodes[nodeId];
 }
 
 // get the number of worlds in a scenario
-export function scenarioWorldCount(scenario: Scenario): number {
+export function scenarioWorldCount(scenario: IScenario): number {
   return Object.keys(scenario.worlds).length;
 }
 
 // find the first landmark matching a node id
-export function findFirstLandmark(scenario: Scenario, nodeId: number): { worldId: number; x: number; y: number } {
+export function findFirstLandmark(scenario: IScenario, nodeId: number): { worldId: number; x: number; y: number } {
   const numWorlds = scenarioWorldCount(scenario);
 
   for(let worldId = 0; worldId < numWorlds; worldId++) {
@@ -35,7 +35,7 @@ export function findFirstLandmark(scenario: Scenario, nodeId: number): { worldId
   throw new Error(`Could not find landmark ${nodeId} in scenario ${scenario.name}`);
 }
 
-export function findFirstLandmarkInWorld(scenario: Scenario, worldId: number, nodeId: number): { worldId: number; x: number; y: number } {
+export function findFirstLandmarkInWorld(scenario: IScenario, worldId: number, nodeId: number): { worldId: number; x: number; y: number } {
 
   const world = scenario.worlds[worldId];
 
@@ -50,7 +50,7 @@ export function findFirstLandmarkInWorld(scenario: Scenario, worldId: number, no
 }
 
 // find the spawn x/y
-export function findSpawnCoordinates(scenario: Scenario): { worldId: number; x: number; y: number } {
+export function findSpawnCoordinates(scenario: IScenario): { worldId: number; x: number; y: number } {
   const node = getSpawnNode(scenario);
 
   return findFirstLandmark(scenario, node.id);

@@ -1,7 +1,7 @@
 import { shouldItemBreakWhenInteractingWith } from './break-items';
-import { Descriptor, ItemConfig } from '../interfaces';
+import { Descriptor, IItemConfig } from '../interfaces';
 
-const itemWithDescriptorAtLevel: (descriptor: Descriptor, level: number) => ItemConfig = (descriptor: Descriptor, level: number) => ({
+const itemWithDescriptorAtLevel: (descriptor: Descriptor, level: number) => IItemConfig = (descriptor: Descriptor, level: number) => ({
   name: `${descriptor} Item`,
   parts: [
     {

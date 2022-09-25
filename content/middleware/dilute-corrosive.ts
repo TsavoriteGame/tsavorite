@@ -1,8 +1,8 @@
 import { decreaseDescriptorLevelForPart, getDescriptorLevel, getPartWithDescriptor } from '../helpers';
-import { Descriptor, Interaction, ItemConfig, MiddlewareType,
-  PostReactionMiddleware, ReactionExtendedArgs, ReactionResponse } from '../interfaces';
+import { Descriptor, Interaction, IItemConfig, MiddlewareType,
+  PostReactionMiddleware, IReactionExtendedArgs, IReactionResponse } from '../interfaces';
 
-export function shouldDilute(item: ItemConfig) {
+export function shouldDilute(item: IItemConfig) {
   return !!getPartWithDescriptor(item, Descriptor.Corrosive) && getDescriptorLevel(item, Descriptor.Container) > 0;
 }
 
@@ -17,7 +17,7 @@ export class DiluteCorrosive implements PostReactionMiddleware {
     return true;
   }
 
-  shouldPostFire(args: ReactionExtendedArgs, response: ReactionResponse) {
+  shouldPostFire(args: IReactionExtendedArgs, response: IReactionResponse) {
     return args.sourceItem.interaction
         && args.sourceItem.interaction.name === Interaction.Wets
         && response.newTarget
@@ -28,7 +28,7 @@ export class DiluteCorrosive implements PostReactionMiddleware {
     return false;
   }
 
-  post(args: ReactionExtendedArgs, response: ReactionResponse) {
+  post(args: IReactionExtendedArgs, response: IReactionResponse) {
 
     const part = getPartWithDescriptor(args.targetItem, Descriptor.Corrosive);
     decreaseDescriptorLevelForPart(part, Descriptor.Corrosive, 1);

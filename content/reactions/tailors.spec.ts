@@ -1,9 +1,9 @@
 
 import { getAllDescriptorsForPart, getDescriptorLevel,
   getInteractionLevel, getReactionBetweenTwoItems, hasFoundationalPart } from '../helpers';
-import { Interaction, Descriptor, ItemConfig } from '../interfaces';
+import { Interaction, Descriptor, IItemConfig } from '../interfaces';
 
-const getGlue = (glueLevel: number): ItemConfig => ({
+const getGlue = (glueLevel: number): IItemConfig => ({
   name: 'Glue',
   parts: [
     {
@@ -15,7 +15,7 @@ const getGlue = (glueLevel: number): ItemConfig => ({
 });
 
 test('An empty kit should tailor nothing', () => {
-  const source: ItemConfig = {
+  const source: IItemConfig = {
     name: 'Kit',
     parts: [
       {
@@ -37,7 +37,7 @@ test('An empty kit should tailor nothing', () => {
 });
 
 test('An under-filled kit should tailor nothing', () => {
-  const source: ItemConfig = {
+  const source: IItemConfig = {
     name: 'Kit',
     parts: [
       {
@@ -60,7 +60,7 @@ test('An under-filled kit should tailor nothing', () => {
 });
 
 test('A filled kit (3 leather, 1 fiber) should tailor a Leather Boots', () => {
-  const source: ItemConfig = {
+  const source: IItemConfig = {
     name: 'Kit',
     parts: [
       {
@@ -99,7 +99,7 @@ test('A filled kit (3 leather, 1 fiber) should tailor a Leather Boots', () => {
 });
 
 test('A filled kit (5 leather, 2 fiber) should tailor a Leather Helmet', () => {
-  const source: ItemConfig = {
+  const source: IItemConfig = {
     name: 'Kit',
     parts: [
       {
@@ -138,7 +138,7 @@ test('A filled kit (5 leather, 2 fiber) should tailor a Leather Helmet', () => {
 });
 
 test('A filled kit (7 leather, 3 fiber) should tailor a Leather Armor', () => {
-  const source: ItemConfig = {
+  const source: IItemConfig = {
     name: 'Kit',
     parts: [
       {
@@ -177,7 +177,7 @@ test('A filled kit (7 leather, 3 fiber) should tailor a Leather Armor', () => {
 });
 
 test('An over-filled kit (8 leather, 5 fiber) should tailor a Leather Armor and discard the surplus', () => {
-  const source: ItemConfig = {
+  const source: IItemConfig = {
     name: 'Kit',
     parts: [
       {
@@ -215,7 +215,7 @@ test('An over-filled kit (8 leather, 5 fiber) should tailor a Leather Armor and 
 });
 
 test('A filled lv. 1 kit (7 leather, 3 fiber) should tailor a Leather Armor and break', () => {
-  const source: ItemConfig = {
+  const source: IItemConfig = {
     name: 'Kit',
     parts: [
       {
@@ -250,7 +250,7 @@ test('A filled lv. 1 kit (7 leather, 3 fiber) should tailor a Leather Armor and 
 });
 
 test('A filled kit (7 leather, 3 fiber) should tailor a Leather Armor and break a lv.1 glue', () => {
-  const source: ItemConfig = {
+  const source: IItemConfig = {
     name: 'Kit',
     parts: [
       {
@@ -287,7 +287,7 @@ test('A filled kit (7 leather, 3 fiber) should tailor a Leather Armor and break 
 });
 
 test('A filled lv. 1 kit (7 leather, 3 fiber) should tailor a Leather Armor and break a lv.1 glue', () => {
-  const source: ItemConfig = {
+  const source: IItemConfig = {
     name: 'Kit',
     parts: [
       {
@@ -321,7 +321,7 @@ test('A filled lv. 1 kit (7 leather, 3 fiber) should tailor a Leather Armor and 
 });
 
 test('A filled Hot Wet kit (3 leather, 1 fiber, should tailor a Hot Wet Leather Boots', () => {
-  const source: ItemConfig = {
+  const source: IItemConfig = {
     name: 'Kit',
     parts: [
       {
@@ -366,7 +366,7 @@ test('A filled Hot Wet kit (3 leather, 1 fiber, should tailor a Hot Wet Leather 
 });
 
 test('Using a tailor kit on lv.3 leather should destroy the leather item and add leather stacks to the kit', () => {
-  const source: ItemConfig = {
+  const source: IItemConfig = {
     name: 'Kit',
     parts: [
       {
@@ -380,7 +380,7 @@ test('Using a tailor kit on lv.3 leather should destroy the leather item and add
     interaction: { name: Interaction.Tailors, level: 2 }
   };
 
-  const target: ItemConfig = {
+  const target: IItemConfig = {
     name: 'Leather',
     parts: [
       {
@@ -405,7 +405,7 @@ test('Using a tailor kit on lv.3 leather should destroy the leather item and add
 });
 
 test('Using a tailor kit on lv.3 hot leather should destroy the leather item and add leather stacks to the kit', () => {
-  const source: ItemConfig = {
+  const source: IItemConfig = {
     name: 'Kit',
     parts: [
       {
@@ -419,7 +419,7 @@ test('Using a tailor kit on lv.3 hot leather should destroy the leather item and
     interaction: { name: Interaction.Tailors, level: 2 }
   };
 
-  const target: ItemConfig = {
+  const target: IItemConfig = {
     name: 'Leather',
     parts: [
       {
@@ -446,7 +446,7 @@ test('Using a tailor kit on lv.3 hot leather should destroy the leather item and
 });
 
 test('A filled lv.1 Hot lv. 1 Cold kit (3 leather, 1 fiber, should tailor a Leather Boots', () => {
-  const source: ItemConfig = {
+  const source: IItemConfig = {
     name: 'Kit',
     parts: [
       {
@@ -490,7 +490,7 @@ test('A filled lv.1 Hot lv. 1 Cold kit (3 leather, 1 fiber, should tailor a Leat
 });
 
 test('A filled lv.2 Hot lv. 1 Cold kit (3 leather, 1 fiber, should tailor a lv.1 Hot Leather Boots', () => {
-  const source: ItemConfig = {
+  const source: IItemConfig = {
     name: 'Kit',
     parts: [
       {

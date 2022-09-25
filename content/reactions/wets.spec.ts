@@ -1,7 +1,7 @@
 import { getAllDescriptorsForPart, getDescriptorLevel, getInteractionLevel, getReactionBetweenTwoItems } from '../helpers';
-import { Descriptor, Interaction, ItemConfig } from '../interfaces';
+import { Descriptor, Interaction, IItemConfig } from '../interfaces';
 
-const getWetter: (level: number, wetsLevel: number) => ItemConfig =
+const getWetter: (level: number, wetsLevel: number) => IItemConfig =
                  (level: number, wetsLevel: number) => ({
                    name: `Level ${level} Wetter`,
                    parts: [
@@ -20,7 +20,7 @@ test('A level 2 wetter should make blood wetter', () => {
 
   const source = getWetter(1, 2);
 
-  const target: ItemConfig = {
+  const target: IItemConfig = {
     name: 'Level 1 Blood',
     parts: [
       {
@@ -48,7 +48,7 @@ test('A level 2 wetter should make cold colder', () => {
 
   const source = getWetter(1, 2);
 
-  const target: ItemConfig = {
+  const target: IItemConfig = {
     name: 'Level 1 Cold',
     parts: [
       {
@@ -75,7 +75,7 @@ test('A level 2 wetter should lower the combustability of an item', () => {
 
   const source = getWetter(1, 2);
 
-  const target: ItemConfig = {
+  const target: IItemConfig = {
     name: 'Level 2 Combustible',
     parts: [
       {
@@ -102,7 +102,7 @@ test('A level 2 wetter should make wet a completely damp combustible', () => {
 
   const source = getWetter(1, 2);
 
-  const target: ItemConfig = {
+  const target: IItemConfig = {
     name: 'Level 2 Combustible',
     parts: [
       {
@@ -129,7 +129,7 @@ test('A level 2 wetter should make wet a completely damp combustible', () => {
 test('A level 2 wetter should dilute a corrosive item', () => {
   const source = getWetter(1, 2);
 
-  const target: ItemConfig = {
+  const target: IItemConfig = {
     name: 'Level 2 Corrosive',
     parts: [
       {
@@ -155,7 +155,7 @@ test('A level 2 wetter should fully dilute a pale corrosive item', () => {
 
   const source = getWetter(1, 2);
 
-  const target: ItemConfig = {
+  const target: IItemConfig = {
     name: 'Level 1 Corrosive',
     parts: [
       {
@@ -183,7 +183,7 @@ test('A level 2 wetter should dilute the contents of an acid flask', () => {
 
   const source = getWetter(1, 2);
 
-  const target: ItemConfig = {
+  const target: IItemConfig = {
     name: 'Level 2 Acid Flask',
     parts: [
       {
@@ -218,7 +218,7 @@ test('A level 2 wetter should make dirt more muddy', () => {
 
   const source = getWetter(1, 2);
 
-  const target: ItemConfig = {
+  const target: IItemConfig = {
     name: 'Level 2 Dirt',
     parts: [
       {
@@ -250,7 +250,7 @@ test('A level 2 wetter should become electric when electrifying something', () =
 
   const source = getWetter(1, 2);
 
-  const target: ItemConfig = {
+  const target: IItemConfig = {
     name: 'Level 2 Electric',
     parts: [
       {
@@ -277,7 +277,7 @@ test('A level 2 wetter should make a frozen item become sticky and more frozen',
 
   const source = getWetter(1, 2);
 
-  const target: ItemConfig = {
+  const target: IItemConfig = {
     name: 'Level 2 Frozen',
     parts: [
       {
@@ -305,7 +305,7 @@ test('A level 2 wetter should make something hot less hot', () => {
 
   const source = getWetter(1, 2);
 
-  const target: ItemConfig = {
+  const target: IItemConfig = {
     name: 'Level 2 Hot',
     parts: [
       {
@@ -331,7 +331,7 @@ test('A level 2 wetter should make leather wet and slippery', () => {
 
   const source = getWetter(1, 2);
 
-  const target: ItemConfig = {
+  const target: IItemConfig = {
     name: 'Level 2 Leather',
     parts: [
       {
@@ -359,7 +359,7 @@ test('A level 2 wetter should make glass wet and slippery', () => {
 
   const source = getWetter(1, 2);
 
-  const target: ItemConfig = {
+  const target: IItemConfig = {
     name: 'Level 2 Glass',
     parts: [
       {
@@ -387,7 +387,7 @@ test('A level 2 wetter should make clay wet and slippery', () => {
 
   const source = getWetter(1, 2);
 
-  const target: ItemConfig = {
+  const target: IItemConfig = {
     name: 'Level 2 Clay',
     parts: [
       {
@@ -415,7 +415,7 @@ test('A level 2 wetter should make meat wet', () => {
 
   const source = getWetter(1, 2);
 
-  const target: ItemConfig = {
+  const target: IItemConfig = {
     name: 'Level 2 Meat',
     parts: [
       {
@@ -442,7 +442,7 @@ test('A level 2 wetter should make metal wet and slippery', () => {
 
   const source = getWetter(1, 2);
 
-  const target: ItemConfig = {
+  const target: IItemConfig = {
     name: 'Level 2 Metal',
     parts: [
       {
@@ -470,7 +470,7 @@ test('A level 2 wetter should make rock wet and slippery', () => {
 
   const source = getWetter(1, 2);
 
-  const target: ItemConfig = {
+  const target: IItemConfig = {
     name: 'Level 2 Rock',
     parts: [
       {
@@ -498,7 +498,7 @@ test('A level 2 wetter should make sand more wet', () => {
 
   const source = getWetter(1, 2);
 
-  const target: ItemConfig = {
+  const target: IItemConfig = {
     name: 'Level 2 Sand',
     parts: [
       {
@@ -525,7 +525,7 @@ test('A level 2 wetter should make wet sand into mud', () => {
 
   const source = getWetter(1, 2);
 
-  const target: ItemConfig = {
+  const target: IItemConfig = {
     name: 'Level 2 Sand',
     parts: [
       {
@@ -554,7 +554,7 @@ test('A level 2 wetter should make slippery more wet and slippery', () => {
 
   const source = getWetter(1, 2);
 
-  const target: ItemConfig = {
+  const target: IItemConfig = {
     name: 'Level 2 Slippery',
     parts: [
       {
@@ -581,7 +581,7 @@ test('A level 2 wetter should make wet more wet and slippery', () => {
 
   const source = getWetter(1, 2);
 
-  const target: ItemConfig = {
+  const target: IItemConfig = {
     name: 'Level 2 Wet',
     parts: [
       {
@@ -608,7 +608,7 @@ test('A level 2 wetter should make wood more wet', () => {
 
   const source = getWetter(1, 2);
 
-  const target: ItemConfig = {
+  const target: IItemConfig = {
     name: 'Level 2 Wood',
     parts: [
       {
@@ -635,7 +635,7 @@ test('A level 2 wetter should make wet wood rotten', () => {
 
   const source = getWetter(1, 2);
 
-  const target: ItemConfig = {
+  const target: IItemConfig = {
     name: 'Level 2 Wood',
     parts: [
       {
@@ -664,7 +664,7 @@ test('A level 2 wetter should collapse rotten wood', () => {
 
   const source = getWetter(1, 2);
 
-  const target: ItemConfig = {
+  const target: IItemConfig = {
     name: 'Level 2 Wood',
     parts: [
       {
@@ -691,7 +691,7 @@ test('A level 2 wetter should add water to a clay container', () => {
 
   const source = getWetter(1, 2);
 
-  const target: ItemConfig = {
+  const target: IItemConfig = {
     name: 'Level 2 Clay Container',
     parts: [
       {
@@ -719,7 +719,7 @@ test('A level 2 wetter should add water to a glass container', () => {
 
   const source = getWetter(1, 2);
 
-  const target: ItemConfig = {
+  const target: IItemConfig = {
     name: 'Level 2 Glass Container',
     parts: [
       {
@@ -747,7 +747,7 @@ test('A level 2 wetter should add water to a metal container', () => {
 
   const source = getWetter(1, 2);
 
-  const target: ItemConfig = {
+  const target: IItemConfig = {
     name: 'Level 2 Metal Container',
     parts: [
       {
@@ -775,7 +775,7 @@ test('A level 2 wetter should add water to a rock container', () => {
 
   const source = getWetter(1, 2);
 
-  const target: ItemConfig = {
+  const target: IItemConfig = {
     name: 'Level 2 Rock Container',
     parts: [
       {
@@ -803,7 +803,7 @@ test('A level 2 wetter should add water to a wood container', () => {
 
   const source = getWetter(1, 2);
 
-  const target: ItemConfig = {
+  const target: IItemConfig = {
     name: 'Level 2 Wood Container',
     parts: [
       {

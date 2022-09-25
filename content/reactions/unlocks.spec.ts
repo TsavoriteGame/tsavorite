@@ -1,10 +1,10 @@
 
 import { getAllDescriptorsForPart, getDescriptorLevel, getReactionBetweenTwoItems } from '../helpers';
-import { Interaction, Descriptor, ItemConfig } from '../interfaces';
+import { Interaction, Descriptor, IItemConfig } from '../interfaces';
 
 test('A level 2 key should unlock a level 1 lock', () => {
 
-  const source: ItemConfig = {
+  const source: IItemConfig = {
     name: 'Level 2 Key',
     parts: [
       { name: 'Key', primaryDescriptor: Descriptor.Metal, descriptors: { [Descriptor.Metal]: { level: 1 } } }
@@ -12,7 +12,7 @@ test('A level 2 key should unlock a level 1 lock', () => {
     interaction: { name: Interaction.Unlocks, level: 2 }
   };
 
-  const target: ItemConfig = {
+  const target: IItemConfig = {
     name: 'Level 1 Lock',
     parts: [
       {
@@ -36,7 +36,7 @@ test('A level 2 key should unlock a level 1 lock', () => {
 
 test('An unbreakable level 2 key should unlock a level 1 lock and NOT break', () => {
 
-  const source: ItemConfig = {
+  const source: IItemConfig = {
     name: 'Level 2 Key',
     parts: [{
       name: 'Orichalcum',
@@ -46,7 +46,7 @@ test('An unbreakable level 2 key should unlock a level 1 lock and NOT break', ()
     interaction: { name: Interaction.Unlocks, level: 2 }
   };
 
-  const target: ItemConfig = {
+  const target: IItemConfig = {
     name: 'Level 1 Lock',
     parts: [
       {
@@ -70,13 +70,13 @@ test('An unbreakable level 2 key should unlock a level 1 lock and NOT break', ()
 
 test('A level 1 key should not unlock a level 2 lock', () => {
 
-  const source: ItemConfig = {
+  const source: IItemConfig = {
     name: 'Level 1 Key',
     parts: [],
     interaction: { name: Interaction.Unlocks, level: 1 }
   };
 
-  const target: ItemConfig = {
+  const target: IItemConfig = {
     name: 'Level 2 Lock',
     parts: [
       {
@@ -101,12 +101,12 @@ test('A level 1 key should not unlock a level 2 lock', () => {
 
 test('A random item should not unlock a level 1 lock', () => {
 
-  const source: ItemConfig = {
+  const source: IItemConfig = {
     name: 'Level 1 Not Key',
     parts: []
   };
 
-  const target: ItemConfig = {
+  const target: IItemConfig = {
     name: 'Level 1 Lock',
     parts: [
       {
@@ -129,7 +129,7 @@ test('A random item should not unlock a level 1 lock', () => {
 
 test('A level 1 key should only unlock the first part of a compound lock', () => {
 
-  const source: ItemConfig = {
+  const source: IItemConfig = {
     name: 'Level 1 Key',
     parts: [
       { name: 'Key', primaryDescriptor: Descriptor.Metal, descriptors: { [Descriptor.Metal]: { level: 1 } } }
@@ -137,7 +137,7 @@ test('A level 1 key should only unlock the first part of a compound lock', () =>
     interaction: { name: Interaction.Unlocks, level: 1 }
   };
 
-  const target: ItemConfig = {
+  const target: IItemConfig = {
     name: 'Level 1 Lock',
     parts: [
       {
@@ -169,7 +169,7 @@ test('A level 1 key should only unlock the first part of a compound lock', () =>
 
 test('A level 1 key should correctly interact with the lock on a door instead of the wood', () => {
 
-  const source: ItemConfig = {
+  const source: IItemConfig = {
     name: 'Level 1 Key',
     parts: [
       { name: 'Key', primaryDescriptor: Descriptor.Metal, descriptors: { [Descriptor.Metal]: { level: 1 } } }
@@ -177,7 +177,7 @@ test('A level 1 key should correctly interact with the lock on a door instead of
     interaction: { name: Interaction.Unlocks, level: 1 }
   };
 
-  const target: ItemConfig = {
+  const target: IItemConfig = {
     name: 'Level 1 Door',
     parts: [
       {

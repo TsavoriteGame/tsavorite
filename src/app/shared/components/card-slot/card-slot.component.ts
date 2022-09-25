@@ -2,7 +2,7 @@ import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import { Select } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { getAllDescriptorsForItem, getTotalDescriptorLevel } from '../../../../../content/helpers';
-import { Card, ItemConfig, ItemInteraction } from '../../../../../content/interfaces';
+import { ICard, IItemConfig, IItemInteraction } from '../../../../../content/interfaces';
 import { GameOption, OptionsState } from '../../../core/services/game/stores';
 
 @Component({
@@ -15,10 +15,10 @@ export class CardSlotComponent implements OnInit, OnChanges {
   @Select(OptionsState.allOptions) options$: Observable<Record<GameOption, any>>;
 
   @Input() placeholder: string;
-  @Input() card: Card;
+  @Input() card: ICard;
   @Input() cardType: 'item' = 'item';
 
-  public activeInteraction: ItemInteraction = undefined;
+  public activeInteraction: IItemInteraction = undefined;
   public activeDescriptors = [];
 
   constructor() { }
@@ -34,7 +34,7 @@ export class CardSlotComponent implements OnInit, OnChanges {
     }
 
     if(this.cardType === 'item') {
-      const item: ItemConfig = this.card as ItemConfig;
+      const item: IItemConfig = this.card as IItemConfig;
       this.activeInteraction = item.interaction;
 
       const descriptors = getAllDescriptorsForItem(item);

@@ -1,8 +1,8 @@
 import { Item } from 'electron';
 import { getAllDescriptorsForPart, getDescriptorLevel, getInteractionLevel, getReactionBetweenTwoItems } from '../helpers';
-import { Descriptor, Interaction, ItemConfig } from '../interfaces';
+import { Descriptor, Interaction, IItemConfig } from '../interfaces';
 
-const getCorroder: (level: number, corrodesLevel: number) => ItemConfig =
+const getCorroder: (level: number, corrodesLevel: number) => IItemConfig =
                    (level: number, corrodesLevel: number) => ({
                      name: `Level ${level} Corroder`,
                      parts: [
@@ -20,7 +20,7 @@ const getCorroder: (level: number, corrodesLevel: number) => ItemConfig =
 test('A level 2 corroder should combine with blood to make goo', () => {
   const source = getCorroder(1, 2);
 
-  const target: ItemConfig = {
+  const target: IItemConfig = {
     name: 'Level 2 Blood',
     parts: [
       {
@@ -50,7 +50,7 @@ test('A level 2 corroder should combine with blood to make goo', () => {
 test('A level 2 corroder should turn level 1 blood into goo', () => {
   const source = getCorroder(1, 2);
 
-  const target: ItemConfig = {
+  const target: IItemConfig = {
     name: 'Level 1 Blood',
     parts: [
       {
@@ -78,7 +78,7 @@ test('A level 2 corroder should turn level 1 blood into goo', () => {
 test('A level 2 corroder should partially dissolve level 2 clay', () => {
   const source = getCorroder(1, 2);
 
-  const target: ItemConfig = {
+  const target: IItemConfig = {
     name: 'Level 2 Clay',
     parts: [
       {
@@ -105,7 +105,7 @@ test('A level 2 corroder should partially dissolve level 2 clay', () => {
 test('A level 2 corroder should fully dissolve level 1 clay', () => {
   const source = getCorroder(1, 2);
 
-  const target: ItemConfig = {
+  const target: IItemConfig = {
     name: 'Level 1 Clay',
     parts: [
       {
@@ -130,7 +130,7 @@ test('A level 2 corroder should fully dissolve level 1 clay', () => {
 test('A level 2 corroder should partially dissolve level 2 dirt', () => {
   const source = getCorroder(1, 2);
 
-  const target: ItemConfig = {
+  const target: IItemConfig = {
     name: 'Level 2 Dirt',
     parts: [
       {
@@ -157,7 +157,7 @@ test('A level 2 corroder should partially dissolve level 2 dirt', () => {
 test('A level 2 corroder should fully dissolve level 1 dirt', () => {
   const source = getCorroder(1, 2);
 
-  const target: ItemConfig = {
+  const target: IItemConfig = {
     name: 'Level 1 Dirt',
     parts: [
       {
@@ -182,7 +182,7 @@ test('A level 2 corroder should fully dissolve level 1 dirt', () => {
 test('A level 2 corroder should partially dissolve level 2 fiber', () => {
   const source = getCorroder(1, 2);
 
-  const target: ItemConfig = {
+  const target: IItemConfig = {
     name: 'Level 2 Fiber',
     parts: [
       {
@@ -209,7 +209,7 @@ test('A level 2 corroder should partially dissolve level 2 fiber', () => {
 test('A level 2 corroder should fully dissolve level 1 fiber', () => {
   const source = getCorroder(1, 2);
 
-  const target: ItemConfig = {
+  const target: IItemConfig = {
     name: 'Level 1 Fiber',
     parts: [
       {
@@ -234,7 +234,7 @@ test('A level 2 corroder should fully dissolve level 1 fiber', () => {
 test('A level 2 corroder should not affect normal glass', () => {
   const source = getCorroder(1, 2);
 
-  const target: ItemConfig = {
+  const target: IItemConfig = {
     name: 'Level 99 Glass',
     parts: [
       {
@@ -255,7 +255,7 @@ test('A level 2 corroder should not affect normal glass', () => {
 test('A level 2 corroder poured into a glass container should create an acid flask', () => {
   const source = getCorroder(1, 2);
 
-  const target: ItemConfig = {
+  const target: IItemConfig = {
     name: 'Level 3 Glass Bottle',
     parts: [
       {
@@ -287,7 +287,7 @@ test('A level 2 corroder poured into a glass container should create an acid fla
 test('A level 2 corroder should damage level 2 leather', () => {
   const source = getCorroder(1, 2);
 
-  const target: ItemConfig = {
+  const target: IItemConfig = {
     name: 'Level 2 Leather',
     parts: [
       {
@@ -314,7 +314,7 @@ test('A level 2 corroder should damage level 2 leather', () => {
 test('A level 2 corroder should destroy level 1 leather', () => {
   const source = getCorroder(1, 2);
 
-  const target: ItemConfig = {
+  const target: IItemConfig = {
     name: 'Level 1 Leather',
     parts: [
       {
@@ -339,7 +339,7 @@ test('A level 2 corroder should destroy level 1 leather', () => {
 test('A level 2 corroder should turn raw meat into rotten meat', () => {
   const source = getCorroder(1, 2);
 
-  const target: ItemConfig = {
+  const target: IItemConfig = {
     name: 'Level 99 Meat Slab',
     parts: [
       {
@@ -367,7 +367,7 @@ test('A level 2 corroder should turn raw meat into rotten meat', () => {
 test('A level 2 corroder should turn cooked meat into rotten meat', () => {
   const source = getCorroder(1, 2);
 
-  const target: ItemConfig = {
+  const target: IItemConfig = {
     name: 'Level 99 Ribeye Steak',
     parts: [
       {
@@ -396,7 +396,7 @@ test('A level 2 corroder should turn cooked meat into rotten meat', () => {
 test('A level 2 corroder should tarnish level 2 metal', () => {
   const source = getCorroder(1, 2);
 
-  const target: ItemConfig = {
+  const target: IItemConfig = {
     name: 'Level 2 Steel',
     parts: [
       {
@@ -423,7 +423,7 @@ test('A level 2 corroder should tarnish level 2 metal', () => {
 test('A level 2 corroder should destroy level 1 metal', () => {
   const source = getCorroder(1, 2);
 
-  const target: ItemConfig = {
+  const target: IItemConfig = {
     name: 'Level 1 Steel',
     parts: [
       {
@@ -448,7 +448,7 @@ test('A level 2 corroder should destroy level 1 metal', () => {
 test('A level 2 corroder should partially dissolve level 2 mud', () => {
   const source = getCorroder(1, 2);
 
-  const target: ItemConfig = {
+  const target: IItemConfig = {
     name: 'Level 2 Mud',
     parts: [
       {
@@ -475,7 +475,7 @@ test('A level 2 corroder should partially dissolve level 2 mud', () => {
 test('A level 2 corroder should fully dissolve level 1 mud', () => {
   const source = getCorroder(1, 2);
 
-  const target: ItemConfig = {
+  const target: IItemConfig = {
     name: 'Level 1 Mud',
     parts: [
       {
@@ -500,7 +500,7 @@ test('A level 2 corroder should fully dissolve level 1 mud', () => {
 test('A level 2 corroder should reduce wetness', () => {
   const source = getCorroder(1, 2);
 
-  const target: ItemConfig = {
+  const target: IItemConfig = {
     name: 'Wet Rock',
     parts: [
       {
@@ -529,7 +529,7 @@ test('A level 2 corroder should reduce wetness', () => {
 test('A level 2 corroder should rot level 2 wood', () => {
   const source = getCorroder(1, 2);
 
-  const target: ItemConfig = {
+  const target: IItemConfig = {
     name: 'Level 2 Wood',
     parts: [
       {
@@ -556,7 +556,7 @@ test('A level 2 corroder should rot level 2 wood', () => {
 test('A level 2 corroder should destroy level 1 rotten wood', () => {
   const source = getCorroder(1, 2);
 
-  const target: ItemConfig = {
+  const target: IItemConfig = {
     name: 'Level 1 Rotten Wood',
     parts: [
       {

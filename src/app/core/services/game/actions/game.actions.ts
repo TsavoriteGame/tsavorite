@@ -1,4 +1,4 @@
-import { ItemConfig, Scenario } from '../../../../../../content/interfaces';
+import { IItemConfig, IScenario } from '../../../../../../content/interfaces';
 import { IGameSetup } from '../stores/gamesetup.store';
 
 export class StartGame {
@@ -13,7 +13,7 @@ export class AbandonGame {
 
 export class AddBackpackItem {
   static type = '[Game] Add Backpack Item';
-  constructor(public item: ItemConfig) {}
+  constructor(public item: IItemConfig) {}
 }
 
 export class RemoveBackpackItem {
@@ -23,7 +23,7 @@ export class RemoveBackpackItem {
 
 export class UpdateBackpackItem {
   static type = '[Game] Update Backpack Item';
-  constructor(public index: number, public item: ItemConfig) {}
+  constructor(public index: number, public item: IItemConfig) {}
 }
 
 export class AddHealth {
@@ -45,7 +45,7 @@ export class Move {
 
 export class Warp {
   static type = '[Game] Warp';
-  constructor(public scenario: Scenario, public warpToWorld: number, public warpToLandmark: number) {}
+  constructor(public scenario: IScenario, public warpToWorld: number, public warpToLandmark: number) {}
 }
 
 export class MakeChoice {

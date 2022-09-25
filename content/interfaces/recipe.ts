@@ -1,15 +1,15 @@
 import { Descriptor, Interaction } from './item';
 
-export interface RecipeIngredient {
+export interface IRecipeIngredient {
   name: string;
   descriptor: Descriptor;
   level: number;
 }
 
-export interface Recipe {
+export interface IRecipe {
   name: string;
   description?: string;
   interaction: Interaction;
   produces: string;
-  ingredients: RecipeIngredient[];
+  ingredients: IRecipeIngredient[];
 }

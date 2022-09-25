@@ -1,18 +1,18 @@
 import { getItemById } from '../getters';
 import { decreaseDescriptorLevelForPart, decreaseInteractionLevel, getDescriptorLevelFromPart,
   getInteractionLevel, hasDescriptor, increaseDescriptorLevelForPart } from '../helpers';
-import { Descriptor, Interaction, ReactionExtendedArgs, Reactions } from '../interfaces';
+import { Descriptor, Interaction, IReactionExtendedArgs, Reactions } from '../interfaces';
 
-const zeroFail = (args: ReactionExtendedArgs) => ({
+const zeroFail = (args: IReactionExtendedArgs) => ({
   message: 'This item cannot freeze anything.',
   success: false,
   newSource: args.sourceItem,
   newTarget: args.targetItem
 });
 
-const increaseCold = (args: ReactionExtendedArgs) => increaseDescriptorLevelForPart(args.targetPart, Descriptor.Cold, 1);
+const increaseCold = (args: IReactionExtendedArgs) => increaseDescriptorLevelForPart(args.targetPart, Descriptor.Cold, 1);
 
-const genericColdIncrease = (args: ReactionExtendedArgs, postCall = () => {}) => {
+const genericColdIncrease = (args: IReactionExtendedArgs, postCall = () => {}) => {
   const freezesLevel = getInteractionLevel(args.sourceItem, Interaction.Freezes);
 
   const sourceItem = args.sourceItem;
@@ -31,7 +31,7 @@ const genericColdIncrease = (args: ReactionExtendedArgs, postCall = () => {}) =>
   };
 };
 
-const tryToFreeze = (args: ReactionExtendedArgs, comparatorDescriptor: Descriptor) => {
+const tryToFreeze = (args: IReactionExtendedArgs, comparatorDescriptor: Descriptor) => {
   const coldLevel = increaseCold(args);
   const descLevel = getDescriptorLevelFromPart(args.targetPart, comparatorDescriptor);
 
@@ -43,7 +43,7 @@ const tryToFreeze = (args: ReactionExtendedArgs, comparatorDescriptor: Descripto
 export const applications: Reactions = {
 
   // lower heat; increase cold
-  [Descriptor.Blazing]: (args: ReactionExtendedArgs) => {
+  [Descriptor.Blazing]: (args: IReactionExtendedArgs) => {
     const decreaseHot = () => {
       decreaseDescriptorLevelForPart(args.targetPart, Descriptor.Bright, 1);
 
@@ -54,7 +54,7 @@ export const applications: Reactions = {
   },
 
   // add cold to the blood, try to freeze it
-  [Descriptor.Bloody]: (args: ReactionExtendedArgs) => {
+  [Descriptor.Bloody]: (args: IReactionExtendedArgs) => {
 
     const freezesLevel = getInteractionLevel(args.sourceItem, Interaction.Freezes);
 
@@ -79,7 +79,7 @@ export const applications: Reactions = {
   [Descriptor.Glass]: genericColdIncrease,
 
   // lower heat; increase cold
-  [Descriptor.Hot]: (args: ReactionExtendedArgs) => {
+  [Descriptor.Hot]: (args: IReactionExtendedArgs) => {
     const decreaseHot = () => {
       decreaseInteractionLevel(args.sourceItem, Interaction.Freezes, 1);
     };
@@ -88,7 +88,7 @@ export const applications: Reactions = {
   },
 
   // increase cold
-  [Descriptor.Meat]: (args: ReactionExtendedArgs) => {
+  [Descriptor.Meat]: (args: IReactionExtendedArgs) => {
 
     const freezesLevel = getInteractionLevel(args.sourceItem, Interaction.Freezes);
 
@@ -110,7 +110,7 @@ export const applications: Reactions = {
   },
 
   // increase cold
-  [Descriptor.Metal]: (args: ReactionExtendedArgs) => {
+  [Descriptor.Metal]: (args: IReactionExtendedArgs) => {
     const increaseSticky = () => {
       increaseDescriptorLevelForPart(args.targetPart, Descriptor.Sticky, 1);
 
@@ -121,7 +121,7 @@ export const applications: Reactions = {
   },
 
   // turn mud into rock (eventually)
-  [Descriptor.Mud]: (args: ReactionExtendedArgs) => {
+  [Descriptor.Mud]: (args: IReactionExtendedArgs) => {
     const freezesLevel = getInteractionLevel(args.sourceItem, Interaction.Freezes);
 
     const sourceItem = args.sourceItem;
@@ -160,7 +160,7 @@ export const applications: Reactions = {
   [Descriptor.Rock]: genericColdIncrease,
 
   // increase cold, potentially freeze
-  [Descriptor.Wet]: (args: ReactionExtendedArgs) => {
+  [Descriptor.Wet]: (args: IReactionExtendedArgs) => {
 
     const freezesLevel = getInteractionLevel(args.sourceItem, Interaction.Freezes);
 

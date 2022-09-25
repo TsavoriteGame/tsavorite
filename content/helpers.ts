@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-use-before-define */
 
-import { Interaction, Descriptor, ItemInteraction, ItemConfig,
-  ItemDescriptor, ReactionFunction, ReactionArgs, ItemPart, ReactionExtendedArgs, ReactionResponse,
-  Recipe, RecipeIngredient } from './interfaces';
+import { Interaction, Descriptor, IItemInteraction, IItemConfig,
+  IItemDescriptor, ReactionFunction, IReactionArgs, IItemPart, IReactionExtendedArgs, IReactionResponse,
+  IRecipe, IRecipeIngredient } from './interfaces';
 import { getAllMiddleware, getPostCombineMiddleware,
   getPostReactionMiddleware, getPreCombineMiddleware, getPreReactionMiddleware } from './middleware';
 const { reverse, sortBy, sumBy } = require('lodash');
@@ -16,7 +16,7 @@ export function hasReaction(interaction: Interaction, descriptor: Descriptor): b
 }
 
 export function getReaction(interaction: Interaction, descriptor: Descriptor): ReactionFunction {
-  const defaultReaction: ReactionFunction = (args: ReactionArgs) => ({
+  const defaultReaction: ReactionFunction = (args: IReactionArgs) => ({
     message: 'The items do not react.',
     success: false,
     newSource: args.sourceItem,
@@ -26,10 +26,10 @@ export function getReaction(interaction: Interaction, descriptor: Descriptor): R
   const calledFunction: ReactionFunction = Reactions[interaction].applications[descriptor] || defaultReaction;
 
   // handle pre- and post- processing
-  const passthroughFunction = (args: ReactionArgs) => {
+  const passthroughFunction = (args: IReactionArgs) => {
 
     // clone items so we don't leak
-    const extendedArgs: ReactionExtendedArgs = {
+    const extendedArgs: IReactionExtendedArgs = {
       sourceItem: structuredClone(args.sourceItem),
       targetItem: structuredClone(args.targetItem),
 
@@ -107,11 +107,11 @@ export function getReaction(interaction: Interaction, descriptor: Descriptor): R
   return passthroughFunction;
 }
 
-export function getReactionForItem(interaction: Interaction, itemPart: ItemPart): ReactionFunction {
+export function getReactionForItem(interaction: Interaction, itemPart: IItemPart): ReactionFunction {
   return getReaction(interaction, itemPart.primaryDescriptor);
 }
 
-export function getReactionBetweenTwoItems(sourceItem: ItemConfig, targetItem: ItemConfig): ReactionResponse {
+export function getReactionBetweenTwoItems(sourceItem: IItemConfig, targetItem: IItemConfig): IReactionResponse {
   const defaultReaction = () => ({
     success: false,
     message: 'The items did not react.',
@@ -127,7 +127,7 @@ export function getReactionBetweenTwoItems(sourceItem: ItemConfig, targetItem: I
   const sourcePart = getPrimaryPartOfItem(sourceItem);
   if(!sourcePart) return defaultReaction();
 
-  let targetPart: ItemPart;
+  let targetPart: IItemPart;
   let validReaction: ReactionFunction;
 
   targetItem.parts.forEach(part => {
@@ -148,7 +148,7 @@ export function getReactionBetweenTwoItems(sourceItem: ItemConfig, targetItem: I
   });
 }
 
-export function getReactionBetweenItemAndPart(sourceItem: ItemConfig, targetItemPart: ItemPart): ReactionFunction | undefined {
+export function getReactionBetweenItemAndPart(sourceItem: IItemConfig, targetItemPart: IItemPart): ReactionFunction | undefined {
   const interaction = sourceItem.interaction;
   if(!interaction) return undefined;
 
@@ -156,28 +156,28 @@ export function getReactionBetweenItemAndPart(sourceItem: ItemConfig, targetItem
 }
 
 // interaction functions
-export function setInteraction(item: ItemConfig, interaction: Interaction): void {
+export function setInteraction(item: IItemConfig, interaction: Interaction): void {
   if(!item.interaction) item.interaction = { name: interaction, level: 0 };
 
   item.interaction.name = interaction;
 }
 
-export function getInteraction(item: ItemConfig, interaction: Interaction): ItemInteraction | undefined {
+export function getInteraction(item: IItemConfig, interaction: Interaction): IItemInteraction | undefined {
   if(item.interaction?.name !== interaction) return undefined;
 
   return item.interaction;
 }
 
-export function getInteractionLevel(item: ItemConfig, interaction: Interaction): number {
+export function getInteractionLevel(item: IItemConfig, interaction: Interaction): number {
   return getInteraction(item, interaction)?.level ?? 0;
 }
 
 // descriptor functions
-export function getAllDescriptorsForPart(part: ItemPart): Descriptor[] {
+export function getAllDescriptorsForPart(part: IItemPart): Descriptor[] {
   return Object.keys(part.descriptors).filter(d => part.descriptors[d].level > 0) as Descriptor[];
 }
 
-export function getAllDescriptorsForItem(item: ItemConfig): Descriptor[] {
+export function getAllDescriptorsForItem(item: IItemConfig): Descriptor[] {
   return [...new Set(
     item.parts.map(part => Object.keys(part.descriptors)
       .filter(d => part.descriptors[d].level > 0) as Descriptor[])
@@ -186,100 +186,100 @@ export function getAllDescriptorsForItem(item: ItemConfig): Descriptor[] {
   ] as Descriptor[];
 }
 
-export function addDescriptor(item: ItemConfig, descriptor: Descriptor, level = 0): void {
+export function addDescriptor(item: IItemConfig, descriptor: Descriptor, level = 0): void {
   if(hasDescriptor(item, descriptor)) return;
   if(item.parts.length === 0) return;
 
   setDescriptorLevelForPart(item.parts[0], descriptor, level);
 }
 
-export function getDescriptor(item: ItemConfig, descriptor: Descriptor, minimum = 0): ItemDescriptor | undefined {
+export function getDescriptor(item: IItemConfig, descriptor: Descriptor, minimum = 0): IItemDescriptor | undefined {
   const partWithDescriptor = item.parts.find(p => (p.descriptors[descriptor]?.level ?? 0) > minimum);
   return partWithDescriptor?.descriptors[descriptor];
 }
 
-export function getDescriptorLevel(item: ItemConfig, descriptor: Descriptor): number {
+export function getDescriptorLevel(item: IItemConfig, descriptor: Descriptor): number {
   return getDescriptor(item, descriptor)?.level ?? 0;
 }
 
-export function getTotalDescriptorLevel(item: ItemConfig, descriptor: Descriptor): number {
+export function getTotalDescriptorLevel(item: IItemConfig, descriptor: Descriptor): number {
   return item.parts.reduce((total, part) => total + (part.descriptors[descriptor]?.level ?? 0), 0);
 }
 
-export function setDescriptorLevel(itemDescriptor: ItemDescriptor, level = 1): number {
+export function setDescriptorLevel(itemDescriptor: IItemDescriptor, level = 1): number {
   itemDescriptor.level = level;
 
   return itemDescriptor.level ?? 0;
 }
 
-export function getDescriptorFromPart(part: ItemPart, descriptor: Descriptor): ItemDescriptor | undefined {
+export function getDescriptorFromPart(part: IItemPart, descriptor: Descriptor): IItemDescriptor | undefined {
   return part.descriptors[descriptor];
 }
 
-export function getDescriptorLevelFromPart(part: ItemPart, descriptor: Descriptor): number {
+export function getDescriptorLevelFromPart(part: IItemPart, descriptor: Descriptor): number {
   return getDescriptorFromPart(part, descriptor)?.level ?? 0;
 }
 
-export function getDescriptorLevelFromItemDescriptor(itemDescriptor: ItemDescriptor): number {
+export function getDescriptorLevelFromItemDescriptor(itemDescriptor: IItemDescriptor): number {
   return itemDescriptor?.level ?? 0;
 }
 
-export function hasDescriptor(item: ItemConfig, descriptor: Descriptor): boolean {
+export function hasDescriptor(item: IItemConfig, descriptor: Descriptor): boolean {
   return getDescriptorLevel(item, descriptor) > 0;
 }
 
-export function changePrimaryDescriptor(itemPart: ItemPart, descriptor: Descriptor): void {
+export function changePrimaryDescriptor(itemPart: IItemPart, descriptor: Descriptor): void {
   itemPart.primaryDescriptor = descriptor;
 }
 
-export function getPartWithDescriptor(item: ItemConfig, descriptor: Descriptor, minimum = 0): ItemPart | undefined {
+export function getPartWithDescriptor(item: IItemConfig, descriptor: Descriptor, minimum = 0): IItemPart | undefined {
   return item.parts.find(p => getDescriptorLevelFromPart(p, descriptor) > minimum);
 }
 
-export function isUnbreakable(item: ItemConfig): boolean {
+export function isUnbreakable(item: IItemConfig): boolean {
   return hasDescriptor(item, Descriptor.Unbreakable);
 }
 
-export function isLocked(item: ItemConfig): boolean {
+export function isLocked(item: IItemConfig): boolean {
   return hasDescriptor(item, Descriptor.Locked);
 }
 
 // part functions
-export function hasFoundationalPart(item: ItemConfig): boolean {
+export function hasFoundationalPart(item: IItemConfig): boolean {
   if(!item) return false;
   return !!item.parts.find(x => x.foundational);
 }
 
-export function setFoundationalPart(part: ItemPart): void {
+export function setFoundationalPart(part: IItemPart): void {
   part.foundational = true;
 }
 
-export function addPart(item: ItemConfig, part: ItemPart): void {
+export function addPart(item: IItemConfig, part: IItemPart): void {
   item.parts.push(part);
 }
 
-export function removePart(item: ItemConfig, part: ItemPart): void {
+export function removePart(item: IItemConfig, part: IItemPart): void {
   item.parts = item.parts.filter(p => p !== part);
 }
 
-export function setDescriptorLevelForPart(part: ItemPart, descriptor: Descriptor, level = 1): number {
+export function setDescriptorLevelForPart(part: IItemPart, descriptor: Descriptor, level = 1): number {
   part.descriptors[descriptor] = { level };
 
   return part.descriptors[descriptor].level ?? 0;
 }
 
-export function increaseDescriptorLevelForPart(part: ItemPart, descriptor: Descriptor, levelDelta = 1): number {
+export function increaseDescriptorLevelForPart(part: IItemPart, descriptor: Descriptor, levelDelta = 1): number {
   if(!part.descriptors[descriptor]) part.descriptors[descriptor] = { level: 0 };
   part.descriptors[descriptor].level = Math.max(0, part.descriptors[descriptor].level + levelDelta);
 
   return part.descriptors[descriptor].level ?? 0;
 }
 
-export function decreaseDescriptorLevelForPart(part: ItemPart, descriptor: Descriptor, levelDelta = 1): number {
+export function decreaseDescriptorLevelForPart(part: IItemPart, descriptor: Descriptor, levelDelta = 1): number {
   return increaseDescriptorLevelForPart(part, descriptor, -levelDelta);
 }
 
-export function increasePartOrIncreaseDescriptorLevel(item: ItemConfig, descriptor: Descriptor, part: ItemPart, levelDelta = 1): void {
+export function increasePartOrIncreaseDescriptorLevel(item: IItemConfig, descriptor: Descriptor, part: IItemPart, levelDelta = 1): void {
   const checkLevel = getDescriptorLevel(item, descriptor);
   if(checkLevel <= 0)
     addPart(item, part);
@@ -287,24 +287,24 @@ export function increasePartOrIncreaseDescriptorLevel(item: ItemConfig, descript
     increaseDescriptorLevel(item, descriptor, levelDelta);
 }
 
-export function decreasePartOrIncreaseDescriptorLevel(item: ItemConfig, descriptor: Descriptor, part: ItemPart, levelDelta = 1): void {
+export function decreasePartOrIncreaseDescriptorLevel(item: IItemConfig, descriptor: Descriptor, part: IItemPart, levelDelta = 1): void {
   increasePartOrIncreaseDescriptorLevel(item, descriptor, part, -levelDelta);
 }
 
-export function getPrimaryPartOfItem(item: ItemConfig) {
+export function getPrimaryPartOfItem(item: IItemConfig) {
   if(hasFoundationalPart(item)) return item.parts.find(p => p.foundational);
 
   return item.parts[0];
 }
 
-export function hasSharedPrimaryDescriptor(sourceItem: ItemConfig, targetItem: ItemConfig): boolean {
+export function hasSharedPrimaryDescriptor(sourceItem: IItemConfig, targetItem: IItemConfig): boolean {
   const sourcePart = getPrimaryPartOfItem(sourceItem);
   const targetPart = getPrimaryPartOfItem(targetItem);
 
   return sourcePart.primaryDescriptor === targetPart.primaryDescriptor;
 }
 
-export function balanceOppositeDescriptors(item: ItemConfig, a: Descriptor, b: Descriptor) {
+export function balanceOppositeDescriptors(item: IItemConfig, a: Descriptor, b: Descriptor) {
   while (getDescriptorLevel(item, a) > 0 && getDescriptorLevel(item, b) > 0) {
     decreaseDescriptorLevel(item, a, 1);
     decreaseDescriptorLevel(item, b, 1);
@@ -312,7 +312,7 @@ export function balanceOppositeDescriptors(item: ItemConfig, a: Descriptor, b: D
 }
 
 // combination functions
-export function getCombinationBetweenTwoItems(sourceItem: ItemConfig, targetItem: ItemConfig): ReactionResponse {
+export function getCombinationBetweenTwoItems(sourceItem: IItemConfig, targetItem: IItemConfig): IReactionResponse {
   const failedCombination = () => ({
     success: false,
     message: 'The items were not combined.',
@@ -323,7 +323,7 @@ export function getCombinationBetweenTwoItems(sourceItem: ItemConfig, targetItem
   if (hasFoundationalPart(sourceItem) || sourceItem.parts.length > 1
    || hasFoundationalPart(targetItem) || targetItem.parts.length > 1) return failedCombination();
 
-  const extendedArgs: ReactionExtendedArgs = {
+  const extendedArgs: IReactionExtendedArgs = {
     sourceItem: structuredClone(sourceItem),
     targetItem: structuredClone(targetItem),
 
@@ -395,18 +395,18 @@ export function getCombinationBetweenTwoItems(sourceItem: ItemConfig, targetItem
 }
 
 // recipe functions
-export function getAllRecipesForInteraction(interaction: Interaction): Recipe[] {
-  let recipes: Recipe[] = (allRecipes as Recipe[]).filter(recipe => recipe.interaction === interaction);
+export function getAllRecipesForInteraction(interaction: Interaction): IRecipe[] {
+  let recipes: IRecipe[] = (allRecipes as IRecipe[]).filter(recipe => recipe.interaction === interaction);
 
   recipes = sortBy(recipes, recipe => -sumBy(recipe.ingredients.map(i => i.level)));
 
   return recipes;
 }
 
-export function getAllFulfilledRecipesForItem(item: ItemConfig): Recipe[] | undefined {
+export function getAllFulfilledRecipesForItem(item: IItemConfig): IRecipe[] | undefined {
   if (!item.interaction) return undefined;
 
-  const recipes: Recipe[] = getAllRecipesForInteraction(item.interaction.name).filter(recipe => {
+  const recipes: IRecipe[] = getAllRecipesForInteraction(item.interaction.name).filter(recipe => {
     if (!recipe.ingredients) return false;
 
     let fulfilled = true;
@@ -424,7 +424,7 @@ export function getAllFulfilledRecipesForItem(item: ItemConfig): Recipe[] | unde
   return recipes;
 }
 
-export function getValidFulfilledRecipeForItem(item: ItemConfig): Recipe | undefined {
+export function getValidFulfilledRecipeForItem(item: IItemConfig): IRecipe | undefined {
   if (!item.interaction) return undefined;
 
   const fulfilledRecipes = getAllFulfilledRecipesForItem(item);
@@ -434,7 +434,7 @@ export function getValidFulfilledRecipeForItem(item: ItemConfig): Recipe | undef
 }
 
 // other functions
-export function increaseInteractionLevel(item: ItemConfig, interaction: Interaction, delta = 1): number {
+export function increaseInteractionLevel(item: IItemConfig, interaction: Interaction, delta = 1): number {
   item.interaction = item.interaction || { name: interaction, level: 0 };
 
   if(item.interaction.name !== interaction) return 0;
@@ -443,11 +443,11 @@ export function increaseInteractionLevel(item: ItemConfig, interaction: Interact
   return item.interaction.level;
 }
 
-export function decreaseInteractionLevel(item: ItemConfig, interaction: Interaction, delta = 1): number {
+export function decreaseInteractionLevel(item: IItemConfig, interaction: Interaction, delta = 1): number {
   return increaseInteractionLevel(item, interaction, -delta);
 }
 
-export function increaseDescriptorLevel(item: ItemConfig, descriptor: Descriptor, delta = 1): number {
+export function increaseDescriptorLevel(item: IItemConfig, descriptor: Descriptor, delta = 1): number {
   let part = getPartWithDescriptor(item, descriptor, 0);
   if(!part) {
     addDescriptor(item, descriptor, 0);
@@ -458,6 +458,6 @@ export function increaseDescriptorLevel(item: ItemConfig, descriptor: Descriptor
   return newLevel;
 }
 
-export function decreaseDescriptorLevel(item: ItemConfig, descriptor: Descriptor, delta = 1): number {
+export function decreaseDescriptorLevel(item: IItemConfig, descriptor: Descriptor, delta = 1): number {
   return increaseDescriptorLevel(item, descriptor, -delta);
 }

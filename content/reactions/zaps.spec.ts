@@ -1,7 +1,7 @@
 import { getAllDescriptorsForPart, getDescriptorLevel, getInteractionLevel, getReactionBetweenTwoItems } from '../helpers';
-import { Descriptor, Interaction, ItemConfig } from '../interfaces';
+import { Descriptor, Interaction, IItemConfig } from '../interfaces';
 
-const getZapper: (level: number, zapsLevel: number) => ItemConfig =
+const getZapper: (level: number, zapsLevel: number) => IItemConfig =
                  (level: number, zapsLevel: number) => ({
                    name: `Level ${level} Zapper`,
                    parts: [
@@ -21,7 +21,7 @@ test('A level 2 zapper should magnetize metal', () => {
 
   const source = getZapper(1, 2);
 
-  const target: ItemConfig = {
+  const target: IItemConfig = {
     name: 'Level 1 Metal',
     parts: [
       {
@@ -49,7 +49,7 @@ test('A level 2 zapper should not magnetize metal beyond its electric level', ()
 
   const source = getZapper(1, 2);
 
-  const target: ItemConfig = {
+  const target: IItemConfig = {
     name: 'Level 1 Metal',
     parts: [
       {
@@ -73,7 +73,7 @@ test('A level 2 zapper should not affect wood', () => {
 
   const source = getZapper(1, 2);
 
-  const target: ItemConfig = {
+  const target: IItemConfig = {
     name: 'Level 1 Wood',
     parts: [
       {
@@ -96,7 +96,7 @@ test('A level 2 zapper should shock water', () => {
 
   const source = getZapper(1, 2);
 
-  const target: ItemConfig = {
+  const target: IItemConfig = {
     name: 'Level 1 Water',
     parts: [
       {

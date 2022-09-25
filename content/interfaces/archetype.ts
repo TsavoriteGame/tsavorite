@@ -1,5 +1,5 @@
 
-export interface Archetype {
+export interface IArchetype {
   name: string;
   icon: string;
   description: string;

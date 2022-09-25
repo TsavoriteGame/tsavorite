@@ -1,8 +1,8 @@
 import { decreaseDescriptorLevelForPart, getDescriptorLevel, getPartWithDescriptor, increaseDescriptorLevelForPart } from '../helpers';
-import { Descriptor, Interaction, ItemConfig, MiddlewareType,
-  PostReactionMiddleware, ReactionExtendedArgs, ReactionResponse } from '../interfaces';
+import { Descriptor, Interaction, IItemConfig, MiddlewareType,
+  PostReactionMiddleware, IReactionExtendedArgs, IReactionResponse } from '../interfaces';
 
-export function shouldCombust(item: ItemConfig) {
+export function shouldCombust(item: IItemConfig) {
   return getDescriptorLevel(item, Descriptor.Combustible) > 0;
 }
 
@@ -21,7 +21,7 @@ export class IgniteCombustible implements PostReactionMiddleware {
   /*
    * Here, we only check if we have glass and it should shatter (temperature-wise)
    */
-  shouldPostFire(args: ReactionExtendedArgs, response: ReactionResponse) {
+  shouldPostFire(args: IReactionExtendedArgs, response: IReactionResponse) {
     return args.sourceItem.interaction
         && args.sourceItem.interaction.name === Interaction.Ignites
         && response.newTarget
@@ -33,7 +33,7 @@ export class IgniteCombustible implements PostReactionMiddleware {
     return false;
   }
 
-  post(args: ReactionExtendedArgs, response: ReactionResponse) {
+  post(args: IReactionExtendedArgs, response: IReactionResponse) {
     const part = getPartWithDescriptor(args.targetItem, Descriptor.Combustible);
     increaseDescriptorLevelForPart(part, Descriptor.Blazing, 1);
     increaseDescriptorLevelForPart(part, Descriptor.Hot, 1);

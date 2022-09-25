@@ -1,9 +1,9 @@
 import { getItemById } from '../getters';
 import { getInteractionLevel, increaseDescriptorLevelForPart, decreaseInteractionLevel, decreaseDescriptorLevelForPart,
   getDescriptorLevelFromPart, getValidFulfilledRecipeForItem, hasFoundationalPart } from '../helpers';
-import { Descriptor, Reactions, Interaction, ReactionExtendedArgs, ItemConfig } from '../interfaces';
+import { Descriptor, Reactions, Interaction, IReactionExtendedArgs, IItemConfig } from '../interfaces';
 
-const zeroFail = (args: ReactionExtendedArgs) => ({
+const zeroFail = (args: IReactionExtendedArgs) => ({
   message: 'The tailor kit cannot use this material.',
   success: false,
   newSource: args.sourceItem,
@@ -13,7 +13,7 @@ const zeroFail = (args: ReactionExtendedArgs) => ({
 export const applications: Reactions = {
 
   // add full item to kit
-  [Descriptor.Fiber]: (args: ReactionExtendedArgs) => {
+  [Descriptor.Fiber]: (args: IReactionExtendedArgs) => {
 
     if (hasFoundationalPart(args.targetItem)) return zeroFail(args);
 
@@ -36,7 +36,7 @@ export const applications: Reactions = {
     };
   },
 
-  [Descriptor.Leather]: (args: ReactionExtendedArgs) => {
+  [Descriptor.Leather]: (args: IReactionExtendedArgs) => {
 
     if (hasFoundationalPart(args.targetItem)) return zeroFail(args);
 
@@ -60,7 +60,7 @@ export const applications: Reactions = {
   },
 
   // if the tailor kit is filled with enough materials, make armor
-  [Descriptor.Sticky]: (args: ReactionExtendedArgs) => {
+  [Descriptor.Sticky]: (args: IReactionExtendedArgs) => {
 
     const tailorsLevel = getInteractionLevel(args.sourceItem, Interaction.Tailors);
 

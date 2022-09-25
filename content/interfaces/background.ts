@@ -1,12 +1,12 @@
 
-export interface BackgroundKitItem {
+export interface IBackgroundKitItem {
   description: string;
   icon: string;
   itemId: string;
   itemChanges: Record<string, number>;
 }
 
-export interface Background {
+export interface IBackground {
   name: string;
   icon: string;
   disabled?: boolean;
@@ -15,5 +15,5 @@ export interface Background {
   description: string;
   archetype: string;
   goal: string;
-  startingKit: BackgroundKitItem[];
+  startingKit: IBackgroundKitItem[];
 }

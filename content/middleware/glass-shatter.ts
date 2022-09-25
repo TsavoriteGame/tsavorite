@@ -1,7 +1,7 @@
 import { hasDescriptor } from '../helpers';
-import { Descriptor, ItemConfig, MiddlewareType, PostReactionMiddleware, ReactionExtendedArgs, ReactionResponse } from '../interfaces';
+import { Descriptor, IItemConfig, MiddlewareType, PostReactionMiddleware, IReactionExtendedArgs, IReactionResponse } from '../interfaces';
 
-export function shouldShatter(item: ItemConfig) {
+export function shouldShatter(item: IItemConfig) {
   const hasHot = hasDescriptor(item, Descriptor.Hot);
   const hasCold = hasDescriptor(item, Descriptor.Cold);
   const hasBlazing = hasDescriptor(item, Descriptor.Blazing);
@@ -26,7 +26,7 @@ export class GlassShatter implements PostReactionMiddleware {
   /*
    * Here, we only check if we have glass and it should shatter (temperature-wise)
    */
-  shouldPostFire(args: ReactionExtendedArgs, response: ReactionResponse) {
+  shouldPostFire(args: IReactionExtendedArgs, response: IReactionResponse) {
     return response.success
         && response.newTarget
         && shouldShatter(response.newTarget);
@@ -37,7 +37,7 @@ export class GlassShatter implements PostReactionMiddleware {
     return false;
   }
 
-  post(args: ReactionExtendedArgs, response: ReactionResponse) {
+  post(args: IReactionExtendedArgs, response: IReactionResponse) {
     response.newTarget = undefined;
     response.message = `${response.message} Target shattered due to temperature!`;
 

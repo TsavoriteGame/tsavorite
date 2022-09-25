@@ -6,18 +6,18 @@ import { getInteractionLevel,
   increaseInteractionLevel,
   getDescriptorLevelFromPart,
   setDescriptorLevelForPart} from '../helpers';
-import { Descriptor, Reactions, Interaction, ReactionExtendedArgs } from '../interfaces';
+import { Descriptor, Reactions, Interaction, IReactionExtendedArgs } from '../interfaces';
 
-const zeroFail = (args: ReactionExtendedArgs) => ({
+const zeroFail = (args: IReactionExtendedArgs) => ({
   message: 'This item cannot ignite anything.',
   success: false,
   newSource: args.sourceItem,
   newTarget: args.targetItem
 });
 
-const increaseHot = (args: ReactionExtendedArgs) => increaseDescriptorLevelForPart(args.targetPart, Descriptor.Hot, 1);
+const increaseHot = (args: IReactionExtendedArgs) => increaseDescriptorLevelForPart(args.targetPart, Descriptor.Hot, 1);
 
-const genericHotIncrease = (args: ReactionExtendedArgs, postCall = () => {}) => {
+const genericHotIncrease = (args: IReactionExtendedArgs, postCall = () => {}) => {
   const ignitesLevel = getInteractionLevel(args.sourceItem, Interaction.Ignites);
 
   const sourceItem = args.sourceItem;
@@ -39,7 +39,7 @@ const genericHotIncrease = (args: ReactionExtendedArgs, postCall = () => {}) => 
 export const applications: Reactions = {
 
   // clay can turn into glass
-  [Descriptor.Clay]: (args: ReactionExtendedArgs) => {
+  [Descriptor.Clay]: (args: IReactionExtendedArgs) => {
     const ignitesLevel = getInteractionLevel(args.sourceItem, Interaction.Ignites);
 
     const sourceItem = args.sourceItem;
@@ -74,7 +74,7 @@ export const applications: Reactions = {
   },
 
   // cold gets less cold
-  [Descriptor.Cold]: (args: ReactionExtendedArgs) => {
+  [Descriptor.Cold]: (args: IReactionExtendedArgs) => {
     const decreaseCold = () => {
       decreaseInteractionLevel(args.sourceItem, Interaction.Ignites, 1);
 
@@ -85,7 +85,7 @@ export const applications: Reactions = {
   },
 
   // combustibles get hot, bright, and lose a stack of combustible. source gets ignite++ and hot++
-  [Descriptor.Combustible]: (args: ReactionExtendedArgs) => {
+  [Descriptor.Combustible]: (args: IReactionExtendedArgs) => {
     const ignitesLevel = getInteractionLevel(args.sourceItem, Interaction.Ignites);
 
     const sourceItem = args.sourceItem;
@@ -119,7 +119,7 @@ export const applications: Reactions = {
   },
 
   // fiber burns away one stack at a time
-  [Descriptor.Fiber]: (args: ReactionExtendedArgs) => {
+  [Descriptor.Fiber]: (args: IReactionExtendedArgs) => {
     const ignitesLevel = getInteractionLevel(args.sourceItem, Interaction.Ignites);
 
     const sourceItem = args.sourceItem;
@@ -147,7 +147,7 @@ export const applications: Reactions = {
   },
 
   // frozen gets less frozen
-  [Descriptor.Frozen]: (args: ReactionExtendedArgs) => {
+  [Descriptor.Frozen]: (args: IReactionExtendedArgs) => {
     const decreaseCold = () => {
       increaseDescriptorLevelForPart(args.targetPart, Descriptor.Wet, 1);
 
@@ -164,7 +164,7 @@ export const applications: Reactions = {
   [Descriptor.Leather]: genericHotIncrease,
 
   // combustibles get hot, bright, and lose a stack of combustible. source gets ignite++ and hot++
-  [Descriptor.Meat]: (args: ReactionExtendedArgs) => {
+  [Descriptor.Meat]: (args: IReactionExtendedArgs) => {
     const ignitesLevel = getInteractionLevel(args.sourceItem, Interaction.Ignites);
 
     const sourceItem = args.sourceItem;
@@ -198,7 +198,7 @@ export const applications: Reactions = {
   },
 
   // metal gets hot, and can melt
-  [Descriptor.Metal]: (args: ReactionExtendedArgs) => {
+  [Descriptor.Metal]: (args: IReactionExtendedArgs) => {
     const ignitesLevel = getInteractionLevel(args.sourceItem, Interaction.Ignites);
 
     const sourceItem = args.sourceItem;
@@ -242,7 +242,7 @@ export const applications: Reactions = {
   },
 
   // turn mud into clay (eventually)
-  [Descriptor.Mud]: (args: ReactionExtendedArgs) => {
+  [Descriptor.Mud]: (args: IReactionExtendedArgs) => {
     const ignitesLevel = getInteractionLevel(args.sourceItem, Interaction.Ignites);
 
     const sourceItem = args.sourceItem;
@@ -278,7 +278,7 @@ export const applications: Reactions = {
   },
 
   // sand gets hot, and can melt and transform into glass
-  [Descriptor.Sand]: (args: ReactionExtendedArgs) => {
+  [Descriptor.Sand]: (args: IReactionExtendedArgs) => {
     const ignitesLevel = getInteractionLevel(args.sourceItem, Interaction.Ignites);
 
     const sourceItem = args.sourceItem;
@@ -317,7 +317,7 @@ export const applications: Reactions = {
   [Descriptor.Rock]: genericHotIncrease,
 
   // remove sticky stacks from sticky stuff
-  [Descriptor.Sticky]: (args: ReactionExtendedArgs) => {
+  [Descriptor.Sticky]: (args: IReactionExtendedArgs) => {
     const decreaseExtra = () => {
       decreaseDescriptorLevelForPart(args.targetPart, Descriptor.Sticky, 1);
     };
@@ -326,7 +326,7 @@ export const applications: Reactions = {
   },
 
   // remove wet stacks from wet stuff
-  [Descriptor.Wet]: (args: ReactionExtendedArgs) => {
+  [Descriptor.Wet]: (args: IReactionExtendedArgs) => {
     const decreaseExtra = () => {
       decreaseDescriptorLevelForPart(args.targetPart, Descriptor.Wet, 1);
       decreaseDescriptorLevelForPart(args.targetPart, Descriptor.Hot, 1);
@@ -338,7 +338,7 @@ export const applications: Reactions = {
   },
 
   // wood gets hot, and can ignite and slwoly burn down as it gets ignited
-  [Descriptor.Wood]: (args: ReactionExtendedArgs) => {
+  [Descriptor.Wood]: (args: IReactionExtendedArgs) => {
     const ignitesLevel = getInteractionLevel(args.sourceItem, Interaction.Ignites);
 
     const sourceItem = args.sourceItem;

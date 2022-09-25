@@ -1,7 +1,7 @@
 import { getAllDescriptorsForPart, getDescriptorLevel, getInteractionLevel, getReactionBetweenTwoItems } from '../helpers';
-import { Descriptor, Interaction, ItemConfig } from '../interfaces';
+import { Descriptor, Interaction, IItemConfig } from '../interfaces';
 
-const getFreezer: (level: number, freezeLevel: number) => ItemConfig =
+const getFreezer: (level: number, freezeLevel: number) => IItemConfig =
                   (level: number, freezeLevel: number) => ({
                     name: `Level ${level} Freezer`,
                     parts: [
@@ -20,7 +20,7 @@ test('A level 2 freezer should chill level 2 blood', () => {
 
   const source = getFreezer(1, 2);
 
-  const target: ItemConfig = {
+  const target: IItemConfig = {
     name: 'Level 2 Blood',
     parts: [
       {
@@ -51,7 +51,7 @@ test('A level 2 freezer should freeze level 1 frozen blood', () => {
 
   const source = getFreezer(1, 2);
 
-  const target: ItemConfig = {
+  const target: IItemConfig = {
     name: 'Level 1 Blood',
     parts: [
       {
@@ -84,7 +84,7 @@ test('A level 2 freezer should chill glass', () => {
 
   const source = getFreezer(1, 2);
 
-  const target: ItemConfig = {
+  const target: IItemConfig = {
     name: 'Level 1 Glass',
     parts: [
       {
@@ -115,7 +115,7 @@ test('A level 2 freezer should shatter hot glass', () => {
 
   const source = getFreezer(1, 2);
 
-  const target: ItemConfig = {
+  const target: IItemConfig = {
     name: 'Level 1 Glass',
     parts: [
       {
@@ -144,7 +144,7 @@ test('A level 2 freezer should lower heat on a hot rock but not impart cold', ()
 
   const source = getFreezer(1, 2);
 
-  const target: ItemConfig = {
+  const target: IItemConfig = {
     name: 'Level 1 Heatstone',
     parts: [
       {
@@ -176,7 +176,7 @@ test('A level 2 freezer should chill level 2 meat', () => {
 
   const source = getFreezer(1, 2);
 
-  const target: ItemConfig = {
+  const target: IItemConfig = {
     name: 'Level 2 Meat',
     parts: [
       {
@@ -206,7 +206,7 @@ test('A level 2 freezer should freeze chilled level 1 meat', () => {
 
   const source = getFreezer(1, 2);
 
-  const target: ItemConfig = {
+  const target: IItemConfig = {
     name: 'Level 1 Meat',
     parts: [
       {
@@ -238,7 +238,7 @@ test('A level 2 freezer should make metal sticky', () => {
 
   const source = getFreezer(1, 2);
 
-  const target: ItemConfig = {
+  const target: IItemConfig = {
     name: 'Level 1 Metal Pole',
     parts: [
       {
@@ -269,7 +269,7 @@ test('A level 2 freezer should make a rock cold', () => {
 
   const source = getFreezer(1, 2);
 
-  const target: ItemConfig = {
+  const target: IItemConfig = {
     name: 'Level 1 Rock',
     parts: [
       {
@@ -299,7 +299,7 @@ test('A level 2 freezer should chill level 1 water', () => {
 
   const source = getFreezer(1, 2);
 
-  const target: ItemConfig = {
+  const target: IItemConfig = {
     name: 'Level 1 Water',
     parts: [
       {
@@ -330,7 +330,7 @@ test('A level 2 freezer should freeze chilled level 1 water', () => {
 
   const source = getFreezer(1, 2);
 
-  const target: ItemConfig = {
+  const target: IItemConfig = {
     name: 'Level 1 Water',
     parts: [
       {
@@ -362,7 +362,7 @@ test('A level 2 freezer should lower brightness on blazing', () => {
 
   const source = getFreezer(1, 2);
 
-  const target: ItemConfig = {
+  const target: IItemConfig = {
     name: 'Level 1 Fire',
     parts: [
       {
@@ -395,7 +395,7 @@ test('A level 2 freezer should turn mud into rock', () => {
 
   const source = getFreezer(1, 2);
 
-  const target: ItemConfig = {
+  const target: IItemConfig = {
     name: 'Level 1 Mud',
     parts: [
       {

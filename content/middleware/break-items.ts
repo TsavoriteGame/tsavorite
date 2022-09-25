@@ -1,9 +1,9 @@
 import { getDescriptorLevel, isUnbreakable } from '../helpers';
-import { Descriptor, Interaction, ItemConfig, MiddlewareType,
-  PostReactionMiddleware, ReactionExtendedArgs, ReactionResponse } from '../interfaces';
+import { Descriptor, Interaction, IItemConfig, MiddlewareType,
+  PostReactionMiddleware, IReactionExtendedArgs, IReactionResponse } from '../interfaces';
 
 // whether or not source should break when hitting target
-export function shouldItemBreakWhenInteractingWith(sourceItem: ItemConfig, targetItem: ItemConfig): boolean {
+export function shouldItemBreakWhenInteractingWith(sourceItem: IItemConfig, targetItem: IItemConfig): boolean {
 
   if(!sourceItem || !targetItem) return false;
 
@@ -57,7 +57,7 @@ export class BreakItems implements PostReactionMiddleware {
   /*
    * Here, we only check if we're carving or smashing. And only if we succeeded in interacting to begin with.
    */
-  shouldPostFire(args: ReactionExtendedArgs, response: ReactionResponse & { checksBreaks: boolean }) {
+  shouldPostFire(args: IReactionExtendedArgs, response: IReactionResponse & { checksBreaks: boolean }) {
     return response.success
         && response.checksBreaks
         && args.sourceItem.interaction
@@ -69,7 +69,7 @@ export class BreakItems implements PostReactionMiddleware {
     return false;
   }
 
-  post(args: ReactionExtendedArgs, response: ReactionResponse) {
+  post(args: IReactionExtendedArgs, response: IReactionResponse) {
     const shouldSourceBreak = shouldItemBreakWhenInteractingWith(response.newSource, response.newTarget);
     const shouldTargetBreak = shouldItemBreakWhenInteractingWith(response.newTarget, response.newSource);
 

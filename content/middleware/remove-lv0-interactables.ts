@@ -1,4 +1,4 @@
-import { MiddlewareType, PostReactionMiddleware, ReactionExtendedArgs, ReactionResponse } from '../interfaces';
+import { MiddlewareType, PostReactionMiddleware, IReactionExtendedArgs, IReactionResponse } from '../interfaces';
 
 /**
  * We check if glass has hot and cold applied to it. If so, we shatter it.
@@ -15,7 +15,7 @@ export class RemoveLv0Interactable implements PostReactionMiddleware {
   /*
    * Here, we only check if we have glass and it should shatter (temperature-wise)
    */
-  shouldPostFire(args: ReactionExtendedArgs, response: ReactionResponse) {
+  shouldPostFire(args: IReactionExtendedArgs, response: IReactionResponse) {
     return response.success
         && response.newSource
         && response.newSource.interaction
@@ -27,7 +27,7 @@ export class RemoveLv0Interactable implements PostReactionMiddleware {
     return false;
   }
 
-  post(args: ReactionExtendedArgs, response: ReactionResponse) {
+  post(args: IReactionExtendedArgs, response: IReactionResponse) {
     response.newSource = undefined;
     response.message = `${response.message} Source broke!`;
 

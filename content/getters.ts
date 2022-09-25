@@ -1,5 +1,5 @@
 
-import { Archetype, Background, ItemConfig, Recipe, Scenario } from './interfaces';
+import { IArchetype, IBackground, IItemConfig, IRecipe, IScenario } from './interfaces';
 
 import * as items from '../content/items/items.json';
 import * as archetypes from '../content/archetypes/archetypes.json';
@@ -13,17 +13,17 @@ const importedBackgrounds = (backgrounds as any).default || backgrounds;
 const importedRecipes = (recipes as any).default || recipes;
 const importedScenarios = (scenarios as any).default || scenarios;
 
-export const allItems = importedItems as ItemConfig[];
-export const getItemById = (itemId: string): ItemConfig | undefined => importedItems.find(x => x.id === itemId);
+export const allItems = importedItems as IItemConfig[];
+export const getItemById = (itemId: string): IItemConfig | undefined => importedItems.find(x => x.id === itemId);
 
-export const allArchetypes = importedArchetypes as Archetype[];
-export const getArchetypeByName = (name: string): Archetype | undefined => importedArchetypes.find(x => x.name === name);
+export const allArchetypes = importedArchetypes as IArchetype[];
+export const getArchetypeByName = (name: string): IArchetype | undefined => importedArchetypes.find(x => x.name === name);
 
-export const allBackgrounds = importedBackgrounds as Background[];
-export const getBackgroundByName = (name: string): Background | undefined => importedBackgrounds.find(x => x.name === name);
+export const allBackgrounds = importedBackgrounds as IBackground[];
+export const getBackgroundByName = (name: string): IBackground | undefined => importedBackgrounds.find(x => x.name === name);
 
-export const allRecipes = importedRecipes as Recipe[];
-export const getRecipeByName = (name: string): Recipe | undefined => importedRecipes.find(x => x.name === name);
+export const allRecipes = importedRecipes as IRecipe[];
+export const getRecipeByName = (name: string): IRecipe | undefined => importedRecipes.find(x => x.name === name);
 
-export const allScenarios = importedScenarios as Scenario[];
-export const getScenarioByName = (name: string): Scenario | undefined => importedScenarios.find(x => x.name === name);
+export const allScenarios = importedScenarios as IScenario[];
+export const getScenarioByName = (name: string): IScenario | undefined => importedScenarios.find(x => x.name === name);

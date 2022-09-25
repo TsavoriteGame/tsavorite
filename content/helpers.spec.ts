@@ -3,11 +3,11 @@ import { addDescriptor, changePrimaryDescriptor, decreaseDescriptorLevel,
   getDescriptorLevelFromPart, getInteraction, getInteractionLevel, getPartWithDescriptor, getTotalDescriptorLevel, hasDescriptor,
   hasFoundationalPart, increaseDescriptorLevel, increaseDescriptorLevelForPart, increaseInteractionLevel, setDescriptorLevelForPart,
   setFoundationalPart, setInteraction } from './helpers';
-import { Descriptor, Interaction, ItemConfig } from './interfaces';
+import { Descriptor, Interaction, IItemConfig } from './interfaces';
 import { Ignites } from './reactions';
 
 test('Setting an interaction should make sure it is at least level 0 and exists', () => {
-  const item: ItemConfig = {
+  const item: IItemConfig = {
     name: 'Level 1 Pointless',
     parts: [
       {
@@ -27,7 +27,7 @@ test('Setting an interaction should make sure it is at least level 0 and exists'
 });
 
 test('Getting an interaction should return only the expected interaction', () => {
-  const item: ItemConfig = {
+  const item: IItemConfig = {
     name: 'Level 1 Zapper',
     parts: [
       {
@@ -49,7 +49,7 @@ test('Getting an interaction should return only the expected interaction', () =>
 });
 
 test('Getting a list of descriptors should return all valid descriptors', () => {
-  const item: ItemConfig = {
+  const item: IItemConfig = {
     name: 'Level 1 Zapper',
     parts: [
       {
@@ -73,7 +73,7 @@ test('Getting a list of descriptors should return all valid descriptors', () => 
 });
 
 test('Getting a list of descriptors for an item should return all valid descriptors', () => {
-  const item: ItemConfig = {
+  const item: IItemConfig = {
     name: 'Level 1 Zapper',
     parts: [
       {
@@ -106,7 +106,7 @@ test('Getting a list of descriptors for an item should return all valid descript
 });
 
 test('Getting a total descriptor level should work across multiple parts', () => {
-  const item: ItemConfig = {
+  const item: IItemConfig = {
     name: 'Level 1 Zapper',
     parts: [
       {
@@ -137,7 +137,7 @@ test('Getting a total descriptor level should work across multiple parts', () =>
 });
 
 test('Adding a descriptor should put it on the first part', () => {
-  const item: ItemConfig = {
+  const item: IItemConfig = {
     name: 'Level 1 Zapper',
     parts: [
       {
@@ -158,7 +158,7 @@ test('Adding a descriptor should put it on the first part', () => {
 });
 
 test('Getting a descriptor level should take it from the first available part', () => {
-  const item: ItemConfig = {
+  const item: IItemConfig = {
     name: 'Level 1 Zapper',
     parts: [
       {
@@ -186,7 +186,7 @@ test('Getting a descriptor level should take it from the first available part', 
 });
 
 test('Checking for a descriptor should check all available parts', () => {
-  const item: ItemConfig = {
+  const item: IItemConfig = {
     name: 'Level 1 Zapper',
     parts: [
       {
@@ -212,7 +212,7 @@ test('Checking for a descriptor should check all available parts', () => {
 });
 
 test('Changing a primary descriptor should work', () => {
-  const item: ItemConfig = {
+  const item: IItemConfig = {
     name: 'Level 1 Zapper',
     parts: [
       {
@@ -232,7 +232,7 @@ test('Changing a primary descriptor should work', () => {
 });
 
 test('Getting a part with descriptor should get the first available part', () => {
-  const item: ItemConfig = {
+  const item: IItemConfig = {
     name: 'Level 1 Zapper',
     parts: [
       {
@@ -258,7 +258,7 @@ test('Getting a part with descriptor should get the first available part', () =>
 });
 
 test('Foundational parts/swapping should work', () => {
-  const item: ItemConfig = {
+  const item: IItemConfig = {
     name: 'Level 1 Zapper',
     parts: [
       {
@@ -289,7 +289,7 @@ test('Foundational parts/swapping should work', () => {
 });
 
 test('Descriptor level setting should work', () => {
-  const item: ItemConfig = {
+  const item: IItemConfig = {
     name: 'Level 1 Zapper',
     parts: [
       {
@@ -320,7 +320,7 @@ test('Descriptor level setting should work', () => {
 });
 
 test('Descriptor level setting should work', () => {
-  const item: ItemConfig = {
+  const item: IItemConfig = {
     name: 'Level 1 Zapper',
     parts: [
       {
@@ -348,7 +348,7 @@ test('Descriptor level setting should work', () => {
 });
 
 test('Combining with a foundational source item should not work', () => {
-  const sourceItem: ItemConfig = {
+  const sourceItem: IItemConfig = {
     name: 'Foundational Steak',
     parts: [
       {
@@ -362,7 +362,7 @@ test('Combining with a foundational source item should not work', () => {
     ]
   };
 
-  const targetItem: ItemConfig = {
+  const targetItem: IItemConfig = {
     name: 'Steak',
     parts: [
       {
@@ -386,7 +386,7 @@ test('Combining with a foundational source item should not work', () => {
 });
 
 test('Combining with a foundational target item should not work', () => {
-  const sourceItem: ItemConfig = {
+  const sourceItem: IItemConfig = {
     name: 'Foundational Steak',
     parts: [
       {
@@ -399,7 +399,7 @@ test('Combining with a foundational target item should not work', () => {
     ]
   };
 
-  const targetItem: ItemConfig = {
+  const targetItem: IItemConfig = {
     name: 'Steak',
     parts: [
       {
@@ -424,7 +424,7 @@ test('Combining with a foundational target item should not work', () => {
 });
 
 test('Combining items with multiple parts should not work', () => {
-  const sourceItem: ItemConfig = {
+  const sourceItem: IItemConfig = {
     name: 'Compound Steak',
     parts: [
       {
@@ -444,7 +444,7 @@ test('Combining items with multiple parts should not work', () => {
     ]
   };
 
-  const targetItem: ItemConfig = {
+  const targetItem: IItemConfig = {
     name: 'Compound Steak',
     parts: [
       {
@@ -476,7 +476,7 @@ test('Combining items with multiple parts should not work', () => {
 });
 
 test('Combining items that can interact should not work', () => {
-  const sourceItem: ItemConfig = {
+  const sourceItem: IItemConfig = {
     name: 'Flame',
     parts: [
       {
@@ -494,7 +494,7 @@ test('Combining items that can interact should not work', () => {
     }
   };
 
-  const targetItem: ItemConfig = {
+  const targetItem: IItemConfig = {
     name: 'Steak',
     parts: [
       {
@@ -518,7 +518,7 @@ test('Combining items that can interact should not work', () => {
 });
 
 test('Combining mismatched items should not work', () => {
-  const sourceItem: ItemConfig = {
+  const sourceItem: IItemConfig = {
     name: 'Goo',
     parts: [
       {
@@ -531,7 +531,7 @@ test('Combining mismatched items should not work', () => {
     ]
   };
 
-  const targetItem: ItemConfig = {
+  const targetItem: IItemConfig = {
     name: 'Steak',
     parts: [
       {
@@ -554,7 +554,7 @@ test('Combining mismatched items should not work', () => {
 });
 
 test('Combining matching items should work', () => {
-  const sourceItem: ItemConfig = {
+  const sourceItem: IItemConfig = {
     name: 'Steak',
     parts: [
       {
@@ -567,7 +567,7 @@ test('Combining matching items should work', () => {
     ]
   };
 
-  const targetItem: ItemConfig = {
+  const targetItem: IItemConfig = {
     name: 'Steak',
     parts: [
       {
@@ -590,7 +590,7 @@ test('Combining matching items should work', () => {
 });
 
 test('Combining matching items should work and transfer secondary descriptors', () => {
-  const sourceItem: ItemConfig = {
+  const sourceItem: IItemConfig = {
     name: 'Steak',
     parts: [
       {
@@ -605,7 +605,7 @@ test('Combining matching items should work and transfer secondary descriptors', 
     ]
   };
 
-  const targetItem: ItemConfig = {
+  const targetItem: IItemConfig = {
     name: 'Steak',
     parts: [
       {
