@@ -9,7 +9,8 @@ export enum GameOption {
   MasterVolume = 'masterVolume',
   IsFantasyFont = 'isFantasyFont',
   IsDebugMode = 'isDebugMode',
-  Keymap = 'keymap'
+  Keymap = 'keymap',
+  GameSpeed = 'gameSpeed',
 }
 
 export interface IOptions {
@@ -18,6 +19,7 @@ export interface IOptions {
   [GameOption.IsFantasyFont]: boolean;
   [GameOption.IsDebugMode]: boolean;
   [GameOption.Keymap]: Record<Keybind, string>;
+  [GameOption.GameSpeed]: number;
 }
 
 export const defaultKeymap: () => Record<Keybind, string> = () => ({
@@ -37,7 +39,8 @@ const defaultOptions: () => IOptions = () => ({
   [GameOption.MasterVolume]: 0.5,
   [GameOption.IsFantasyFont]: true,
   [GameOption.IsDebugMode]: false,
-  [GameOption.Keymap]: defaultKeymap()
+  [GameOption.Keymap]: defaultKeymap(),
+  [GameOption.GameSpeed]: 1,
 });
 
 @State<IOptions>({
