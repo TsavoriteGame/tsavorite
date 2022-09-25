@@ -1,7 +1,7 @@
 import { getItemById } from '../getters';
 import { getInteractionLevel, decreaseInteractionLevel, decreaseDescriptorLevelForPart,
   increaseDescriptorLevelForPart, getAllDescriptorsForPart, hasDescriptor,
-  getPartWithDescriptor, getDescriptorLevel, getDescriptorLevelFromPart, setDescriptorLevelForPart } from '../helpers';
+  getPartWithDescriptor, getDescriptorLevel, setDescriptorLevelForPart } from '../helpers';
 import { Descriptor, Reactions, Interaction, IReactionExtendedArgs, IReactionResponse } from '../interfaces';
 
 const zeroFail = (args: IReactionExtendedArgs) => ({
@@ -11,42 +11,43 @@ const zeroFail = (args: IReactionExtendedArgs) => ({
   newTarget: args.targetItem
 });
 
-const containerCheck: (args: IReactionExtendedArgs, glassLevel: number) => IReactionResponse = (args: IReactionExtendedArgs, glassLevel) => {
+const containerCheck: (args: IReactionExtendedArgs, glassLevel: number) => IReactionResponse =
+  (args: IReactionExtendedArgs, glassLevel) => {
 
-  const corrodesLevel = getInteractionLevel(args.sourceItem, Interaction.Corrodes);
-  if (corrodesLevel <= 0) return zeroFail(args);
+    const corrodesLevel = getInteractionLevel(args.sourceItem, Interaction.Corrodes);
+    if (corrodesLevel <= 0) return zeroFail(args);
 
-  decreaseInteractionLevel(args.sourceItem, Interaction.Corrodes, 1);
+    decreaseInteractionLevel(args.sourceItem, Interaction.Corrodes, 1);
 
-  const glass = getItemById('AcidFlask-1');
-  setDescriptorLevelForPart(glass.parts[0], Descriptor.Glass, glassLevel);
+    const glass = getItemById('AcidFlask-1');
+    setDescriptorLevelForPart(glass.parts[0], Descriptor.Glass, glassLevel);
 
-  // if empty bottle
-  if (args.targetItem.parts.length === 1) {
+    // if empty bottle
+    if (args.targetItem.parts.length === 1) {
+      return {
+        success: true,
+        message: 'Introduced corrosive material to the container.',
+        newSource: args.sourceItem,
+        newTarget: undefined,
+        extraItems: [
+          { name: 'Acid Flask Lv.1', parts: [
+            { name: 'Bottle', primaryDescriptor: Descriptor.Glass, foundational: true,
+              descriptors: { [Descriptor.Glass]: { level: glassLevel }, [Descriptor.Container]: { level: 1 } } },
+            { name: 'Acid', primaryDescriptor: Descriptor.Corrosive, descriptors: { [Descriptor.Corrosive]: { level: 1 } } }
+          ] }
+        ]
+      };
+    }
+
+    increaseDescriptorLevelForPart(getPartWithDescriptor(args.targetItem, Descriptor.Corrosive), Descriptor.Corrosive, 1);
+
     return {
       success: true,
-      message: 'Introduced corrosive material to the container.',
+      message: 'Added more corrosive material to the container.',
       newSource: args.sourceItem,
-      newTarget: undefined,
-      extraItems: [
-        { name: 'Acid Flask Lv.1', parts: [
-          { name: 'Bottle', primaryDescriptor: Descriptor.Glass, foundational: true,
-            descriptors: { [Descriptor.Glass]: { level: glassLevel }, [Descriptor.Container]: { level: 1 } } },
-          { name: 'Acid', primaryDescriptor: Descriptor.Corrosive, descriptors: { [Descriptor.Corrosive]: { level: 1 } } }
-        ] }
-      ]
+      newTarget: args.targetItem
     };
-  }
-
-  increaseDescriptorLevelForPart(getPartWithDescriptor(args.targetItem, Descriptor.Corrosive), Descriptor.Corrosive, 1);
-
-  return {
-    success: true,
-    message: 'Added more corrosive material to the container.',
-    newSource: args.sourceItem,
-    newTarget: args.targetItem
   };
-};
 
 export const applications: Reactions = {
 
