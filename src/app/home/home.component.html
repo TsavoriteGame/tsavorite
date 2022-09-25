@@ -4,7 +4,7 @@
       <div class="card">
         <div class="card-body">
 
-          <h1 class="card-title size-hero">
+          <h1 class="card-title size-hero" (click)="debugClick()">
             {{ 'Pages.Home.Title' | translate }}
           </h1>
 
@@ -44,7 +44,7 @@
               </div>
             </ng-template>
 
-            <div class="d-grid gap-2 px-3 d-block mt-1">
+            <div class="d-grid gap-2 px-3 d-block mt-1" *ngIf="isDebugMode$ | async">
               <button type="button"
                       class="btn btn-primary d-block"
                       routerLink="/itemtest">

@@ -1,13 +1,14 @@
 import { Injectable } from '@angular/core';
 import { Action, Selector, State, StateContext } from '@ngxs/store';
 import { patch } from '@ngxs/store/operators';
-import { RebindKey, SetOption } from '../actions';
+import { RebindKey, SetOption, ToggleOption } from '../actions';
 import { Keybind } from '../keybinds.service';
 
 export enum GameOption {
   IsPaused = 'isPaused',
   MasterVolume = 'masterVolume',
   IsFantasyFont = 'isFantasyFont',
+  IsDebugMode = 'isDebugMode',
   Keymap = 'keymap'
 }
 
@@ -15,6 +16,7 @@ export interface IOptions {
   [GameOption.IsPaused]: boolean;
   [GameOption.MasterVolume]: number;
   [GameOption.IsFantasyFont]: boolean;
+  [GameOption.IsDebugMode]: boolean;
   [GameOption.Keymap]: Record<Keybind, string>;
 }
 
@@ -34,6 +36,7 @@ const defaultOptions: () => IOptions = () => ({
   [GameOption.IsPaused]: false,
   [GameOption.MasterVolume]: 0.5,
   [GameOption.IsFantasyFont]: true,
+  [GameOption.IsDebugMode]: false,
   [GameOption.Keymap]: defaultKeymap()
 });
 
@@ -55,6 +58,11 @@ export class OptionsState {
   }
 
   @Selector()
+  static isDebugMode(state: IOptions) {
+    return state[GameOption.IsDebugMode];
+  }
+
+  @Selector()
   static allOptions(state: IOptions) {
     return state;
   }
@@ -67,6 +75,12 @@ export class OptionsState {
   @Action(SetOption)
   setOption(ctx: StateContext<IOptions>, { option, value }: SetOption) {
     ctx.patchState({ [option]: value });
+  }
+
+  @Action(ToggleOption)
+  toggleOption(ctx: StateContext<IOptions>, { option }: ToggleOption) {
+    const state = ctx.getState();
+    ctx.patchState({ [option]: !state[option] });
   }
 
   @Action(RebindKey)

@@ -5,8 +5,8 @@ import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { BUILDVARS } from '../../environments/_vars';
 import { ElectronService } from '../core/services';
-import { AbandonGame } from '../core/services/game/actions';
-import { GameState } from '../core/services/game/stores';
+import { AbandonGame, ToggleOption } from '../core/services/game/actions';
+import { GameOption, GameState, OptionsState } from '../core/services/game/stores';
 import { OptionsComponent } from '../options/options.component';
 
 @Component({
@@ -16,7 +16,10 @@ import { OptionsComponent } from '../options/options.component';
 })
 export class HomeComponent implements OnInit {
 
+  public debugClicks = 0;
+
   @Select(GameState.hasGame) hasGame$: Observable<boolean>;
+  @Select(OptionsState.isDebugMode) isDebugMode$: Observable<boolean>;
 
   public get version() {
     return BUILDVARS.version.tag || BUILDVARS.version.semverString || BUILDVARS.version.raw || BUILDVARS.version.hash;
@@ -54,6 +57,13 @@ export class HomeComponent implements OnInit {
       backdrop: 'static',
       keyboard: false
     });
+  }
+
+  debugClick(): void {
+    if(++this.debugClicks < 10) return;
+
+    this.debugClicks = 0;
+    this.store.dispatch(new ToggleOption(GameOption.IsDebugMode));
   }
 
   quit(): void {
