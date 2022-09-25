@@ -1,10 +1,10 @@
 import { addDescriptor, changePrimaryDescriptor, decreaseDescriptorLevel,
-  decreaseDescriptorLevelForPart, decreaseInteractionLevel, getAllDescriptorsForItem, getAllDescriptorsForPart, getCombinationBetweenTwoItems, getDescriptorLevel,
+  decreaseDescriptorLevelForPart, decreaseInteractionLevel, getAllDescriptorsForItem, getAllDescriptorsForPart,
+  getCombinationBetweenTwoItems, getDescriptorLevel,
   getDescriptorLevelFromPart, getInteraction, getInteractionLevel, getPartWithDescriptor, getTotalDescriptorLevel, hasDescriptor,
   hasFoundationalPart, increaseDescriptorLevel, increaseDescriptorLevelForPart, increaseInteractionLevel, setDescriptorLevelForPart,
   setFoundationalPart, setInteraction } from './helpers';
 import { Descriptor, Interaction, IItemConfig } from './interfaces';
-import { Ignites } from './reactions';
 
 test('Setting an interaction should make sure it is at least level 0 and exists', () => {
   const item: IItemConfig = {
