@@ -1,5 +1,5 @@
 <div class="splash-container centered">
-  <div class="row">
+  <div class="row" [class.hidden]="!showMenu">
     <div class="col">
       <div class="card">
         <div class="card-body">
@@ -98,7 +98,7 @@
   </div>
 </div>
 
-<div class="social">
+<div class="social" [class.hidden]="!showMenu">
   <div class="icon-container card" *ngFor="let linkData of socialLinks">
     <div class="icon">
       <a target="_blank" [href]="linkData.link">

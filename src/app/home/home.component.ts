@@ -17,6 +17,7 @@ import { OptionsComponent } from '../options/options.component';
 })
 export class HomeComponent implements OnInit {
 
+  public showMenu = false;
   public debugClicks = 0;
 
   @Select(GameState.hasGame) hasGame$: Observable<boolean>;
@@ -43,7 +44,11 @@ export class HomeComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    if(!environment.showSplash) this.showMenu = true;
 
+    setTimeout(() => {
+      this.showMenu = true;
+    }, 2000);
   }
 
   abandon(): void {
