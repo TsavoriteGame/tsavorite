@@ -76,11 +76,11 @@
 
               <div class="row mt-1" *ngFor="let option of options.keymap | keyvalue">
                 <div class="col-8">
-                  <div class="size-big">{{ option.key }}</div>
+                  <div class="size-big">{{ 'Pages.Options.Keymap.' + option.key | translate }}</div>
                 </div>
                 <div class="col-4">
                   <button class="btn btn-info full-width btn-sm" (click)="recordNewKeybind(options.keymap, option.key)" [disabled]="recordingKeybind[option.key]">
-                    <span *ngIf="recordingKeybind[option.key]">Choose key...</span>
+                    <span *ngIf="recordingKeybind[option.key]">{{ 'Pages.Options.KeyboardChooseKey' | translate }}</span>
                     <span *ngIf="!recordingKeybind[option.key]">{{ option.value }}</span>
                   </button>
                 </div>

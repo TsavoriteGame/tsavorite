@@ -67,6 +67,18 @@
       "GameSubtitle": "",
       "KeyboardTitle": "Keyboard Options",
       "KeyboardSubtitle": "",
+      "KeyboardChooseKey": "Choose key...",
+      "Keymap": {
+        "Choice1": "Choice #1",
+        "Choice2": "Choice #2",
+        "Choice3": "Choice #3",
+        "Choice4": "Choice #4",
+        "MoveDown": "Move Down",
+        "MoveLeft": "Move Left",
+        "MoveRight": "Move Right",
+        "MoveUp": "Move Up",
+        "Pause": "Pause"
+      },
       "DataTitle": "Data Options",
       "DataSubtitle": "",
       "ResetDataAction": "Reset Game Data",
