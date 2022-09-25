@@ -67,6 +67,36 @@
             <div class="card-body">
 
               <h1 class="card-title size-subheader text-center">
+                {{ 'Pages.Options.KeyboardTitle' | translate }}
+              </h1>
+
+              <h2 class="card-subtitle size-big text-muted text-center">
+                {{ 'Pages.Options.KeyboardSubtitle' | translate }}
+              </h2>
+
+              <div class="row mt-1" *ngFor="let option of options.keymap | keyvalue">
+                <div class="col-8">
+                  <div class="size-big">{{ option.key }}</div>
+                </div>
+                <div class="col-4">
+                  <button class="btn btn-info full-width btn-sm" (click)="recordNewKeybind(options.keymap, option.key)" [disabled]="recordingKeybind[option.key]">
+                    <span *ngIf="recordingKeybind[option.key]">Choose key...</span>
+                    <span *ngIf="!recordingKeybind[option.key]">{{ option.value }}</span>
+                  </button>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row mt-3">
+        <div class="col-6">
+          <div class="card">
+            <div class="card-body">
+
+              <h1 class="card-title size-subheader text-center">
                 {{ 'Pages.Options.GameTitle' | translate }}
               </h1>
 

@@ -13,6 +13,12 @@ export enum GameConstant {
 })
 export class GameService {
 
+  private hasOptionsOpen = false;
+
+  public get areOptionsOpen(): boolean {
+    return this.hasOptionsOpen;
+  }
+
   private readonly gameConstants: Record<GameConstant, any> = {
     [GameConstant.BackpackSize]: 16
   };
@@ -24,6 +30,10 @@ export class GameService {
 
   constructor(private router: Router, private store: Store, private contentService: ContentService) {
     this.initConsole();
+  }
+
+  public setOptionsOpen(open: boolean): void {
+    this.hasOptionsOpen = open;
   }
 
   public getConstant(constant: GameConstant) {

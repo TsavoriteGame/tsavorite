@@ -65,6 +65,8 @@
       "AudioSubtitle": "",
       "GameTitle": "Gameplay Options",
       "GameSubtitle": "",
+      "KeyboardTitle": "Keyboard Options",
+      "KeyboardSubtitle": "",
       "DataTitle": "Data Options",
       "DataSubtitle": "",
       "ResetDataAction": "Reset Game Data",

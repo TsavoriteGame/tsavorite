@@ -32,7 +32,8 @@ export class PauseComponent implements OnInit {
     this.modalService.open(OptionsComponent, {
       modalDialogClass: 'options-dialog',
       backdropClass: 'no-backdrop-opacity',
-      backdrop: 'static'
+      backdrop: 'static',
+      keyboard: false
     });
   }
 

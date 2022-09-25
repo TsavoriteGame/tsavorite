@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { CoreModule } from './core/core.module';
@@ -29,6 +29,7 @@ import { PlayModule } from './play/play.module';
 import { environment } from '../environments/environment';
 
 import * as Stores from './core/services/game/stores';
+import { KeybindsService } from './core/services/game/keybinds.service';
 
 const allStores = Object.keys(Stores).filter(x => x.includes('State')).map(x => Stores[x]);
 

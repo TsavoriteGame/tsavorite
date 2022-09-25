@@ -1,4 +1,4 @@
-import { Component, HostListener, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { GameService } from './core/services/game/game.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -7,6 +7,7 @@ import { Select, Store } from '@ngxs/store';
 import { GameOption, OptionsState } from './core/services/game/stores';
 import { first, Observable } from 'rxjs';
 import { Move, SetOption } from './core/services/game/actions';
+import { Keybind, KeybindsService } from './core/services/game/keybinds.service';
 
 @Component({
   selector: 'app-root',
@@ -15,6 +16,7 @@ import { Move, SetOption } from './core/services/game/actions';
 })
 export class AppComponent implements OnInit {
 
+  @Select(OptionsState.keymap) keymap$: Observable<Record<Keybind, string>>;
   @Select(OptionsState.isPaused) isPaused$: Observable<boolean>;
   @Select(OptionsState.isFantasyFont) isFantasyFont$: Observable<boolean>;
 
@@ -22,6 +24,7 @@ export class AppComponent implements OnInit {
     private translate: TranslateService,
     private modalService: NgbModal,
     private store: Store,
+    private keybindsService: KeybindsService,
     private gameService: GameService
   ) {
   }
@@ -31,8 +34,12 @@ export class AppComponent implements OnInit {
     this.unpause();
     this.reInitCurrentTile();
     this.watchFontChanges();
+    this.watchKeymapChanges();
+
+    this.keybindsService.addShortcut(this.keybindsService.getShortcutKey(Keybind.Pause), () => this.handleKeyboardEvent());
   }
 
+  // init the i18n for en; other languages may come
   private initTranslation() {
     this.translate.setDefaultLang('en');
   }
@@ -57,7 +64,12 @@ export class AppComponent implements OnInit {
     });
   }
 
-  @HostListener('document:keydown.escape', ['$event'])
+  private watchKeymapChanges() {
+    this.keymap$.subscribe(keymap => {
+      this.keybindsService.setKeybinds(keymap);
+    });
+  }
+
   handleKeyboardEvent() {
     if(!this.gameService.isInGame) return;
 
@@ -85,5 +97,7 @@ export class AppComponent implements OnInit {
         this.store.dispatch(new SetOption(GameOption.IsPaused, false));
       });
     });
+
+    return true;
   }
 }

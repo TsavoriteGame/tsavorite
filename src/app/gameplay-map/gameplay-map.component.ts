@@ -1,8 +1,9 @@
-import { Component, HostListener, OnInit } from '@angular/core';
+import { Component, HostListener, OnDestroy, OnInit } from '@angular/core';
 import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { IScenarioNode } from '../../../content/interfaces';
 import { Move } from '../core/services/game/actions';
+import { Keybind, KeybindsService } from '../core/services/game/keybinds.service';
 import { GameState, IMapDisplayInfo } from '../core/services/game/stores';
 
 @Component({
@@ -10,13 +11,24 @@ import { GameState, IMapDisplayInfo } from '../core/services/game/stores';
   templateUrl: './gameplay-map.component.html',
   styleUrls: ['./gameplay-map.component.scss']
 })
-export class GameplayMapComponent implements OnInit {
+export class GameplayMapComponent implements OnInit, OnDestroy {
 
   @Select(GameState.mapInfo) mapInfo$: Observable<IMapDisplayInfo>;
 
-  constructor(private store: Store) { }
+  constructor(private store: Store, private keybindsService: KeybindsService) { }
 
   ngOnInit(): void {
+    this.keybindsService.addShortcut(this.keybindsService.getShortcutKey(Keybind.MoveUp), () => this.moveDelta(0, -1));
+    this.keybindsService.addShortcut(this.keybindsService.getShortcutKey(Keybind.MoveDown), () => this.moveDelta(0, 1));
+    this.keybindsService.addShortcut(this.keybindsService.getShortcutKey(Keybind.MoveLeft), () => this.moveDelta(-1, 0));
+    this.keybindsService.addShortcut(this.keybindsService.getShortcutKey(Keybind.MoveRight), () => this.moveDelta(1, 0));
+  }
+
+  ngOnDestroy(): void {
+    this.keybindsService.removeShortcut(this.keybindsService.getShortcutKey(Keybind.MoveUp));
+    this.keybindsService.removeShortcut(this.keybindsService.getShortcutKey(Keybind.MoveDown));
+    this.keybindsService.removeShortcut(this.keybindsService.getShortcutKey(Keybind.MoveLeft));
+    this.keybindsService.removeShortcut(this.keybindsService.getShortcutKey(Keybind.MoveRight));
   }
 
   public canMoveTo(node: IScenarioNode, gridXPos: number, gridYPos: number): boolean {
@@ -37,24 +49,9 @@ export class GameplayMapComponent implements OnInit {
     this.store.dispatch(new Move(gridXPos - 3, gridYPos - 3));
   }
 
-  @HostListener('document:keydown.arrowup', ['$event'])
-  moveUp() {
-    this.store.dispatch(new Move(0, -1));
-  }
-
-  @HostListener('document:keydown.arrowdown', ['$event'])
-  moveDown() {
-    this.store.dispatch(new Move(0, 1));
-  }
-
-  @HostListener('document:keydown.arrowleft', ['$event'])
-  moveLeft() {
-    this.store.dispatch(new Move(-1, 0));
-  }
-
-  @HostListener('document:keydown.arrowright', ['$event'])
-  moveRight() {
-    this.store.dispatch(new Move(1, 0));
+  public moveDelta(x: number, y: number): boolean {
+    this.store.dispatch(new Move(x, y));
+    return true;
   }
 
 }

@@ -51,7 +51,8 @@ export class HomeComponent implements OnInit {
     this.modalService.open(OptionsComponent, {
       modalDialogClass: 'options-dialog',
       backdropClass: 'darker-backdrop',
-      backdrop: 'static'
+      backdrop: 'static',
+      keyboard: false
     });
   }
 
