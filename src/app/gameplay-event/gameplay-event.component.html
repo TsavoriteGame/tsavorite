@@ -5,6 +5,10 @@
     <div class="row mt-3">
       <div class="col">
         <div class="text-center icon-text size-header">
+          <app-icon class="landmark-icon"
+                    [icon]="landmarkEncounterData.landmarkIcon"
+                    [showOutline]="true"
+                    *ngIf="landmarkEncounterData.landmarkIcon !== 'blank'"></app-icon>
           {{ landmarkEncounterData.landmarkName }}
         </div>
 

@@ -37,9 +37,4 @@ export class Teleporter extends Landmark implements ILandmark {
     });
   }
 
-  // run the event, all timers, etc
-  run(): Observable<any> {
-    return of({});
-  }
-
 }
