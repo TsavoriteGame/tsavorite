@@ -1,15 +1,19 @@
 import { Injectable } from '@angular/core';
-import { Action, Selector, State, StateContext } from '@ngxs/store';
+import { Action, Selector, State, StateContext, Store } from '@ngxs/store';
 import { append, patch, removeItem, updateItem } from '@ngxs/store/operators';
 
 import { isUndefined } from 'lodash';
 
 import { getScenarioByName } from '../../../../../../content/getters';
-import { Archetype, Background, ItemConfig, Power, Scenario, ScenarioNode } from '../../../../../../content/interfaces';
+import * as AllLandmarks from '../../../../../../content/landmarks';
+import { Archetype, Background, ILandmark, ItemConfig,
+  LandmarkEncounter, Power, Scenario, ScenarioNode } from '../../../../../../content/interfaces';
 import { findFirstLandmarkInWorld, findSpawnCoordinates, getNodeAt } from '../../../../../../content/scenario.helpers';
-import { AbandonGame, AddBackpackItem, AddHealth, Move, ReduceHealth, RemoveBackpackItem, StartGame, UpdateBackpackItem } from '../actions';
+import { AbandonGame, AddBackpackItem, AddHealth, MakeChoice, Move, ReduceHealth,
+  RemoveBackpackItem, StartGame, UpdateBackpackItem, Warp } from '../actions';
 import { ContentService } from '../content.service';
 import { GameConstant, GameService } from '../game.service';
+import { Subscription } from 'rxjs';
 
 export enum EquipmentSlot {
   Head = 'head',
@@ -43,6 +47,7 @@ export interface IGame {
   character: IGameCharacter;
   position: IMapPosition;
   scenario: Scenario;
+  landmarkEncounter: LandmarkEncounter;
 }
 
 
@@ -57,7 +62,8 @@ export interface IMapDisplayInfo {
 const defaultOptions: () => IGame = () => ({
   character: undefined,
   position: { worldId: 0, x: 0, y: 0 },
-  scenario: undefined
+  scenario: undefined,
+  landmarkEncounter: undefined
 });
 
 @State<IGame>({
@@ -67,7 +73,9 @@ const defaultOptions: () => IGame = () => ({
 @Injectable()
 export class GameState {
 
-  constructor(private gameService: GameService, private contentService: ContentService) {}
+  private landmarkSubscription: Subscription;
+
+  constructor(private store: Store, private gameService: GameService, private contentService: ContentService) {}
 
   @Selector()
   static hasGame(state: IGame) {
@@ -82,6 +90,11 @@ export class GameState {
   @Selector()
   static isOutdatedScenario(state: IGame) {
     return getScenarioByName(state.scenario.name).hash !== state.scenario.hash;
+  }
+
+  @Selector()
+  static landmarkEncounterData(state: IGame) {
+    return state.landmarkEncounter;
   }
 
   @Selector()
@@ -117,27 +130,36 @@ export class GameState {
     return !!ctx.getState().character;
   }
 
+  private cancelLandmark() {
+    if(!this.landmarkSubscription) return;
+
+    this.landmarkSubscription.unsubscribe();
+  }
+
   private handleCurrentTile(ctx: StateContext<IGame>) {
 
     const { scenario, position } = ctx.getState();
     const node = getNodeAt(scenario, position.worldId, position.x, position.y);
 
-    const { landmark, warpToWorld, warpToLandmark } = node;
+    const { landmark } = node;
 
     // handle landmark
     if(!isUndefined(landmark)) {
+      const landmarkRef = AllLandmarks[landmark];
+      if(!landmarkRef) {
+        console.error(`Could not find landmark ${landmark}`);
+        return;
+      }
 
-    }
+      const landmarkInstance: ILandmark = new landmarkRef(this.store);
 
-    // warp to a landmark in a world
-    if(!isUndefined(warpToWorld) && !isUndefined(warpToLandmark)) {
-      const nodePosition = findFirstLandmarkInWorld(scenario, warpToWorld, warpToLandmark);
+      const sub = landmarkInstance.encounter(scenario, node).subscribe(landmarkEncounterData => {
+        ctx.setState(patch<IGame>({
+          landmarkEncounter: landmarkEncounterData
+        }));
+      });
 
-      ctx.setState(patch<IGame>({
-        position: patch({
-          ...nodePosition
-        })
-      }));
+      this.landmarkSubscription = sub;
     }
 
   }
@@ -190,6 +212,8 @@ export class GameState {
     const position = findSpawnCoordinates(scenario);
 
     ctx.patchState({ character, scenario, position });
+
+    this.store.dispatch(new Move(0, 0));
   }
 
   @Action(AbandonGame)
@@ -249,6 +273,7 @@ export class GameState {
   @Action(Move)
   move(ctx: StateContext<IGame>, { xDelta, yDelta }: Move) {
     if(!this.isInGame(ctx)) return;
+
     if(xDelta > 1 || xDelta < -1 || yDelta > 1 || yDelta < -1) return;
 
     const { worldId, x, y } = ctx.getState().position;
@@ -266,7 +291,46 @@ export class GameState {
       })
     }));
 
+    this.cancelLandmark();
     this.handleCurrentTile(ctx);
+  }
+
+  @Action(Warp)
+  warp(ctx: StateContext<IGame>, { scenario, warpToWorld, warpToLandmark }: Warp) {
+    if(!this.isInGame(ctx)) return;
+
+    const nodePosition = findFirstLandmarkInWorld(scenario, warpToWorld, warpToLandmark);
+
+    ctx.setState(patch<IGame>({
+      position: patch({
+        ...nodePosition
+      })
+    }));
+
+    this.cancelLandmark();
+    this.handleCurrentTile(ctx);
+  }
+
+  @Action(MakeChoice)
+  makeChoice(ctx: StateContext<IGame>, { choice }: MakeChoice) {
+    if(!this.isInGame(ctx)) return;
+
+    const choices = ctx.getState().landmarkEncounter?.choices ?? [];
+    const choiceRef = choices[choice];
+    if(!choiceRef) return;
+
+    this.cancelLandmark();
+
+    const currentLandmark = ctx.getState().landmarkEncounter;
+    if(!currentLandmark) return;
+
+    const sub = choiceRef.callback(currentLandmark).subscribe(landmarkEncounterData => {
+      ctx.setState(patch<IGame>({
+        landmarkEncounter: landmarkEncounterData
+      }));
+    });
+
+    this.landmarkSubscription = sub;
   }
 
 }

@@ -1,3 +1,4 @@
+import { LandmarkData } from './landmark';
 
 export interface ScenarioNode {
   name: string;
@@ -6,10 +7,9 @@ export interface ScenarioNode {
   id: number;
 
   landmark?: string;
+  landmarkData?: LandmarkData;
   playerSpawnLocation?: boolean;
   blockMovement?: boolean;
-  warpToWorld?: number;
-  warpToLandmark?: number;
 }
 
 export interface ScenarioWorld {

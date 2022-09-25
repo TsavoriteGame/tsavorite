@@ -1,4 +1,4 @@
-import { ItemConfig } from '../../../../../../content/interfaces';
+import { ItemConfig, Scenario } from '../../../../../../content/interfaces';
 import { IGameSetup } from '../stores/gamesetup.store';
 
 export class StartGame {
@@ -41,4 +41,14 @@ export class ReduceHealth {
 export class Move {
   static type = '[Game] Move';
   constructor(public xDelta: number, public yDelta: number) {}
+}
+
+export class Warp {
+  static type = '[Game] Warp';
+  constructor(public scenario: Scenario, public warpToWorld: number, public warpToLandmark: number) {}
+}
+
+export class MakeChoice {
+  static type = '[Game] Make Choice';
+  constructor(public choice: number) {}
 }

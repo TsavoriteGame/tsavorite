@@ -1,15 +1,21 @@
 
 <div class="card full-space gameplay-space">
 
-  <ng-container *ngIf="mapInfo$ | async as mapInfo">
+  <ng-container *ngIf="landmarkEncounterData$ | async as landmarkEncounterData">
     <div class="row mt-3">
       <div class="col">
         <div class="text-center icon-text size-header">
-          {{ mapInfo.currentNode.name }}
+          {{ landmarkEncounterData.landmarkName }}
         </div>
 
         <div class="text-center icon-text size-subheader px-3">
-          {{ mapInfo.currentNode.description }}
+          {{ landmarkEncounterData.landmarkDescription }}
+        </div>
+
+        <div class="text-center icon-text mt-3">
+          <div class="btn btn-primary"
+               (click)="makeChoice(i)"
+               *ngFor="let button of landmarkEncounterData.choices; let i = index">{{ button.text }}</div>
         </div>
       </div>
     </div>

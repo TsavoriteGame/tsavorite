@@ -1,4 +1,12 @@
+import { Store } from '@ngxs/store';
+import { Observable } from 'rxjs';
 import { Descriptor, Interaction } from './item';
+import { Scenario, ScenarioNode } from './scenario';
+
+export interface LandmarkSlotChoice {
+  text: string;
+  callback: (landmarkEncounter: LandmarkEncounter) => Observable<LandmarkEncounter>;
+}
 
 export interface LandmarkSlot {
 
@@ -6,6 +14,7 @@ export interface LandmarkSlot {
   readonly icon: string;
 
   // the amount of time the player has to respond to the slot
+  // -1 = infinite
   readonly timer: number;
 
   // whether or not the slot should accept cards
@@ -20,10 +29,24 @@ export interface LandmarkSlot {
   readonly acceptsInteraction?: Interaction;
 }
 
-export interface Landmark {
+export interface LandmarkData {
+
+  // if the thing can warp, this is where it would store that data
+  warpToWorld?: number;
+  warpToLandmark?: number;
+}
+
+export interface ILandmark {
 
   // whether or not the landmark can be escaped from
-  readonly canCancel: boolean;
+  readonly canLeave: boolean;
+
+  // encounter this landmark
+  encounter(scenario: Scenario, scenarioNode: ScenarioNode): Observable<LandmarkEncounter>;
+}
+
+export class Landmark {
+  constructor(protected store: Store) {}
 }
 
 export interface LandmarkEncounter {
@@ -31,12 +54,21 @@ export interface LandmarkEncounter {
   // the name of the landmark
   readonly landmarkName: string;
 
-  // the type of the landmark
-  readonly landmarkType: string;
+  // the description of the landmark
+  readonly landmarkDescription: string;
+
+  // the icon used for the landmark
+  readonly landmarkIcon: string;
+
+  // the data for the landmark
+  readonly landmarkData: Record<string, any>;
 
   // the slot data for the landmark
-  slots: LandmarkSlot[];
+  readonly slots: LandmarkSlot[];
 
-  // whether or not the landmark has been encountered
-  hasBeenEncountered: boolean;
+  // whether or not the landmark should be removed
+  readonly removeAfterEncounter: boolean;
+
+  // what kind of choices this landmark has
+  readonly choices: LandmarkSlotChoice[];
 }

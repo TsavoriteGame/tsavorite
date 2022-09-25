@@ -1,5 +1,4 @@
 import { Component, HostListener, OnInit } from '@angular/core';
-import { ElectronService } from './core/services';
 import { TranslateService } from '@ngx-translate/core';
 import { GameService } from './core/services/game/game.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -7,7 +6,7 @@ import { PauseComponent } from './shared/components/pause/pause.component';
 import { Select, Store } from '@ngxs/store';
 import { GameOption, OptionsState } from './core/services/game/stores';
 import { first, Observable } from 'rxjs';
-import { SetOption } from './core/services/game/actions';
+import { Move, SetOption } from './core/services/game/actions';
 
 @Component({
   selector: 'app-root',
@@ -30,11 +29,17 @@ export class AppComponent implements OnInit {
   ngOnInit(): void {
     this.initTranslation();
     this.unpause();
+    this.reInitCurrentTile();
     this.watchFontChanges();
   }
 
   private initTranslation() {
     this.translate.setDefaultLang('en');
+  }
+
+  // re-initialize the current tile encounter any time the game is loaded
+  private reInitCurrentTile() {
+    this.store.dispatch(new Move(0, 0));
   }
 
   // unpause the game any time it's loaded

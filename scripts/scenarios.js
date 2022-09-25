@@ -35,6 +35,10 @@ const validateScenarios = () => {
           throw new Error(`Scenario ${item.name} node ${nodeId} is missing a name`);
         }
 
+        if(!node.landmark) {
+          throw new Error(`Scenario ${item.name} node ${nodeId} is missing a landmark`);
+        }
+
         if(!node.icon) {
           throw new Error(`Scenario ${item.name} node ${nodeId} is missing an icon`);
         }
@@ -42,6 +46,8 @@ const validateScenarios = () => {
         if(!node.description) {
           throw new Error(`Scenario ${item.name} node ${nodeId} is missing a description`);
         }
+
+        node.landmarkData = node.landmarkData || {};
       });
     });
 

@@ -1,21 +1,14 @@
 import { Observable, of } from 'rxjs';
-import { Landmark, LandmarkSlot } from '../interfaces';
+import { ILandmark, Landmark, LandmarkEncounter, Scenario, ScenarioNode } from '../interfaces';
 
 // needs slots, event area needs number of slots to display.
 // slots need timers, things they'll accept, and handlers for the things they accept
 
-export class Shrine implements Landmark {
+export class Shrine extends Landmark implements ILandmark {
 
-  readonly canCancel = false;
-
-  // return slots, what they're filled with
-  encounter(): Observable<LandmarkSlot[]> {
-    return of([]);
-  }
-
-  // run the event, all timers, etc
-  run(): Observable<any> {
-    return of({});
+  readonly canLeave = false;
+  encounter(scenario: Scenario, scenarioNode: ScenarioNode): Observable<LandmarkEncounter> {
+    return of(undefined);
   }
 
 }
