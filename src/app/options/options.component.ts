@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
-import { RebindKey, SetOption } from '../core/services/game/actions';
+import { RebindKey, ResetOptions, SetOption } from '../core/services/game/actions';
 import { GameService } from '../core/services/game/game.service';
 import { Keybind, KeybindsService } from '../core/services/game/keybinds.service';
 import { GameOption, IOptions, OptionsState } from '../core/services/game/stores';
@@ -35,6 +35,10 @@ export class OptionsComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.gameService.setOptionsOpen(false);
+  }
+
+  resetOptions(): void {
+    this.store.dispatch(new ResetOptions());
   }
 
   resetData() {

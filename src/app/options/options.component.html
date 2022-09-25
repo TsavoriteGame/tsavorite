@@ -123,6 +123,14 @@
               <div class="d-grid gap-2 px-3 d-block mt-1">
                 <button type="button"
                         class="btn btn-danger d-block"
+                        [swal]="resetOptionsSwal">
+                  {{ 'Pages.Options.ResetOptionsAction' | translate }}
+                </button>
+              </div>
+
+              <div class="d-grid gap-2 px-3 d-block mt-1">
+                <button type="button"
+                        class="btn btn-danger d-block"
                         [swal]="resetSwal">
                   {{ 'Pages.Options.ResetDataAction' | translate }}
                 </button>
@@ -137,6 +145,18 @@
 
   </div>
 </div>
+
+<swal
+  #resetOptionsSwal
+  [title]="'Pages.Options.ResetOptionsConfirm' | translate"
+  [text]="'Pages.Options.ResetOptionsText' | translate"
+  [confirmButtonText]="'Pages.Options.ResetOptionsYes' | translate"
+  [cancelButtonText]="'Pages.Options.ResetOptionsNo' | translate"
+  [showCancelButton]="true"
+  [focusCancel]="true"
+  [heightAuto]="false"
+  (confirm)="resetOptions()">
+</swal>
 
 <swal
   #resetSwal

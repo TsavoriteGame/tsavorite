@@ -82,10 +82,15 @@
       "DataTitle": "Data Options",
       "DataSubtitle": "",
       "ResetDataAction": "Reset Game Data",
+      "ResetOptionsAction": "Reset Settings",
       "ResetDataConfirm": "Reset All Data?",
       "ResetDataText": "This will reset all of your save data, achievements, found items, and game progress.",
       "ResetDataYes": "Yes, Reset All Data",
-      "ResetDataNo": "No, Save My Data"
+      "ResetDataNo": "No, Save My Data",
+      "ResetOptionsConfirm": "Reset All Settings?",
+      "ResetOptionsText": "This will reset all of your settings to the default settings.",
+      "ResetOptionsYes": "Yes, Reset All Settings",
+      "ResetOptionsNo": "No, Keep My Settings"
     },
 
     "Pause": {

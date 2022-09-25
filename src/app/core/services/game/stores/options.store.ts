@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Action, Selector, State, StateContext } from '@ngxs/store';
 import { patch } from '@ngxs/store/operators';
-import { RebindKey, SetOption, ToggleOption } from '../actions';
+import { RebindKey, ResetOptions, SetOption, ToggleOption } from '../actions';
 import { Keybind } from '../keybinds.service';
 
 export enum GameOption {
@@ -75,6 +75,10 @@ export class OptionsState {
     return state.keymap;
   }
 
+  @Action(ResetOptions)
+  resetOptions(ctx: StateContext<IOptions>) {
+    ctx.setState(defaultOptions());
+  }
   @Action(SetOption)
   setOption(ctx: StateContext<IOptions>, { option, value }: SetOption) {
     ctx.patchState({ [option]: value });

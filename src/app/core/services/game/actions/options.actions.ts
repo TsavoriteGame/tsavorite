@@ -15,3 +15,8 @@ export class RebindKey {
   static type = '[Options] Rebind Key';
   constructor(public keybind: Keybind, public newKey: string) {}
 }
+
+export class ResetOptions {
+  static type = '[Options] Reset';
+  constructor() {}
+}
