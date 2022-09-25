@@ -1,4 +1,5 @@
 export const environment = {
   production: false,
-  environment: 'LOCAL'
+  environment: 'LOCAL',
+  showSplash: false,
 };

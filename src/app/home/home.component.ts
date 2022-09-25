@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
+import { environment } from '../../environments/environment';
 import { BUILDVARS } from '../../environments/_vars';
 import { ElectronService } from '../core/services';
 import { AbandonGame, ToggleOption } from '../core/services/game/actions';
@@ -22,7 +23,8 @@ export class HomeComponent implements OnInit {
   @Select(OptionsState.isDebugMode) isDebugMode$: Observable<boolean>;
 
   public get version() {
-    return BUILDVARS.version.tag || BUILDVARS.version.semverString || BUILDVARS.version.raw || BUILDVARS.version.hash;
+    return (BUILDVARS.version.tag || BUILDVARS.version.semverString || BUILDVARS.version.raw || BUILDVARS.version.hash)
+         + ` (${environment.environment})`;
   }
 
   public readonly socialLinks = [

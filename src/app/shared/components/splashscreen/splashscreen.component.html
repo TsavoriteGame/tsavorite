@@ -1,0 +1,31 @@
+<div
+  class="app-splash-screen"
+  [ngStyle]="{
+    left: windowWidth,
+    opacity: opacityChange,
+    transition: splashTransition
+  }"
+  *ngIf="showSplash"
+>
+  <div class="app-splash-inner">
+    <div class="container">
+      <div class="row first" [class.hidden]="!showFirst">
+        <div class="col-4"></div>
+        <div class="col-4 text-center first">Sei</div>
+        <div class="col-4"></div>
+      </div>
+
+      <div class="row second" [class.hidden]="!showSecond">
+        <div class="col-4"></div>
+        <div class="col-4 text-center second">Makes</div>
+        <div class="col-4"></div>
+      </div>
+
+      <div class="row third" [class.hidden]="!showThird">
+        <div class="col-4"></div>
+        <div class="col-4 text-center third">Games</div>
+        <div class="col-4"></div>
+      </div>
+    </div>
+  </div>
+</div>

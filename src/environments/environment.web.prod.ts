@@ -1,4 +1,5 @@
 export const environment = {
   production: true,
-  environment: 'WEB-PROD'
+  environment: 'WEB-RELEASE',
+  showSplash: true,
 };
