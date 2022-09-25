@@ -204,3 +204,7 @@ body.fantasy, .tooltip .fantasy {
 .tooltip {
   --bs-tooltip-max-width: 500px;
 }
+
+body:not(.loaded) * {
+  display: none;
+}
