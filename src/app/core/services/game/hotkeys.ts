@@ -209,7 +209,7 @@ export class Hotkeys {
 
     if(!this.filter(event)) return;
 
-    if (this.hotkeyMap[keyCode])
+    if(this.hotkeyMap[keyCode])
       this.hotkeyMap[keyCode].handler(event);
   };
 
