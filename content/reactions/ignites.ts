@@ -5,7 +5,7 @@ import { getInteractionLevel,
   increaseDescriptorLevelForPart,
   increaseInteractionLevel,
   getDescriptorLevelFromPart,
-  setDescriptorLevelForPart} from '../helpers';
+  setDescriptorLevelForPart } from '../helpers';
 import { Descriptor, Reactions, Interaction, IReactionExtendedArgs } from '../interfaces';
 
 const zeroFail = (args: IReactionExtendedArgs) => ({
@@ -23,7 +23,9 @@ const genericHotIncrease = (args: IReactionExtendedArgs, postCall = () => {}) =>
   const sourceItem = args.sourceItem;
   const targetItem = args.targetItem;
 
-  if(ignitesLevel <= 0) return zeroFail(args);
+  if(ignitesLevel <= 0) {
+    return zeroFail(args);
+  }
 
   increaseHot(args);
   postCall();
@@ -45,7 +47,9 @@ export const applications: Reactions = {
     const sourceItem = args.sourceItem;
     const targetItem = args.targetItem;
 
-    if(ignitesLevel <= 0) return zeroFail(args);
+    if(ignitesLevel <= 0) {
+      return zeroFail(args);
+    }
 
     const clayLevel = getDescriptorLevelFromPart(args.targetPart, Descriptor.Clay);
     const hotLevel = increaseDescriptorLevelForPart(args.targetPart, Descriptor.Hot, 1);
@@ -64,6 +68,7 @@ export const applications: Reactions = {
         ]
       };
     }
+
 
     return {
       message: 'The mud is hotter.',
@@ -91,7 +96,9 @@ export const applications: Reactions = {
     const sourceItem = args.sourceItem;
     const targetItem = args.targetItem;
 
-    if(ignitesLevel <= 0) return zeroFail(args);
+    if(ignitesLevel <= 0) {
+      return zeroFail(args);
+    }
 
     if(getDescriptorLevelFromPart(args.targetPart, Descriptor.Combustible) === 0) {
       return {
@@ -101,6 +108,7 @@ export const applications: Reactions = {
         newTarget: targetItem
       };
     }
+
 
     increaseInteractionLevel(args.sourceItem, Interaction.Ignites, 1);
     increaseDescriptorLevelForPart(args.sourcePart, Descriptor.Hot, 1);
@@ -125,7 +133,9 @@ export const applications: Reactions = {
     const sourceItem = args.sourceItem;
     const targetItem = args.targetItem;
 
-    if(ignitesLevel <= 0) return zeroFail(args);
+    if(ignitesLevel <= 0) {
+      return zeroFail(args);
+    }
 
     const newFiberLevel = decreaseDescriptorLevelForPart(args.targetPart, Descriptor.Fiber, 1);
 
@@ -137,6 +147,7 @@ export const applications: Reactions = {
         newTarget: undefined
       };
     }
+
 
     return {
       message: 'Some fiber has burned away.',
@@ -170,7 +181,9 @@ export const applications: Reactions = {
     const sourceItem = args.sourceItem;
     const targetItem = args.targetItem;
 
-    if(ignitesLevel <= 0) return zeroFail(args);
+    if(ignitesLevel <= 0) {
+      return zeroFail(args);
+    }
 
     if(getDescriptorLevelFromPart(args.targetPart, Descriptor.Meat) === 0) {
       return {
@@ -183,6 +196,7 @@ export const applications: Reactions = {
         ]
       };
     }
+
 
     decreaseDescriptorLevelForPart(args.targetPart, Descriptor.Meat, 1);
     increaseDescriptorLevelForPart(args.targetPart, Descriptor.Hot, 1);
@@ -204,7 +218,9 @@ export const applications: Reactions = {
     const sourceItem = args.sourceItem;
     const targetItem = args.targetItem;
 
-    if(ignitesLevel <= 0) return zeroFail(args);
+    if(ignitesLevel <= 0) {
+      return zeroFail(args);
+    }
 
     const metalLevel = getDescriptorLevelFromPart(args.targetPart, Descriptor.Metal);
     const hotLevel = increaseDescriptorLevelForPart(args.targetPart, Descriptor.Hot, 1);
@@ -223,6 +239,7 @@ export const applications: Reactions = {
             newTarget: undefined
           };
         }
+
       }
 
       return {
@@ -248,7 +265,9 @@ export const applications: Reactions = {
     const sourceItem = args.sourceItem;
     const targetItem = args.targetItem;
 
-    if(ignitesLevel <= 0) return zeroFail(args);
+    if(ignitesLevel <= 0) {
+      return zeroFail(args);
+    }
 
     const mudLevel = getDescriptorLevelFromPart(args.targetPart, Descriptor.Mud);
     const hotLevel = increaseDescriptorLevelForPart(args.targetPart, Descriptor.Hot, 1);
@@ -284,7 +303,9 @@ export const applications: Reactions = {
     const sourceItem = args.sourceItem;
     const targetItem = args.targetItem;
 
-    if(ignitesLevel <= 0) return zeroFail(args);
+    if(ignitesLevel <= 0) {
+      return zeroFail(args);
+    }
 
     const sandLevel = getDescriptorLevelFromPart(args.targetPart, Descriptor.Sand);
     const hotLevel = increaseDescriptorLevelForPart(args.targetPart, Descriptor.Hot, 1);
@@ -344,7 +365,9 @@ export const applications: Reactions = {
     const sourceItem = args.sourceItem;
     const targetItem = args.targetItem;
 
-    if(ignitesLevel <= 0) return zeroFail(args);
+    if(ignitesLevel <= 0) {
+      return zeroFail(args);
+    }
 
     const woodLevel = getDescriptorLevelFromPart(args.targetPart, Descriptor.Wood);
     const hotLevel = increaseDescriptorLevelForPart(args.targetPart, Descriptor.Hot, 1);
@@ -364,6 +387,7 @@ export const applications: Reactions = {
           newTarget: undefined
         };
       }
+
 
       return {
         message: 'The wood has ignited.',

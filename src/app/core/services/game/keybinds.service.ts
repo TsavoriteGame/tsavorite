@@ -16,6 +16,7 @@ export enum Keybind {
   Choice4 = 'Choice4'
 }
 
+
 @Injectable({
   providedIn: 'root'
 })
@@ -49,7 +50,9 @@ export class KeybindsService {
 
   public addShortcut(shortcut: [string, string], handler: (event: KeyboardEvent) => boolean|void) {
     this.hotkeys.addHotkey({ shortcut, handler: (event) => {
-      if(this.gameService.areOptionsOpen) return;
+      if(this.gameService.areOptionsOpen) {
+        return;
+      }
 
       handler(event);
     } });

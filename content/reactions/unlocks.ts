@@ -21,6 +21,7 @@ export const applications: Reactions = {
       };
     }
 
+
     if(lockedLevel <= 0) {
       return {
         message: 'There is no lock.',
@@ -29,6 +30,7 @@ export const applications: Reactions = {
         newTarget: targetItem
       };
     }
+
 
     if(unlockLevel >= lockedLevel) {
       removePart(targetItem, args.targetPart);

@@ -18,7 +18,9 @@ const genericColdIncrease = (args: IReactionExtendedArgs, postCall = () => {}) =
   const sourceItem = args.sourceItem;
   const targetItem = args.targetItem;
 
-  if(freezesLevel <= 0) return zeroFail(args);
+  if(freezesLevel <= 0) {
+    return zeroFail(args);
+  }
 
   increaseCold(args);
   postCall();
@@ -35,8 +37,9 @@ const tryToFreeze = (args: IReactionExtendedArgs, comparatorDescriptor: Descript
   const coldLevel = increaseCold(args);
   const descLevel = getDescriptorLevelFromPart(args.targetPart, comparatorDescriptor);
 
-  if(coldLevel >= descLevel)
+  if(coldLevel >= descLevel) {
     increaseDescriptorLevelForPart(args.targetPart, Descriptor.Frozen, 1);
+  }
 
 };
 
@@ -61,7 +64,9 @@ export const applications: Reactions = {
     const sourceItem = args.sourceItem;
     const targetItem = args.targetItem;
 
-    if(freezesLevel <= 0) return zeroFail(args);
+    if(freezesLevel <= 0) {
+      return zeroFail(args);
+    }
 
     tryToFreeze(args, Descriptor.Bloody);
 
@@ -95,7 +100,9 @@ export const applications: Reactions = {
     const sourceItem = args.sourceItem;
     const targetItem = args.targetItem;
 
-    if(freezesLevel <= 0) return zeroFail(args);
+    if(freezesLevel <= 0) {
+      return zeroFail(args);
+    }
 
     tryToFreeze(args, Descriptor.Meat);
 
@@ -127,7 +134,9 @@ export const applications: Reactions = {
     const sourceItem = args.sourceItem;
     const targetItem = args.targetItem;
 
-    if(freezesLevel <= 0) return zeroFail(args);
+    if(freezesLevel <= 0) {
+      return zeroFail(args);
+    }
 
     tryToFreeze(args, Descriptor.Mud);
 
@@ -167,7 +176,9 @@ export const applications: Reactions = {
     const sourceItem = args.sourceItem;
     const targetItem = args.targetItem;
 
-    if(freezesLevel <= 0) return zeroFail(args);
+    if(freezesLevel <= 0) {
+      return zeroFail(args);
+    }
 
     tryToFreeze(args, Descriptor.Wet);
 

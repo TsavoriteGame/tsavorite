@@ -14,7 +14,9 @@ const zeroFail = (args: IReactionExtendedArgs) => ({
 const containerCheck: (args: IReactionExtendedArgs) => IReactionResponse = (args: IReactionExtendedArgs) => {
 
   const wetsLevel = getInteractionLevel(args.sourceItem, Interaction.Wets);
-  if(wetsLevel <= 0) return zeroFail(args);
+  if(wetsLevel <= 0) {
+    return zeroFail(args);
+  }
 
   decreaseInteractionLevel(args.sourceItem, Interaction.Wets, 1);
   increaseDescriptorLevel(args.targetItem, Descriptor.Wet, 1);
@@ -37,7 +39,9 @@ export const applications: Reactions = {
     const sourceItem = args.sourceItem;
     const targetItem = args.targetItem;
 
-    if(wetsLevel <= 0) return zeroFail(args);
+    if(wetsLevel <= 0) {
+      return zeroFail(args);
+    }
 
     decreaseInteractionLevel(args.sourceItem, Interaction.Wets, 1);
     increaseDescriptorLevelForPart(args.targetPart, Descriptor.Wet, 1);
@@ -58,9 +62,13 @@ export const applications: Reactions = {
     const sourceItem = args.sourceItem;
     const targetItem = args.targetItem;
 
-    if(wetsLevel <= 0) return zeroFail(args);
+    if(wetsLevel <= 0) {
+      return zeroFail(args);
+    }
 
-    if(hasDescriptor(args.targetItem, Descriptor.Container)) return containerCheck(args);
+    if(hasDescriptor(args.targetItem, Descriptor.Container)) {
+      return containerCheck(args);
+    }
 
     decreaseInteractionLevel(args.sourceItem, Interaction.Wets, 1);
     increaseDescriptorLevelForPart(args.targetPart, Descriptor.Wet, 1);
@@ -82,7 +90,9 @@ export const applications: Reactions = {
     const sourceItem = args.sourceItem;
     const targetItem = args.targetItem;
 
-    if(wetsLevel <= 0) return zeroFail(args);
+    if(wetsLevel <= 0) {
+      return zeroFail(args);
+    }
 
     decreaseInteractionLevel(args.sourceItem, Interaction.Wets, 1);
     increaseDescriptorLevelForPart(args.targetPart, Descriptor.Cold, 1);
@@ -103,12 +113,15 @@ export const applications: Reactions = {
     const sourceItem = args.sourceItem;
     const targetItem = args.targetItem;
 
-    if(wetsLevel <= 0) return zeroFail(args);
+    if(wetsLevel <= 0) {
+      return zeroFail(args);
+    }
 
     decreaseInteractionLevel(args.sourceItem, Interaction.Wets, 1);
     const newCombust = decreaseDescriptorLevelForPart(args.targetPart, Descriptor.Combustible, 1);
-    if(newCombust <= 0)
+    if(newCombust <= 0) {
       increaseDescriptorLevelForPart(args.targetPart, Descriptor.Wet, 1);
+    }
 
     return {
       message: 'Made the combustible less so.',
@@ -125,7 +138,9 @@ export const applications: Reactions = {
     const sourceItem = args.sourceItem;
     const targetItem = args.targetItem;
 
-    if (wetsLevel <= 0) return zeroFail(args);
+    if (wetsLevel <= 0) {
+      return zeroFail(args);
+    }
 
     decreaseInteractionLevel(args.sourceItem, Interaction.Wets, 1);
     const newCorrosiveLevel = decreaseDescriptorLevelForPart(args.targetPart, Descriptor.Corrosive, 1);
@@ -141,6 +156,7 @@ export const applications: Reactions = {
         ]
       };
     }
+
 
     return {
       message: 'Diluted the corrosive substance.',
@@ -158,7 +174,9 @@ export const applications: Reactions = {
     const sourceItem = args.sourceItem;
     const targetItem = args.targetItem;
 
-    if(wetsLevel <= 0) return zeroFail(args);
+    if(wetsLevel <= 0) {
+      return zeroFail(args);
+    }
 
     decreaseInteractionLevel(args.sourceItem, Interaction.Wets, 1);
     const newDirtLevel = decreaseDescriptorLevelForPart(args.targetPart, Descriptor.Dirt, 1);
@@ -185,7 +203,9 @@ export const applications: Reactions = {
     const sourceItem = args.sourceItem;
     const targetItem = args.targetItem;
 
-    if(wetsLevel <= 0) return zeroFail(args);
+    if(wetsLevel <= 0) {
+      return zeroFail(args);
+    }
 
     decreaseInteractionLevel(args.sourceItem, Interaction.Wets, 1);
     increaseDescriptorLevelForPart(args.sourcePart, Descriptor.Electric, 1);
@@ -207,7 +227,9 @@ export const applications: Reactions = {
     const sourceItem = args.sourceItem;
     const targetItem = args.targetItem;
 
-    if(wetsLevel <= 0) return zeroFail(args);
+    if(wetsLevel <= 0) {
+      return zeroFail(args);
+    }
 
     decreaseInteractionLevel(args.sourceItem, Interaction.Wets, 1);
     increaseDescriptorLevelForPart(args.targetPart, Descriptor.Cold, 1);
@@ -230,9 +252,13 @@ export const applications: Reactions = {
     const sourceItem = args.sourceItem;
     const targetItem = args.targetItem;
 
-    if(wetsLevel <= 0) return zeroFail(args);
+    if(wetsLevel <= 0) {
+      return zeroFail(args);
+    }
 
-    if(hasDescriptor(args.targetItem, Descriptor.Container)) return containerCheck(args);
+    if(hasDescriptor(args.targetItem, Descriptor.Container)) {
+      return containerCheck(args);
+    }
 
     decreaseInteractionLevel(args.sourceItem, Interaction.Wets, 1);
     increaseDescriptorLevelForPart(args.targetPart, Descriptor.Wet, 1);
@@ -254,7 +280,9 @@ export const applications: Reactions = {
     const sourceItem = args.sourceItem;
     const targetItem = args.targetItem;
 
-    if(wetsLevel <= 0) return zeroFail(args);
+    if(wetsLevel <= 0) {
+      return zeroFail(args);
+    }
 
     decreaseInteractionLevel(args.sourceItem, Interaction.Wets, 1);
     decreaseDescriptorLevelForPart(args.targetPart, Descriptor.Hot, 1);
@@ -275,9 +303,13 @@ export const applications: Reactions = {
     const sourceItem = args.sourceItem;
     const targetItem = args.targetItem;
 
-    if(wetsLevel <= 0) return zeroFail(args);
+    if(wetsLevel <= 0) {
+      return zeroFail(args);
+    }
 
-    if(hasDescriptor(args.targetItem, Descriptor.Container)) return containerCheck(args);
+    if(hasDescriptor(args.targetItem, Descriptor.Container)) {
+      return containerCheck(args);
+    }
 
     decreaseInteractionLevel(args.sourceItem, Interaction.Wets, 1);
     increaseDescriptorLevelForPart(args.targetPart, Descriptor.Wet, 1);
@@ -299,7 +331,9 @@ export const applications: Reactions = {
     const sourceItem = args.sourceItem;
     const targetItem = args.targetItem;
 
-    if(wetsLevel <= 0) return zeroFail(args);
+    if(wetsLevel <= 0) {
+      return zeroFail(args);
+    }
 
     decreaseInteractionLevel(args.sourceItem, Interaction.Wets, 1);
     increaseDescriptorLevelForPart(args.targetPart, Descriptor.Wet, 1);
@@ -320,9 +354,13 @@ export const applications: Reactions = {
     const sourceItem = args.sourceItem;
     const targetItem = args.targetItem;
 
-    if(wetsLevel <= 0) return zeroFail(args);
+    if(wetsLevel <= 0) {
+      return zeroFail(args);
+    }
 
-    if(hasDescriptor(args.targetItem, Descriptor.Container)) return containerCheck(args);
+    if(hasDescriptor(args.targetItem, Descriptor.Container)) {
+      return containerCheck(args);
+    }
 
     decreaseInteractionLevel(args.sourceItem, Interaction.Wets, 1);
     increaseDescriptorLevelForPart(args.targetPart, Descriptor.Wet, 1);
@@ -344,9 +382,13 @@ export const applications: Reactions = {
     const sourceItem = args.sourceItem;
     const targetItem = args.targetItem;
 
-    if(wetsLevel <= 0) return zeroFail(args);
+    if(wetsLevel <= 0) {
+      return zeroFail(args);
+    }
 
-    if(hasDescriptor(args.targetItem, Descriptor.Container)) return containerCheck(args);
+    if(hasDescriptor(args.targetItem, Descriptor.Container)) {
+      return containerCheck(args);
+    }
 
     decreaseInteractionLevel(args.sourceItem, Interaction.Wets, 1);
     increaseDescriptorLevelForPart(args.targetPart, Descriptor.Wet, 1);
@@ -368,7 +410,9 @@ export const applications: Reactions = {
     const sourceItem = args.sourceItem;
     const targetItem = args.targetItem;
 
-    if(wetsLevel <= 0) return zeroFail(args);
+    if(wetsLevel <= 0) {
+      return zeroFail(args);
+    }
 
     decreaseInteractionLevel(args.sourceItem, Interaction.Wets, 1);
     const newWetLevel = increaseDescriptorLevelForPart(args.targetPart, Descriptor.Wet, 1);
@@ -406,7 +450,9 @@ export const applications: Reactions = {
     const sourceItem = args.sourceItem;
     const targetItem = args.targetItem;
 
-    if(wetsLevel <= 0) return zeroFail(args);
+    if(wetsLevel <= 0) {
+      return zeroFail(args);
+    }
 
     decreaseInteractionLevel(args.sourceItem, Interaction.Wets, 1);
     increaseDescriptorLevelForPart(args.targetPart, Descriptor.Slippery, 1);
@@ -428,7 +474,9 @@ export const applications: Reactions = {
     const sourceItem = args.sourceItem;
     const targetItem = args.targetItem;
 
-    if(wetsLevel <= 0) return zeroFail(args);
+    if(wetsLevel <= 0) {
+      return zeroFail(args);
+    }
 
     decreaseInteractionLevel(args.sourceItem, Interaction.Wets, 1);
     increaseDescriptorLevelForPart(args.targetPart, Descriptor.Slippery, 1);
@@ -450,9 +498,13 @@ export const applications: Reactions = {
     const sourceItem = args.sourceItem;
     const targetItem = args.targetItem;
 
-    if(wetsLevel <= 0) return zeroFail(args);
+    if(wetsLevel <= 0) {
+      return zeroFail(args);
+    }
 
-    if(hasDescriptor(args.targetItem, Descriptor.Container)) return containerCheck(args);
+    if(hasDescriptor(args.targetItem, Descriptor.Container)) {
+      return containerCheck(args);
+    }
 
     decreaseInteractionLevel(args.sourceItem, Interaction.Wets, 1);
 
@@ -471,6 +523,7 @@ export const applications: Reactions = {
           newTarget: undefined
         };
       }
+
     }
 
     return {
