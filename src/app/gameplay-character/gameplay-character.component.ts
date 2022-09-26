@@ -23,9 +23,15 @@ export class GameplayCharacterComponent implements OnInit {
   dropHealth($event) {
     const { backpackIndex, item } = $event.data;
 
-    if(!item) return;
-    if(backpackIndex < 0) return;
-    if(!item.interaction || item.interaction.name !== Interaction.Heals) return;
+    if(!item) {
+      return;
+    }
+    if(backpackIndex < 0) {
+      return;
+    }
+    if(!item.interaction || item.interaction.name !== Interaction.Heals) {
+      return;
+    }
 
     this.store.dispatch(new AddHealth(item.interaction.level))
       .subscribe(() => {
@@ -34,8 +40,12 @@ export class GameplayCharacterComponent implements OnInit {
   }
 
   shouldDisableHealthStealing(character: IGameCharacter): boolean {
-    if(character.hp <= 1) return true;
-    if(character.items.length === this.gameService.getConstant(GameConstant.BackpackSize)) return true;
+    if(character.hp <= 1) {
+      return true;
+    }
+    if(character.items.length === this.gameService.getConstant(GameConstant.BackpackSize)) {
+      return true;
+    }
 
     return false;
   }

@@ -25,7 +25,9 @@ export class PreGameSetupComponent implements OnInit {
   }
 
   selectBackground(background: IBackground) {
-    if(background.disabled) return;
+    if(background.disabled) {
+      return;
+    }
 
     this.selectedBackground = background;
     this.selectedArchetype = this.contentService.archetypes.find(a => a.name === this.selectedBackground.archetype);

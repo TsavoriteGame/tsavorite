@@ -47,7 +47,9 @@ export class ContentService {
   // formatters
   public reformatItem(itemId: string, modifications: Record<string, number>): IItemConfig {
     const realItem = this.getItemById(itemId);
-    if(!realItem) return;
+    if(!realItem) {
+      return;
+    }
 
     // run the modifications through lodash.set for quick deep setting
     const workingItem = structuredClone(realItem);

@@ -5,7 +5,9 @@ import { Descriptor, Interaction, IItemConfig, MiddlewareType,
 // whether or not source should break when hitting target
 export function shouldItemBreakWhenInteractingWith(sourceItem: IItemConfig, targetItem: IItemConfig): boolean {
 
-  if(!sourceItem || !targetItem) return false;
+  if(!sourceItem || !targetItem) {
+    return false;
+  }
 
   const isSourceGlass = getDescriptorLevel(sourceItem, Descriptor.Glass) > 0;
 
@@ -21,22 +23,34 @@ export function shouldItemBreakWhenInteractingWith(sourceItem: IItemConfig, targ
   const isTargetUnbreakable = isUnbreakable(targetItem);
 
   // unbreakable is never breakable
-  if(isSourceUnbreakable) return false;
+  if(isSourceUnbreakable) {
+    return false;
+  }
 
   // if they're unbreakable, we always break
-  if(isTargetUnbreakable) return true;
+  if(isTargetUnbreakable) {
+    return true;
+  }
 
   // glass always breaks
-  if(isSourceGlass) return true;
+  if(isSourceGlass) {
+    return true;
+  }
 
   // if we're wood and they're rock or metal, break
-  if(isSourceWood && (isTargetRock || targetMetalLevel > 0)) return true;
+  if(isSourceWood && (isTargetRock || targetMetalLevel > 0)) {
+    return true;
+  }
 
   // if we're rock and they're metal, break
-  if(isSourceRock && targetMetalLevel > 0) return true;
+  if(isSourceRock && targetMetalLevel > 0) {
+    return true;
+  }
 
   // if they have more metal than me, we break
-  if(sourceMetalLevel > 0 && targetMetalLevel > 0 && sourceMetalLevel < targetMetalLevel) return true;
+  if(sourceMetalLevel > 0 && targetMetalLevel > 0 && sourceMetalLevel < targetMetalLevel) {
+    return true;
+  }
 
   // no situation above occurs, don't break
   return false;

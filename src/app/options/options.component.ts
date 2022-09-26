@@ -57,7 +57,9 @@ export class OptionsComponent implements OnInit, OnDestroy {
     const checkOtherKeys = Object.keys(allKeybinds).filter(k => k !== keybind);
     const isKeyInUse = checkOtherKeys.some(k => allKeybinds[k] === newKey);
 
-    if(isKeyInUse) return;
+    if(isKeyInUse) {
+      return;
+    }
 
     this.store.dispatch(new RebindKey(keybind as Keybind, newKey));
   }

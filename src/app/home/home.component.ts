@@ -44,7 +44,9 @@ export class HomeComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    if(!environment.showSplash) this.showMenu = true;
+    if(!environment.showSplash) {
+      this.showMenu = true;
+    }
 
     setTimeout(() => {
       this.showMenu = true;
@@ -67,7 +69,9 @@ export class HomeComponent implements OnInit {
   }
 
   debugClick(): void {
-    if(++this.debugClicks < 10) return;
+    if(++this.debugClicks < 10) {
+      return;
+    }
 
     this.debugClicks = 0;
     this.store.dispatch(new ToggleOption(GameOption.IsDebugMode));

@@ -39,10 +39,11 @@ export class IgniteCombustible implements PostReactionMiddleware {
     increaseDescriptorLevelForPart(part, Descriptor.Hot, 1);
     decreaseDescriptorLevelForPart(part, Descriptor.Combustible, 1);
 
-    if(response.success)
+    if(response.success) {
       response.message = `${response.message} Target combusted!`;
-    else
+    } else {
       response.message = 'Target combusted!';
+    }
 
     response.success = true;
 

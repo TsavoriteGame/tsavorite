@@ -57,10 +57,11 @@ export class AppComponent implements OnInit {
   // watch for changes to the font setting and update the game
   private watchFontChanges() {
     this.isFantasyFont$.subscribe(isFantasyFont => {
-      if(isFantasyFont)
+      if(isFantasyFont) {
         document.body.classList.add('fantasy');
-      else
+      } else {
         document.body.classList.remove('fantasy');
+      }
     });
   }
 
@@ -71,13 +72,17 @@ export class AppComponent implements OnInit {
   }
 
   handleKeyboardEvent() {
-    if(!this.gameService.isInGame) return;
+    if(!this.gameService.isInGame) {
+      return;
+    }
 
     // handle showing/hiding the pause menu
     this.isPaused$.pipe(first()).subscribe(isPaused => {
 
       // if we're already paused, hitting esc again will close it anyway; no need to do anything
-      if(isPaused) return;
+      if(isPaused) {
+        return;
+      }
 
       // tell the game we're paused
       this.store.dispatch(new SetOption(GameOption.IsPaused, true));

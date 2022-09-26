@@ -15,7 +15,9 @@ const containerCheck: (args: IReactionExtendedArgs, glassLevel: number) => IReac
   (args: IReactionExtendedArgs, glassLevel) => {
 
     const corrodesLevel = getInteractionLevel(args.sourceItem, Interaction.Corrodes);
-    if (corrodesLevel <= 0) return zeroFail(args);
+    if (corrodesLevel <= 0) {
+      return zeroFail(args);
+    }
 
     decreaseInteractionLevel(args.sourceItem, Interaction.Corrodes, 1);
 
@@ -39,6 +41,7 @@ const containerCheck: (args: IReactionExtendedArgs, glassLevel: number) => IReac
       };
     }
 
+
     increaseDescriptorLevelForPart(getPartWithDescriptor(args.targetItem, Descriptor.Corrosive), Descriptor.Corrosive, 1);
 
     return {
@@ -59,7 +62,9 @@ export const applications: Reactions = {
     const sourceItem = args.sourceItem;
     const targetItem = args.targetItem;
 
-    if (corrodesLevel <= 0) return zeroFail(args);
+    if (corrodesLevel <= 0) {
+      return zeroFail(args);
+    }
 
     decreaseInteractionLevel(args.sourceItem, Interaction.Corrodes, 1);
     decreaseDescriptorLevelForPart(args.targetPart, Descriptor.Bloody, 1);
@@ -75,6 +80,7 @@ export const applications: Reactions = {
         ]
       };
     }
+
 
     return {
       message: 'Turned blood into goo.',
@@ -95,8 +101,9 @@ export const applications: Reactions = {
     const sourceItem = args.sourceItem;
     const targetItem = args.targetItem;
 
-    if (corrodesLevel <= 0)
+    if (corrodesLevel <= 0) {
       return zeroFail(args);
+    }
 
     decreaseInteractionLevel(args.sourceItem, Interaction.Corrodes, 1);
     const newClayLevel = decreaseDescriptorLevelForPart(args.targetPart, Descriptor.Clay, 1);
@@ -109,6 +116,7 @@ export const applications: Reactions = {
         newTarget: undefined
       };
     }
+
 
     return {
       message: 'Dissolved some of the clay.',
@@ -126,8 +134,9 @@ export const applications: Reactions = {
     const sourceItem = args.sourceItem;
     const targetItem = args.targetItem;
 
-    if (corrodesLevel <= 0)
+    if (corrodesLevel <= 0) {
       return zeroFail(args);
+    }
 
     decreaseInteractionLevel(args.sourceItem, Interaction.Corrodes, 1);
     const newDirtLevel = decreaseDescriptorLevelForPart(args.targetPart, Descriptor.Dirt, 1);
@@ -140,6 +149,7 @@ export const applications: Reactions = {
         newTarget: undefined
       };
     }
+
 
     return {
       message: 'Dissolved some of the dirt.',
@@ -157,8 +167,9 @@ export const applications: Reactions = {
     const sourceItem = args.sourceItem;
     const targetItem = args.targetItem;
 
-    if (corrodesLevel <= 0)
+    if (corrodesLevel <= 0) {
       return zeroFail(args);
+    }
 
     decreaseInteractionLevel(args.sourceItem, Interaction.Corrodes, 1);
     const newFiberLevel = decreaseDescriptorLevelForPart(args.targetPart, Descriptor.Fiber, 1);
@@ -172,6 +183,7 @@ export const applications: Reactions = {
       };
     }
 
+
     return {
       message: 'Dissolved some of the fiber.',
       success: true,
@@ -183,8 +195,10 @@ export const applications: Reactions = {
   // if container, fill container
   [Descriptor.Glass]: (args: IReactionExtendedArgs) => {
 
-    if (hasDescriptor(args.targetItem, Descriptor.Container))
+    if (hasDescriptor(args.targetItem, Descriptor.Container)) {
       return containerCheck(args, getDescriptorLevel(args.targetItem, Descriptor.Glass));
+    }
+
 
     return zeroFail(args);
   },
@@ -196,7 +210,9 @@ export const applications: Reactions = {
     const sourceItem = args.sourceItem;
     const targetItem = args.targetItem;
 
-    if (corrodesLevel <= 0) return zeroFail(args);
+    if (corrodesLevel <= 0) {
+      return zeroFail(args);
+    }
 
     decreaseInteractionLevel(args.sourceItem, Interaction.Corrodes, 1);
     const newLeatherLevel = decreaseDescriptorLevelForPart(args.targetPart, Descriptor.Leather, 1);
@@ -209,6 +225,7 @@ export const applications: Reactions = {
         newTarget: undefined
       };
     }
+
 
     return {
       message: 'The leather has been damaged.',
@@ -226,7 +243,9 @@ export const applications: Reactions = {
     const sourceItem = args.sourceItem;
     const targetItem = args.targetItem;
 
-    if (corrodesLevel <= 0) return zeroFail(args);
+    if (corrodesLevel <= 0) {
+      return zeroFail(args);
+    }
 
     decreaseInteractionLevel(args.sourceItem, Interaction.Corrodes, 1);
 
@@ -248,7 +267,9 @@ export const applications: Reactions = {
     const sourceItem = args.sourceItem;
     const targetItem = args.targetItem;
 
-    if (corrodesLevel <= 0) return zeroFail(args);
+    if (corrodesLevel <= 0) {
+      return zeroFail(args);
+    }
 
     decreaseInteractionLevel(args.sourceItem, Interaction.Corrodes, 1);
     const newMetalLevel = decreaseDescriptorLevelForPart(args.targetPart, Descriptor.Metal, 1);
@@ -261,6 +282,7 @@ export const applications: Reactions = {
         newTarget: undefined
       };
     }
+
 
     return {
       message: 'The metal has been tarnished.',
@@ -278,8 +300,9 @@ export const applications: Reactions = {
     const sourceItem = args.sourceItem;
     const targetItem = args.targetItem;
 
-    if (corrodesLevel <= 0)
+    if (corrodesLevel <= 0) {
       return zeroFail(args);
+    }
 
     decreaseInteractionLevel(args.sourceItem, Interaction.Corrodes, 1);
     const newMudLevel = decreaseDescriptorLevelForPart(args.targetPart, Descriptor.Mud, 1);
@@ -292,6 +315,7 @@ export const applications: Reactions = {
         newTarget: undefined
       };
     }
+
 
     return {
       message: 'Dissolved some of the fiber.',
@@ -308,7 +332,9 @@ export const applications: Reactions = {
     const sourceItem = args.sourceItem;
     const targetItem = args.targetItem;
 
-    if (corrodesLevel <= 0) return zeroFail(args);
+    if (corrodesLevel <= 0) {
+      return zeroFail(args);
+    }
 
     decreaseInteractionLevel(args.sourceItem, Interaction.Corrodes, 1);
 
@@ -329,7 +355,9 @@ export const applications: Reactions = {
     const sourceItem = args.sourceItem;
     const targetItem = args.targetItem;
 
-    if (corrodesLevel <= 0) return zeroFail(args);
+    if (corrodesLevel <= 0) {
+      return zeroFail(args);
+    }
 
     decreaseInteractionLevel(args.sourceItem, Interaction.Corrodes, 1);
 
@@ -344,6 +372,7 @@ export const applications: Reactions = {
         newTarget: undefined
       };
     }
+
 
     return {
       message: 'Made the wood more rotten.',
