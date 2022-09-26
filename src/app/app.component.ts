@@ -16,7 +16,7 @@ import { Keybind, KeybindsService } from './core/services/game/keybinds.service'
 })
 export class AppComponent implements OnInit {
 
-  @Select(OptionsState.keymap) keymap$: Observable<Record<Keybind, string>>;
+  @Select(OptionsState.keymap) keymap$: Observable<Record<Keybind, [string, string]>>;
   @Select(OptionsState.isPaused) isPaused$: Observable<boolean>;
   @Select(OptionsState.isFantasyFont) isFantasyFont$: Observable<boolean>;
 
@@ -36,7 +36,7 @@ export class AppComponent implements OnInit {
     this.watchFontChanges();
     this.watchKeymapChanges();
 
-    this.keybindsService.addShortcut(this.keybindsService.getShortcutKey(Keybind.Pause), () => this.handleKeyboardEvent());
+    this.keybindsService.addShortcut(this.keybindsService.getShortcutKeys(Keybind.Pause), () => this.handleKeyboardEvent());
   }
 
   // init the i18n for en; other languages may come
