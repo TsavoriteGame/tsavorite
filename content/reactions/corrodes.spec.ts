@@ -1,4 +1,3 @@
-import { Item } from 'electron';
 import { getAllDescriptorsForPart, getDescriptorLevel, getInteractionLevel, getReactionBetweenTwoItems } from '../helpers';
 import { Descriptor, Interaction, IItemConfig } from '../interfaces';
 

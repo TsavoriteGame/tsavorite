@@ -1,7 +1,7 @@
 import { getItemById } from '../getters';
 import { getInteractionLevel, increaseDescriptorLevelForPart, decreaseInteractionLevel, decreaseDescriptorLevelForPart,
   getDescriptorLevelFromPart, getValidFulfilledRecipeForItem, hasFoundationalPart } from '../helpers';
-import { Descriptor, Reactions, Interaction, IReactionExtendedArgs, IItemConfig } from '../interfaces';
+import { Descriptor, Reactions, Interaction, IReactionExtendedArgs } from '../interfaces';
 
 const zeroFail = (args: IReactionExtendedArgs) => ({
   message: 'The tailor kit cannot use this material.',

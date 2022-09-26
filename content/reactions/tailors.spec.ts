@@ -1,6 +1,6 @@
 
-import { getAllDescriptorsForPart, getDescriptorLevel,
-  getInteractionLevel, getReactionBetweenTwoItems, hasFoundationalPart } from '../helpers';
+import { getDescriptorLevel,
+  getInteractionLevel, getReactionBetweenTwoItems } from '../helpers';
 import { Interaction, Descriptor, IItemConfig } from '../interfaces';
 
 const getGlue = (glueLevel: number): IItemConfig => ({
