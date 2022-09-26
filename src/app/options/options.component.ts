@@ -14,7 +14,8 @@ import { GameOption, IOptions, OptionsState } from '../core/services/game/stores
 })
 export class OptionsComponent implements OnInit, OnDestroy {
 
-  public recordingKeybind = {};
+  public recordingPrimaryKeybind = {};
+  public recordingSecondaryKeybind = {};
 
   @Select(OptionsState.allOptions) options$: Observable<IOptions>;
 
@@ -49,17 +50,20 @@ export class OptionsComponent implements OnInit, OnDestroy {
     this.store.dispatch(new SetOption(option, newValue));
   }
 
-  async recordNewKeybind(allKeybinds: Record<Keybind, string>, keybind: string) {
-    this.recordingKeybind[keybind] = true;
+  async recordNewKeybind(allKeybinds: Record<Keybind, [string, string]>, keybind: string, isPrimaryKey: boolean) {
+    if (isPrimaryKey)
+      this.recordingPrimaryKeybind[keybind] = true;
+    else
+      this.recordingSecondaryKeybind[keybind] = true;
     const newKey = await this.keybindService.recordKeybind();
-    this.recordingKeybind[keybind] = false;
+    this.recordingPrimaryKeybind[keybind] = this.recordingSecondaryKeybind[keybind] = false;
 
     const checkOtherKeys = Object.keys(allKeybinds).filter(k => k !== keybind);
     const isKeyInUse = checkOtherKeys.some(k => allKeybinds[k] === newKey);
 
     if(isKeyInUse) return;
 
-    this.store.dispatch(new RebindKey(keybind as Keybind, newKey));
+    this.store.dispatch(new RebindKey(keybind as Keybind, newKey, isPrimaryKey));
   }
 
 }
