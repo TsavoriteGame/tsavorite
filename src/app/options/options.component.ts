@@ -51,8 +51,14 @@ export class OptionsComponent implements OnInit, OnDestroy {
   }
 
   async recordNewKeybind(allKeybinds: Record<Keybind, [string, string]>, keybind: string, isPrimaryKey: boolean) {
-    if(isPrimaryKey) this.recordingPrimaryKeybind[keybind] = true;
-    else this.recordingSecondaryKeybind[keybind] = true;
+    if(isPrimaryKey)
+    {
+      this.recordingPrimaryKeybind[keybind] = true;
+    }
+    else
+    {
+      this.recordingSecondaryKeybind[keybind] = true;
+    }
     const newKey = await this.keybindService.recordKeybind();
     this.recordingPrimaryKeybind[keybind] = this.recordingSecondaryKeybind[keybind] = false;
 

@@ -219,8 +219,9 @@ export class Hotkeys {
       return;
     }
 
-    if(this.hotkeyMap[keyCode])
+    if(this.hotkeyMap[keyCode]) {
       this.hotkeyMap[keyCode].handler(event);
+    }
   };
 
   getAllHotkeys(): HotkeyShortcut[] {

@@ -63,7 +63,9 @@ export class KeybindsService {
   }
 
   public rebindShortcuts(shortcut: [string, string], newShortcut: [string, string]): void {
-    if(shortcut === newShortcut) return;
+    if(shortcut === newShortcut) {
+      return;
+    }
 
     this.hotkeys.rebindHotkey(shortcut, newShortcut);
   }
