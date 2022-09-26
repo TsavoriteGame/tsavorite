@@ -18,20 +18,20 @@ export interface IOptions {
   [GameOption.MasterVolume]: number;
   [GameOption.IsFantasyFont]: boolean;
   [GameOption.IsDebugMode]: boolean;
-  [GameOption.Keymap]: Record<Keybind, string>;
+  [GameOption.Keymap]: Record<Keybind, [string, string]>;
   [GameOption.GameSpeed]: number;
 }
 
-export const defaultKeymap: () => Record<Keybind, string> = () => ({
-  [Keybind.Pause]: 'Escape',
-  [Keybind.MoveUp]: 'ArrowUp',
-  [Keybind.MoveDown]: 'ArrowDown',
-  [Keybind.MoveLeft]: 'ArrowLeft',
-  [Keybind.MoveRight]: 'ArrowRight',
-  [Keybind.Choice1]: '1',
-  [Keybind.Choice2]: '2',
-  [Keybind.Choice3]: '3',
-  [Keybind.Choice4]: '4'
+export const defaultKeymap: () => Record<Keybind, [string, string]> = () => ({
+  [Keybind.Pause]: ['Escape', 'P'],
+  [Keybind.MoveUp]: ['ArrowUp', 'W'],
+  [Keybind.MoveDown]: ['ArrowDown', 'S'],
+  [Keybind.MoveLeft]: ['ArrowLeft', 'A'],
+  [Keybind.MoveRight]: ['ArrowRight', 'D'],
+  [Keybind.Choice1]: ['1', '‎'],
+  [Keybind.Choice2]: ['2', '‎'],
+  [Keybind.Choice3]: ['3', '‎'],
+  [Keybind.Choice4]: ['4', '‎']
 });
 
 const defaultOptions: () => IOptions = () => ({
@@ -91,10 +91,11 @@ export class OptionsState {
   }
 
   @Action(RebindKey)
-  rebindKey(ctx: StateContext<IOptions>, { keybind, newKey }: RebindKey) {
+  rebindKey(ctx: StateContext<IOptions>, { keybind, newKey, isPrimaryKey }: RebindKey) {
+    const currentBinding = ctx.getState().keymap[keybind];
     ctx.setState(patch<IOptions>({
-      [GameOption.Keymap]: patch<Record<Keybind, string>>({
-        [keybind]: newKey
+      [GameOption.Keymap]: patch<Record<Keybind, [string, string]>>({
+        [keybind]: (isPrimaryKey ? [newKey, currentBinding[1]] : [currentBinding[0], newKey])
       })
     }));
   }

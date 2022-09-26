@@ -13,12 +13,12 @@ export interface HotkeyOptions {
 }
 
 export interface HotkeyShortcut {
-  shortcut: string;
+  shortcut: [string, string];
   handler: (event: KeyboardEvent) => boolean | void;
 }
 
 export interface InternalHotkeyShortcut extends HotkeyShortcut {
-  code: number;
+  code: [number, number];
 }
 
 export const HotkeyKeycodes = {
@@ -176,7 +176,7 @@ export class Hotkeys {
 
   private isRecording = false;
   private events = ['keydown'];
-  private hotkeyMap: Record<number, InternalHotkeyShortcut[]> = {};
+  private hotkeyMap: Record<number, InternalHotkeyShortcut> = {};
   private delimiter = '+';
   private recordCallback: (hotkey: string) => void;
 
@@ -209,9 +209,8 @@ export class Hotkeys {
 
     if(!this.filter(event)) return;
 
-    (this.hotkeyMap[keyCode] || []).forEach(hotkey => {
-      hotkey.handler(event);
-    });
+    if (this.hotkeyMap[keyCode])
+      this.hotkeyMap[keyCode].handler(event);
   };
 
   getAllHotkeys(): HotkeyShortcut[] {
@@ -219,23 +218,39 @@ export class Hotkeys {
   }
 
   addHotkey(hotkey: HotkeyShortcut): void {
-    const internalHotkey: InternalHotkeyShortcut = { ...hotkey, code: this.getKeycodeNumberFromString(hotkey.shortcut) };
+    const primaryKeyCode = this.getKeycodeNumberFromString(hotkey.shortcut[0]);
+    const secondaryKeyCode = this.getKeycodeNumberFromString(hotkey.shortcut[1]);
 
-    this.hotkeyMap[internalHotkey.code] = this.hotkeyMap[internalHotkey.code] || [];
-    this.hotkeyMap[internalHotkey.code].push(internalHotkey);
+    const internalHotkey: InternalHotkeyShortcut = { ...hotkey, code: [primaryKeyCode, secondaryKeyCode] };
+
+    this.hotkeyMap[primaryKeyCode] = internalHotkey;
+    this.hotkeyMap[secondaryKeyCode] = internalHotkey;
   }
 
-  removeHotkey(hotkey: string): void {
-    const keyCode = this.getKeycodeNumberFromString(hotkey);
-    delete this.hotkeyMap[keyCode];
+  removeHotkey(hotkey: [string, string]): void {
+    const primaryKeyCode = this.getKeycodeNumberFromString(hotkey[0]);
+    const secondaryKeyCode = this.getKeycodeNumberFromString(hotkey[1]);
+    delete this.hotkeyMap[primaryKeyCode];
+    delete this.hotkeyMap[secondaryKeyCode];
   }
 
-  rebindHotkey(oldHotkey: string, newHotkey: string) {
-    const oldKeyCode = this.getKeycodeNumberFromString(oldHotkey);
-    const newKeyCode = this.getKeycodeNumberFromString(newHotkey);
+  rebindHotkey(oldHotkey: [string, string], newHotkey: [string, string]) {
+    const oldPrimaryKeyCode = this.getKeycodeNumberFromString(oldHotkey[0]);
+    const newPrimaryKeyCode = this.getKeycodeNumberFromString(newHotkey[0]);
+    const oldPrimaryHotkey = this.hotkeyMap[oldPrimaryKeyCode];
 
-    this.hotkeyMap[newKeyCode] = this.hotkeyMap[oldKeyCode];
-    delete this.hotkeyMap[oldKeyCode];
+    const oldSecondaryKeyCode = this.getKeycodeNumberFromString(oldHotkey[1]);
+    const newSecondaryKeyCode = this.getKeycodeNumberFromString(newHotkey[1]);
+    const oldSecondaryHotkey = this.hotkeyMap[oldSecondaryKeyCode];
+
+    delete this.hotkeyMap[oldPrimaryKeyCode];
+    delete this.hotkeyMap[oldSecondaryKeyCode];
+
+    this.hotkeyMap[newPrimaryKeyCode] = oldPrimaryHotkey;
+    this.hotkeyMap[newPrimaryKeyCode].shortcut = newHotkey;
+
+    this.hotkeyMap[newSecondaryKeyCode] = oldSecondaryHotkey;
+    this.hotkeyMap[newSecondaryKeyCode].shortcut = newHotkey;
   }
 
   removeAllHotkeys() {

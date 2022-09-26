@@ -21,13 +21,13 @@ export enum Keybind {
 })
 export class KeybindsService {
 
-  private keymap: Record<Keybind, string> = defaultKeymap();
+  private keymap: Record<Keybind, [string, string]> = defaultKeymap();
 
   private hotkeys = new Hotkeys();
 
   constructor(private gameService: GameService) {}
 
-  public setKeybinds(keymap: Record<Keybind, string>): void {
+  public setKeybinds(keymap: Record<Keybind, [string, string]>): void {
     Object.keys(keymap).forEach(key => {
       this.rebindShortcuts(this.keymap[key], keymap[key]);
     });
@@ -35,11 +35,19 @@ export class KeybindsService {
     this.keymap = keymap;
   }
 
-  public getShortcutKey(keybind: Keybind): string {
+  public getShortcutKeys(keybind: Keybind): [string, string] {
     return this.keymap[keybind];
   }
 
-  public addShortcut(shortcut: string, handler: (event: KeyboardEvent) => boolean|void) {
+  public getPrimaryShortcutKey(keybind: Keybind): string {
+    return this.keymap[keybind][0];
+  }
+
+  public getSecondaryShortcutKey(keybind: Keybind): string {
+    return this.keymap[keybind][1];
+  }
+
+  public addShortcut(shortcut: [string, string], handler: (event: KeyboardEvent) => boolean|void) {
     this.hotkeys.addHotkey({ shortcut, handler: (event) => {
       if(this.gameService.areOptionsOpen) return;
 
@@ -47,11 +55,11 @@ export class KeybindsService {
     } });
   }
 
-  public removeShortcut(shortcut: string): void {
+  public removeShortcut(shortcut: [string, string]): void {
     this.hotkeys.removeHotkey(shortcut);
   }
 
-  public rebindShortcuts(shortcut: string, newShortcut: string): void {
+  public rebindShortcuts(shortcut: [string, string], newShortcut: [string, string]): void {
     if(shortcut === newShortcut) return;
 
     this.hotkeys.rebindHotkey(shortcut, newShortcut);
