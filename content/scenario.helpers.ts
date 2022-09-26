@@ -6,10 +6,12 @@ export function getSpawnNode(scenario: IScenario): IScenarioNode {
 }
 
 // get node at w,x,y
-export function getNodeAt(scenario: IScenario, worldId: number, x: number, y: number): IScenarioNode {
+export function getNodeAt(scenario: IScenario, worldId: number, x: number, y: number): IScenarioNode | undefined {
   const world = scenario.worlds[worldId];
-  const nodeId = world.layout[y]?.[x] ?? -1;
-  return scenario.nodes[nodeId];
+  const node = world.layout[y]?.[x];
+  if(!node) return undefined;
+
+  return node.id === -1 ? node as IScenarioNode : scenario.nodes[node.id];
 }
 
 // get the number of worlds in a scenario
@@ -26,7 +28,7 @@ export function findFirstLandmark(scenario: IScenario, nodeId: number): { worldI
 
     for(let y = 0; y < world.layout.length; y++) {
       for(let x = 0; x < world.layout[y].length; x++) {
-        if(world.layout[y][x] === nodeId)
+        if(world.layout[y][x].id === nodeId)
           return { worldId, x, y };
       }
     }
@@ -41,7 +43,7 @@ export function findFirstLandmarkInWorld(scenario: IScenario, worldId: number, n
 
   for(let y = 0; y < world.layout.length; y++) {
     for(let x = 0; x < world.layout[y].length; x++) {
-      if(world.layout[y][x] === nodeId)
+      if(world.layout[y][x].id === nodeId)
         return { worldId, x, y };
     }
   }

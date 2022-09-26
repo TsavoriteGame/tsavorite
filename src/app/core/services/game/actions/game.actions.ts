@@ -1,4 +1,4 @@
-import { IItemConfig, IScenario } from '../../../../../../content/interfaces';
+import { IItemConfig, IMapPosition, IScenario, IScenarioNode } from '../../../../../../content/interfaces';
 import { IGameSetup } from '../stores/gamesetup.store';
 
 export class StartGame {
@@ -51,4 +51,9 @@ export class Warp {
 export class MakeChoice {
   static type = '[Game] Make Choice';
   constructor(public choice: number) {}
+}
+
+export class ReplaceNode {
+  static type = '[Game] Replace Node';
+  constructor(public position: IMapPosition, public newNode: IScenarioNode) {}
 }

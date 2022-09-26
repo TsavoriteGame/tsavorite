@@ -22,7 +22,11 @@
         "plugin:@angular-eslint/ng-cli-compat--formatting-add-on",
         "plugin:@angular-eslint/template/process-inline-templates"
       ],
+      "plugins": [
+        "unused-imports"
+      ],
       "rules": {
+        "unused-imports/no-unused-imports": "error",
         "prefer-arrow/prefer-arrow-functions": 0,
         "curly": [2, "multi-or-nest", "consistent"],
         "brace-style": ["error", "1tbs"],

@@ -6,8 +6,8 @@ export interface IScenarioNode {
   description: string;
   id: number;
 
-  landmark?: string;
-  landmarkData?: ILandmarkData;
+  landmark: string;
+  landmarkData: ILandmarkData;
   playerSpawnLocation?: boolean;
   blockMovement?: boolean;
 }
@@ -15,7 +15,7 @@ export interface IScenarioNode {
 export interface IScenarioWorld {
   name: string;
   id: number;
-  layout: number[][];
+  layout: Partial<IScenarioNode>[][];
 }
 
 export interface IScenario {

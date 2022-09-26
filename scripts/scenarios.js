@@ -49,6 +49,12 @@ const validateScenarios = () => {
 
         node.landmarkData = node.landmarkData || {};
       });
+
+      for(let y = 0; y < world.layout.length; y++) {
+        for(let x = 0; x < world.layout[y].length; x++) {
+          world.layout[y][x] = { id: world.layout[y][x] };
+        }
+      }
     });
 
     const allNodes = Object.values(item.nodes);

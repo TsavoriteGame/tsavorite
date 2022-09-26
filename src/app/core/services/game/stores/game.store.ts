@@ -7,10 +7,10 @@ import { isUndefined } from 'lodash';
 import { getScenarioByName } from '../../../../../../content/getters';
 import * as AllLandmarks from '../../../../../../content/landmarks';
 import { IArchetype, IBackground, ILandmark, IItemConfig,
-  ILandmarkEncounter, IPower, IScenario, IScenarioNode } from '../../../../../../content/interfaces';
+  ILandmarkEncounter, IPower, IScenario, IScenarioNode, IMapPosition } from '../../../../../../content/interfaces';
 import { findFirstLandmarkInWorld, findSpawnCoordinates, getNodeAt } from '../../../../../../content/scenario.helpers';
 import { AbandonGame, AddBackpackItem, AddHealth, MakeChoice, Move, ReduceHealth,
-  RemoveBackpackItem, StartGame, UpdateBackpackItem, Warp } from '../actions';
+  RemoveBackpackItem, ReplaceNode, StartGame, UpdateBackpackItem, Warp } from '../actions';
 import { ContentService } from '../content.service';
 import { GameConstant, GameService } from '../game.service';
 import { Subscription } from 'rxjs';
@@ -35,12 +35,6 @@ export interface IGameCharacter {
   };
   items: IItemConfig[];
   powers: IPower[];
-}
-
-export interface IMapPosition {
-  worldId: number;
-  x: number;
-  y: number;
 }
 
 export interface IGame {
@@ -102,7 +96,6 @@ export class GameState {
 
     const { scenario, position } = state;
     const { worldId, x, y } = position;
-    const world = scenario.worlds[worldId];
 
     const map: IScenarioNode[][] = [];
 
@@ -110,8 +103,8 @@ export class GameState {
       const row: IScenarioNode[] = [];
 
       for(let mx = x - 3; mx <= x + 3; mx++) {
-        const nodeId = world.layout[my]?.[mx] ?? -1;
-        row.push(scenario.nodes[nodeId]);
+        const node = getNodeAt(scenario, worldId, mx, my);
+        row.push(node);
       }
 
       map.push(row);
@@ -153,7 +146,13 @@ export class GameState {
 
       const landmarkInstance: ILandmark = new landmarkRef(this.store);
 
-      const sub = landmarkInstance.encounter(scenario, node).subscribe(landmarkEncounterData => {
+      const encounterOpts = {
+        scenario,
+        position,
+        scenarioNode: node
+      };
+
+      const sub = landmarkInstance.encounter(encounterOpts).subscribe(landmarkEncounterData => {
         ctx.setState(patch<IGame>({
           landmarkEncounter: landmarkEncounterData
         }));
@@ -273,15 +272,17 @@ export class GameState {
   @Action(Move)
   move(ctx: StateContext<IGame>, { xDelta, yDelta }: Move) {
     if(!this.isInGame(ctx)) return;
-
     if(xDelta > 1 || xDelta < -1 || yDelta > 1 || yDelta < -1) return;
 
     const { worldId, x, y } = ctx.getState().position;
 
-    const targetNodeId = ctx.getState().scenario.worlds[worldId].layout[y + yDelta]?.[x + xDelta];
-    const targetNode = ctx.getState().scenario.nodes[targetNodeId];
+    const targetNodeRef = ctx.getState().scenario.worlds[worldId].layout[y + yDelta]?.[x + xDelta];
+    if(!targetNodeRef) return;
 
-    if(!targetNode) return;
+    let targetNode = targetNodeRef;
+    if(targetNodeRef.id !== -1)
+      targetNode = ctx.getState().scenario.nodes[targetNodeRef.id];
+
     if(targetNode.blockMovement) return;
 
     ctx.setState(patch<IGame>({
@@ -331,6 +332,24 @@ export class GameState {
     });
 
     this.landmarkSubscription = sub;
+  }
+
+  @Action(ReplaceNode)
+  replaceNode(ctx: StateContext<IGame>, { position, newNode }: ReplaceNode) {
+    if(!this.isInGame(ctx)) return;
+
+    newNode.id = -1;
+
+    ctx.setState(patch<IGame>({
+      scenario: patch({
+        worlds: patch({
+          [position.worldId]: patch({
+            layout: updateItem<IScenarioNode[]>(position.y, updateItem<IScenarioNode>(position.x, newNode))
+          })
+        })
+      })
+    }));
+
   }
 
 }

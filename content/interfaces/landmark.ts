@@ -3,7 +3,13 @@ import { Observable } from 'rxjs';
 import { Descriptor, Interaction } from './item';
 import { IScenario, IScenarioNode } from './scenario';
 
-export interface LandmarkSlotChoice {
+export interface IMapPosition {
+  worldId: number;
+  x: number;
+  y: number;
+}
+
+export interface ILandmarkSlotChoice {
   text: string;
   callback: (landmarkEncounter: ILandmarkEncounter) => Observable<ILandmarkEncounter>;
 }
@@ -36,13 +42,19 @@ export interface ILandmarkData {
   warpToLandmark?: number;
 }
 
+export interface ILandmarkEncounterOpts {
+  scenario: IScenario;
+  position: IMapPosition;
+  scenarioNode: IScenarioNode;
+}
+
 export interface ILandmark {
 
   // whether or not the landmark can be escaped from
   readonly canLeave: boolean;
 
   // encounter this landmark
-  encounter(scenario: IScenario, scenarioNode: IScenarioNode): Observable<ILandmarkEncounter>;
+  encounter(encounterOpts: ILandmarkEncounterOpts): Observable<ILandmarkEncounter>;
 }
 
 export class Landmark {
@@ -70,5 +82,5 @@ export interface ILandmarkEncounter {
   readonly removeAfterEncounter: boolean;
 
   // what kind of choices this landmark has
-  readonly choices: LandmarkSlotChoice[];
+  readonly choices: ILandmarkSlotChoice[];
 }
