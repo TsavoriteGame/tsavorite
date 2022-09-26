@@ -15,7 +15,9 @@ export const applications: Reactions = {
   // add full item to kit
   [Descriptor.Fiber]: (args: IReactionExtendedArgs) => {
 
-    if (hasFoundationalPart(args.targetItem)) return zeroFail(args);
+    if (hasFoundationalPart(args.targetItem)) {
+      return zeroFail(args);
+    }
 
     const sourcePart = args.sourcePart;
     const targetPart = args.targetPart;
@@ -38,7 +40,9 @@ export const applications: Reactions = {
 
   [Descriptor.Leather]: (args: IReactionExtendedArgs) => {
 
-    if (hasFoundationalPart(args.targetItem)) return zeroFail(args);
+    if (hasFoundationalPart(args.targetItem)) {
+      return zeroFail(args);
+    }
 
     const sourcePart = args.sourcePart;
     const targetPart = args.targetPart;
@@ -67,7 +71,9 @@ export const applications: Reactions = {
     const sourceItem = args.sourceItem;
     const targetItem = args.targetItem;
 
-    if (tailorsLevel <= 0) return zeroFail(args);
+    if (tailorsLevel <= 0) {
+      return zeroFail(args);
+    }
 
     const recipe = getValidFulfilledRecipeForItem(sourceItem);
     if (!recipe) {
@@ -79,6 +85,7 @@ export const applications: Reactions = {
       };
     }
 
+
     const sourcePart = args.sourcePart;
 
     const tailorItem = getItemById(recipe.produces);
@@ -87,7 +94,9 @@ export const applications: Reactions = {
       const descriptor = d as Descriptor;
 
       if (descriptor === Descriptor.Kit
-       || descriptor === Descriptor.Leather || descriptor === Descriptor.Fiber) return;
+       || descriptor === Descriptor.Leather || descriptor === Descriptor.Fiber) {
+        return;
+      }
 
       const descriptorLevel = getDescriptorLevelFromPart(sourcePart, descriptor);
 

@@ -33,10 +33,11 @@ export class DiluteCorrosive implements PostReactionMiddleware {
     const part = getPartWithDescriptor(args.targetItem, Descriptor.Corrosive);
     decreaseDescriptorLevelForPart(part, Descriptor.Corrosive, 1);
 
-    if (response.success)
+    if (response.success) {
       response.message = `${response.message} Acid diluted!`;
-    else
+    } else {
       response.message = 'Acid diluted!';
+    }
 
     response.success = true;
 

@@ -124,7 +124,9 @@ export class GameState {
   }
 
   private cancelLandmark() {
-    if(!this.landmarkSubscription) return;
+    if(!this.landmarkSubscription) {
+      return;
+    }
 
     this.landmarkSubscription.unsubscribe();
   }
@@ -222,9 +224,13 @@ export class GameState {
 
   @Action(AddBackpackItem)
   addBackpackItem(ctx: StateContext<IGame>, { item }: AddBackpackItem) {
-    if(!this.isInGame(ctx)) return;
+    if(!this.isInGame(ctx)) {
+      return;
+    }
 
-    if(ctx.getState().character.items.length >= this.gameService.getConstant(GameConstant.BackpackSize)) return;
+    if(ctx.getState().character.items.length >= this.gameService.getConstant(GameConstant.BackpackSize)) {
+      return;
+    }
 
     ctx.setState(patch<IGame>({
       character: patch({
@@ -235,7 +241,9 @@ export class GameState {
 
   @Action(UpdateBackpackItem)
   updateBackpackItem(ctx: StateContext<IGame>, { item, index }: UpdateBackpackItem) {
-    if(!this.isInGame(ctx)) return;
+    if(!this.isInGame(ctx)) {
+      return;
+    }
 
     ctx.setState(patch<IGame>({
       character: patch({
@@ -246,7 +254,9 @@ export class GameState {
 
   @Action(RemoveBackpackItem)
   removeBackpackItem(ctx: StateContext<IGame>, { index }: RemoveBackpackItem) {
-    if(!this.isInGame(ctx)) return;
+    if(!this.isInGame(ctx)) {
+      return;
+    }
 
     ctx.setState(patch<IGame>({
       character: patch({
@@ -258,7 +268,9 @@ export class GameState {
   @Action(AddHealth)
   @Action(ReduceHealth)
   changeHealth(ctx: StateContext<IGame>, { amount }: AddHealth) {
-    if(!this.isInGame(ctx)) return;
+    if(!this.isInGame(ctx)) {
+      return;
+    }
 
     const currentHP = ctx.getState().character.hp;
 
@@ -271,19 +283,29 @@ export class GameState {
 
   @Action(Move)
   move(ctx: StateContext<IGame>, { xDelta, yDelta }: Move) {
-    if(!this.isInGame(ctx)) return;
-    if(xDelta > 1 || xDelta < -1 || yDelta > 1 || yDelta < -1) return;
+    if(!this.isInGame(ctx)) {
+      return;
+    }
+
+    if(xDelta > 1 || xDelta < -1 || yDelta > 1 || yDelta < -1) {
+      return;
+    }
 
     const { worldId, x, y } = ctx.getState().position;
 
     const targetNodeRef = ctx.getState().scenario.worlds[worldId].layout[y + yDelta]?.[x + xDelta];
-    if(!targetNodeRef) return;
+    if(!targetNodeRef) {
+      return;
+    }
 
     let targetNode = targetNodeRef;
-    if(targetNodeRef.id !== -1)
+    if(targetNodeRef.id !== -1) {
       targetNode = ctx.getState().scenario.nodes[targetNodeRef.id];
+    }
 
-    if(targetNode.blockMovement) return;
+    if(targetNode.blockMovement) {
+      return;
+    }
 
     ctx.setState(patch<IGame>({
       position: patch({
@@ -298,7 +320,9 @@ export class GameState {
 
   @Action(Warp)
   warp(ctx: StateContext<IGame>, { scenario, warpToWorld, warpToLandmark }: Warp) {
-    if(!this.isInGame(ctx)) return;
+    if(!this.isInGame(ctx)) {
+      return;
+    }
 
     const nodePosition = findFirstLandmarkInWorld(scenario, warpToWorld, warpToLandmark);
 
@@ -314,16 +338,22 @@ export class GameState {
 
   @Action(MakeChoice)
   makeChoice(ctx: StateContext<IGame>, { choice }: MakeChoice) {
-    if(!this.isInGame(ctx)) return;
+    if(!this.isInGame(ctx)) {
+      return;
+    }
 
     const choices = ctx.getState().landmarkEncounter?.choices ?? [];
     const choiceRef = choices[choice];
-    if(!choiceRef) return;
+    if(!choiceRef) {
+      return;
+    }
 
     this.cancelLandmark();
 
     const currentLandmark = ctx.getState().landmarkEncounter;
-    if(!currentLandmark) return;
+    if(!currentLandmark) {
+      return;
+    }
 
     const sub = choiceRef.callback(currentLandmark).subscribe(landmarkEncounterData => {
       ctx.setState(patch<IGame>({
@@ -336,7 +366,9 @@ export class GameState {
 
   @Action(ReplaceNode)
   replaceNode(ctx: StateContext<IGame>, { position, newNode }: ReplaceNode) {
-    if(!this.isInGame(ctx)) return;
+    if(!this.isInGame(ctx)) {
+      return;
+    }
 
     newNode.id = -1;
 

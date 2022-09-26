@@ -32,19 +32,33 @@ export class GameplayMapComponent implements OnInit, OnDestroy {
   }
 
   public canMoveTo(node: IScenarioNode, gridXPos: number, gridYPos: number): boolean {
-    if(!node) return false;
-    if(node.blockMovement) return false;
+    if(!node) {
+      return false;
+    }
+    if(node.blockMovement) {
+      return false;
+    }
 
-    if(gridXPos === 2 && gridYPos === 3) return true;
-    if(gridXPos === 4 && gridYPos === 3) return true;
-    if(gridXPos === 3 && gridYPos === 2) return true;
-    if(gridXPos === 3 && gridYPos === 4) return true;
+    if(gridXPos === 2 && gridYPos === 3) {
+      return true;
+    }
+    if(gridXPos === 4 && gridYPos === 3) {
+      return true;
+    }
+    if(gridXPos === 3 && gridYPos === 2) {
+      return true;
+    }
+    if(gridXPos === 3 && gridYPos === 4) {
+      return true;
+    }
 
     return false;
   }
 
   public move(node: IScenarioNode, gridXPos: number, gridYPos: number): void {
-    if(!this.canMoveTo(node, gridXPos, gridYPos)) return;
+    if(!this.canMoveTo(node, gridXPos, gridYPos)) {
+      return;
+    }
 
     this.store.dispatch(new Move(gridXPos - 3, gridYPos - 3));
   }

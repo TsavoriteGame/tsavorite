@@ -28,7 +28,10 @@
       "rules": {
         "unused-imports/no-unused-imports": "error",
         "prefer-arrow/prefer-arrow-functions": 0,
-        "curly": [2, "multi-or-nest", "consistent"],
+        "object-curly-spacing": ["error", "always"],
+        "curly": ["error", "all"],
+        "nonblock-statement-body-position": ["error", "below"],
+        "no-multiple-empty-lines": ["error"],
         "brace-style": ["error", "1tbs"],
         "@angular-eslint/directive-selector":  0,
         "@angular-eslint/component-selector": [

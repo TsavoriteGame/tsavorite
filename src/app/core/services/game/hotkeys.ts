@@ -183,9 +183,15 @@ export class Hotkeys {
   constructor(options: HotkeyOptions = {}) {
     const { filter, events, delimiter } = options;
 
-    if(filter) this.filter = filter;
-    if(events) this.events = events;
-    if(delimiter) this.delimiter = delimiter;
+    if(filter) {
+      this.filter = filter;
+    }
+    if(events) {
+      this.events = events;
+    }
+    if(delimiter) {
+      this.delimiter = delimiter;
+    }
 
     this.events.forEach(event => {
       document.addEventListener(event, this.listener);
@@ -197,7 +203,9 @@ export class Hotkeys {
   private listener = (event: KeyboardEvent) => {
 
     const keyCombo = this.parseKeycodeFromEvent(event);
-    if(!keyCombo) return;
+    if(!keyCombo) {
+      return;
+    }
 
     const keyCode = this.getKeycodeNumberFromString(keyCombo);
 
@@ -207,7 +215,9 @@ export class Hotkeys {
       return;
     }
 
-    if(!this.filter(event)) return;
+    if(!this.filter(event)) {
+      return;
+    }
 
     if (this.hotkeyMap[keyCode])
       this.hotkeyMap[keyCode].handler(event);
@@ -272,14 +282,24 @@ export class Hotkeys {
   }
 
   private parseKeycodeFromEvent(event: KeyboardEvent): string {
-    if(['Control', 'Shift', 'Alt', 'Meta'].includes(event.key)) return '';
+    if(['Control', 'Shift', 'Alt', 'Meta'].includes(event.key)) {
+      return '';
+    }
 
     let metaString = '';
-    if (event.metaKey) metaString = `${metaString}Meta${this.delimiter}`;
+    if (event.metaKey) {
+      metaString = `${metaString}Meta${this.delimiter}`;
+    }
 
-    if (event.altKey) metaString = `Alt${this.delimiter}`;
-    if (event.ctrlKey) metaString = `${metaString}Control${this.delimiter}`;
-    if (event.shiftKey) metaString = `${metaString}Shift${this.delimiter}`;
+    if (event.altKey) {
+      metaString = `Alt${this.delimiter}`;
+    }
+    if (event.ctrlKey) {
+      metaString = `${metaString}Control${this.delimiter}`;
+    }
+    if (event.shiftKey) {
+      metaString = `${metaString}Shift${this.delimiter}`;
+    }
 
     const key = event.key.length === 1 ? event.key.toUpperCase() : event.key;
 

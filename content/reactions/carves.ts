@@ -21,7 +21,9 @@ export const applications: Reactions = {
 
     const carvesLevel = getInteractionLevel(args.sourceItem, Interaction.Carves);
 
-    if(carvesLevel <= 0) return zeroFail(args);
+    if(carvesLevel <= 0) {
+      return zeroFail(args);
+    }
 
     const sourceItem = args.sourceItem;
     const targetItem = args.targetItem;
@@ -36,6 +38,7 @@ export const applications: Reactions = {
       };
     }
 
+
     if(hasDescriptor(targetItem, Descriptor.Container)) {
       return {
         message: 'Can not create a container from a container.',
@@ -45,6 +48,7 @@ export const applications: Reactions = {
         newTarget: targetItem
       };
     }
+
 
     decreaseInteractionLevel(sourceItem, Interaction.Carves, 1);
 
@@ -72,7 +76,9 @@ export const applications: Reactions = {
     const targetItem = args.targetItem;
     const cookedLevel = getDescriptorLevelFromPart(args.targetPart, Descriptor.Cooked);
 
-    if(carvesLevel <= 0)  return zeroFail(args);
+    if(carvesLevel <= 0) {
+      return zeroFail(args);
+    }
 
     if(cookedLevel <= 1) {
       return {
@@ -82,6 +88,7 @@ export const applications: Reactions = {
         newTarget: args.targetItem
       };
     }
+
 
     // lower the number of carves
     decreaseInteractionLevel(sourceItem, Interaction.Carves, 1);
@@ -113,7 +120,9 @@ export const applications: Reactions = {
     const targetItem = args.targetItem;
     const fiberLevel = getDescriptorLevelFromPart(args.targetPart, Descriptor.Fiber);
 
-    if(carvesLevel <= 0) return zeroFail(args);
+    if(carvesLevel <= 0) {
+      return zeroFail(args);
+    }
 
     if(fiberLevel <= 1) {
       return {
@@ -123,6 +132,7 @@ export const applications: Reactions = {
         newTarget: args.targetItem
       };
     }
+
 
     // lower the number of carves
     decreaseInteractionLevel(sourceItem, Interaction.Carves, 1);
@@ -149,7 +159,9 @@ export const applications: Reactions = {
 
     const carvesLevel = getInteractionLevel(args.sourceItem, Interaction.Carves);
 
-    if(carvesLevel <= 0) return zeroFail(args);
+    if(carvesLevel <= 0) {
+      return zeroFail(args);
+    }
 
     const sourceItem = args.sourceItem;
     const targetItem = args.targetItem;
@@ -164,6 +176,7 @@ export const applications: Reactions = {
       };
     }
 
+
     if(hasFoundationalPart(targetItem)) {
       return {
         message: 'Can not carve something with a foundational part.',
@@ -174,6 +187,7 @@ export const applications: Reactions = {
       };
     }
 
+
     if(hasDescriptor(targetItem, Descriptor.Container)) {
       return {
         message: 'Can not create a container from a container.',
@@ -183,6 +197,7 @@ export const applications: Reactions = {
         newTarget: targetItem
       };
     }
+
 
     decreaseInteractionLevel(sourceItem, Interaction.Carves, 1);
 
@@ -205,7 +220,9 @@ export const applications: Reactions = {
 
     const carvesLevel = getInteractionLevel(args.sourceItem, Interaction.Carves);
 
-    if(carvesLevel <= 0) return zeroFail(args);
+    if(carvesLevel <= 0) {
+      return zeroFail(args);
+    }
 
     const sourceItem = args.sourceItem;
     const targetItem = args.targetItem;
@@ -220,6 +237,7 @@ export const applications: Reactions = {
       };
     }
 
+
     if(hasFoundationalPart(targetItem)) {
       return {
         message: 'Can not carve something with a foundational part.',
@@ -230,6 +248,7 @@ export const applications: Reactions = {
       };
     }
 
+
     if(hasDescriptor(targetItem, Descriptor.Container)) {
       return {
         message: 'Can not create a container from a container.',
@@ -239,6 +258,7 @@ export const applications: Reactions = {
         newTarget: targetItem
       };
     }
+
 
     decreaseInteractionLevel(sourceItem, Interaction.Carves, 1);
 
@@ -266,7 +286,9 @@ export const applications: Reactions = {
     const targetItem = args.targetItem;
     const meatLevel = getDescriptorLevelFromPart(args.targetPart, Descriptor.Meat);
 
-    if(carvesLevel <= 0) return zeroFail(args);
+    if(carvesLevel <= 0) {
+      return zeroFail(args);
+    }
 
     if(meatLevel <= 0) {
       return {
@@ -276,6 +298,7 @@ export const applications: Reactions = {
         newTarget: args.targetItem
       };
     }
+
 
     // lower the number of carves
     decreaseInteractionLevel(sourceItem, Interaction.Carves, 1);
@@ -312,7 +335,9 @@ export const applications: Reactions = {
 
     const carvesLevel = getInteractionLevel(args.sourceItem, Interaction.Carves);
 
-    if(carvesLevel <= 0) return zeroFail(args);
+    if(carvesLevel <= 0) {
+      return zeroFail(args);
+    }
 
     const sourceItem = args.sourceItem;
     const targetItem = args.targetItem;
@@ -327,6 +352,7 @@ export const applications: Reactions = {
       };
     }
 
+
     if(hasFoundationalPart(targetItem)) {
       return {
         message: 'Can not carve something with a foundational part.',
@@ -337,6 +363,7 @@ export const applications: Reactions = {
       };
     }
 
+
     if(hasDescriptor(targetItem, Descriptor.Container)) {
       return {
         message: 'Can not create a container from a container.',
@@ -346,6 +373,7 @@ export const applications: Reactions = {
         newTarget: targetItem
       };
     }
+
 
     decreaseInteractionLevel(sourceItem, Interaction.Carves, 1);
 
@@ -371,7 +399,9 @@ export const applications: Reactions = {
 
     const carvesLevel = getInteractionLevel(args.sourceItem, Interaction.Carves);
 
-    if(carvesLevel <= 0) return zeroFail(args);
+    if(carvesLevel <= 0) {
+      return zeroFail(args);
+    }
 
     const sourceItem = args.sourceItem;
     const targetItem = args.targetItem;
@@ -386,6 +416,7 @@ export const applications: Reactions = {
       };
     }
 
+
     if(hasFoundationalPart(targetItem)) {
       return {
         message: 'Can not carve something with a foundational part.',
@@ -396,6 +427,7 @@ export const applications: Reactions = {
       };
     }
 
+
     if(hasDescriptor(targetItem, Descriptor.Container)) {
       return {
         message: 'Can not create a container from a container.',
@@ -405,6 +437,7 @@ export const applications: Reactions = {
         newTarget: targetItem
       };
     }
+
 
     decreaseInteractionLevel(sourceItem, Interaction.Carves, 1);
 
@@ -427,7 +460,9 @@ export const applications: Reactions = {
   [Descriptor.Sticky]: (args: IReactionExtendedArgs) => {
 
     const carvesLevel = getInteractionLevel(args.sourceItem, Interaction.Carves);
-    if(carvesLevel <= 0) return zeroFail(args);
+    if(carvesLevel <= 0) {
+      return zeroFail(args);
+    }
 
     const targetDescriptors = getAllDescriptorsForPart(args.targetPart);
     targetDescriptors.forEach(desc => {
@@ -447,7 +482,9 @@ export const applications: Reactions = {
 
     const carvesLevel = getInteractionLevel(args.sourceItem, Interaction.Carves);
 
-    if(carvesLevel <= 0) return zeroFail(args);
+    if(carvesLevel <= 0) {
+      return zeroFail(args);
+    }
 
     const sourceItem = args.sourceItem;
     const targetItem = args.targetItem;
@@ -462,6 +499,7 @@ export const applications: Reactions = {
       };
     }
 
+
     if(hasFoundationalPart(targetItem)) {
       return {
         message: 'Can not carve something with a foundational part.',
@@ -472,6 +510,7 @@ export const applications: Reactions = {
       };
     }
 
+
     if(hasDescriptor(targetItem, Descriptor.Container)) {
       return {
         message: 'Can not create a container from a container.',
@@ -481,6 +520,7 @@ export const applications: Reactions = {
         newTarget: targetItem
       };
     }
+
 
     decreaseInteractionLevel(sourceItem, Interaction.Carves, 1);
 

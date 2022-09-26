@@ -41,7 +41,9 @@ export class GameplayBackpackComponent implements OnInit {
 
   dropDiscard($event) {
     const { backpackIndex, item } = $event.data;
-    if(!item) return;
+    if(!item) {
+      return;
+    }
 
     this.discardItem = item;
     this.indexDiscard = backpackIndex;
@@ -49,7 +51,9 @@ export class GameplayBackpackComponent implements OnInit {
 
   dropLeft($event) {
     const { backpackIndex, item } = $event.data;
-    if(!item || item === this.combineRight) return;
+    if(!item || item === this.combineRight) {
+      return;
+    }
 
     this.combineLeft = item;
     this.indexLeft = backpackIndex;
@@ -57,14 +61,18 @@ export class GameplayBackpackComponent implements OnInit {
 
   dropRight($event) {
     const { backpackIndex, item } = $event.data;
-    if(!item || item === this.combineLeft) return;
+    if(!item || item === this.combineLeft) {
+      return;
+    }
 
     this.combineRight = item;
     this.indexRight = backpackIndex;
   }
 
   reaction(character: IGameCharacter) {
-    if(!this.combineLeft || !this.combineRight) return;
+    if(!this.combineLeft || !this.combineRight) {
+      return;
+    }
 
     const result = getReactionBetweenTwoItems(this.combineLeft, this.combineRight);
 
@@ -81,17 +89,19 @@ export class GameplayBackpackComponent implements OnInit {
     if(result.success) {
 
       // update or remove the source item
-      if(result.newSource)
+      if(result.newSource) {
         this.store.dispatch(new UpdateBackpackItem(this.indexLeft, result.newSource));
-      else
+      } else {
         this.store.dispatch(new RemoveBackpackItem(this.indexLeft));
+      }
 
 
       // update or remove the target item
-      if(result.newTarget)
+      if(result.newTarget) {
         this.store.dispatch(new UpdateBackpackItem(this.indexRight, result.newSource));
-      else
+      } else {
         this.store.dispatch(new RemoveBackpackItem(this.indexRight));
+      }
     }
 
     // add any extra items
@@ -101,13 +111,16 @@ export class GameplayBackpackComponent implements OnInit {
       });
     }
 
+
     this.flashMessage(result.message);
 
     this.cancelApplicombine();
   }
 
   combine(character: IGameCharacter) {
-    if(!this.combineLeft || !this.combineRight) return;
+    if(!this.combineLeft || !this.combineRight) {
+      return;
+    }
 
     const result = getCombinationBetweenTwoItems(this.combineLeft, this.combineRight);
 
@@ -124,17 +137,19 @@ export class GameplayBackpackComponent implements OnInit {
     if(result.success) {
 
       // update or remove the source item
-      if(result.newSource)
+      if(result.newSource) {
         this.store.dispatch(new UpdateBackpackItem(this.indexLeft, result.newSource));
-      else
+      } else {
         this.store.dispatch(new RemoveBackpackItem(this.indexLeft));
+      }
 
 
       // update or remove the target item
-      if(result.newTarget)
+      if(result.newTarget) {
         this.store.dispatch(new UpdateBackpackItem(this.indexRight, result.newSource));
-      else
+      } else {
         this.store.dispatch(new RemoveBackpackItem(this.indexRight));
+      }
     }
 
     // add any extra items
@@ -144,13 +159,16 @@ export class GameplayBackpackComponent implements OnInit {
       });
     }
 
+
     this.flashMessage(result.message);
 
     this.cancelApplicombine();
   }
 
   discard() {
-    if(!this.discardItem) return;
+    if(!this.discardItem) {
+      return;
+    }
 
     this.store.dispatch(new RemoveBackpackItem(this.indexDiscard)).subscribe(() => {
       this.cancelDiscard();
@@ -158,7 +176,9 @@ export class GameplayBackpackComponent implements OnInit {
   }
 
   flashMessage(message: string) {
-    if(this.timer$) this.timer$.unsubscribe();
+    if(this.timer$) {
+      this.timer$.unsubscribe();
+    }
 
     this.applicombineResultMessage.next(message);
 
@@ -182,8 +202,12 @@ export class GameplayBackpackComponent implements OnInit {
   }
 
   canDragItem(item: IItemConfig | undefined, slot: number): boolean {
-    if(!item) return false;
-    if(this.isItemInSlot(item, slot)) return false;
+    if(!item) {
+      return false;
+    }
+    if(this.isItemInSlot(item, slot)) {
+      return false;
+    }
 
     return true;
   }

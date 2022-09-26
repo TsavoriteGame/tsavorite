@@ -22,7 +22,9 @@ export const applications: Reactions = {
     const sourceItem = args.sourceItem;
     const targetItem = args.targetItem;
 
-    if(smashesLevel <= 0) return zeroFail(args);
+    if(smashesLevel <= 0) {
+      return zeroFail(args);
+    }
 
     const coldLevel = getDescriptorLevel(targetItem, Descriptor.Cold);
     if(smashesLevel < coldLevel) {
@@ -33,6 +35,7 @@ export const applications: Reactions = {
         newTarget: targetItem
       };
     }
+
 
     decreaseInteractionLevel(args.sourceItem, Interaction.Smashes);
 
@@ -52,7 +55,9 @@ export const applications: Reactions = {
     const sourceItem = args.sourceItem;
     const targetItem = args.targetItem;
 
-    if(smashesLevel <= 0) return zeroFail(args);
+    if(smashesLevel <= 0) {
+      return zeroFail(args);
+    }
 
     const coldLevel = getDescriptorLevel(targetItem, Descriptor.Frozen);
     if(smashesLevel < coldLevel) {
@@ -63,6 +68,7 @@ export const applications: Reactions = {
         newTarget: targetItem
       };
     }
+
 
     decreaseInteractionLevel(args.sourceItem, Interaction.Smashes);
 
@@ -82,7 +88,9 @@ export const applications: Reactions = {
     const sourceItem = args.sourceItem;
     const targetItem = args.targetItem;
 
-    if(smashesLevel <= 0) return zeroFail(args);
+    if(smashesLevel <= 0) {
+      return zeroFail(args);
+    }
 
     const glassLevel = getDescriptorLevel(targetItem, Descriptor.Glass);
 
@@ -108,7 +116,9 @@ export const applications: Reactions = {
     const sourceItem = args.sourceItem;
     const targetItem = args.targetItem;
 
-    if(smashesLevel <= 0) return zeroFail(args);
+    if(smashesLevel <= 0) {
+      return zeroFail(args);
+    }
 
     if(hasDescriptor(args.targetItem, Descriptor.Frozen)) {
       return {
@@ -118,6 +128,7 @@ export const applications: Reactions = {
         newTarget: undefined
       };
     }
+
 
     const meatLevel = decreaseDescriptorLevelForPart(args.targetPart, Descriptor.Meat, 1);
     increaseDescriptorLevelForPart(args.targetPart, Descriptor.Bloody, 1);
@@ -156,21 +167,27 @@ export const applications: Reactions = {
     const targetItem = args.targetItem;
     const hotLevel = getDescriptorLevelFromPart(args.targetPart, Descriptor.Hot);
 
-    if(smashesLevel <= 0) return zeroFail(args);
+    if(smashesLevel <= 0) {
+      return zeroFail(args);
+    }
 
-    if(hotLevel <= 0) return zeroFail(args);
+    if(hotLevel <= 0) {
+      return zeroFail(args);
+    }
 
     decreaseInteractionLevel(sourceItem, Interaction.Smashes, 1);
 
     increaseDescriptorLevelForPart(args.targetPart, Descriptor.Sharp);
 
     // items without an existing interaction or a carves interaction get to level that up
-    if(!args.targetItem.interaction || args.targetItem.interaction.name === Interaction.Carves)
+    if(!args.targetItem.interaction || args.targetItem.interaction.name === Interaction.Carves) {
       increaseInteractionLevel(args.targetItem, Interaction.Carves, 1);
+    }
 
     // keys get bonus unlock levels
-    if(args.targetItem.interaction?.name === Interaction.Unlocks)
+    if(args.targetItem.interaction?.name === Interaction.Unlocks) {
       increaseInteractionLevel(args.targetItem, Interaction.Unlocks, 1);
+    }
 
     return {
       message: 'Sharpened the metal.',
@@ -188,7 +205,9 @@ export const applications: Reactions = {
     const sourceItem = args.sourceItem;
     const targetItem = args.targetItem;
 
-    if(smashesLevel <= 0) return zeroFail(args);
+    if(smashesLevel <= 0) {
+      return zeroFail(args);
+    }
 
     decreaseInteractionLevel(sourceItem, Interaction.Smashes, 1);
 
@@ -224,7 +243,9 @@ export const applications: Reactions = {
   [Descriptor.Sticky]: (args: IReactionExtendedArgs) => {
 
     const smashesLevel = getInteractionLevel(args.sourceItem, Interaction.Smashes);
-    if(smashesLevel <= 0) return zeroFail(args);
+    if(smashesLevel <= 0) {
+      return zeroFail(args);
+    }
 
     const targetDescriptors = getAllDescriptorsForPart(args.targetPart);
     targetDescriptors.forEach(desc => {
@@ -248,7 +269,9 @@ export const applications: Reactions = {
     const sourceItem = args.sourceItem;
     const targetItem = args.targetItem;
 
-    if(smashesLevel <= 0) return zeroFail(args);
+    if(smashesLevel <= 0) {
+      return zeroFail(args);
+    }
 
     const targetWoodLevel = getDescriptorLevelFromPart(args.targetPart, Descriptor.Wood);
 
@@ -264,6 +287,7 @@ export const applications: Reactions = {
         newTarget: undefined
       };
     }
+
 
     return {
       message: 'Broke some wood.',

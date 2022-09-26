@@ -43,7 +43,9 @@ export class DetailComponent implements OnInit {
   }
 
   doCombine() {
-    if(!this.currentLeft || !this.currentRight) return;
+    if(!this.currentLeft || !this.currentRight) {
+      return;
+    }
 
     const result = getCombinationBetweenTwoItems(this.currentLeft, this.currentRight);
 
@@ -56,7 +58,9 @@ export class DetailComponent implements OnInit {
   }
 
   doReaction() {
-    if(!this.currentLeft || !this.currentRight) return;
+    if(!this.currentLeft || !this.currentRight) {
+      return;
+    }
 
     const result = getReactionBetweenTwoItems(this.currentLeft, this.currentRight);
 

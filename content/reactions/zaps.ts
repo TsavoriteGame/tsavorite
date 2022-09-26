@@ -19,11 +19,17 @@ export const applications: Reactions = {
     const targetItem = args.targetItem;
     const magneticLevel = getDescriptorLevelFromPart(args.targetPart, Descriptor.Magnetic);
 
-    if(zapsLevel <= 0) return zeroFail(args);
+    if(zapsLevel <= 0) {
+      return zeroFail(args);
+    }
 
-    if(magneticLevel > 0) return zeroFail(args);
+    if(magneticLevel > 0) {
+      return zeroFail(args);
+    }
 
-    if(magneticLevel >= zapsLevel) return zeroFail(args);
+    if(magneticLevel >= zapsLevel) {
+      return zeroFail(args);
+    }
 
     increaseDescriptorLevelForPart(args.targetPart, Descriptor.Magnetic);
 
@@ -43,7 +49,9 @@ export const applications: Reactions = {
     const sourceItem = args.sourceItem;
     const targetItem = args.targetItem;
 
-    if(zapsLevel <= 0) return zeroFail(args);
+    if(zapsLevel <= 0) {
+      return zeroFail(args);
+    }
 
     decreaseInteractionLevel(args.sourceItem, Interaction.Zaps);
     increaseDescriptorLevelForPart(args.targetPart, Descriptor.Electric);

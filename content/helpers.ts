@@ -2,10 +2,11 @@
 
 import { Interaction, Descriptor, IItemInteraction, IItemConfig,
   IItemDescriptor, ReactionFunction, IReactionArgs, IItemPart, IReactionExtendedArgs, IReactionResponse,
-  IRecipe, IRecipeIngredient } from './interfaces';
+  IRecipe } from './interfaces';
 import { getAllMiddleware, getPostCombineMiddleware,
   getPostReactionMiddleware, getPreCombineMiddleware, getPreReactionMiddleware } from './middleware';
-const { reverse, sortBy, sumBy } = require('lodash');
+
+import { sortBy, sumBy } from 'lodash';
 
 import * as Reactions from './reactions';
 import allRecipes from './recipes/recipes.json';
@@ -51,6 +52,7 @@ export function getReaction(interaction: Interaction, descriptor: Descriptor): R
                              || extendedArgs.sourceItem.parts[0];
     }
 
+
     // get the target part if not specified
     if(args.targetPart) {
       const partIndex = args.targetItem.parts.findIndex(p => p === args.targetPart);
@@ -62,14 +64,21 @@ export function getReaction(interaction: Interaction, descriptor: Descriptor): R
 
     let isPreBlocked = false;
     preMiddleware.forEach(middleware => {
-      if(isPreBlocked) return;
-      if(!middleware.isEnabled()) return;
-      if(!middleware.shouldPreFire(extendedArgs)) return;
+      if(isPreBlocked) {
+        return;
+      }
+      if(!middleware.isEnabled()) {
+        return;
+      }
+      if(!middleware.shouldPreFire(extendedArgs)) {
+        return;
+      }
 
       middleware.pre(extendedArgs);
 
-      if(middleware.shouldPreBlock(extendedArgs))
+      if(middleware.shouldPreBlock(extendedArgs)) {
         isPreBlocked = true;
+      }
 
     });
 
@@ -80,14 +89,21 @@ export function getReaction(interaction: Interaction, descriptor: Descriptor): R
 
     let isPostBlocked = false;
     postMiddleware.forEach(middleware => {
-      if(isPostBlocked) return;
-      if(!middleware.isEnabled()) return;
-      if(!middleware.shouldPostFire(extendedArgs, result)) return;
+      if(isPostBlocked) {
+        return;
+      }
+      if(!middleware.isEnabled()) {
+        return;
+      }
+      if(!middleware.shouldPostFire(extendedArgs, result)) {
+        return;
+      }
 
       middleware.post(extendedArgs, result);
 
-      if(middleware.shouldPostBlock(extendedArgs, result))
+      if(middleware.shouldPostBlock(extendedArgs, result)) {
         isPostBlocked = true;
+      }
 
     });
 
@@ -122,23 +138,33 @@ export function getReactionBetweenTwoItems(sourceItem: IItemConfig, targetItem: 
   });
 
   const interaction = sourceItem.interaction;
-  if(!interaction) return defaultReaction();
+  if(!interaction) {
+    return defaultReaction();
+  }
 
   const sourcePart = getPrimaryPartOfItem(sourceItem);
-  if(!sourcePart) return defaultReaction();
+  if(!sourcePart) {
+    return defaultReaction();
+  }
 
   let targetPart: IItemPart;
   let validReaction: ReactionFunction;
 
   targetItem.parts.forEach(part => {
-    if(targetPart || validReaction) return;
-    if(!hasReaction(interaction.name, part.primaryDescriptor)) return;
+    if(targetPart || validReaction) {
+      return;
+    }
+    if(!hasReaction(interaction.name, part.primaryDescriptor)) {
+      return;
+    }
 
     targetPart = part;
     validReaction = getReaction(interaction.name, targetPart.primaryDescriptor);
   });
 
-  if(!targetPart) return defaultReaction();
+  if(!targetPart) {
+    return defaultReaction();
+  }
 
   return validReaction({
     sourceItem,
@@ -150,20 +176,26 @@ export function getReactionBetweenTwoItems(sourceItem: IItemConfig, targetItem: 
 
 export function getReactionBetweenItemAndPart(sourceItem: IItemConfig, targetItemPart: IItemPart): ReactionFunction | undefined {
   const interaction = sourceItem.interaction;
-  if(!interaction) return undefined;
+  if(!interaction) {
+    return undefined;
+  }
 
   return getReaction(interaction.name, targetItemPart.primaryDescriptor);
 }
 
 // interaction functions
 export function setInteraction(item: IItemConfig, interaction: Interaction): void {
-  if(!item.interaction) item.interaction = { name: interaction, level: 0 };
+  if(!item.interaction) {
+    item.interaction = { name: interaction, level: 0 };
+  }
 
   item.interaction.name = interaction;
 }
 
 export function getInteraction(item: IItemConfig, interaction: Interaction): IItemInteraction | undefined {
-  if(item.interaction?.name !== interaction) return undefined;
+  if(item.interaction?.name !== interaction) {
+    return undefined;
+  }
 
   return item.interaction;
 }
@@ -187,8 +219,12 @@ export function getAllDescriptorsForItem(item: IItemConfig): Descriptor[] {
 }
 
 export function addDescriptor(item: IItemConfig, descriptor: Descriptor, level = 0): void {
-  if(hasDescriptor(item, descriptor)) return;
-  if(item.parts.length === 0) return;
+  if(hasDescriptor(item, descriptor)) {
+    return;
+  }
+  if(item.parts.length === 0) {
+    return;
+  }
 
   setDescriptorLevelForPart(item.parts[0], descriptor, level);
 }
@@ -246,7 +282,9 @@ export function isLocked(item: IItemConfig): boolean {
 
 // part functions
 export function hasFoundationalPart(item: IItemConfig): boolean {
-  if(!item) return false;
+  if(!item) {
+    return false;
+  }
   return !!item.parts.find(x => x.foundational);
 }
 
@@ -269,7 +307,9 @@ export function setDescriptorLevelForPart(part: IItemPart, descriptor: Descripto
 }
 
 export function increaseDescriptorLevelForPart(part: IItemPart, descriptor: Descriptor, levelDelta = 1): number {
-  if(!part.descriptors[descriptor]) part.descriptors[descriptor] = { level: 0 };
+  if(!part.descriptors[descriptor]) {
+    part.descriptors[descriptor] = { level: 0 };
+  }
   part.descriptors[descriptor].level = Math.max(0, part.descriptors[descriptor].level + levelDelta);
 
   return part.descriptors[descriptor].level ?? 0;
@@ -281,10 +321,11 @@ export function decreaseDescriptorLevelForPart(part: IItemPart, descriptor: Desc
 
 export function increasePartOrIncreaseDescriptorLevel(item: IItemConfig, descriptor: Descriptor, part: IItemPart, levelDelta = 1): void {
   const checkLevel = getDescriptorLevel(item, descriptor);
-  if(checkLevel <= 0)
+  if(checkLevel <= 0) {
     addPart(item, part);
-  else
+  } else {
     increaseDescriptorLevel(item, descriptor, levelDelta);
+  }
 }
 
 export function decreasePartOrIncreaseDescriptorLevel(item: IItemConfig, descriptor: Descriptor, part: IItemPart, levelDelta = 1): void {
@@ -292,7 +333,9 @@ export function decreasePartOrIncreaseDescriptorLevel(item: IItemConfig, descrip
 }
 
 export function getPrimaryPartOfItem(item: IItemConfig) {
-  if(hasFoundationalPart(item)) return item.parts.find(p => p.foundational);
+  if(hasFoundationalPart(item)) {
+    return item.parts.find(p => p.foundational);
+  }
 
   return item.parts[0];
 }
@@ -321,7 +364,9 @@ export function getCombinationBetweenTwoItems(sourceItem: IItemConfig, targetIte
   });
 
   if (hasFoundationalPart(sourceItem) || sourceItem.parts.length > 1
-   || hasFoundationalPart(targetItem) || targetItem.parts.length > 1) return failedCombination();
+   || hasFoundationalPart(targetItem) || targetItem.parts.length > 1) {
+    return failedCombination();
+  }
 
   const extendedArgs: IReactionExtendedArgs = {
     sourceItem: structuredClone(sourceItem),
@@ -335,11 +380,13 @@ export function getCombinationBetweenTwoItems(sourceItem: IItemConfig, targetIte
   extendedArgs.targetPart = extendedArgs.targetItem.parts[0];
 
   const interaction = extendedArgs.sourceItem.interaction;
-  if (interaction && hasReaction(interaction.name, extendedArgs.targetPart.primaryDescriptor))
+  if (interaction && hasReaction(interaction.name, extendedArgs.targetPart.primaryDescriptor)) {
     return failedCombination();
+  }
 
-  if (!hasSharedPrimaryDescriptor(extendedArgs.sourceItem, extendedArgs.targetItem))
+  if (!hasSharedPrimaryDescriptor(extendedArgs.sourceItem, extendedArgs.targetItem)) {
     return failedCombination();
+  }
 
   const allMiddleware = getAllMiddleware();
 
@@ -348,14 +395,21 @@ export function getCombinationBetweenTwoItems(sourceItem: IItemConfig, targetIte
 
   let isPreBlocked = false;
   preMiddleware.forEach(middleware => {
-    if(isPreBlocked) return;
-    if(!middleware.isEnabled()) return;
-    if(!middleware.shouldPreFire(extendedArgs)) return;
+    if(isPreBlocked) {
+      return;
+    }
+    if(!middleware.isEnabled()) {
+      return;
+    }
+    if(!middleware.shouldPreFire(extendedArgs)) {
+      return;
+    }
 
     middleware.pre(extendedArgs);
 
-    if(middleware.shouldPreBlock(extendedArgs))
+    if(middleware.shouldPreBlock(extendedArgs)) {
       isPreBlocked = true;
+    }
 
   });
 
@@ -380,14 +434,21 @@ export function getCombinationBetweenTwoItems(sourceItem: IItemConfig, targetIte
 
   let isPostBlocked = false;
   postMiddleware.forEach(middleware => {
-    if(isPostBlocked) return;
-    if(!middleware.isEnabled()) return;
-    if(!middleware.shouldPostFire(extendedArgs, result)) return;
+    if(isPostBlocked) {
+      return;
+    }
+    if(!middleware.isEnabled()) {
+      return;
+    }
+    if(!middleware.shouldPostFire(extendedArgs, result)) {
+      return;
+    }
 
     middleware.post(extendedArgs, result);
 
-    if(middleware.shouldPostBlock(extendedArgs, result))
+    if(middleware.shouldPostBlock(extendedArgs, result)) {
       isPostBlocked = true;
+    }
 
   });
 
@@ -404,14 +465,20 @@ export function getAllRecipesForInteraction(interaction: Interaction): IRecipe[]
 }
 
 export function getAllFulfilledRecipesForItem(item: IItemConfig): IRecipe[] | undefined {
-  if (!item.interaction) return undefined;
+  if (!item.interaction) {
+    return undefined;
+  }
 
   const recipes: IRecipe[] = getAllRecipesForInteraction(item.interaction.name).filter(recipe => {
-    if (!recipe.ingredients) return false;
+    if (!recipe.ingredients) {
+      return false;
+    }
 
     let fulfilled = true;
     recipe.ingredients.forEach(ingredient => {
-      if (!fulfilled) return;
+      if (!fulfilled) {
+        return;
+      }
 
       fulfilled = (ingredient.level <= getDescriptorLevel(item, ingredient.descriptor));
     });
@@ -419,16 +486,22 @@ export function getAllFulfilledRecipesForItem(item: IItemConfig): IRecipe[] | un
     return fulfilled;
   });
 
-  if (recipes.length === 0) return undefined;
+  if (recipes.length === 0) {
+    return undefined;
+  }
 
   return recipes;
 }
 
 export function getValidFulfilledRecipeForItem(item: IItemConfig): IRecipe | undefined {
-  if (!item.interaction) return undefined;
+  if (!item.interaction) {
+    return undefined;
+  }
 
   const fulfilledRecipes = getAllFulfilledRecipesForItem(item);
-  if (fulfilledRecipes === undefined || fulfilledRecipes.length <= 0) return undefined;
+  if (fulfilledRecipes === undefined || fulfilledRecipes.length <= 0) {
+    return undefined;
+  }
 
   return fulfilledRecipes[0];
 }
@@ -437,7 +510,9 @@ export function getValidFulfilledRecipeForItem(item: IItemConfig): IRecipe | und
 export function increaseInteractionLevel(item: IItemConfig, interaction: Interaction, delta = 1): number {
   item.interaction = item.interaction || { name: interaction, level: 0 };
 
-  if(item.interaction.name !== interaction) return 0;
+  if(item.interaction.name !== interaction) {
+    return 0;
+  }
 
   item.interaction.level = Math.max(0, item.interaction.level + delta);
   return item.interaction.level;
