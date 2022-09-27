@@ -4,9 +4,9 @@ import { GameService } from './core/services/game/game.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { PauseComponent } from './shared/components/pause/pause.component';
 import { Select, Store } from '@ngxs/store';
-import { GameOption, OptionsState } from './core/services/game/stores';
+import { OptionsState } from './core/services/game/stores';
 import { first, Observable } from 'rxjs';
-import { Move, SetOption } from './core/services/game/actions';
+import { Move, SetPaused } from './core/services/game/actions';
 import { Keybind, KeybindsService } from './core/services/game/keybinds.service';
 
 @Component({
@@ -51,7 +51,7 @@ export class AppComponent implements OnInit {
 
   // unpause the game any time it's loaded
   private unpause() {
-    this.store.dispatch(new SetOption(GameOption.IsPaused, false));
+    this.store.dispatch(new SetPaused(false));
   }
 
   // watch for changes to the font setting and update the game
@@ -85,7 +85,7 @@ export class AppComponent implements OnInit {
       }
 
       // tell the game we're paused
-      this.store.dispatch(new SetOption(GameOption.IsPaused, true));
+      this.store.dispatch(new SetPaused(true));
       const modal = this.modalService.open(PauseComponent, {
         centered: true,
         backdropClass: 'darker-backdrop',
@@ -94,12 +94,12 @@ export class AppComponent implements OnInit {
 
       // when the pause modal is closed, tell the game we're unpaused
       modal.dismissed.subscribe(() => {
-        this.store.dispatch(new SetOption(GameOption.IsPaused, false));
+        this.store.dispatch(new SetPaused(false));
       });
 
       // when the pause modal is closed, tell the game we're unpaused
       modal.closed.subscribe(() => {
-        this.store.dispatch(new SetOption(GameOption.IsPaused, false));
+        this.store.dispatch(new SetPaused(false));
       });
     });
 
