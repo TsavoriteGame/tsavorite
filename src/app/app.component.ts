@@ -20,6 +20,8 @@ export class AppComponent implements OnInit {
   @Select(OptionsState.isPaused) isPaused$: Observable<boolean>;
   @Select(OptionsState.isFantasyFont) isFantasyFont$: Observable<boolean>;
 
+  private modal;
+
   constructor(
     private translate: TranslateService,
     private modalService: NgbModal,
@@ -76,6 +78,11 @@ export class AppComponent implements OnInit {
       return;
     }
 
+    if(this.modal) {
+      this.modal.close();
+      return;
+    }
+
     // handle showing/hiding the pause menu
     this.isPaused$.pipe(first()).subscribe(isPaused => {
 
@@ -86,20 +93,24 @@ export class AppComponent implements OnInit {
 
       // tell the game we're paused
       this.store.dispatch(new SetOption(GameOption.IsPaused, true));
-      const modal = this.modalService.open(PauseComponent, {
+
+      this.modal = this.modalService.open(PauseComponent, {
         centered: true,
         backdropClass: 'darker-backdrop',
-        backdrop: 'static'
+        backdrop: 'static',
+        keyboard: false
       });
 
       // when the pause modal is closed, tell the game we're unpaused
-      modal.dismissed.subscribe(() => {
+      this.modal.dismissed.subscribe(() => {
         this.store.dispatch(new SetOption(GameOption.IsPaused, false));
+        this.modal = undefined;
       });
 
       // when the pause modal is closed, tell the game we're unpaused
-      modal.closed.subscribe(() => {
+      this.modal.closed.subscribe(() => {
         this.store.dispatch(new SetOption(GameOption.IsPaused, false));
+        this.modal = undefined;
       });
     });
 
