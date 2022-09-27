@@ -63,13 +63,7 @@ export class KeybindsService {
   }
 
   public rebindShortcuts(shortcut: [string, string], newShortcut: [string, string]): void {
-    if(shortcut[0] !== newShortcut[0]) {
-      this.hotkeys.rebindHotkey(shortcut[0], newShortcut[0]);
-    }
-
-    if(shortcut[1] !== newShortcut[1]) {
-      this.hotkeys.rebindHotkey(shortcut[1], newShortcut[1]);
-    }
+    this.hotkeys.rebindHotkey(shortcut, newShortcut);
   }
 
   public async recordKeybind(): Promise<string> {

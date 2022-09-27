@@ -245,12 +245,30 @@ export class Hotkeys {
     delete this.hotkeyMap[secondaryKeyCode];
   }
 
-  rebindHotkey(oldHotkey: string, newHotkey: string) {
-    const oldKeyCode = this.getKeycodeNumberFromString(oldHotkey);
-    const newKeyCode = this.getKeycodeNumberFromString(newHotkey);
+  rebindHotkey(oldHotkey: [string, string], newHotkey: [string, string]) {
+    if(oldHotkey[0] !== newHotkey[0]) {
+      const oldKeyCode = this.getKeycodeNumberFromString(oldHotkey[0]);
+      const newKeyCode = this.getKeycodeNumberFromString(newHotkey[0]);
 
-    this.hotkeyMap[newKeyCode] = this.hotkeyMap[oldKeyCode];
-    delete this.hotkeyMap[oldKeyCode];
+      this.hotkeyMap[newKeyCode] = this.hotkeyMap[oldKeyCode];
+      this.hotkeyMap[newKeyCode].shortcut = newHotkey;
+      delete this.hotkeyMap[oldKeyCode];
+    }
+
+    if(oldHotkey[1] !== newHotkey[1]) {
+      const oldKeyCode = this.getKeycodeNumberFromString(oldHotkey[1]);
+      const newKeyCode = this.getKeycodeNumberFromString(newHotkey[1]);
+
+      this.hotkeyMap[newKeyCode] = this.hotkeyMap[oldKeyCode];
+      this.hotkeyMap[newKeyCode].shortcut = newHotkey;
+      delete this.hotkeyMap[oldKeyCode];
+
+      // this works assuming primary keys can never be unbound
+      if(oldHotkey[1] === '') {
+        const primaryKeymap = this.hotkeyMap[this.getKeycodeNumberFromString(newHotkey[0])];
+        this.hotkeyMap[newKeyCode].handler = primaryKeymap.handler;
+      }
+    }
   }
 
   removeAllHotkeys() {
