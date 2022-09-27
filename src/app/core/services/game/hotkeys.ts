@@ -13,12 +13,12 @@ export interface HotkeyOptions {
 }
 
 export interface HotkeyShortcut {
-  shortcut: [string, string];
+  shortcut: string;
   handler: (event: KeyboardEvent) => boolean | void;
 }
 
 export interface InternalHotkeyShortcut extends HotkeyShortcut {
-  code: [number, number];
+  code: number;
 }
 
 export const HotkeyKeycodes = {
@@ -228,24 +228,33 @@ export class Hotkeys {
     return Object.values(this.hotkeyMap).flat();
   }
 
+  addHotkeys(hotkeys: HotkeyShortcut[]): void {
+    hotkeys.forEach(hotkey => this.addHotkey(hotkey));
+  }
+
   addHotkey(hotkey: HotkeyShortcut): void {
-    const primaryKeyCode = this.getKeycodeNumberFromString(hotkey.shortcut[0]);
-    const secondaryKeyCode = this.getKeycodeNumberFromString(hotkey.shortcut[1]);
-
-    const internalHotkey: InternalHotkeyShortcut = { ...hotkey, code: [primaryKeyCode, secondaryKeyCode] };
-
-    this.hotkeyMap[primaryKeyCode] = internalHotkey;
-    this.hotkeyMap[secondaryKeyCode] = internalHotkey;
+    const keyCode = this.getKeycodeNumberFromString(hotkey.shortcut);
+    const internalHotkey: InternalHotkeyShortcut = { ...hotkey, code: keyCode };
+    this.hotkeyMap[keyCode] = internalHotkey;
   }
 
-  removeHotkey(hotkey: [string, string]): void {
-    const primaryKeyCode = this.getKeycodeNumberFromString(hotkey[0]);
-    const secondaryKeyCode = this.getKeycodeNumberFromString(hotkey[1]);
-    delete this.hotkeyMap[primaryKeyCode];
-    delete this.hotkeyMap[secondaryKeyCode];
+  removeHotkeys(hotkeys: [string, string]): void {
+    hotkeys.forEach(hotkey => this.removeHotkey(hotkey));
   }
 
-  rebindHotkey(oldHotkey: string, newHotkey: string) {
+  removeHotkey(hotkey: string): void {
+    const keyCode = this.getKeycodeNumberFromString(hotkey);
+    delete this.hotkeyMap[keyCode];
+  }
+
+  duplicateHotkey(sourceHotkey: string, targetHotkey: string): void {
+    const oldKeycode = this.getKeycodeNumberFromString(sourceHotkey);
+    const newKeycode = this.getKeycodeNumberFromString(targetHotkey);
+
+    this.hotkeyMap[newKeycode] = this.hotkeyMap[oldKeycode];
+  }
+
+  rebindHotkey(oldHotkey: string, newHotkey: string): void {
     const oldKeyCode = this.getKeycodeNumberFromString(oldHotkey);
     const newKeyCode = this.getKeycodeNumberFromString(newHotkey);
 

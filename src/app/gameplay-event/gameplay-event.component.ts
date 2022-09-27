@@ -18,10 +18,10 @@ export class GameplayEventComponent implements OnInit, OnDestroy {
   constructor(private store: Store, private keybindsService: KeybindsService) { }
 
   ngOnInit(): void {
-    this.keybindsService.addShortcut(this.keybindsService.getShortcutKeys(Keybind.Choice1), () => this.makeChoice(0));
-    this.keybindsService.addShortcut(this.keybindsService.getShortcutKeys(Keybind.Choice2), () => this.makeChoice(1));
-    this.keybindsService.addShortcut(this.keybindsService.getShortcutKeys(Keybind.Choice3), () => this.makeChoice(2));
-    this.keybindsService.addShortcut(this.keybindsService.getShortcutKeys(Keybind.Choice4), () => this.makeChoice(3));
+    this.keybindsService.addShortcuts(this.keybindsService.getShortcutKeys(Keybind.Choice1), () => this.makeChoice(0));
+    this.keybindsService.addShortcuts(this.keybindsService.getShortcutKeys(Keybind.Choice2), () => this.makeChoice(1));
+    this.keybindsService.addShortcuts(this.keybindsService.getShortcutKeys(Keybind.Choice3), () => this.makeChoice(2));
+    this.keybindsService.addShortcuts(this.keybindsService.getShortcutKeys(Keybind.Choice4), () => this.makeChoice(3));
   }
 
   ngOnDestroy(): void {

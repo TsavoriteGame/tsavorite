@@ -18,10 +18,10 @@ export class GameplayMapComponent implements OnInit, OnDestroy {
   constructor(private store: Store, private keybindsService: KeybindsService) { }
 
   ngOnInit(): void {
-    this.keybindsService.addShortcut(this.keybindsService.getShortcutKeys(Keybind.MoveUp), () => this.moveDelta(0, -1));
-    this.keybindsService.addShortcut(this.keybindsService.getShortcutKeys(Keybind.MoveDown), () => this.moveDelta(0, 1));
-    this.keybindsService.addShortcut(this.keybindsService.getShortcutKeys(Keybind.MoveLeft), () => this.moveDelta(-1, 0));
-    this.keybindsService.addShortcut(this.keybindsService.getShortcutKeys(Keybind.MoveRight), () => this.moveDelta(1, 0));
+    this.keybindsService.addShortcuts(this.keybindsService.getShortcutKeys(Keybind.MoveUp), () => this.moveDelta(0, -1));
+    this.keybindsService.addShortcuts(this.keybindsService.getShortcutKeys(Keybind.MoveDown), () => this.moveDelta(0, 1));
+    this.keybindsService.addShortcuts(this.keybindsService.getShortcutKeys(Keybind.MoveLeft), () => this.moveDelta(-1, 0));
+    this.keybindsService.addShortcuts(this.keybindsService.getShortcutKeys(Keybind.MoveRight), () => this.moveDelta(1, 0));
   }
 
   ngOnDestroy(): void {

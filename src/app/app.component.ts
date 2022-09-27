@@ -38,7 +38,7 @@ export class AppComponent implements OnInit {
     this.watchFontChanges();
     this.watchKeymapChanges();
 
-    this.keybindsService.addShortcut(this.keybindsService.getShortcutKeys(Keybind.Pause), () => this.handleKeyboardEvent());
+    this.keybindsService.addShortcuts(this.keybindsService.getShortcutKeys(Keybind.Pause), () => this.handleKeyboardEvent());
   }
 
   // init the i18n for en; other languages may come
