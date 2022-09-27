@@ -41,11 +41,11 @@ export class KeybindsService {
   }
 
   public getPrimaryShortcutKey(keybind: Keybind): string {
-    return this.keymap[keybind][0];
+    return this.getShortcutKeys(keybind)[0];
   }
 
   public getSecondaryShortcutKey(keybind: Keybind): string {
-    return this.keymap[keybind][1];
+    return this.getShortcutKeys(keybind)[1];
   }
 
   public addShortcut(shortcut: [string, string], handler: (event: KeyboardEvent) => boolean|void) {
@@ -63,11 +63,13 @@ export class KeybindsService {
   }
 
   public rebindShortcuts(shortcut: [string, string], newShortcut: [string, string]): void {
-    if(shortcut === newShortcut) {
-      return;
+    if(shortcut[0] !== newShortcut[0]) {
+      this.hotkeys.rebindHotkey(shortcut[0], newShortcut[0]);
     }
 
-    this.hotkeys.rebindHotkey(shortcut, newShortcut);
+    if(shortcut[1] !== newShortcut[1]) {
+      this.hotkeys.rebindHotkey(shortcut[1], newShortcut[1]);
+    }
   }
 
   public async recordKeybind(): Promise<string> {

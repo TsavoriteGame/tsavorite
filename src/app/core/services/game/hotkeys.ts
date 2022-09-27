@@ -245,23 +245,12 @@ export class Hotkeys {
     delete this.hotkeyMap[secondaryKeyCode];
   }
 
-  rebindHotkey(oldHotkey: [string, string], newHotkey: [string, string]) {
-    const oldPrimaryKeyCode = this.getKeycodeNumberFromString(oldHotkey[0]);
-    const newPrimaryKeyCode = this.getKeycodeNumberFromString(newHotkey[0]);
-    const oldPrimaryHotkey = this.hotkeyMap[oldPrimaryKeyCode];
+  rebindHotkey(oldHotkey: string, newHotkey: string) {
+    const oldKeyCode = this.getKeycodeNumberFromString(oldHotkey);
+    const newKeyCode = this.getKeycodeNumberFromString(newHotkey);
 
-    const oldSecondaryKeyCode = this.getKeycodeNumberFromString(oldHotkey[1]);
-    const newSecondaryKeyCode = this.getKeycodeNumberFromString(newHotkey[1]);
-    const oldSecondaryHotkey = this.hotkeyMap[oldSecondaryKeyCode];
-
-    delete this.hotkeyMap[oldPrimaryKeyCode];
-    delete this.hotkeyMap[oldSecondaryKeyCode];
-
-    this.hotkeyMap[newPrimaryKeyCode] = oldPrimaryHotkey;
-    this.hotkeyMap[newPrimaryKeyCode].shortcut = newHotkey;
-
-    this.hotkeyMap[newSecondaryKeyCode] = oldSecondaryHotkey;
-    this.hotkeyMap[newSecondaryKeyCode].shortcut = newHotkey;
+    this.hotkeyMap[newKeyCode] = this.hotkeyMap[oldKeyCode];
+    delete this.hotkeyMap[oldKeyCode];
   }
 
   removeAllHotkeys() {
@@ -302,7 +291,10 @@ export class Hotkeys {
       metaString = `${metaString}Shift${this.delimiter}`;
     }
 
-    const key = event.key.length === 1 ? event.key.toUpperCase() : event.key;
+    let key = event.key.length === 1 ? event.key.toUpperCase() : event.key;
+    if(event.code === 'Space') {
+      key = 'Space';
+    }
 
     return `${metaString}${key}`;
   }

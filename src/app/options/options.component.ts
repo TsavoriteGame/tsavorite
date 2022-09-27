@@ -56,11 +56,24 @@ export class OptionsComponent implements OnInit, OnDestroy {
     } else {
       this.recordingSecondaryKeybind[keybind] = true;
     }
+
     const newKey = await this.keybindService.recordKeybind();
     this.recordingPrimaryKeybind[keybind] = this.recordingSecondaryKeybind[keybind] = false;
 
-    const checkOtherKeys = Object.keys(allKeybinds).filter(k => k !== keybind);
-    const isKeyInUse = checkOtherKeys.some(k => allKeybinds[k] === newKey);
+    if(newKey === 'Enter') {
+      if(!isPrimaryKey) {
+        this.store.dispatch(new RebindKey(keybind as Keybind, '', isPrimaryKey));
+      }
+
+      return;
+    }
+
+    // clear out only the key we're looking at, so we can check if the new key is already bound anywhere
+    const checkKeymap = structuredClone(allKeybinds);
+    checkKeymap[keybind][isPrimaryKey ? 0 : 1] = '';
+
+    const checkOtherKeys = Object.keys(checkKeymap);
+    const isKeyInUse = checkOtherKeys.some(k => allKeybinds[k][0] === newKey || allKeybinds[k][1] === newKey);
 
     if(isKeyInUse) {
       return;

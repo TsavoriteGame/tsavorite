@@ -66,8 +66,9 @@
       "GameTitle": "Gameplay Options",
       "GameSubtitle": "",
       "KeyboardTitle": "Keyboard Options",
-      "KeyboardSubtitle": "",
+      "KeyboardSubtitle": "When setting a key, press Enter to cancel. Enter will clear secondary key bindings.",
       "KeyboardChooseKey": "Choose key...",
+      "KeyboardUnboundKey": "< Unbound >",
       "Keymap": {
         "Choice1": "Choice #1",
         "Choice2": "Choice #2",

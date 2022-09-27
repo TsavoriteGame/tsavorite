@@ -23,15 +23,15 @@ export interface IOptions {
 }
 
 export const defaultKeymap: () => Record<Keybind, [string, string]> = () => ({
-  [Keybind.Pause]: ['Escape', 'P'],
+  [Keybind.Pause]: ['Escape', ''],
   [Keybind.MoveUp]: ['ArrowUp', 'W'],
   [Keybind.MoveDown]: ['ArrowDown', 'S'],
   [Keybind.MoveLeft]: ['ArrowLeft', 'A'],
   [Keybind.MoveRight]: ['ArrowRight', 'D'],
-  [Keybind.Choice1]: ['1', '‎'],
-  [Keybind.Choice2]: ['2', '‎'],
-  [Keybind.Choice3]: ['3', '‎'],
-  [Keybind.Choice4]: ['4', '‎']
+  [Keybind.Choice1]: ['1', ''],
+  [Keybind.Choice2]: ['2', ''],
+  [Keybind.Choice3]: ['3', ''],
+  [Keybind.Choice4]: ['4', '']
 });
 
 const defaultOptions: () => IOptions = () => ({
