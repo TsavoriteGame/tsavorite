@@ -49,5 +49,3 @@ export class StrangeLandscape extends Landmark implements ILandmark {
   }
 
 }
-/*
-*/
