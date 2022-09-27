@@ -51,6 +51,13 @@ export class OptionsComponent implements OnInit, OnDestroy {
   }
 
   async recordNewKeybind(allKeybinds: Record<Keybind, [string, string]>, keybind: string, isPrimaryKey: boolean) {
+
+    // reset all keybind recordings
+    Object.keys(allKeybinds).forEach((key) => {
+      this.recordingPrimaryKeybind[key] = false;
+      this.recordingSecondaryKeybind[key] = false;
+    });
+
     if(isPrimaryKey) {
       this.recordingPrimaryKeybind[keybind] = true;
     } else {
