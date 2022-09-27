@@ -14,7 +14,8 @@ import { GameOption, IOptions, OptionsState } from '../core/services/game/stores
 })
 export class OptionsComponent implements OnInit, OnDestroy {
 
-  public recordingKeybind = {};
+  public recordingPrimaryKeybind = {};
+  public recordingSecondaryKeybind = {};
 
   @Select(OptionsState.allOptions) options$: Observable<IOptions>;
 
@@ -49,19 +50,43 @@ export class OptionsComponent implements OnInit, OnDestroy {
     this.store.dispatch(new SetOption(option, newValue));
   }
 
-  async recordNewKeybind(allKeybinds: Record<Keybind, string>, keybind: string) {
-    this.recordingKeybind[keybind] = true;
-    const newKey = await this.keybindService.recordKeybind();
-    this.recordingKeybind[keybind] = false;
+  async recordNewKeybind(allKeybinds: Record<Keybind, [string, string]>, keybind: string, isPrimaryKey: boolean) {
 
-    const checkOtherKeys = Object.keys(allKeybinds).filter(k => k !== keybind);
-    const isKeyInUse = checkOtherKeys.some(k => allKeybinds[k] === newKey);
+    // reset all keybind recordings
+    Object.keys(allKeybinds).forEach((key) => {
+      this.recordingPrimaryKeybind[key] = false;
+      this.recordingSecondaryKeybind[key] = false;
+    });
+
+    if(isPrimaryKey) {
+      this.recordingPrimaryKeybind[keybind] = true;
+    } else {
+      this.recordingSecondaryKeybind[keybind] = true;
+    }
+
+    const newKey = await this.keybindService.recordKeybind();
+    this.recordingPrimaryKeybind[keybind] = this.recordingSecondaryKeybind[keybind] = false;
+
+    if(newKey === 'Enter') {
+      if(!isPrimaryKey) {
+        this.store.dispatch(new RebindKey(keybind as Keybind, '', isPrimaryKey));
+      }
+
+      return;
+    }
+
+    // clear out only the key we're looking at, so we can check if the new key is already bound anywhere
+    const checkKeymap = structuredClone(allKeybinds);
+    checkKeymap[keybind][isPrimaryKey ? 0 : 1] = '';
+
+    const checkOtherKeys = Object.keys(checkKeymap);
+    const isKeyInUse = checkOtherKeys.some(k => allKeybinds[k][0] === newKey || allKeybinds[k][1] === newKey);
 
     if(isKeyInUse) {
       return;
     }
 
-    this.store.dispatch(new RebindKey(keybind as Keybind, newKey));
+    this.store.dispatch(new RebindKey(keybind as Keybind, newKey, isPrimaryKey));
   }
 
 }

@@ -18,7 +18,7 @@ export class ToggleOption {
 
 export class RebindKey {
   static type = '[Options] Rebind Key';
-  constructor(public keybind: Keybind, public newKey: string) {}
+  constructor(public keybind: Keybind, public newKey: string, public isPrimaryKey: boolean) {}
 }
 
 export class ResetOptions {

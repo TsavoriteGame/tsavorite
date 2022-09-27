@@ -22,25 +22,37 @@ export enum Keybind {
 })
 export class KeybindsService {
 
-  private keymap: Record<Keybind, string> = defaultKeymap();
+  private keymap: Record<Keybind, [string, string]> = defaultKeymap();
 
   private hotkeys = new Hotkeys();
 
   constructor(private gameService: GameService) {}
 
-  public setKeybinds(keymap: Record<Keybind, string>): void {
+  public setKeybinds(keymap: Record<Keybind, [string, string]>): void {
     Object.keys(keymap).forEach(key => {
-      this.rebindShortcuts(this.keymap[key], keymap[key]);
+      this.rebindShortcuts(key as Keybind, this.keymap[key], keymap[key]);
     });
 
     this.keymap = keymap;
   }
 
-  public getShortcutKey(keybind: Keybind): string {
+  public getShortcutKeys(keybind: Keybind): [string, string] {
     return this.keymap[keybind];
   }
 
-  public addShortcut(shortcut: string, handler: (event: KeyboardEvent) => boolean|void) {
+  public getPrimaryShortcutKey(keybind: Keybind): string {
+    return this.getShortcutKeys(keybind)[0];
+  }
+
+  public getSecondaryShortcutKey(keybind: Keybind): string {
+    return this.getShortcutKeys(keybind)[1];
+  }
+
+  public addShortcuts(shortcuts: [string, string], handler: (event: KeyboardEvent) => boolean|void) {
+    shortcuts.forEach(shortcut => this.addShortcut(shortcut, handler));
+  }
+
+  public addShortcut(shortcut: string, handler: (event: KeyboardEvent) => boolean|void): void {
     this.hotkeys.addHotkey({ shortcut, handler: (event) => {
       if(this.gameService.areOptionsOpen) {
         return;
@@ -48,18 +60,34 @@ export class KeybindsService {
 
       handler(event);
     } });
+  };
+
+  public removeShortcut(shortcut: [string, string]): void {
+    this.hotkeys.removeHotkeys(shortcut);
   }
 
-  public removeShortcut(shortcut: string): void {
-    this.hotkeys.removeHotkey(shortcut);
-  }
+  public rebindShortcuts(key: Keybind, shortcut: [string, string], newShortcut: [string, string]): void {
 
-  public rebindShortcuts(shortcut: string, newShortcut: string): void {
-    if(shortcut === newShortcut) {
-      return;
+    // we're rebinding the primary shortcut
+    // they can't be unbound, so they don't require other weird logic
+    if(shortcut[0] !== newShortcut[0]) {
+      this.hotkeys.rebindHotkey(shortcut[0], newShortcut[0]);
     }
 
-    this.hotkeys.rebindHotkey(shortcut, newShortcut);
+    // we have a secondary shortcut we're unbinding
+    if(shortcut[1] && !newShortcut[1]) {
+      this.hotkeys.removeHotkey(shortcut[1]);
+    }
+
+    // we have an unbound secondary shortcut we're binding
+    if(!shortcut[1] && newShortcut[1]) {
+      this.hotkeys.duplicateHotkey(shortcut[0], newShortcut[1]);
+    }
+
+    // we have a secondary shortcut we're rebinding
+    if(shortcut[1] && newShortcut[1] && shortcut[1] !== newShortcut[1]) {
+      this.hotkeys.rebindHotkey(shortcut[1], newShortcut[1]);
+    }
   }
 
   public async recordKeybind(): Promise<string> {
