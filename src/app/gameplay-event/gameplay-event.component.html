@@ -19,7 +19,11 @@
         <div class="text-center icon-text mt-3">
           <div class="btn btn-primary"
                (click)="makeChoice(i)"
-               *ngFor="let button of landmarkEncounterData.choices; let i = index">{{ i + 1 }}. {{ button.text }}</div>
+               *ngFor="let button of landmarkEncounterData.choices; let i = index">
+
+               <app-key-display [keybind]="'Choice' + (i + 1)"></app-key-display>
+               {{ button.text }}
+          </div>
         </div>
       </div>
     </div>

@@ -1,10 +1,11 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
 import { environment } from '../../../../environments/environment';
 
 @Component({
   selector: 'app-splashscreen',
   templateUrl: './splashscreen.component.html',
-  styleUrls: ['./splashscreen.component.scss']
+  styleUrls: ['./splashscreen.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SplashscreenComponent implements OnInit {
 
