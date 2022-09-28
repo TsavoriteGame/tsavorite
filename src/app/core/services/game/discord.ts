@@ -4,8 +4,8 @@ export interface DiscordRPCStatus {
   background: string;
   playerName: string;
 
-  state: string;
-  details: string;
+  state?: string;
+  details?: string;
 }
 
 const status: DiscordRPCStatus = {
@@ -21,23 +21,27 @@ const status: DiscordRPCStatus = {
 export const getDiscordRPCStatus = (): DiscordRPCStatus => status;
 
 export const updateDiscordRPCStatus = (): void => {
-  status.state = status.isInGame ? 'Wandering the world' :
-    status.isMakingCharacter ? 'Planning their next move' : 'In a menu';
+
+  status.state = 'In a menu';
+  if(status.isInGame) {
+    status.state = 'Wandering the world';
+  } else if (status.isMakingCharacter) {
+    status.state = 'Planning their next move';
+  }
+
   status.details = status.isInGame ? `Playing as ${status.playerName}, ${status.background}` : '';
 
   (window as any).discordRPCStatus = status;
 };
 
-export const setDiscordRPCStatus =
-  (isInGame: boolean, isMakingCharacter: boolean,
-   background: string, name: string) => {
-    status.isInGame = isInGame;
-    status.isMakingCharacter = isMakingCharacter;
-    status.background = background;
-    status.playerName = name;
+export const setDiscordRPCStatus = (newStatus: DiscordRPCStatus) => {
+  status.isInGame = newStatus.isInGame;
+  status.isMakingCharacter = newStatus.isMakingCharacter;
+  status.background = newStatus.background;
+  status.playerName = newStatus.playerName;
 
-    updateDiscordRPCStatus();
-  };
+  updateDiscordRPCStatus();
+};
 
 export const setIsInGame = (isInGame: boolean): void => {
   status.isInGame = isInGame;

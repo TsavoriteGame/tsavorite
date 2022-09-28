@@ -26,7 +26,12 @@ export class GameSetupState {
 
   @Action(SetBackground)
   setBackground(ctx: StateContext<IGameSetup>, { background }: SetBackground) {
-    setDiscordRPCStatus(false, true, '', '');
+    setDiscordRPCStatus({
+      isInGame: false,
+      isMakingCharacter: true,
+      background: '',
+      playerName: ''
+    });
 
     ctx.patchState({ chosenBackground: background });
   }

@@ -223,14 +223,24 @@ export class GameState {
 
     ctx.patchState({ character, scenario, position });
 
-    setDiscordRPCStatus(true, false, background.name, character.name);
+    setDiscordRPCStatus({
+      isInGame: true,
+      isMakingCharacter: false,
+      background: background.name,
+      playerName: character.name
+    });
 
     this.store.dispatch(new Move(0, 0));
   }
 
   @Action(AbandonGame)
   abandonGame(ctx: StateContext<IGame>) {
-    setDiscordRPCStatus(false, false, '', '');
+    setDiscordRPCStatus({
+      isInGame: false,
+      isMakingCharacter: false,
+      background: '',
+      playerName: ''
+    });
 
     ctx.setState(defaultOptions());
   }
