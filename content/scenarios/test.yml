@@ -1,5 +1,5 @@
 
-name: Tutorial
+name: Test
 
 worlds:
   0:
@@ -10,7 +10,7 @@ worlds:
       - [2,    0,    0,    2,    0,    0,    0,    0,    0,    0,    0]
       - [2,    0,    0,    2,    0,    0,    10,   0,    0,    0,    0]
       - [2,    2,    2,    2,    1,    0,    0,    0,    0,    0,    0]
-      - [0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0]
+      - [0,    0,    0,    0,    0,    0,    16,   0,    0,    0,    0]
       - [0,    0,    0,    0,    0,    0,    11,   0,    0,    0,    0]
       - [0,    0,    0,    0,    13,   0,    0,    0,    0,    0,    0]
       - [0,    0,    0,    0,    0,    15,   0,    0,    0,    0,    0]
@@ -93,3 +93,9 @@ nodes:
     icon: sunsetpeak
     description: The scenery is pristine.
     landmark: StrangeLandscape
+
+  16:
+    name: Spike Trap
+    icon: spiketrap
+    description: You can't leave here unless you disarm the trap!
+    landmark: Trap

@@ -17,10 +17,11 @@ import { CardSlotComponent } from './components/card-slot/card-slot.component';
 import { PauseComponent } from './components/pause/pause.component';
 import { FancyTitleBackgroundComponent } from './components/fancy-title-background/fancy-title-background.component';
 import { SplashscreenComponent } from './components/splashscreen/splashscreen.component';
+import { KeyDisplayComponent } from './components/key-display/key-display.component';
 
 @NgModule({
   declarations: [PageNotFoundComponent, WebviewDirective, IconComponent,
-    InfoCardComponent, CardSlotComponent, PauseComponent, FancyTitleBackgroundComponent, SplashscreenComponent],
+    InfoCardComponent, CardSlotComponent, PauseComponent, FancyTitleBackgroundComponent, SplashscreenComponent, KeyDisplayComponent],
   imports: [
     CommonModule,
     DndModule,
@@ -34,7 +35,7 @@ import { SplashscreenComponent } from './components/splashscreen/splashscreen.co
         denyButtonColor: '#A50000'
       }))
     })],
-  exports: [AngularSvgIconModule, DndModule, TranslateModule, IconComponent, FancyTitleBackgroundComponent,
+  exports: [AngularSvgIconModule, DndModule, TranslateModule, IconComponent, FancyTitleBackgroundComponent, KeyDisplayComponent,
     CardSlotComponent, SplashscreenComponent, InfoCardComponent, WebviewDirective, FormsModule, NgbModule]
 })
 export class SharedModule {}

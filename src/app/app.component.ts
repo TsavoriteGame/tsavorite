@@ -16,9 +16,11 @@ import { Keybind, KeybindsService } from './core/services/game/keybinds.service'
 })
 export class AppComponent implements OnInit {
 
-  @Select(OptionsState.keymap) keymap$: Observable<Record<Keybind, string>>;
+  @Select(OptionsState.keymap) keymap$: Observable<Record<Keybind, [string, string]>>;
   @Select(OptionsState.isPaused) isPaused$: Observable<boolean>;
   @Select(OptionsState.isFantasyFont) isFantasyFont$: Observable<boolean>;
+
+  private modal;
 
   constructor(
     private translate: TranslateService,
@@ -36,7 +38,7 @@ export class AppComponent implements OnInit {
     this.watchFontChanges();
     this.watchKeymapChanges();
 
-    this.keybindsService.addShortcut(this.keybindsService.getShortcutKey(Keybind.Pause), () => this.handleKeyboardEvent());
+    this.keybindsService.addShortcuts(this.keybindsService.getShortcutKeys(Keybind.Pause), () => this.handleKeyboardEvent());
   }
 
   // init the i18n for en; other languages may come
@@ -76,6 +78,11 @@ export class AppComponent implements OnInit {
       return;
     }
 
+    if(this.modal) {
+      this.modal.close();
+      return;
+    }
+
     // handle showing/hiding the pause menu
     this.isPaused$.pipe(first()).subscribe(isPaused => {
 
@@ -86,20 +93,23 @@ export class AppComponent implements OnInit {
 
       // tell the game we're paused
       this.store.dispatch(new SetPaused(true));
-      const modal = this.modalService.open(PauseComponent, {
+      this.modal = this.modalService.open(PauseComponent, {
         centered: true,
         backdropClass: 'darker-backdrop',
-        backdrop: 'static'
+        backdrop: 'static',
+        keyboard: false
       });
 
       // when the pause modal is closed, tell the game we're unpaused
-      modal.dismissed.subscribe(() => {
+      this.modal.dismissed.subscribe(() => {
         this.store.dispatch(new SetPaused(false));
+        this.modal = undefined;
       });
 
       // when the pause modal is closed, tell the game we're unpaused
-      modal.closed.subscribe(() => {
+      this.modal.closed.subscribe(() => {
         this.store.dispatch(new SetPaused(false));
+        this.modal = undefined;
       });
     });
 

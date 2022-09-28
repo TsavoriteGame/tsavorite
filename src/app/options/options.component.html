@@ -26,7 +26,7 @@
               <ng-container *ngFor="let option of displayOptions">
 
                 <!-- checkbox inputs -->
-                <div class="form-check size-big" *ngIf="option.type === 'checkbox'">
+                <div class="form-check size-big mt-3" *ngIf="option.type === 'checkbox'">
                   <input class="form-check-input"
                          type="checkbox"
                          [checked]="options[option.option]"
@@ -74,14 +74,22 @@
                 {{ 'Pages.Options.KeyboardSubtitle' | translate }}
               </h2>
 
+              <div class="mt-3"></div>
+
               <div class="row mt-1" *ngFor="let option of options.keymap | keyvalue">
-                <div class="col-8">
+                <div class="col-4">
                   <div class="size-big">{{ 'Pages.Options.Keymap.' + option.key | translate }}</div>
                 </div>
                 <div class="col-4">
-                  <button class="btn btn-info full-width btn-sm" (click)="recordNewKeybind(options.keymap, option.key)" [disabled]="recordingKeybind[option.key]">
-                    <span *ngIf="recordingKeybind[option.key]">{{ 'Pages.Options.KeyboardChooseKey' | translate }}</span>
-                    <span *ngIf="!recordingKeybind[option.key]">{{ option.value }}</span>
+                  <button class="btn btn-info full-width btn-sm" (click)="recordNewKeybind(options.keymap, option.key, true)" [disabled]="recordingPrimaryKeybind[option.key]">
+                    <span *ngIf="recordingPrimaryKeybind[option.key]">{{ 'Pages.Options.KeyboardChooseKey' | translate }}</span>
+                    <span *ngIf="!recordingPrimaryKeybind[option.key]">{{ option.value[0] || ('Pages.Options.KeyboardUnboundKey' | translate) }}</span>
+                  </button>
+                </div>
+                <div class="col-4">
+                  <button class="btn btn-info full-width btn-sm" (click)="recordNewKeybind(options.keymap, option.key, false)" [disabled]="recordingSecondaryKeybind[option.key]">
+                    <span *ngIf="recordingSecondaryKeybind[option.key]">{{ 'Pages.Options.KeyboardChooseKey' | translate }}</span>
+                    <span *ngIf="!recordingSecondaryKeybind[option.key]">{{ option.value[1] || ('Pages.Options.KeyboardUnboundKey' | translate) }}</span>
                   </button>
                 </div>
               </div>
@@ -104,6 +112,8 @@
                 {{ 'Pages.Options.GameSubtitle' | translate }}
               </h2>
 
+              <div class="mt-3"></div>
+
             </div>
           </div>
         </div>
@@ -120,7 +130,7 @@
                 {{ 'Pages.Options.DataSubtitle' | translate }}
               </h2>
 
-              <div class="d-grid gap-2 px-3 d-block mt-1">
+              <div class="d-grid gap-2 px-3 d-block mt-3">
                 <button type="button"
                         class="btn btn-danger d-block"
                         [swal]="resetOptionsSwal">
@@ -141,31 +151,31 @@
         </div>
       </div>
 
+      <swal
+        #resetOptionsSwal
+        [title]="'Pages.Options.ResetOptionsConfirm' | translate"
+        [text]="'Pages.Options.ResetOptionsText' | translate"
+        [confirmButtonText]="'Pages.Options.ResetOptionsYes' | translate"
+        [cancelButtonText]="'Pages.Options.ResetOptionsNo' | translate"
+        [showCancelButton]="true"
+        [focusCancel]="true"
+        [heightAuto]="false"
+        (confirm)="resetOptions(options.keymap)">
+      </swal>
+
+      <swal
+        #resetSwal
+        [title]="'Pages.Options.ResetDataConfirm' | translate"
+        [text]="'Pages.Options.ResetDataText' | translate"
+        [confirmButtonText]="'Pages.Options.ResetDataYes' | translate"
+        [cancelButtonText]="'Pages.Options.ResetDataNo' | translate"
+        [showCancelButton]="true"
+        [focusCancel]="true"
+        [heightAuto]="false"
+        (confirm)="resetData()">
+      </swal>
+
     </div>
 
   </div>
 </div>
-
-<swal
-  #resetOptionsSwal
-  [title]="'Pages.Options.ResetOptionsConfirm' | translate"
-  [text]="'Pages.Options.ResetOptionsText' | translate"
-  [confirmButtonText]="'Pages.Options.ResetOptionsYes' | translate"
-  [cancelButtonText]="'Pages.Options.ResetOptionsNo' | translate"
-  [showCancelButton]="true"
-  [focusCancel]="true"
-  [heightAuto]="false"
-  (confirm)="resetOptions()">
-</swal>
-
-<swal
-  #resetSwal
-  [title]="'Pages.Options.ResetDataConfirm' | translate"
-  [text]="'Pages.Options.ResetDataText' | translate"
-  [confirmButtonText]="'Pages.Options.ResetDataYes' | translate"
-  [cancelButtonText]="'Pages.Options.ResetDataNo' | translate"
-  [showCancelButton]="true"
-  [focusCancel]="true"
-  [heightAuto]="false"
-  (confirm)="resetData()">
-</swal>

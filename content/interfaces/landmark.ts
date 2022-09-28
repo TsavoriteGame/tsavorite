@@ -50,9 +50,6 @@ export interface ILandmarkEncounterOpts {
 
 export interface ILandmark {
 
-  // whether or not the landmark can be escaped from
-  readonly canLeave: boolean;
-
   // encounter this landmark
   encounter(encounterOpts: ILandmarkEncounterOpts): Observable<ILandmarkEncounter>;
 }
@@ -83,4 +80,7 @@ export interface ILandmarkEncounter {
 
   // what kind of choices this landmark has
   readonly choices: ILandmarkSlotChoice[];
+
+  // whether or not you can leave from this location
+  readonly canLeave: boolean;
 }

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Store } from '@ngxs/store';
@@ -9,7 +9,8 @@ import { OptionsComponent } from '../../../options/options.component';
 @Component({
   selector: 'app-pause',
   templateUrl: './pause.component.html',
-  styleUrls: ['./pause.component.scss']
+  styleUrls: ['./pause.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PauseComponent implements OnInit {
 

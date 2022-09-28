@@ -18,17 +18,17 @@ export class GameplayMapComponent implements OnInit, OnDestroy {
   constructor(private store: Store, private keybindsService: KeybindsService) { }
 
   ngOnInit(): void {
-    this.keybindsService.addShortcut(this.keybindsService.getShortcutKey(Keybind.MoveUp), () => this.moveDelta(0, -1));
-    this.keybindsService.addShortcut(this.keybindsService.getShortcutKey(Keybind.MoveDown), () => this.moveDelta(0, 1));
-    this.keybindsService.addShortcut(this.keybindsService.getShortcutKey(Keybind.MoveLeft), () => this.moveDelta(-1, 0));
-    this.keybindsService.addShortcut(this.keybindsService.getShortcutKey(Keybind.MoveRight), () => this.moveDelta(1, 0));
+    this.keybindsService.addShortcuts(this.keybindsService.getShortcutKeys(Keybind.MoveUp), () => this.moveDelta(0, -1));
+    this.keybindsService.addShortcuts(this.keybindsService.getShortcutKeys(Keybind.MoveDown), () => this.moveDelta(0, 1));
+    this.keybindsService.addShortcuts(this.keybindsService.getShortcutKeys(Keybind.MoveLeft), () => this.moveDelta(-1, 0));
+    this.keybindsService.addShortcuts(this.keybindsService.getShortcutKeys(Keybind.MoveRight), () => this.moveDelta(1, 0));
   }
 
   ngOnDestroy(): void {
-    this.keybindsService.removeShortcut(this.keybindsService.getShortcutKey(Keybind.MoveUp));
-    this.keybindsService.removeShortcut(this.keybindsService.getShortcutKey(Keybind.MoveDown));
-    this.keybindsService.removeShortcut(this.keybindsService.getShortcutKey(Keybind.MoveLeft));
-    this.keybindsService.removeShortcut(this.keybindsService.getShortcutKey(Keybind.MoveRight));
+    this.keybindsService.removeShortcut(this.keybindsService.getShortcutKeys(Keybind.MoveUp));
+    this.keybindsService.removeShortcut(this.keybindsService.getShortcutKeys(Keybind.MoveDown));
+    this.keybindsService.removeShortcut(this.keybindsService.getShortcutKeys(Keybind.MoveLeft));
+    this.keybindsService.removeShortcut(this.keybindsService.getShortcutKeys(Keybind.MoveRight));
   }
 
   public canMoveTo(node: IScenarioNode, gridXPos: number, gridYPos: number): boolean {

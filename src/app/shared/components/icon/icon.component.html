@@ -2,4 +2,5 @@
 <img [src]="'assets/images/game/icon/' + icon + '.' + fileExtension"
      [height]="size"
      [width]="size"
-     [class.outline]="showOutline" />
+     [class.outline]="showOutline"
+     [ngClass]="[filter || '']" />
