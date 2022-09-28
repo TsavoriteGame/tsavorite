@@ -1,6 +1,7 @@
 import {app, BrowserWindow, screen} from 'electron';
 import * as path from 'path';
 import * as fs from 'fs';
+import * as rpc from 'discord-rpc';
 
 let win: BrowserWindow = null;
 const args = process.argv.slice(1),
@@ -76,6 +77,51 @@ try {
       createWindow();
     }
   });
+
+  const DISCORD_CLIENT_ID = '1024434854663835708';
+
+  rpc.register(DISCORD_CLIENT_ID); // only needed if we want spectate / join / ask to join
+
+  const rpcClient = new rpc.Client({ transport: 'ipc' });
+  let startTimestamp: Date;
+
+  const setActivity = () : void => {
+    if (!rpcClient || !win) {
+      return;
+    }
+
+    win.webContents.executeJavaScript('window.discordRPCStatus')
+      .then(result => {
+        if(!result) {
+          rpcClient.clearActivity();
+          startTimestamp = null;
+          return;
+        }
+
+        if(!startTimestamp) {
+          startTimestamp = new Date();
+        }
+
+        rpcClient.setActivity({
+          startTimestamp,
+          state: result.state,
+          details: result.details,
+          largeImageKey: 'game-image'
+        });
+      });
+  };
+
+  rpcClient.on('ready', function () {
+    setActivity();
+
+    setInterval(function() {
+      setActivity();
+    }, 15e3);
+  });
+
+  rpcClient
+    .login({ clientId: DISCORD_CLIENT_ID })
+    .catch(console.error);
 
 } catch (e) {
   // Catch Error
