@@ -30,7 +30,7 @@ export class KeybindsService {
 
   public setKeybinds(keymap: Record<Keybind, [string, string]>): void {
     Object.keys(keymap).forEach(key => {
-      this.rebindShortcuts(key as Keybind, this.keymap[key], keymap[key]);
+      this.rebindShortcuts(this.keymap[key], keymap[key]);
     });
 
     this.keymap = keymap;
@@ -66,7 +66,7 @@ export class KeybindsService {
     this.hotkeys.removeHotkeys(shortcut);
   }
 
-  public rebindShortcuts(key: Keybind, shortcut: [string, string], newShortcut: [string, string]): void {
+  public rebindShortcuts(shortcut: [string, string], newShortcut: [string, string]): void {
 
     // we're rebinding the primary shortcut
     // they can't be unbound, so they don't require other weird logic

@@ -151,31 +151,31 @@
         </div>
       </div>
 
+      <swal
+        #resetOptionsSwal
+        [title]="'Pages.Options.ResetOptionsConfirm' | translate"
+        [text]="'Pages.Options.ResetOptionsText' | translate"
+        [confirmButtonText]="'Pages.Options.ResetOptionsYes' | translate"
+        [cancelButtonText]="'Pages.Options.ResetOptionsNo' | translate"
+        [showCancelButton]="true"
+        [focusCancel]="true"
+        [heightAuto]="false"
+        (confirm)="resetOptions(options.keymap)">
+      </swal>
+
+      <swal
+        #resetSwal
+        [title]="'Pages.Options.ResetDataConfirm' | translate"
+        [text]="'Pages.Options.ResetDataText' | translate"
+        [confirmButtonText]="'Pages.Options.ResetDataYes' | translate"
+        [cancelButtonText]="'Pages.Options.ResetDataNo' | translate"
+        [showCancelButton]="true"
+        [focusCancel]="true"
+        [heightAuto]="false"
+        (confirm)="resetData()">
+      </swal>
+
     </div>
 
   </div>
 </div>
-
-<swal
-  #resetOptionsSwal
-  [title]="'Pages.Options.ResetOptionsConfirm' | translate"
-  [text]="'Pages.Options.ResetOptionsText' | translate"
-  [confirmButtonText]="'Pages.Options.ResetOptionsYes' | translate"
-  [cancelButtonText]="'Pages.Options.ResetOptionsNo' | translate"
-  [showCancelButton]="true"
-  [focusCancel]="true"
-  [heightAuto]="false"
-  (confirm)="resetOptions()">
-</swal>
-
-<swal
-  #resetSwal
-  [title]="'Pages.Options.ResetDataConfirm' | translate"
-  [text]="'Pages.Options.ResetDataText' | translate"
-  [confirmButtonText]="'Pages.Options.ResetDataYes' | translate"
-  [cancelButtonText]="'Pages.Options.ResetDataNo' | translate"
-  [showCancelButton]="true"
-  [focusCancel]="true"
-  [heightAuto]="false"
-  (confirm)="resetData()">
-</swal>

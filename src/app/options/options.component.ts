@@ -38,8 +38,14 @@ export class OptionsComponent implements OnInit, OnDestroy {
     this.gameService.setOptionsOpen(false);
   }
 
-  resetOptions(): void {
-    this.store.dispatch(new ResetOptions());
+  resetOptions(allKeybinds: Record<Keybind, [string, string]>): void {
+    this.store.dispatch(new ResetOptions()).subscribe(newState => {
+      const newKeybinds = newState.options.keymap;
+
+      Object.keys(newKeybinds).forEach(key => {
+        this.keybindService.rebindShortcuts(allKeybinds[key], newKeybinds[key]);
+      });
+    });
   }
 
   resetData() {
