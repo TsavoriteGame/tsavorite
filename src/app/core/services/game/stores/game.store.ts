@@ -14,6 +14,7 @@ import { AbandonGame, AddBackpackItem, AddHealth, MakeChoice, Move, ReduceHealth
 import { ContentService } from '../content.service';
 import { GameConstant, GameService } from '../game.service';
 import { Subscription } from 'rxjs';
+import { setDiscordRPCStatus } from '../discord';
 
 export enum EquipmentSlot {
   Head = 'head',
@@ -214,11 +215,15 @@ export class GameState {
 
     ctx.patchState({ character, scenario, position });
 
+    setDiscordRPCStatus(true, false, background.name, character.name);
+
     this.store.dispatch(new Move(0, 0));
   }
 
   @Action(AbandonGame)
   abandonGame(ctx: StateContext<IGame>) {
+    setDiscordRPCStatus(false, false, '', '');
+
     ctx.setState(defaultOptions());
   }
 
