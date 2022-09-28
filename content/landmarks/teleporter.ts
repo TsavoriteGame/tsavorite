@@ -5,8 +5,6 @@ import { ILandmark, Landmark, ILandmarkEncounter } from '../interfaces';
 
 export class Teleporter extends Landmark implements ILandmark {
 
-  readonly canLeave = true;
-
   // return slots, what they're filled with
   encounter({ scenario, scenarioNode }): Observable<ILandmarkEncounter> {
     return of({
@@ -16,6 +14,7 @@ export class Teleporter extends Landmark implements ILandmark {
       landmarkData: scenarioNode.landmarkData,
       slots: [],
       removeAfterEncounter: false,
+      canLeave: true,
       choices: [
         {
           text: 'Teleport',

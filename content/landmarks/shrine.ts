@@ -6,7 +6,6 @@ import { ILandmark, Landmark, ILandmarkEncounter } from '../interfaces';
 
 export class Shrine extends Landmark implements ILandmark {
 
-  readonly canLeave = false;
   encounter(): Observable<ILandmarkEncounter> {
     return of(undefined);
   }

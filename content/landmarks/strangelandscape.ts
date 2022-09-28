@@ -5,8 +5,6 @@ import { pausableTimer } from '../rxjs.helpers';
 
 export class StrangeLandscape extends Landmark implements ILandmark {
 
-  readonly canLeave = true;
-
   encounter({ scenarioNode, position }): Observable<ILandmarkEncounter> {
     return from([
       {
@@ -16,6 +14,7 @@ export class StrangeLandscape extends Landmark implements ILandmark {
         landmarkData: scenarioNode.landmarkData,
         slots: [],
         removeAfterEncounter: false,
+        canLeave: true,
         choices: []
       },
       {
@@ -25,6 +24,7 @@ export class StrangeLandscape extends Landmark implements ILandmark {
         landmarkData: scenarioNode.landmarkData,
         slots: [],
         removeAfterEncounter: true,
+        canLeave: true,
         choices: []
       }
     ]).pipe(

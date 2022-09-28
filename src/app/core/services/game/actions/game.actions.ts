@@ -43,6 +43,13 @@ export class Move {
   constructor(public xDelta: number, public yDelta: number) {}
 }
 
+export class EncounterCurrentTile extends Move {
+  static type = '[Game] Encounter Current Tile';
+  constructor() {
+    super(0, 0);
+  }
+}
+
 export class Warp {
   static type = '[Game] Warp';
   constructor(public scenario: IScenario, public warpToWorld: number, public warpToLandmark: number) {}

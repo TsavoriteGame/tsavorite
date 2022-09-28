@@ -17,6 +17,20 @@
         outline: 1px solid #fff;
       }
 
+      &.movement-stuck {
+        outline: 1px solid #f00;
+        animation: move-blocked 0.5s infinite alternate;
+
+        @keyframes move-blocked {
+          from {
+            box-shadow: 0 0 3px -3px #f00;
+          }
+          to {
+            box-shadow: 0 0 3px 3px #f00;
+          }
+        }
+      }
+
       &.can-move-to {
         cursor: pointer;
         outline: 1px solid #0f0;
