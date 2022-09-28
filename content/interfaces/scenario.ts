@@ -3,6 +3,7 @@ import { ILandmarkData } from './landmark';
 export interface IScenarioNode {
   name: string;
   icon: string;
+  iconFilter?: string;
   description: string;
   id: number;
 

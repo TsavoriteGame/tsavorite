@@ -12,7 +12,7 @@
                  [class.empty-space]="!col"
                  (click)="move(col, colIdx, rowIdx)">
               <app-icon [icon]="mapInfo.character.background.icon" *ngIf="rowIdx === 3 && colIdx === 3"></app-icon>
-              <app-icon [icon]="col.icon" *ngIf="col && !(rowIdx === 3 && colIdx === 3)"></app-icon>
+              <app-icon [icon]="col.icon" [filter]="col.iconFilter" *ngIf="col && !(rowIdx === 3 && colIdx === 3)"></app-icon>
             </div>
           </div>
         </div>

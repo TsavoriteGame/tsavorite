@@ -95,7 +95,7 @@ nodes:
     landmark: StrangeLandscape
 
   16:
-    name: Pit Trap
-    icon: sunsetpeak
+    name: Spike Trap
+    icon: spiketrap
     description: You can't leave here unless you disarm the trap!
     landmark: Trap

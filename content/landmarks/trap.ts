@@ -20,7 +20,8 @@ export class Trap extends Landmark implements ILandmark {
           callback: (landmarkEncounter: ILandmarkEncounter) => {
             this.store.dispatch(new ReplaceNode(position, {
               name: 'Broken Trap',
-              icon: 'sunsetvolcano',
+              icon: 'spiketrap',
+              iconFilter: 'grayscale',
               id: -1,
               description: 'You broke the trap that kept you here previously.',
               landmark: 'Nothing',
