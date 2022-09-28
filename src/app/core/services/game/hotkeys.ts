@@ -176,7 +176,7 @@ export class Hotkeys {
 
   private isRecording = false;
   private events = ['keydown'];
-  private hotkeyMap: Record<number, InternalHotkeyShortcut[]> = {};
+  private hotkeyMap: Record<number, InternalHotkeyShortcut> = {};
   private delimiter = '+';
   private recordCallback: (hotkey: string) => void;
 
@@ -219,20 +219,27 @@ export class Hotkeys {
       return;
     }
 
-    (this.hotkeyMap[keyCode] || []).forEach(hotkey => {
-      hotkey.handler(event);
-    });
+    if(this.hotkeyMap[keyCode]) {
+      this.hotkeyMap[keyCode].handler(event);
+    }
   };
 
   getAllHotkeys(): HotkeyShortcut[] {
     return Object.values(this.hotkeyMap).flat();
   }
 
-  addHotkey(hotkey: HotkeyShortcut): void {
-    const internalHotkey: InternalHotkeyShortcut = { ...hotkey, code: this.getKeycodeNumberFromString(hotkey.shortcut) };
+  addHotkeys(hotkeys: HotkeyShortcut[]): void {
+    hotkeys.forEach(hotkey => this.addHotkey(hotkey));
+  }
 
-    this.hotkeyMap[internalHotkey.code] = this.hotkeyMap[internalHotkey.code] || [];
-    this.hotkeyMap[internalHotkey.code].push(internalHotkey);
+  addHotkey(hotkey: HotkeyShortcut): void {
+    const keyCode = this.getKeycodeNumberFromString(hotkey.shortcut);
+    const internalHotkey: InternalHotkeyShortcut = { ...hotkey, code: keyCode };
+    this.hotkeyMap[keyCode] = internalHotkey;
+  }
+
+  removeHotkeys(hotkeys: [string, string]): void {
+    hotkeys.forEach(hotkey => this.removeHotkey(hotkey));
   }
 
   removeHotkey(hotkey: string): void {
@@ -240,7 +247,14 @@ export class Hotkeys {
     delete this.hotkeyMap[keyCode];
   }
 
-  rebindHotkey(oldHotkey: string, newHotkey: string) {
+  duplicateHotkey(sourceHotkey: string, targetHotkey: string): void {
+    const oldKeycode = this.getKeycodeNumberFromString(sourceHotkey);
+    const newKeycode = this.getKeycodeNumberFromString(targetHotkey);
+
+    this.hotkeyMap[newKeycode] = this.hotkeyMap[oldKeycode];
+  }
+
+  rebindHotkey(oldHotkey: string, newHotkey: string): void {
     const oldKeyCode = this.getKeycodeNumberFromString(oldHotkey);
     const newKeyCode = this.getKeycodeNumberFromString(newHotkey);
 
@@ -286,7 +300,10 @@ export class Hotkeys {
       metaString = `${metaString}Shift${this.delimiter}`;
     }
 
-    const key = event.key.length === 1 ? event.key.toUpperCase() : event.key;
+    let key = event.key.length === 1 ? event.key.toUpperCase() : event.key;
+    if(event.code === 'Space') {
+      key = 'Space';
+    }
 
     return `${metaString}${key}`;
   }

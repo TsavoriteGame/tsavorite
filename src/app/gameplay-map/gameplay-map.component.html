@@ -7,11 +7,12 @@
         <div class="map-grid">
           <div class="map-row" *ngFor="let row of mapInfo.map; let rowIdx = index">
             <div class="map-cell" *ngFor="let col of mapInfo.map[rowIdx]; let colIdx = index"
-                 [class.can-move-to]="canMoveTo(col, colIdx, rowIdx)"
+                 [class.can-move-to]="!mapInfo.character.stuck && canMoveTo(col, colIdx, rowIdx)"
+                 [class.movement-stuck]="mapInfo.character.stuck && rowIdx === 3 && colIdx === 3"
                  [class.empty-space]="!col"
                  (click)="move(col, colIdx, rowIdx)">
               <app-icon [icon]="mapInfo.character.background.icon" *ngIf="rowIdx === 3 && colIdx === 3"></app-icon>
-              <app-icon [icon]="col.icon" *ngIf="col && !(rowIdx === 3 && colIdx === 3)"></app-icon>
+              <app-icon [icon]="col.icon" [filter]="col.iconFilter" *ngIf="col && !(rowIdx === 3 && colIdx === 3)"></app-icon>
             </div>
           </div>
         </div>

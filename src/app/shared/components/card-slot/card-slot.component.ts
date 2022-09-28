@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnChanges, OnInit } from '@angular/core';
 import { Select } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { getAllDescriptorsForItem, getTotalDescriptorLevel } from '../../../../../content/helpers';
@@ -8,7 +8,8 @@ import { GameOption, OptionsState } from '../../../core/services/game/stores';
 @Component({
   selector: 'app-card-slot',
   templateUrl: './card-slot.component.html',
-  styleUrls: ['./card-slot.component.scss']
+  styleUrls: ['./card-slot.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CardSlotComponent implements OnInit, OnChanges {
 

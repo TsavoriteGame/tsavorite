@@ -9,7 +9,7 @@ import * as AllLandmarks from '../../../../../../content/landmarks';
 import { IArchetype, IBackground, ILandmark, IItemConfig,
   ILandmarkEncounter, IPower, IScenario, IScenarioNode, IMapPosition } from '../../../../../../content/interfaces';
 import { findFirstLandmarkInWorld, findSpawnCoordinates, getNodeAt } from '../../../../../../content/scenario.helpers';
-import { AbandonGame, AddBackpackItem, AddHealth, MakeChoice, Move, ReduceHealth,
+import { AbandonGame, AddBackpackItem, AddHealth, EncounterCurrentTile, MakeChoice, Move, ReduceHealth,
   RemoveBackpackItem, ReplaceNode, StartGame, UpdateBackpackItem, Warp } from '../actions';
 import { ContentService } from '../content.service';
 import { GameConstant, GameService } from '../game.service';
@@ -36,6 +36,8 @@ export interface IGameCharacter {
   };
   items: IItemConfig[];
   powers: IPower[];
+
+  stuck: boolean;
 }
 
 export interface IGame {
@@ -156,8 +158,13 @@ export class GameState {
       };
 
       const sub = landmarkInstance.encounter(encounterOpts).subscribe(landmarkEncounterData => {
+        const canMove = landmarkEncounterData.canLeave;
+
         ctx.setState(patch<IGame>({
-          landmarkEncounter: landmarkEncounterData
+          landmarkEncounter: landmarkEncounterData,
+          character: patch<IGameCharacter>({
+            stuck: !canMove
+          })
         }));
       });
 
@@ -197,7 +204,8 @@ export class GameState {
       powers: [
         undefined,
         undefined,
-      ]
+      ],
+      stuck: false
     };
 
     background.startingKit.forEach(kitItem => {
@@ -210,7 +218,7 @@ export class GameState {
       character.items.push(item);
     });
 
-    const scenario = getScenarioByName('Tutorial');
+    const scenario = getScenarioByName('Test');
     const position = findSpawnCoordinates(scenario);
 
     ctx.patchState({ character, scenario, position });
@@ -286,6 +294,7 @@ export class GameState {
     }));
   }
 
+  @Action(EncounterCurrentTile)
   @Action(Move)
   move(ctx: StateContext<IGame>, { xDelta, yDelta }: Move) {
     if(!this.isInGame(ctx)) {
@@ -293,6 +302,10 @@ export class GameState {
     }
 
     if(xDelta > 1 || xDelta < -1 || yDelta > 1 || yDelta < -1) {
+      return;
+    }
+
+    if(ctx.getState().character.stuck && xDelta !== 0 && yDelta !== 0) {
       return;
     }
 

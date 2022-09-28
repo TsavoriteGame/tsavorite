@@ -2,3 +2,9 @@
 .outline {
   outline: 1px solid #fff;
 }
+
+img {
+  &.grayscale {
+    filter: grayscale(100%);
+  }
+}
