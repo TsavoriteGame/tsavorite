@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Store } from '@ngxs/store';
-import { AddBackpackItem } from './actions';
+import { isNumber } from 'lodash';
+import { AddBackpackItem, AddHealth } from './actions';
 import { ContentService } from './content.service';
 
 export enum GameConstant {
@@ -49,6 +50,14 @@ export class GameService {
       }
 
       this.store.dispatch(new AddBackpackItem(item));
+    };
+
+    (window as any).__modifyHealth = (health: number) => {
+      if(isNaN(health) || !isNumber(health)) {
+        return;
+      }
+
+      this.store.dispatch(new AddHealth(health));
     };
   }
 }
