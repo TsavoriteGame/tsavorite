@@ -77,13 +77,11 @@ export const helpers = (encounter: ILandmarkEncounterOpts, store: Store) => {
     (encounterOpts: ILandmarkEncounter, slotIndex: number) => {
       const curseChosenItem = sample(character.items.filter(i => i.parts));
       if(!curseChosenItem) {
-        return of()
+        return timer(1000)
           .pipe(
             tap(() => callbacks.newEventMessage('The shrine deity takes your health as penance!')),
             tap(() => store.dispatch(new SetLandmarkSlotLock(slotIndex, false))),
-            tap(() => {
-              store.dispatch(new ReduceHealth(1));
-            }),
+            tap(() => store.dispatch(new ReduceHealth(1))),
             switchMap(() => timer(5000).pipe(first())),
             tap(() => doFullReset()),
             switchMap(() => of(encounterOpts))
@@ -93,6 +91,7 @@ export const helpers = (encounter: ILandmarkEncounterOpts, store: Store) => {
       return timer(1000)
         .pipe(
           tap(() => callbacks.newEventMessage('The shrine deity curses your indecision!')),
+          tap(() => store.dispatch(new SetLandmarkSlotLock(slotIndex, false))),
           tap(() => {
             const item: IItemConfig = curseChosenItem as IItemConfig;
             const highestDescriptor = getHighestDescriptorByLevel(item);
