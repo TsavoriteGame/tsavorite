@@ -32,8 +32,8 @@ export interface ILandmarkSlot {
   // the icon used for the slot
   readonly icon: string;
 
-  // the timer color
-  readonly timerColor?: string;
+  // the timer "type" - defaults to unset/neutral
+  readonly timerType?: string;
 
   // the maximum amount of time that can possibly be on the timer
   // generally set to the same thing as `timer`
