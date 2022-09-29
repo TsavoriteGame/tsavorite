@@ -6,6 +6,7 @@ import { EncounterCurrentTile, ReduceHealth, ReplaceNode, SetLandmarkSlotLock,
 import { ILandmarkEncounter, ICard, IItemConfig, CardPlaceFunction, CardTimerFunction, ILandmarkEncounterOpts } from '../../interfaces';
 import { decreaseDescriptorLevel, getHighestDescriptorByLevel } from '../../helpers';
 import type { Store } from '@ngxs/store';
+import { pausableTimer } from '../../rxjs.helpers';
 
 export const helpers = (encounter: ILandmarkEncounterOpts, store: Store) => {
 
@@ -40,9 +41,9 @@ export const helpers = (encounter: ILandmarkEncounterOpts, store: Store) => {
           .pipe(
             first(),
             tap(() => callbacks.newEventMessage('The shrine deity is thinking...')),
-            switchMap(() => timer(5000).pipe(first())),
+            pausableTimer(5),
             tap(() => callbacks.newEventMessage('The shrine deity rejects your offering!')),
-            switchMap(() => timer(5000).pipe(first())),
+            pausableTimer(5),
             tap(() => doFullReset()),
             switchMap(() => of(encounterOpts))
           );
@@ -53,7 +54,7 @@ export const helpers = (encounter: ILandmarkEncounterOpts, store: Store) => {
         .pipe(
           first(),
           tap(() => callbacks.newEventMessage('The shrine deity is thinking...')),
-          switchMap(() => timer(5000).pipe(first())),
+          pausableTimer(5),
           tap(() => callbacks.newEventMessage('The shrine deity curses your offering!')),
           tap(() => store.dispatch(new SetLandmarkSlotLock(slotIndex, false))),
           tap(() => {
@@ -64,7 +65,7 @@ export const helpers = (encounter: ILandmarkEncounterOpts, store: Store) => {
 
             store.dispatch(new UpdateBackpackItemById(card.cardId, item));
           }),
-          switchMap(() => timer(5000).pipe(first())),
+          pausableTimer(5),
           tap(() => doFullReset()),
           switchMap(() => of(encounterOpts))
         );
@@ -82,7 +83,7 @@ export const helpers = (encounter: ILandmarkEncounterOpts, store: Store) => {
             tap(() => callbacks.newEventMessage('The shrine deity takes your health as penance!')),
             tap(() => store.dispatch(new SetLandmarkSlotLock(slotIndex, false))),
             tap(() => store.dispatch(new ReduceHealth(1))),
-            switchMap(() => timer(5000).pipe(first())),
+            pausableTimer(5),
             tap(() => doFullReset()),
             switchMap(() => of(encounterOpts))
           );
@@ -100,7 +101,7 @@ export const helpers = (encounter: ILandmarkEncounterOpts, store: Store) => {
 
             store.dispatch(new UpdateBackpackItemById(curseChosenItem.cardId, item));
           }),
-          switchMap(() => timer(5000).pipe(first())),
+          pausableTimer(5),
           tap(() => doFullReset()),
           switchMap(() => of(encounterOpts))
         );

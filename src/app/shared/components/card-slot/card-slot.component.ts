@@ -1,8 +1,9 @@
 import { ChangeDetectionStrategy, Component, HostBinding, Input, OnChanges, OnDestroy, OnInit } from '@angular/core';
 import { Select, Store } from '@ngxs/store';
-import { Observable, Subscription, timer } from 'rxjs';
+import { combineLatest, Observable, Subscription, timer } from 'rxjs';
 import { getAllDescriptorsForItem, getTotalDescriptorLevel } from '../../../../../content/helpers';
 import { ICard, IItemConfig, IItemInteraction } from '../../../../../content/interfaces';
+import { pauseGame$ } from '../../../../../content/rxjs.helpers';
 import { SetLandmarkSlotLock, SetLandmarkSlotTimer, SlotTimerExpire } from '../../../core/services/game/actions';
 import { GameOption, OptionsState } from '../../../core/services/game/stores';
 
@@ -73,7 +74,11 @@ export class CardSlotComponent implements OnInit, OnDestroy, OnChanges {
       return;
     }
 
-    this.timerSub = timer(1000).subscribe(() => {
+    this.timerSub = combineLatest([pauseGame$, timer(1000)]).subscribe(([paused]) => {
+      if(paused) {
+        return;
+      }
+
       this.timer--;
 
       // always update the timer
