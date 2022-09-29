@@ -13,35 +13,33 @@
       min-width: 64px;
       min-height: 64px;
 
-      &:not(.empty-space):not(.can-move-to) {
+      &:not(.empty-space) {
         outline: 1px solid #fff;
       }
 
       &.movement-stuck {
-        outline: 1px solid #f00;
         animation: move-blocked 0.5s infinite alternate;
 
         @keyframes move-blocked {
           from {
-            box-shadow: 0 0 3px -3px #f00;
+            box-shadow: inset 0 0 3px -3px #f00;
           }
           to {
-            box-shadow: 0 0 3px 3px #f00;
+            box-shadow: inset 0 0 3px 3px #f00;
           }
         }
       }
 
       &.can-move-to {
         cursor: pointer;
-        outline: 1px solid #0f0;
         animation: move-glow 0.5s infinite alternate;
 
         @keyframes move-glow {
           from {
-            box-shadow: 0 0 3px -3px #0f0;
+            box-shadow: inset 0 0 3px -3px #0f0;
           }
           to {
-            box-shadow: 0 0 3px 3px #0f0;
+            box-shadow: inset 0 0 3px 3px #0f0;
           }
         }
       }

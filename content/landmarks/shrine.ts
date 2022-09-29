@@ -25,7 +25,7 @@ export class Shrine extends Landmark implements ILandmark {
           lockOnTimerExpire: true,
           timerType: 'danger',
           maxTimer: 60,
-          timer: 5,
+          timer: 60,
           cardPlaced: sample(placementFunctions),
           timerExpired: sample(timeoutFunctions)
         }
