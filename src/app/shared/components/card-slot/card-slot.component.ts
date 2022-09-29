@@ -1,8 +1,9 @@
-import { ChangeDetectionStrategy, Component, Input, OnChanges, OnInit } from '@angular/core';
-import { Select } from '@ngxs/store';
-import { Observable } from 'rxjs';
+import { ChangeDetectionStrategy, Component, HostBinding, Input, OnChanges, OnDestroy, OnInit } from '@angular/core';
+import { Select, Store } from '@ngxs/store';
+import { Observable, Subscription, timer } from 'rxjs';
 import { getAllDescriptorsForItem, getTotalDescriptorLevel } from '../../../../../content/helpers';
 import { ICard, IItemConfig, IItemInteraction } from '../../../../../content/interfaces';
+import { SetLandmarkSlotLock, SetLandmarkSlotTimer, SlotTimerExpire } from '../../../core/services/game/actions';
 import { GameOption, OptionsState } from '../../../core/services/game/stores';
 
 @Component({
@@ -11,20 +12,41 @@ import { GameOption, OptionsState } from '../../../core/services/game/stores';
   styleUrls: ['./card-slot.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class CardSlotComponent implements OnInit, OnChanges {
+export class CardSlotComponent implements OnInit, OnDestroy, OnChanges {
 
   @Select(OptionsState.allOptions) options$: Observable<Record<GameOption, any>>;
 
   @Input() placeholder: string;
   @Input() card: ICard;
   @Input() cardType: 'item' = 'item';
+  @Input() backgroundSize = 'size-big';
+  @Input() slotIndex = -1;
+  @Input() timerColor = '';
+  @Input() locked = false;
+  @Input() lockOnTimerExpire = false;
+  @Input() maxTimer = -1;
+  @Input() timer = -1;
+
+  @HostBinding('style.--timer-progress')
+  public get timerAnimationProgress() {
+    return this.timer / this.maxTimer;
+  }
+
+  private timerSub: Subscription;
 
   public activeInteraction: IItemInteraction = undefined;
   public activeDescriptors = [];
 
-  constructor() { }
+  constructor(private store: Store) { }
 
   ngOnInit(): void {
+    this.watchTimer();
+  }
+
+  ngOnDestroy(): void {
+    if(this.timerSub) {
+      this.timerSub.unsubscribe();
+    }
   }
 
   ngOnChanges(): void {
@@ -44,6 +66,32 @@ export class CardSlotComponent implements OnInit, OnChanges {
         return { descriptor, level };
       });
     }
+  }
+
+  private watchTimer() {
+    if(this.timer <= 0) {
+      return;
+    }
+
+    this.timerSub = timer(1000).subscribe(() => {
+      this.timer--;
+
+      // always update the timer
+      this.store.dispatch(new SetLandmarkSlotTimer(this.slotIndex, this.timer));
+
+      if(this.timer <= 0) {
+        this.timerSub.unsubscribe();
+
+        // if we do not have a card, we can lock the slot, and we can expire the timer
+        if(!this.card) {
+          if(this.lockOnTimerExpire) {
+            this.store.dispatch(new SetLandmarkSlotLock(this.slotIndex, true));
+          }
+
+          this.store.dispatch(new SlotTimerExpire(this.slotIndex));
+        }
+      }
+    });
   }
 
 }

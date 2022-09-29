@@ -1,6 +1,7 @@
 import { Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
-import { Descriptor, Interaction } from './item';
+import { IGameCharacter } from '../../src/app/core/services/game/stores';
+import { ICard } from './card';
 import { IScenario, IScenarioNode } from './scenario';
 
 export interface IMapPosition {
@@ -14,25 +15,43 @@ export interface ILandmarkSlotChoice {
   callback: (landmarkEncounter: ILandmarkEncounter) => Observable<ILandmarkEncounter>;
 }
 
+export type CardPlaceFunction = (encounterOpts: ILandmarkEncounter, slotIndex: number, card: ICard) => Observable<ILandmarkEncounter>;
+
+export type CardTimerFunction = (encounterOpts: ILandmarkEncounter, slotIndex: number) => Observable<ILandmarkEncounter>;
+
 export interface ILandmarkSlot {
+
+  card: ICard;
+
+  // whether or not the slot is accepting items
+  locked?: boolean;
+
+  // the text used to describe the slot
+  readonly text: string;
 
   // the icon used for the slot
   readonly icon: string;
+
+  // the timer color
+  readonly timerColor?: string;
+
+  // the maximum amount of time that can possibly be on the timer
+  // generally set to the same thing as `timer`
+  // -1 = infinite
+  readonly maxTimer: number;
 
   // the amount of time the player has to respond to the slot
   // -1 = infinite
   readonly timer: number;
 
-  // whether or not the slot should accept cards
-  readonly shouldAcceptCards: boolean;
+  // whether or not the slot should lock when the timer expires
+  readonly lockOnTimerExpire?: boolean;
 
-  // what kinds of descriptors the slot should accept
-  // undefined = any
-  readonly acceptsDescriptor?: Descriptor;
+  // place a card in the slot
+  cardPlaced: CardPlaceFunction;
 
-  // what kind of interactions the slot should accept
-  // undefined = any
-  readonly acceptsInteraction?: Interaction;
+  // place a card in the slot
+  timerExpired: CardTimerFunction;
 }
 
 export interface ILandmarkData {
@@ -46,6 +65,10 @@ export interface ILandmarkEncounterOpts {
   scenario: IScenario;
   position: IMapPosition;
   scenarioNode: IScenarioNode;
+  character: IGameCharacter;
+  callbacks: {
+    newEventMessage: (message: string) => void;
+  };
 }
 
 export interface ILandmark {

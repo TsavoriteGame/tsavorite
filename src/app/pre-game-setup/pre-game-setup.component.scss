@@ -67,7 +67,7 @@
   background: #000;
   color: #fff;
   border: 1px solid #000;
-  border-radius: 5px;
+  border-radius: var(--bs-border-radius);
 
   .image-area {
     padding: 1rem;

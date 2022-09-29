@@ -1,10 +1,15 @@
 
-.outline {
-  outline: 1px solid #fff;
-}
 
 img {
+  &.outline {
+    outline: 1px solid #fff;
+  }
+
   &.grayscale {
     filter: grayscale(100%);
+  }
+
+  &.rounded {
+    border-radius: var(--bs-border-radius);;
   }
 }

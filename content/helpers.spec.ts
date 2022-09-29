@@ -1,7 +1,7 @@
 import { addDescriptor, changePrimaryDescriptor, decreaseDescriptorLevel,
   decreaseDescriptorLevelForPart, decreaseInteractionLevel, getAllDescriptorsForItem, getAllDescriptorsForPart,
   getCombinationBetweenTwoItems, getDescriptorLevel,
-  getDescriptorLevelFromPart, getInteraction, getInteractionLevel, getPartWithDescriptor, getTotalDescriptorLevel, hasDescriptor,
+  getDescriptorLevelFromPart, getHighestDescriptorByLevel, getInteraction, getInteractionLevel, getPartWithDescriptor, getTotalDescriptorLevel, hasDescriptor,
   hasFoundationalPart, increaseDescriptorLevel, increaseDescriptorLevelForPart, increaseInteractionLevel, setDescriptorLevelForPart,
   setFoundationalPart, setInteraction } from './helpers';
 import { Descriptor, Interaction, IItemConfig } from './interfaces';
@@ -628,4 +628,58 @@ test('Combining matching items should work and transfer secondary descriptors', 
   expect(getDescriptorLevel(combination.newTarget, Descriptor.Meat)).toEqual(2);
   expect(getDescriptorLevel(combination.newTarget, Descriptor.Bright)).toEqual(9);
   expect(getDescriptorLevel(combination.newTarget, Descriptor.Cold)).toEqual(5);
+});
+
+test('Getting the highest level descriptor should work with a complex item', () => {
+  const item: IItemConfig = {
+    name: 'Level 1 Zapper',
+    parts: [
+      {
+        name: 'Baton',
+        primaryDescriptor: Descriptor.Metal,
+        descriptors: {
+          [Descriptor.Metal]: { level: 1 },
+          [Descriptor.Electric]: { level: 1 }
+        }
+      },
+      {
+        name: 'Baton',
+        primaryDescriptor: Descriptor.Metal,
+        descriptors: {
+          [Descriptor.Metal]: { level: 2 },
+          [Descriptor.Electric]: { level: 1 }
+        }
+      },
+      {
+        name: 'Baton',
+        primaryDescriptor: Descriptor.Metal,
+        descriptors: {
+          [Descriptor.Metal]: { level: 1 },
+          [Descriptor.Electric]: { level: 3 }
+        }
+      }
+    ],
+    interaction: { name: Interaction.Zaps, level: 1 }
+  };
+
+  expect(getHighestDescriptorByLevel(item)).toBe(Descriptor.Electric);
+});
+
+test('Getting the highest level descriptor should return the first thing in case of a tie', () => {
+  const item: IItemConfig = {
+    name: 'Level 1 Zapper',
+    parts: [
+      {
+        name: 'Baton',
+        primaryDescriptor: Descriptor.Metal,
+        descriptors: {
+          [Descriptor.Metal]: { level: 1 },
+          [Descriptor.Electric]: { level: 1 }
+        }
+      }
+    ],
+    interaction: { name: Interaction.Zaps, level: 1 }
+  };
+
+  expect(getHighestDescriptorByLevel(item)).toBe(Descriptor.Metal);
 });

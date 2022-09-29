@@ -6,9 +6,9 @@ worlds:
     name: Overworld
     layout:
       - [2,    2,    2,    2,    0,    0,    0,    0,    0,    0,    0]
-      - [2,    14,   0,    2,    0,    0,    0,    0,    0,    0,    0]
-      - [2,    0,    0,    2,    0,    0,    0,    0,    0,    0,    0]
-      - [2,    0,    0,    2,    0,    0,    10,   0,    0,    0,    0]
+      - [2,    14,   0,    2,    0,    0,    0,    10,   0,    0,    0]
+      - [2,    0,    0,    2,    0,    0,    0,    10,   0,    0,    0]
+      - [2,    0,    0,    2,    0,    0,    10,   10,   0,    0,    0]
       - [2,    2,    2,    2,    1,    0,    0,    0,    0,    0,    0]
       - [0,    0,    0,    0,    0,    0,    16,   0,    0,    0,    0]
       - [0,    0,    0,    0,    0,    0,    11,   0,    0,    0,    0]
@@ -49,7 +49,7 @@ nodes:
   10:
     name: Shrine
     icon: shrine
-    description: There's a shrine here.
+    description: There's a shrine here. Offer it an item!
     landmark: Shrine
 
   11:

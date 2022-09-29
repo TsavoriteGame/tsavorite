@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Action, Selector, State, StateContext, Store } from '@ngxs/store';
+import { Action, NgxsOnInit, Selector, State, StateContext, Store } from '@ngxs/store';
 import { append, patch, removeItem, updateItem } from '@ngxs/store/operators';
 
 import { isUndefined } from 'lodash';
@@ -7,13 +7,16 @@ import { isUndefined } from 'lodash';
 import { getScenarioByName } from '../../../../../../content/getters';
 import * as AllLandmarks from '../../../../../../content/landmarks';
 import { IArchetype, IBackground, ILandmark, IItemConfig,
-  ILandmarkEncounter, IPower, IScenario, IScenarioNode, IMapPosition } from '../../../../../../content/interfaces';
+  ILandmarkEncounter, IPower, IScenario, IScenarioNode, IMapPosition, ILandmarkSlot } from '../../../../../../content/interfaces';
 import { findFirstLandmarkInWorld, findSpawnCoordinates, getNodeAt } from '../../../../../../content/scenario.helpers';
-import { AbandonGame, AddBackpackItem, AddHealth, EncounterCurrentTile, MakeChoice, Move, ReduceHealth,
-  RemoveBackpackItem, ReplaceNode, StartGame, UpdateBackpackItem, Warp } from '../actions';
+import { AbandonGame, AddBackpackItem, AddCardToSlot, AddHealth, EncounterCurrentTile, MakeChoice, Move, ReduceHealth,
+  RemoveBackpackItem, RemoveBackpackItemById, ReplaceNode, SetCurrentCardId,
+  SetLandmarkSlotLock, SetLandmarkSlotTimer, SlotTimerExpire, StartGame,
+  UpdateBackpackItem, UpdateBackpackItemById, UpdateEventMessage, Warp } from '../actions';
 import { ContentService } from '../content.service';
 import { GameConstant, GameService } from '../game.service';
-import { Subscription } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
+import { isFunctional } from '../../../../../../content/helpers';
 
 export enum EquipmentSlot {
   Head = 'head',
@@ -44,6 +47,8 @@ export interface IGame {
   position: IMapPosition;
   scenario: IScenario;
   landmarkEncounter: ILandmarkEncounter;
+  currentCardId: number;
+  currentEventMessage: string;
 }
 
 
@@ -59,7 +64,9 @@ const defaultOptions: () => IGame = () => ({
   character: undefined,
   position: { worldId: 0, x: 0, y: 0 },
   scenario: undefined,
-  landmarkEncounter: undefined
+  landmarkEncounter: undefined,
+  currentCardId: 0,
+  currentEventMessage: ''
 });
 
 @State<IGame>({
@@ -67,7 +74,7 @@ const defaultOptions: () => IGame = () => ({
   defaults: defaultOptions()
 })
 @Injectable()
-export class GameState {
+export class GameState implements NgxsOnInit {
 
   private landmarkSubscription: Subscription;
 
@@ -76,6 +83,11 @@ export class GameState {
   @Selector()
   static hasGame(state: IGame) {
     return !!state.character;
+  }
+
+  @Selector()
+  static eventMessage(state: IGame) {
+    return state.currentEventMessage;
   }
 
   @Selector()
@@ -121,8 +133,27 @@ export class GameState {
     };
   }
 
+  ngxsOnInit(ctx: StateContext<IGame>) {
+    this.contentService.setCurrentCardId(ctx.getState().currentCardId ?? 0);
+  }
+
   private isInGame(ctx: StateContext<IGame>) {
     return !!ctx.getState().character;
+  }
+
+  private updateLandmark(ctx: StateContext<IGame>, observable: Observable<ILandmarkEncounter>) {
+    const sub = observable.subscribe(landmarkEncounterData => {
+      const canMove = landmarkEncounterData.canLeave;
+
+      ctx.setState(patch<IGame>({
+        landmarkEncounter: landmarkEncounterData,
+        character: patch<IGameCharacter>({
+          stuck: !canMove
+        })
+      }));
+    });
+
+    this.landmarkSubscription = sub;
   }
 
   private cancelLandmark() {
@@ -135,7 +166,7 @@ export class GameState {
 
   private handleCurrentTile(ctx: StateContext<IGame>) {
 
-    const { scenario, position } = ctx.getState();
+    const { scenario, position, character } = ctx.getState();
     const node = getNodeAt(scenario, position.worldId, position.x, position.y);
 
     const { landmark } = node;
@@ -151,23 +182,17 @@ export class GameState {
       const landmarkInstance: ILandmark = new landmarkRef(this.store);
 
       const encounterOpts = {
-        scenario,
-        position,
-        scenarioNode: node
+        scenario: structuredClone(scenario),
+        position: structuredClone(position),
+        scenarioNode: structuredClone(node),
+        character: structuredClone(character),
+        callbacks: {
+          newEventMessage: (message: string) => this.updateEventMessage(ctx, { message }),
+        }
       };
 
-      const sub = landmarkInstance.encounter(encounterOpts).subscribe(landmarkEncounterData => {
-        const canMove = landmarkEncounterData.canLeave;
-
-        ctx.setState(patch<IGame>({
-          landmarkEncounter: landmarkEncounterData,
-          character: patch<IGameCharacter>({
-            stuck: !canMove
-          })
-        }));
-      });
-
-      this.landmarkSubscription = sub;
+      this.updateEventMessage(ctx, { message: '' });
+      this.updateLandmark(ctx, landmarkInstance.encounter(encounterOpts));
     }
 
   }
@@ -225,6 +250,20 @@ export class GameState {
     this.store.dispatch(new Move(0, 0));
   }
 
+  @Action(SetCurrentCardId)
+  setCurrenCardId(ctx: StateContext<IGame>, { cardId }: SetCurrentCardId) {
+    ctx.setState(patch<IGame>({
+      currentCardId: cardId
+    }));
+  }
+
+  @Action(UpdateEventMessage)
+  updateEventMessage(ctx: StateContext<IGame>, { message }: UpdateEventMessage) {
+    ctx.setState(patch<IGame>({
+      currentEventMessage: message
+    }));
+  }
+
   @Action(AbandonGame)
   abandonGame(ctx: StateContext<IGame>) {
     ctx.setState(defaultOptions());
@@ -253,6 +292,31 @@ export class GameState {
       return;
     }
 
+    if(!isFunctional(item)) {
+      this.removeBackpackItem(ctx, { index });
+      return;
+    }
+
+    ctx.setState(patch<IGame>({
+      character: patch({
+        items: updateItem<IItemConfig>(index, item)
+      })
+    }));
+  }
+
+  @Action(UpdateBackpackItemById)
+  updateBackpackItemById(ctx: StateContext<IGame>, { item, cardId }: UpdateBackpackItemById) {
+    if(!this.isInGame(ctx)) {
+      return;
+    }
+
+    if(!isFunctional(item)) {
+      this.removeBackpackItemById(ctx, { cardId });
+      return;
+    }
+
+    const index = ctx.getState().character.items.findIndex(i => i.cardId === cardId);
+
     ctx.setState(patch<IGame>({
       character: patch({
         items: updateItem<IItemConfig>(index, item)
@@ -265,6 +329,21 @@ export class GameState {
     if(!this.isInGame(ctx)) {
       return;
     }
+
+    ctx.setState(patch<IGame>({
+      character: patch({
+        items: removeItem<IItemConfig>(index)
+      })
+    }));
+  }
+
+  @Action(RemoveBackpackItemById)
+  removeBackpackItemById(ctx: StateContext<IGame>, { cardId }: RemoveBackpackItemById) {
+    if(!this.isInGame(ctx)) {
+      return;
+    }
+
+    const index = ctx.getState().character.items.findIndex(i => i.cardId === cardId);
 
     ctx.setState(patch<IGame>({
       character: patch({
@@ -296,11 +375,13 @@ export class GameState {
       return;
     }
 
+    // characters can only move one tile at a time
     if(xDelta > 1 || xDelta < -1 || yDelta > 1 || yDelta < -1) {
       return;
     }
 
-    if(ctx.getState().character.stuck && xDelta !== 0 && yDelta !== 0) {
+    // if the character is stuck and tries to move in any direction that isn't 0,0 (the same tile), do nothing
+    if(ctx.getState().character.stuck && (xDelta !== 0 || yDelta !== 0)) {
       return;
     }
 
@@ -368,13 +449,96 @@ export class GameState {
       return;
     }
 
-    const sub = choiceRef.callback(currentLandmark).subscribe(landmarkEncounterData => {
-      ctx.setState(patch<IGame>({
-        landmarkEncounter: landmarkEncounterData
-      }));
-    });
+    this.updateLandmark(ctx, choiceRef.callback(currentLandmark));
+  }
 
-    this.landmarkSubscription = sub;
+  @Action(SetLandmarkSlotLock)
+  setLandmarkSlotLock(ctx: StateContext<IGame>, { slot, isLocked }: SetLandmarkSlotLock) {
+    if(!this.isInGame(ctx)) {
+      return;
+    }
+
+    ctx.setState(patch<IGame>({
+      landmarkEncounter: patch({
+        slots: updateItem<ILandmarkSlot>(slot, patch({
+          locked: isLocked
+        }))
+      })
+    }));
+  }
+
+  @Action(SetLandmarkSlotTimer)
+  setLandmarkSlotTimer(ctx: StateContext<IGame>, { slot, timer }: SetLandmarkSlotTimer) {
+    if(!this.isInGame(ctx)) {
+      return;
+    }
+
+    ctx.setState(patch<IGame>({
+      landmarkEncounter: patch({
+        slots: updateItem<ILandmarkSlot>(slot, patch({
+          timer
+        }))
+      })
+    }));
+  }
+
+  @Action(AddCardToSlot)
+  addCardToSlot(ctx: StateContext<IGame>, { slot, card }: AddCardToSlot) {
+    if(!this.isInGame(ctx)) {
+      return;
+    }
+
+    const slots = ctx.getState().landmarkEncounter?.slots ?? [];
+    const slotRef = slots[slot];
+    if(!slotRef) {
+      return;
+    }
+
+    this.cancelLandmark();
+
+    const currentLandmark = ctx.getState().landmarkEncounter;
+    if(!currentLandmark) {
+      return;
+    }
+
+    ctx.setState(patch<IGame>({
+      landmarkEncounter: patch({
+        slots: updateItem<ILandmarkSlot>(slot, patch({
+          card
+        }))
+      })
+    }));
+
+    const newState = ctx.getState();
+    const newLandmark = structuredClone(newState.landmarkEncounter);
+    const newCard = structuredClone(card);
+
+    this.updateLandmark(ctx, slotRef.cardPlaced(newLandmark, slot, newCard));
+  }
+
+  @Action(SlotTimerExpire)
+  slotTimerExpire(ctx: StateContext<IGame>, { slot }: AddCardToSlot) {
+    if(!this.isInGame(ctx)) {
+      return;
+    }
+
+    const slots = ctx.getState().landmarkEncounter?.slots ?? [];
+    const slotRef = slots[slot];
+    if(!slotRef) {
+      return;
+    }
+
+    this.cancelLandmark();
+
+    const currentLandmark = ctx.getState().landmarkEncounter;
+    if(!currentLandmark) {
+      return;
+    }
+
+    const newState = ctx.getState();
+    const newLandmark = newState.landmarkEncounter;
+
+    this.updateLandmark(ctx, slotRef.timerExpired(newLandmark, slot));
   }
 
   @Action(ReplaceNode)

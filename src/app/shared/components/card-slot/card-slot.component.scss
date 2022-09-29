@@ -3,6 +3,10 @@
 .card-container {
   position: relative;
 
+  &.locked .card {
+    --bs-card-bg: #aaa;
+  }
+
   .corner-interaction {
     position: absolute;
     color: #fff;
@@ -26,5 +30,53 @@
       height: 64px;
       width: 64px;
     }
+  }
+
+  .timer {
+    position: absolute;
+    width: 100%;
+    text-align: center;
+    bottom: 0;
+    letter-spacing: 2px;
+  }
+
+  .timer-outline {
+    position: absolute;
+    top: -16px;
+    left: -16px;
+    width: 104px;
+    height: 104px;
+    transform: rotateY(-180deg) rotateZ(-90deg);
+
+    --dash-size: calc(40px * 2 * 3.14);
+
+    --timer-background: #ccc;
+    --timer-foreground: #666;
+
+    &.danger {
+      --timer-background: #a77d7d;
+      --timer-foreground: #a00;
+    }
+
+    .slowly-filled-in, .background-line, .border {
+      fill: none;
+      stroke-width: 6px;
+    }
+
+    .background-line {
+      stroke-dasharray: var(--dash-size);
+      stroke: var(--timer-background);
+      stroke-dashoffset: calc(var(--dash-size) - (var(--timer-progress) * var(--dash-size)));
+    }
+
+    .slowly-filled-in {
+      stroke: var(--timer-foreground);
+    }
+
+    .border {
+      stroke-width: 8px;
+      stroke: var(--timer-background);
+    }
+
   }
 }
