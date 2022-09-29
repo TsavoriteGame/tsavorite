@@ -17,6 +17,7 @@ import { ContentService } from '../content.service';
 import { GameConstant, GameService } from '../game.service';
 import { Observable, Subscription } from 'rxjs';
 import { isFunctional } from '../../../../../../content/helpers';
+import { setDiscordRPCStatus } from '../discord';
 
 export enum EquipmentSlot {
   Head = 'head',
@@ -247,6 +248,13 @@ export class GameState implements NgxsOnInit {
 
     ctx.patchState({ character, scenario, position });
 
+    setDiscordRPCStatus({
+      isInGame: true,
+      isMakingCharacter: false,
+      background: background.name,
+      playerName: character.name
+    });
+
     this.store.dispatch(new Move(0, 0));
   }
 
@@ -266,6 +274,13 @@ export class GameState implements NgxsOnInit {
 
   @Action(AbandonGame)
   abandonGame(ctx: StateContext<IGame>) {
+    setDiscordRPCStatus({
+      isInGame: false,
+      isMakingCharacter: false,
+      background: '',
+      playerName: ''
+    });
+
     ctx.setState(defaultOptions());
   }
 

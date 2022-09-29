@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Action, Selector, State, StateContext } from '@ngxs/store';
 import { SetBackground } from '../actions';
+import { setDiscordRPCStatus } from '../discord';
 
 
 export interface IGameSetup {
@@ -25,6 +26,13 @@ export class GameSetupState {
 
   @Action(SetBackground)
   setBackground(ctx: StateContext<IGameSetup>, { background }: SetBackground) {
+    setDiscordRPCStatus({
+      isInGame: false,
+      isMakingCharacter: true,
+      background: '',
+      playerName: ''
+    });
+
     ctx.patchState({ chosenBackground: background });
   }
 
