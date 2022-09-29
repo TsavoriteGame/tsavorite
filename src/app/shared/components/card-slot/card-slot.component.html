@@ -1,6 +1,6 @@
 
 
-<div class="card-container">
+<div class="card-container" [class.locked]="locked">
   <div class="corner-interaction size-normal" *ngIf="activeInteraction">
     <svg-icon [src]="'assets/images/reactions/' + activeInteraction.name.toLowerCase() + '.svg'" [svgStyle]="{ 'width.px': 24, fill: 'rgb(255, 255, 255)' }"></svg-icon>
     Lv. {{ activeInteraction.level }}
@@ -8,8 +8,20 @@
 
   <div class="card-slot-container card" [ngbTooltip]="tipContent" [disableTooltip]="!card" container="body">
     <app-icon [icon]="card.icon" [size]="64" *ngIf="card"></app-icon>
-    <div class="centered full-space size-big" *ngIf="!card">{{ placeholder }}</div>
-  </div>
+
+    <div class="centered full-space" [ngClass]="[backgroundSize]" *ngIf="!card">{{ placeholder }}</div>
+
+    <div class="timer" *ngIf="timer > 0">
+      {{ timer }}
+    </div>
+</div>
+
+<div class="timer-circle" *ngIf="timer > 0">
+  <svg class="timer-outline" [ngClass]="[timerColor || '']">
+    <circle class="border" r="40" cx="56" cy="56"></circle>
+    <circle class="slowly-filled-in" r="40" cx="56" cy="56"></circle>
+    <circle class="background-line" r="40" cx="56" cy="56"></circle>
+  </svg>
 </div>
 
 <ng-template #tipContent>

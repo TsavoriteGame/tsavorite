@@ -1,13 +1,18 @@
 import { Injectable } from '@angular/core';
+import { Store } from '@ngxs/store';
 
 import { set } from 'lodash';
 import { allArchetypes, allBackgrounds, allItems, allRecipes, getItemById } from '../../../../../content/getters';
 
 import { IArchetype, IBackground, IItemConfig, IRecipe } from '../../../../../content/interfaces';
+import { SetCurrentCardId } from './actions';
+
 @Injectable({
   providedIn: 'root'
 })
 export class ContentService {
+
+  private currentCardId = 0;
 
   public get archetypes(): IArchetype[] {
     return allArchetypes;
@@ -25,7 +30,7 @@ export class ContentService {
     return allRecipes;
   }
 
-  constructor() { }
+  constructor(private store: Store) { }
 
   // getters
   public getArchetype(name: string): IArchetype | undefined {
@@ -37,7 +42,17 @@ export class ContentService {
   }
 
   public getItemById(itemId: string): IItemConfig | undefined {
-    return getItemById(itemId);
+    const item = structuredClone(getItemById(itemId));
+    if(!item) {
+      return undefined;
+    }
+
+    item.cardId = this.currentCardId;
+    this.currentCardId++;
+
+    this.store.dispatch(new SetCurrentCardId(this.currentCardId));
+
+    return item;
   }
 
   public getRecipe(name: string): IRecipe | undefined {
@@ -45,6 +60,10 @@ export class ContentService {
   }
 
   // formatters
+  public setCurrentCardId(id: number): void {
+    this.currentCardId = id;
+  }
+
   public reformatItem(itemId: string, modifications: Record<string, number>): IItemConfig {
     const realItem = this.getItemById(itemId);
     if(!realItem) {

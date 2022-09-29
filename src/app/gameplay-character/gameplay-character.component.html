@@ -4,7 +4,7 @@
       <div class="row">
         <div class="col">
           <div class="mt-3 ms-3 d-flex flex-row align-items-center">
-            <app-icon [icon]="character.background.icon" [size]="64"></app-icon>
+            <app-icon [icon]="character.background.icon" [size]="64" [showOutline]="true"></app-icon>
             <span class="icon-text ms-3 size-header">{{ character.name }}</span>
           </div>
         </div>
@@ -13,7 +13,7 @@
       <div class="row">
         <div class="col">
           <div class="ms-3 mt-3 d-flex flex-row align-items-center">
-            <app-icon [icon]="character.archetype.icon" [size]="64"></app-icon>
+            <app-icon [icon]="character.archetype.icon" [size]="64" [showOutline]="true"></app-icon>
             <span class="icon-text ms-3 size-big">{{ character.archetype.name }}</span>
           </div>
         </div>
@@ -24,6 +24,7 @@
           <div class="ms-3 mt-3 d-flex flex-row align-items-center">
             <app-icon icon="health"
                       [size]="64"
+                      [showOutline]="true"
                       [dndDisableDragIf]="shouldDisableHealthStealing(character)"
                       [dndDraggable]="{ takeHealth: 1 }"
                       dndDropzone

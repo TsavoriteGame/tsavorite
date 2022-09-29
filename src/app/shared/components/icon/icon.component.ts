@@ -13,6 +13,7 @@ export class IconComponent implements OnInit {
   @Input() size = 64;
   @Input() showOutline = false;
   @Input() filter = '';
+  @Input() roundCorners = true;
 
   public get fileExtension(): string {
     return this.electronService.isElectron ? 'png' : 'webp';

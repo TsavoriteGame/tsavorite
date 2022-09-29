@@ -6,7 +6,7 @@ import { Interaction, Descriptor, IItemInteraction, IItemConfig,
 import { getAllMiddleware, getPostCombineMiddleware,
   getPostReactionMiddleware, getPreCombineMiddleware, getPreReactionMiddleware } from './middleware';
 
-import { sortBy, sumBy } from 'lodash';
+import { sortBy, sumBy, maxBy } from 'lodash';
 
 import * as Reactions from './reactions';
 import allRecipes from './recipes/recipes.json';
@@ -234,6 +234,14 @@ export function getDescriptor(item: IItemConfig, descriptor: Descriptor, minimum
   return partWithDescriptor?.descriptors[descriptor];
 }
 
+export function getHighestDescriptorByLevel(item: IItemConfig): Descriptor | undefined {
+  return maxBy(
+    getAllDescriptorsForItem(item)
+      .map(descriptor => ({ descriptor, level: getTotalDescriptorLevel(item, descriptor) })),
+    'level'
+  )?.descriptor;
+}
+
 export function getDescriptorLevel(item: IItemConfig, descriptor: Descriptor): number {
   return getDescriptor(item, descriptor)?.level ?? 0;
 }
@@ -278,6 +286,15 @@ export function isUnbreakable(item: IItemConfig): boolean {
 
 export function isLocked(item: IItemConfig): boolean {
   return hasDescriptor(item, Descriptor.Locked);
+}
+
+export function isFunctional(item: IItemConfig): boolean {
+  const descriptor = getHighestDescriptorByLevel(item);
+  if(!descriptor) {
+    return false;
+  }
+
+  return getDescriptorLevel(item, descriptor) <= 0;
 }
 
 // part functions

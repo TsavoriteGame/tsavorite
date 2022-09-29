@@ -1,7 +1,7 @@
 
 .container {
   border: 1px solid #000;
-  border-radius: 5px;
+  border-radius: var(--bs-border-radius);;
 
   background-color: #000;
   color: #fff;

@@ -2,9 +2,9 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { ILandmarkEncounter } from '../../../content/interfaces';
-import { MakeChoice } from '../core/services/game/actions';
+import { AddCardToSlot, MakeChoice } from '../core/services/game/actions';
 import { Keybind, KeybindsService } from '../core/services/game/keybinds.service';
-import { GameState } from '../core/services/game/stores';
+import { GameState, IGameCharacter } from '../core/services/game/stores';
 
 @Component({
   selector: 'app-gameplay-event',
@@ -13,7 +13,9 @@ import { GameState } from '../core/services/game/stores';
 })
 export class GameplayEventComponent implements OnInit, OnDestroy {
 
+  @Select(GameState.character) character$: Observable<IGameCharacter>;
   @Select(GameState.landmarkEncounterData) landmarkEncounterData$: Observable<ILandmarkEncounter>;
+  @Select(GameState.eventMessage) eventMessage$: Observable<string>;
 
   constructor(private store: Store, private keybindsService: KeybindsService) { }
 
@@ -33,6 +35,15 @@ export class GameplayEventComponent implements OnInit, OnDestroy {
 
   makeChoice(choice: number): boolean {
     this.store.dispatch(new MakeChoice(choice));
+    return true;
+  }
+
+  addCardToSlot($event, slot: number): boolean {
+    if(!$event.data.item) {
+      return false;
+    }
+
+    this.store.dispatch(new AddCardToSlot(slot, $event.data.item));
     return true;
   }
 
