@@ -4,10 +4,11 @@ import { GameService } from './core/services/game/game.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { PauseComponent } from './shared/components/pause/pause.component';
 import { Select, Store } from '@ngxs/store';
-import { OptionsState } from './core/services/game/stores';
-import { first, Observable } from 'rxjs';
-import { Move, SetPaused } from './core/services/game/actions';
+import { GameState, OptionsState } from './core/services/game/stores';
+import { combineLatest, first, Observable, timer } from 'rxjs';
+import { AbandonGame, Move, SetPaused } from './core/services/game/actions';
 import { Keybind, KeybindsService } from './core/services/game/keybinds.service';
+import { GameOverComponent } from './shared/components/game-over/game-over.component';
 
 @Component({
   selector: 'app-root',
@@ -20,7 +21,10 @@ export class AppComponent implements OnInit {
   @Select(OptionsState.isPaused) isPaused$: Observable<boolean>;
   @Select(OptionsState.isFantasyFont) isFantasyFont$: Observable<boolean>;
 
+  @Select(GameState.isDead) isDead$: Observable<boolean>;
+
   private modal;
+  private deadModal;
 
   constructor(
     private translate: TranslateService,
@@ -37,6 +41,7 @@ export class AppComponent implements OnInit {
     this.reInitCurrentTile();
     this.watchFontChanges();
     this.watchKeymapChanges();
+    this.watchForDead();
 
     this.keybindsService.addShortcuts(this.keybindsService.getShortcutKeys(Keybind.Pause), () => this.handleKeyboardEvent());
   }
@@ -114,5 +119,42 @@ export class AppComponent implements OnInit {
     });
 
     return true;
+  }
+
+  watchForDead() {
+    combineLatest([this.isDead$, timer(0, 1000)]).subscribe(([isDead]) => {
+      if(!isDead) {
+        return;
+      }
+
+      if(!this.gameService.isInGame) {
+        this.store.dispatch(new AbandonGame());
+        return;
+      }
+
+      if(this.deadModal) {
+        return;
+      }
+
+      this.store.dispatch(new SetPaused(true));
+      this.deadModal = this.modalService.open(GameOverComponent, {
+        centered: true,
+        backdropClass: 'darker-backdrop',
+        backdrop: 'static',
+        keyboard: false
+      });
+
+      // when the pause modal is closed, tell the game we're unpaused
+      this.deadModal.dismissed.subscribe(() => {
+        this.store.dispatch(new SetPaused(false));
+        this.deadModal = undefined;
+      });
+
+      // when the pause modal is closed, tell the game we're unpaused
+      this.deadModal.closed.subscribe(() => {
+        this.store.dispatch(new SetPaused(false));
+        this.deadModal = undefined;
+      });
+    });
   }
 }

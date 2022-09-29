@@ -18,10 +18,12 @@ import { PauseComponent } from './components/pause/pause.component';
 import { FancyTitleBackgroundComponent } from './components/fancy-title-background/fancy-title-background.component';
 import { SplashscreenComponent } from './components/splashscreen/splashscreen.component';
 import { KeyDisplayComponent } from './components/key-display/key-display.component';
+import { GameOverComponent } from './components/game-over/game-over.component';
 
 @NgModule({
   declarations: [PageNotFoundComponent, WebviewDirective, IconComponent,
-    InfoCardComponent, CardSlotComponent, PauseComponent, FancyTitleBackgroundComponent, SplashscreenComponent, KeyDisplayComponent],
+    InfoCardComponent, CardSlotComponent, PauseComponent, FancyTitleBackgroundComponent,
+    SplashscreenComponent, KeyDisplayComponent, GameOverComponent],
   imports: [
     CommonModule,
     DndModule,

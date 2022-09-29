@@ -1,0 +1,50 @@
+
+
+<div class="modal-header p-0">
+  <app-fancy-title-background [text]="'Pages.GameOver.Title' | translate"></app-fancy-title-background>
+</div>
+
+<div class="modal-body">
+  <div class="splash-container">
+
+    <div class="row" *ngIf="character$ | async as character">
+      <div class="col-3 centered">
+        <app-icon [icon]="character.background.icon" [roundCorners]="true"></app-icon>
+      </div>
+
+      <div class="col-9 d-flex flex-column justify-content-center size-big icon-text">
+        {{ character.name }} the {{ character.background.name }} has perished.
+      </div>
+    </div>
+
+    <div class="d-grid gap-2 px-3 d-block mt-3">
+      <button type="button"
+              (click)="abandon()"
+              class="btn btn-primary d-block">
+        {{ 'Pages.GameOver.Links.MainMenu' | translate }}
+      </button>
+    </div>
+
+    <div class="d-grid gap-2 px-3 d-block mt-1">
+      <button type="button"
+              [disabled]="!electronService.isElectron"
+              [swal]="quitSwal"
+              class="btn btn-primary d-block">
+        {{ 'Pages.GameOver.Links.Quit' | translate }}
+      </button>
+    </div>
+
+  </div>
+</div>
+
+<swal
+  #quitSwal
+  [title]="'Pages.Home.QuitConfirm' | translate"
+  [text]="'Pages.Home.QuitText' | translate"
+  [confirmButtonText]="'Pages.Home.QuitYes' | translate"
+  [cancelButtonText]="'Pages.Home.QuitNo' | translate"
+  [showCancelButton]="true"
+  [focusCancel]="true"
+  [heightAuto]="false"
+  (confirm)="quit()">
+</swal>

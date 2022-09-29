@@ -82,6 +82,11 @@ export class GameState implements NgxsOnInit {
   constructor(private store: Store, private gameService: GameService, private contentService: ContentService) {}
 
   @Selector()
+  static isDead(state: IGame) {
+    return state.character.hp <= 0;
+  }
+
+  @Selector()
   static hasGame(state: IGame) {
     return !!state.character;
   }
