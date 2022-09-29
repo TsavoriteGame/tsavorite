@@ -530,7 +530,7 @@ export class GameState implements NgxsOnInit {
     }));
 
     const newState = ctx.getState();
-    const newLandmark = structuredClone(newState.landmarkEncounter);
+    const newLandmark = newState.landmarkEncounter;
     const newCard = structuredClone(card);
 
     this.updateLandmark(ctx, slotRef.cardPlaced(newLandmark, slot, newCard));
