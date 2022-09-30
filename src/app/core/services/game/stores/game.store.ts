@@ -18,6 +18,7 @@ import { GameConstant, GameService } from '../game.service';
 import { Observable, Subscription } from 'rxjs';
 import { isFunctional } from '../../../../../../content/helpers';
 import { setDiscordRPCStatus } from '../discord';
+import { LoggerService } from '../logger.service';
 
 export enum EquipmentSlot {
   Head = 'head',
@@ -79,7 +80,12 @@ export class GameState implements NgxsOnInit {
 
   private landmarkSubscription: Subscription;
 
-  constructor(private store: Store, private gameService: GameService, private contentService: ContentService) {}
+  constructor(
+    private store: Store,
+    private gameService: GameService,
+    private loggerService: LoggerService,
+    private contentService: ContentService
+  ) {}
 
   @Selector()
   static isDead(state: IGame) {
@@ -181,7 +187,7 @@ export class GameState implements NgxsOnInit {
     if(!isUndefined(landmark)) {
       const landmarkRef = AllLandmarks[landmark];
       if(!landmarkRef) {
-        console.error(`Could not find landmark ${landmark}`);
+        this.loggerService.error(`Could not find landmark ${landmark}`);
         return;
       }
 
@@ -193,6 +199,10 @@ export class GameState implements NgxsOnInit {
         scenarioNode: structuredClone(node),
         character: structuredClone(character),
         callbacks: {
+          logger: {
+            log: (...message) => this.loggerService.log(...message),
+            error: (...message) => this.loggerService.error(...message)
+          },
           newEventMessage: (message: string) => this.updateEventMessage(ctx, { message }),
         }
       };
@@ -209,13 +219,13 @@ export class GameState implements NgxsOnInit {
 
     const background = this.contentService.getBackground(chosenBackground);
     if(!background) {
-      console.error('Background does not exist; game cannot start.');
+      this.loggerService.error('Background does not exist; game cannot start.');
       return;
     }
 
     const archetype = this.contentService.getArchetype(background.archetype);
     if(!archetype) {
-      console.error('Archetype does not exist; game cannot start.');
+      this.loggerService.error('Archetype does not exist; game cannot start.');
       return;
     }
 
@@ -241,7 +251,7 @@ export class GameState implements NgxsOnInit {
     background.startingKit.forEach(kitItem => {
       const item = this.contentService.reformatItem(kitItem.itemId, kitItem.itemChanges);
       if(!item) {
-        console.error(`Could not find item ${kitItem.itemId} for starting kit.`);
+        this.loggerService.error(`Could not find item ${kitItem.itemId} for starting kit.`);
         return;
       }
 

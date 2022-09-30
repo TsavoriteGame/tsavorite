@@ -6,7 +6,7 @@ import { ILandmark, Landmark, ILandmarkEncounter } from '../interfaces';
 export class Teleporter extends Landmark implements ILandmark {
 
   // return slots, what they're filled with
-  encounter({ scenario, scenarioNode }): Observable<ILandmarkEncounter> {
+  encounter({ scenario, scenarioNode, callbacks }): Observable<ILandmarkEncounter> {
     return of({
       landmarkName: scenarioNode.name,
       landmarkDescription: scenarioNode.description,
@@ -20,7 +20,7 @@ export class Teleporter extends Landmark implements ILandmark {
           text: 'Teleport',
           callback: (landmarkEncounter: ILandmarkEncounter) => {
             if(isUndefined(scenarioNode.landmarkData.warpToWorld) || isUndefined(scenarioNode.landmarkData.warpToLandmark)) {
-              console.error('Teleporter is missing warp data.');
+              callbacks.logger.error('Teleporter is missing warp data.');
               return of(undefined);
             }
 

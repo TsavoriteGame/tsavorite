@@ -4,6 +4,7 @@ import { Store } from '@ngxs/store';
 import { isNumber } from 'lodash';
 import { AddBackpackItem, AddHealth } from './actions';
 import { ContentService } from './content.service';
+import { LoggerService } from './logger.service';
 
 export enum GameConstant {
   BackpackSize = 'backpackSize'
@@ -29,7 +30,12 @@ export class GameService {
     return this.router.url.includes('/play');
   }
 
-  constructor(private router: Router, private store: Store, private contentService: ContentService) {
+  constructor(
+    private router: Router,
+    private store: Store,
+    private loggerService: LoggerService,
+    private contentService: ContentService
+  ) {
     this.initConsole();
   }
 
@@ -45,7 +51,7 @@ export class GameService {
     (window as any).__addItem = (id: string) => {
       const item = this.contentService.getItemById(id);
       if(!item) {
-        console.error('Item does not exist.');
+        this.loggerService.error('Item does not exist.');
         return;
       }
 

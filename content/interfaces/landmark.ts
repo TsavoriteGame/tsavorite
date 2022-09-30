@@ -67,6 +67,10 @@ export interface ILandmarkEncounterOpts {
   scenarioNode: IScenarioNode;
   character: IGameCharacter;
   callbacks: {
+    logger: {
+      log: (...message) => void;
+      error: (...message) => void;
+    };
     newEventMessage: (message: string) => void;
   };
 }
