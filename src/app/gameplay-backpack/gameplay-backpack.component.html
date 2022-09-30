@@ -3,67 +3,89 @@
     <div class="col">
 
       <div class="row">
-        <div class="col-6">
-          <div class="mt-3 ms-3 d-flex flex-row align-items-center">
-            <span class="icon-text size-header">Backpack</span>
-          </div>
-        </div>
-        <div class="col-6">
-          <div class="mt-3 ms-3 d-flex flex-row align-items-center">
-            <span class="icon-text size-header">Apply & Combine</span>
-          </div>
-        </div>
-      </div>
 
-      <div class="row">
-
-        <div class="col-6">
-          <div class="item-zone">
-            <div class="ms-3 mt-3 d-flex flex-row align-items-center item-slot"
-                 *ngFor="let slot of slots"
-                 [class.selected]="character.items[slot] && (isItemInSlot(character.items[slot], slot))"
-                 dndDropzone
-                 (dndDrop)="dropOnBackpack($event)"
-                 [dndDraggable]="{ backpackIndex: slot, item: character.items[slot] }"
-                 [dndDisableDragIf]="!canDragItem(character.items[slot], slot)">
-              <app-card-slot [card]="character.items[slot]"></app-card-slot>
+        <div class="col-6 col-md-12">
+          <div class="row">
+            <div class="col">
+              <div class="mt-3 ms-3 d-flex flex-row align-items-center">
+                <span class="icon-text size-header">Backpack</span>
+              </div>
             </div>
           </div>
 
-          <div class="mt-3 ms-1 row">
-            <span class="icon-text size-header">Discard</span>
-          </div>
-
-          <div class="mt-3 d-flex flex-row justify-content-start">
-
-            <app-card-slot class="ms-3" placeholder="Discard" [card]="discardItem" dndDropzone (dndDrop)="dropDiscard($event)"></app-card-slot>
-
-            <div class="button-container ms-3">
-              <button class="btn btn-danger" *ngIf="discardItem" (click)="discard()">Discard</button>
-              <button class="btn btn-warning" *ngIf="discardItem" (click)="cancelDiscard()">Cancel</button>
+          <div class="row">
+            <div class="col">
+              <div class="item-zone">
+                <div class="ms-3 mt-3 d-flex flex-row align-items-center item-slot"
+                     *ngFor="let slot of slots"
+                     [class.selected]="character.items[slot] && (isItemInSlot(character.items[slot], slot))"
+                     dndDropzone
+                     (dndDrop)="dropOnBackpack($event)"
+                     [dndDraggable]="{ backpackIndex: slot, item: character.items[slot] }"
+                     [dndDisableDragIf]="!canDragItem(character.items[slot], slot)">
+                  <app-card-slot [card]="character.items[slot]"></app-card-slot>
+                </div>
+              </div>
             </div>
           </div>
         </div>
 
         <div class="col-6">
-          <div class="ms-3 mt-3 d-flex flex-row justify-content-start">
-
-            <app-card-slot placeholder="Source" [card]="combineLeft" dndDropzone (dndDrop)="dropLeft($event)"></app-card-slot>
-            <app-card-slot class="ms-3" placeholder="Target" [card]="combineRight" dndDropzone (dndDrop)="dropRight($event)"></app-card-slot>
-
-            <div class="button-container ms-3">
-              <button class="btn btn-primary" [disabled]="!combineLeft || !combineRight" *ngIf="combineLeft && combineLeft.interaction" (click)="reaction(character)">Apply</button>
-              <button class="btn btn-primary" [disabled]="!combineLeft || !combineRight" *ngIf="combineLeft && !combineLeft.interaction" (click)="combine(character)">Combine</button>
-              <button class="btn btn-warning" *ngIf="combineLeft || combineRight" (click)="cancelApplicombine()">Cancel</button>
+          <div class="row">
+            <div class="col">
+              <div class="mt-3 ms-3 d-flex flex-row align-items-center">
+                <span class="icon-text size-header">Apply & Combine</span>
+              </div>
             </div>
           </div>
 
-          <div class="row ms-3 mt-3">
-            <div class="col icon-text size-subheader">
-              {{ applicombineResultMessage$ | async }}
+          <div class="row">
+            <div class="col">
+              <div class="ms-3 mt-3 d-flex flex-row justify-content-start">
+
+                <app-card-slot placeholder="Source" [card]="combineLeft" dndDropzone (dndDrop)="dropLeft($event)"></app-card-slot>
+                <app-card-slot class="ms-3" placeholder="Target" [card]="combineRight" dndDropzone (dndDrop)="dropRight($event)"></app-card-slot>
+
+                <div class="button-container ms-3">
+                  <button class="btn btn-primary" [disabled]="!combineLeft || !combineRight" *ngIf="combineLeft && combineLeft.interaction" (click)="reaction(character)">Apply</button>
+                  <button class="btn btn-primary" [disabled]="!combineLeft || !combineRight" *ngIf="combineLeft && !combineLeft.interaction" (click)="combine(character)">Combine</button>
+                  <button class="btn btn-warning" *ngIf="combineLeft || combineRight" (click)="cancelApplicombine()">Cancel</button>
+                </div>
+              </div>
+
+              <div class="row ms-3 mt-3">
+                <div class="col icon-text size-subheader">
+                  {{ applicombineResultMessage$ | async }}
+                </div>
+              </div>
             </div>
           </div>
         </div>
+
+        <div class="col-6">
+
+          <div class="row">
+
+            <div class="col-6">
+
+              <div class="mt-3 ms-1 row">
+                <span class="icon-text size-header">Discard</span>
+              </div>
+
+              <div class="mt-3 d-flex flex-row justify-content-start">
+
+                <app-card-slot class="ms-3" placeholder="Discard" [card]="discardItem" dndDropzone (dndDrop)="dropDiscard($event)"></app-card-slot>
+
+                <div class="button-container ms-3">
+                  <button class="btn btn-danger" *ngIf="discardItem" (click)="discard()">Discard</button>
+                  <button class="btn btn-warning" *ngIf="discardItem" (click)="cancelDiscard()">Cancel</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
       </div>
     </div>
   </div>
