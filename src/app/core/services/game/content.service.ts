@@ -41,6 +41,10 @@ export class ContentService {
     return structuredClone(this.backgrounds.find(x => x.name === name));
   }
 
+  public getItemDataById(itemId: string): IItemConfig | undefined {
+    return structuredClone(getItemById(itemId));
+  }
+
   public getItemById(itemId: string): IItemConfig | undefined {
     const item = structuredClone(getItemById(itemId));
     if(!item) {

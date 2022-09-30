@@ -85,9 +85,26 @@ export class MakeChoice {
   constructor(public choice: number) {}
 }
 
+export class AddCoinsToBackpack {
+  static type = '[Game] Add Coins To Backpack';
+  constructor(public amount: number) {}
+}
+
+export class RemoveCoinsFromBackpack {
+  static type = '[Game] Remove Coins From Backpack';
+  constructor(public amount: number) {
+    this.amount = -amount;
+  }
+}
+
 export class AddCardToSlot {
   static type = '[Game] Add Card To Slot';
   constructor(public slot: number, public card: ICard) {}
+}
+
+export class RemoveCardFromSlot {
+  static type = '[Game] Remove Card From Slot';
+  constructor(public slot: number) {}
 }
 
 export class SlotTimerExpire {

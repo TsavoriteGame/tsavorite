@@ -7,10 +7,10 @@ import { isUndefined } from 'lodash';
 import { getScenarioByName } from '../../../../../../content/getters';
 import * as AllLandmarks from '../../../../../../content/landmarks';
 import { IArchetype, IBackground, ILandmark, IItemConfig,
-  ILandmarkEncounter, IPower, IScenario, IScenarioNode, IMapPosition, ILandmarkSlot } from '../../../../../../content/interfaces';
+  ILandmarkEncounter, IPower, IScenario, IScenarioNode, IMapPosition, ILandmarkSlot, Interaction, IItemInteraction } from '../../../../../../content/interfaces';
 import { findFirstLandmarkInWorld, findSpawnCoordinates, getNodeAt } from '../../../../../../content/scenario.helpers';
-import { AbandonGame, AddBackpackItem, AddCardToSlot, AddHealth, EncounterCurrentTile, MakeChoice, Move, ReduceHealth,
-  RemoveBackpackItem, RemoveBackpackItemById, ReplaceNode, SetBackpackItemLockById, SetCurrentCardId,
+import { AbandonGame, AddBackpackItem, AddCardToSlot, AddCoinsToBackpack, AddHealth, EncounterCurrentTile, MakeChoice, Move, ReduceHealth,
+  RemoveBackpackItem, RemoveBackpackItemById, RemoveCardFromSlot, RemoveCoinsFromBackpack, ReplaceNode, SetBackpackItemLockById, SetCurrentCardId,
   SetLandmarkSlotLock, SetLandmarkSlotTimer, SlotTimerExpire, StartGame,
   UpdateBackpackItem, UpdateBackpackItemById, UpdateEventMessage, Warp } from '../actions';
 import { ContentService } from '../content.service';
@@ -201,6 +201,7 @@ export class GameState implements NgxsOnInit {
         callbacks: {
           content: {
             getConstant: (constant: GameConstant) => this.gameService.getConstant(constant),
+            getItemDataById: (id: string) => this.contentService.getItemDataById(id),
             createItemById: (id: string) => this.contentService.getItemById(id)
           },
           logger: {
@@ -310,6 +311,11 @@ export class GameState implements NgxsOnInit {
     }
 
     if(ctx.getState().character.items.length >= this.gameService.getConstant(GameConstant.BackpackSize)) {
+      return;
+    }
+
+    if(isUndefined(item.cardId)) {
+      this.loggerService.error(new Error('Cannot add item without cardId to backpack.'));
       return;
     }
 
@@ -567,6 +573,34 @@ export class GameState implements NgxsOnInit {
     this.updateLandmark(ctx, slotRef.cardPlaced(newLandmark, slot, newCard));
   }
 
+  @Action(RemoveCardFromSlot)
+  removeCardFromSlot(ctx: StateContext<IGame>, { slot }: RemoveCardFromSlot) {
+    if(!this.isInGame(ctx)) {
+      return;
+    }
+
+    const slots = ctx.getState().landmarkEncounter?.slots ?? [];
+    const slotRef = slots[slot];
+    if(!slotRef) {
+      return;
+    }
+
+    this.cancelLandmark();
+
+    const currentLandmark = ctx.getState().landmarkEncounter;
+    if(!currentLandmark) {
+      return;
+    }
+
+    ctx.setState(patch<IGame>({
+      landmarkEncounter: patch({
+        slots: updateItem<ILandmarkSlot>(slot, patch({
+          card: undefined
+        }))
+      })
+    }));
+  }
+
   @Action(SlotTimerExpire)
   slotTimerExpire(ctx: StateContext<IGame>, { slot }: AddCardToSlot) {
     if(!this.isInGame(ctx)) {
@@ -607,6 +641,40 @@ export class GameState implements NgxsOnInit {
             layout: updateItem<IScenarioNode[]>(position.y, updateItem<IScenarioNode>(position.x, newNode))
           })
         })
+      })
+    }));
+
+  }
+
+  @Action(RemoveCoinsFromBackpack)
+  @Action(AddCoinsToBackpack)
+  addCoinsToBackpack(ctx: StateContext<IGame>, { amount }: AddCoinsToBackpack) {
+    if(!this.isInGame(ctx)) {
+      return;
+    }
+
+    const index = ctx.getState().character.items.findIndex(checkItem => checkItem.interaction?.name === Interaction.Buys);
+
+    // if we cant find coins, we add coins
+    if(index === -1) {
+      const coins = this.contentService.getItemById('GoldCoins-1');
+      coins.interaction.level = amount;
+
+      this.addBackpackItem(ctx, { item: coins });
+      return;
+    }
+
+    // find out how many coins we have, and add some more
+    const item = ctx.getState().character.items[index];
+    const newValue = Math.max(1, item.interaction.level + amount);
+
+    ctx.setState(patch<IGame>({
+      character: patch<IGameCharacter>({
+        items: updateItem<IItemConfig>(index, patch<IItemConfig>({
+          interaction: patch<IItemInteraction>({
+            level: newValue
+          })
+        }))
       })
     }));
 

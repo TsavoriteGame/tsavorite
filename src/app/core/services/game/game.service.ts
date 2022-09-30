@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Store } from '@ngxs/store';
 import { isNumber } from 'lodash';
-import { AddBackpackItem, AddHealth } from './actions';
+import { AddBackpackItem, AddCoinsToBackpack, AddHealth } from './actions';
 import { ContentService } from './content.service';
 import { LoggerService } from './logger.service';
 
@@ -64,6 +64,14 @@ export class GameService {
       }
 
       this.store.dispatch(new AddHealth(health));
+    };
+
+    (window as any).__modifyCoins = (coins: number) => {
+      if(isNaN(coins) || !isNumber(coins)) {
+        return;
+      }
+
+      this.store.dispatch(new AddCoinsToBackpack(coins));
     };
   }
 }

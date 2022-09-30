@@ -61,6 +61,12 @@ export interface ILandmarkData {
   // if the thing can warp, this is where it would store that data
   warpToWorld?: number;
   warpToLandmark?: number;
+
+  // if the thing gives you an item, this is set
+  item?: IItemConfig;
+
+  // if the thing sells items, this is set
+  shopItems?: Array<{ item: string; cost: number }>;
 }
 
 export interface ILandmarkEncounterOpts {
@@ -71,6 +77,7 @@ export interface ILandmarkEncounterOpts {
   callbacks: {
     content: {
       getConstant: (constant: GameConstant) => any;
+      getItemDataById: (id: string) => IItemConfig;
       createItemById: (id: string) => IItemConfig;
     };
     logger: {

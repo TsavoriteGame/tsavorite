@@ -1,5 +1,6 @@
 
 export * from './itemonground';
+export * from './merchant';
 export * from './nothing';
 export * from './shrine';
 export * from './strangelandscape';

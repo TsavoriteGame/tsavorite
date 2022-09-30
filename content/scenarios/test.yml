@@ -10,7 +10,7 @@ worlds:
       - [2,    0,    0,    2,    0,    17,   0,    10,   0,    0,    0]
       - [2,    0,    0,    2,    0,    0,    10,   10,   0,    0,    0]
       - [2,    2,    2,    2,    1,    0,    0,    0,    0,    0,    0]
-      - [0,    0,    0,    0,    0,    0,    16,   0,    0,    0,    0]
+      - [0,    0,    0,    18,   0,    0,    16,   0,    0,    0,    0]
       - [0,    0,    0,    0,    0,    0,    11,   0,    0,    0,    0]
       - [0,    0,    0,    0,    13,   0,    0,    0,    0,    0,    0]
       - [0,    0,    0,    0,    0,    15,   0,    0,    0,    0,    0]
@@ -107,3 +107,19 @@ nodes:
     landmark: ItemOnGround
     landmarkData:
       item: RockSmasher-2
+
+  18:
+    name: Shopkeeper
+    icon: shopkeeper
+    description: You can buy items here.
+    landmark: Merchant
+    landmarkData:
+      shopItems:
+        - item: RockSmasher-2
+          cost: 2
+
+        - item: MetalKey-2
+          cost: 2
+
+        - item: Machete-2
+          cost: 2
