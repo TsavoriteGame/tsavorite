@@ -18,7 +18,7 @@
               <div class="item-zone">
                 <div class="ms-3 mt-3 d-flex flex-row align-items-center item-slot"
                      *ngFor="let slot of slots"
-                     [class.selected]="character.items[slot] && (isItemInSlot(character.items[slot], slot))"
+                     [class.selected]="character.items[slot] && (isItemInSlot(character.items[slot]))"
                      dndDropzone
                      (dndDrop)="dropOnBackpack($event)"
                      [dndDraggable]="{ backpackIndex: slot, item: character.items[slot] }"
