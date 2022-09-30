@@ -7,10 +7,12 @@ import { isUndefined } from 'lodash';
 import { getScenarioByName } from '../../../../../../content/getters';
 import * as AllLandmarks from '../../../../../../content/landmarks';
 import { IArchetype, IBackground, ILandmark, IItemConfig,
-  ILandmarkEncounter, IPower, IScenario, IScenarioNode, IMapPosition, ILandmarkSlot, Interaction, IItemInteraction } from '../../../../../../content/interfaces';
+  ILandmarkEncounter, IPower, IScenario, IScenarioNode, IMapPosition,
+  ILandmarkSlot, Interaction, IItemInteraction } from '../../../../../../content/interfaces';
 import { findFirstLandmarkInWorld, findSpawnCoordinates, getNodeAt } from '../../../../../../content/scenario.helpers';
 import { AbandonGame, AddBackpackItem, AddCardToSlot, AddCoinsToBackpack, AddHealth, EncounterCurrentTile, MakeChoice, Move, ReduceHealth,
-  RemoveBackpackItem, RemoveBackpackItemById, RemoveCardFromSlot, RemoveCoinsFromBackpack, ReplaceNode, SetBackpackItemLockById, SetCurrentCardId,
+  RemoveBackpackItem, RemoveBackpackItemById, RemoveCardFromSlot,
+  RemoveCoinsFromBackpack, ReplaceNode, SetBackpackItemLockById, SetCurrentCardId,
   SetLandmarkSlotLock, SetLandmarkSlotTimer, SlotTimerExpire, StartGame,
   UpdateBackpackItem, UpdateBackpackItemById, UpdateEventMessage, Warp } from '../actions';
 import { ContentService } from '../content.service';
