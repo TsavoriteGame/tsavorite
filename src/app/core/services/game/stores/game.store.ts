@@ -10,7 +10,7 @@ import { IArchetype, IBackground, ILandmark, IItemConfig,
   ILandmarkEncounter, IPower, IScenario, IScenarioNode, IMapPosition, ILandmarkSlot } from '../../../../../../content/interfaces';
 import { findFirstLandmarkInWorld, findSpawnCoordinates, getNodeAt } from '../../../../../../content/scenario.helpers';
 import { AbandonGame, AddBackpackItem, AddCardToSlot, AddHealth, EncounterCurrentTile, MakeChoice, Move, ReduceHealth,
-  RemoveBackpackItem, RemoveBackpackItemById, ReplaceNode, SetCurrentCardId,
+  RemoveBackpackItem, RemoveBackpackItemById, ReplaceNode, SetBackpackItemLockById, SetCurrentCardId,
   SetLandmarkSlotLock, SetLandmarkSlotTimer, SlotTimerExpire, StartGame,
   UpdateBackpackItem, UpdateBackpackItemById, UpdateEventMessage, Warp } from '../actions';
 import { ContentService } from '../content.service';
@@ -340,6 +340,23 @@ export class GameState implements NgxsOnInit {
     ctx.setState(patch<IGame>({
       character: patch({
         items: updateItem<IItemConfig>(index, item)
+      })
+    }));
+  }
+
+  @Action(SetBackpackItemLockById)
+  setBackpackItemLockById(ctx: StateContext<IGame>, { cardId, locked }: SetBackpackItemLockById) {
+    if(!this.isInGame(ctx)) {
+      return;
+    }
+
+    const index = ctx.getState().character.items.findIndex(i => i.cardId === cardId);
+
+    ctx.setState(patch<IGame>({
+      character: patch({
+        items: updateItem<IItemConfig>(index, patch<IItemConfig>({
+          locked
+        }))
       })
     }));
   }

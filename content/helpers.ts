@@ -211,7 +211,7 @@ export function getAllDescriptorsForPart(part: IItemPart): Descriptor[] {
 
 export function getAllDescriptorsForItem(item: IItemConfig): Descriptor[] {
   return [...new Set(
-    item.parts.map(part => Object.keys(part.descriptors)
+    (item.parts || []).map(part => Object.keys(part.descriptors)
       .filter(d => part.descriptors[d].level > 0) as Descriptor[])
       .flat()
   )
@@ -294,7 +294,7 @@ export function isFunctional(item: IItemConfig): boolean {
     return false;
   }
 
-  return getDescriptorLevel(item, descriptor) <= 0;
+  return getDescriptorLevel(item, descriptor) > 0;
 }
 
 // part functions

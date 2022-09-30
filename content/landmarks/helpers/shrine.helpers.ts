@@ -1,7 +1,7 @@
 
 import { first, of, switchMap, tap, timer } from 'rxjs';
 import { sample } from 'lodash';
-import { EncounterCurrentTile, ReduceHealth, ReplaceNode, SetLandmarkSlotLock,
+import { EncounterCurrentTile, ReduceHealth, ReplaceNode, SetBackpackItemLockById, SetLandmarkSlotLock,
   SetLandmarkSlotTimer, UpdateBackpackItemById } from '../../../src/app/core/services/game/actions';
 import { ILandmarkEncounter, ICard, IItemConfig, CardPlaceFunction, CardTimerFunction, ILandmarkEncounterOpts } from '../../interfaces';
 import { decreaseDescriptorLevel, getHighestDescriptorByLevel } from '../../helpers';
@@ -34,6 +34,7 @@ export const helpers = (encounter: ILandmarkEncounterOpts, store: Store) => {
     (encounterOpts: ILandmarkEncounter, slotIndex: number, card: ICard) => {
       store.dispatch(new SetLandmarkSlotLock(slotIndex, true));
       store.dispatch(new SetLandmarkSlotTimer(slotIndex, -1));
+      store.dispatch(new SetBackpackItemLockById(card.cardId, true));
 
       // if it doesn't have parts, it's not really an item we can use in this path
       if(!(card as IItemConfig).parts) {
@@ -64,6 +65,7 @@ export const helpers = (encounter: ILandmarkEncounterOpts, store: Store) => {
             decreaseDescriptorLevel(item, highestDescriptor, 1);
 
             store.dispatch(new UpdateBackpackItemById(card.cardId, item));
+            store.dispatch(new SetBackpackItemLockById(card.cardId, false));
           }),
           pausableTimer(5),
           tap(() => doFullReset()),
@@ -100,6 +102,7 @@ export const helpers = (encounter: ILandmarkEncounterOpts, store: Store) => {
             decreaseDescriptorLevel(item, highestDescriptor, 1);
 
             store.dispatch(new UpdateBackpackItemById(curseChosenItem.cardId, item));
+            store.dispatch(new SetBackpackItemLockById(curseChosenItem.cardId, false));
           }),
           pausableTimer(5),
           tap(() => doFullReset()),

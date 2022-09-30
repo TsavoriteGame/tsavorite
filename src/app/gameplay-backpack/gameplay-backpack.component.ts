@@ -4,7 +4,7 @@ import { Observable, Subject, Subscription, timer } from 'rxjs';
 import { getCombinationBetweenTwoItems,
   getReactionBetweenTwoItems } from '../../../content/helpers';
 import { IItemConfig } from '../../../content/interfaces';
-import { AddBackpackItem, ReduceHealth, RemoveBackpackItem, UpdateBackpackItem } from '../core/services/game/actions';
+import { AddBackpackItem, ReduceHealth, RemoveBackpackItem, SetBackpackItemLockById, UpdateBackpackItem } from '../core/services/game/actions';
 import { ContentService } from '../core/services/game/content.service';
 import { GameConstant, GameService } from '../core/services/game/game.service';
 import { GameState, IGameCharacter } from '../core/services/game/stores';
@@ -47,6 +47,8 @@ export class GameplayBackpackComponent implements OnInit {
 
     this.discardItem = item;
     this.indexDiscard = backpackIndex;
+
+    this.store.dispatch(new SetBackpackItemLockById(this.discardItem.cardId, true));
   }
 
   dropLeft($event) {
@@ -57,6 +59,8 @@ export class GameplayBackpackComponent implements OnInit {
 
     this.combineLeft = item;
     this.indexLeft = backpackIndex;
+
+    this.store.dispatch(new SetBackpackItemLockById(this.combineLeft.cardId, true));
   }
 
   dropRight($event) {
@@ -67,6 +71,8 @@ export class GameplayBackpackComponent implements OnInit {
 
     this.combineRight = item;
     this.indexRight = backpackIndex;
+
+    this.store.dispatch(new SetBackpackItemLockById(this.combineRight.cardId, true));
   }
 
   reaction(character: IGameCharacter) {
@@ -186,26 +192,35 @@ export class GameplayBackpackComponent implements OnInit {
   }
 
   cancelApplicombine() {
-    this.combineLeft = undefined;
-    this.combineRight = undefined;
+    if(this.combineLeft) {
+      this.store.dispatch(new SetBackpackItemLockById(this.combineLeft.cardId, false));
+      this.combineLeft = undefined;
+    }
+
+    if(this.combineRight) {
+      this.store.dispatch(new SetBackpackItemLockById(this.combineRight.cardId, false));
+      this.combineRight = undefined;
+    }
+
     this.indexLeft = -1;
     this.indexRight = -1;
   }
 
   cancelDiscard() {
+    this.store.dispatch(new SetBackpackItemLockById(this.discardItem.cardId, false));
     this.discardItem = undefined;
     this.indexDiscard = -1;
   }
 
-  isItemInSlot(item: IItemConfig, index: number): boolean {
-    return index === this.indexLeft || index === this.indexRight || index === this.indexDiscard;
+  isItemInSlot(item: IItemConfig): boolean {
+    return item.locked;
   }
 
   canDragItem(item: IItemConfig | undefined, slot: number): boolean {
     if(!item) {
       return false;
     }
-    if(this.isItemInSlot(item, slot)) {
+    if(this.isItemInSlot(item)) {
       return false;
     }
 

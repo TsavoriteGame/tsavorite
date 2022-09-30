@@ -2,7 +2,7 @@ import { addDescriptor, changePrimaryDescriptor, decreaseDescriptorLevel,
   decreaseDescriptorLevelForPart, decreaseInteractionLevel, getAllDescriptorsForItem, getAllDescriptorsForPart,
   getCombinationBetweenTwoItems, getDescriptorLevel,
   getDescriptorLevelFromPart, getHighestDescriptorByLevel, getInteraction, getInteractionLevel, getPartWithDescriptor, getTotalDescriptorLevel, hasDescriptor,
-  hasFoundationalPart, increaseDescriptorLevel, increaseDescriptorLevelForPart, increaseInteractionLevel, setDescriptorLevelForPart,
+  hasFoundationalPart, increaseDescriptorLevel, increaseDescriptorLevelForPart, increaseInteractionLevel, isFunctional, setDescriptorLevelForPart,
   setFoundationalPart, setInteraction } from './helpers';
 import { Descriptor, Interaction, IItemConfig } from './interfaces';
 
@@ -682,4 +682,55 @@ test('Getting the highest level descriptor should return the first thing in case
   };
 
   expect(getHighestDescriptorByLevel(item)).toBe(Descriptor.Metal);
+});
+
+test('An item with parts at level 0, or at no parts, should not be functional', () => {
+  const item: IItemConfig = {
+    name: 'Level 1 Zapper',
+    parts: [
+      {
+        name: 'Baton',
+        primaryDescriptor: Descriptor.Metal,
+        descriptors: {
+          [Descriptor.Metal]: { level: 0 }
+        }
+      }
+    ],
+    interaction: { name: Interaction.Zaps, level: 1 }
+  };
+
+  const itemWithNoParts: IItemConfig = {
+    name: 'Level 1 Zapper',
+    parts: [
+    ],
+    interaction: { name: Interaction.Zaps, level: 1 }
+  };
+
+  const itemWithNoPartsArray: IItemConfig = {
+    name: 'Level 1 Zapper',
+    parts: undefined,
+    interaction: { name: Interaction.Zaps, level: 1 }
+  };
+
+  expect(isFunctional(item)).toBe(false);
+  expect(isFunctional(itemWithNoParts)).toBe(false);
+  expect(isFunctional(itemWithNoPartsArray)).toBe(false);
+});
+
+test('An item with parts at any level should be functional', () => {
+  const item: IItemConfig = {
+    name: 'Level 1 Zapper',
+    parts: [
+      {
+        name: 'Baton',
+        primaryDescriptor: Descriptor.Metal,
+        descriptors: {
+          [Descriptor.Metal]: { level: 1 }
+        }
+      }
+    ],
+    interaction: { name: Interaction.Zaps, level: 1 }
+  };
+
+  expect(isFunctional(item)).toBe(true);
 });

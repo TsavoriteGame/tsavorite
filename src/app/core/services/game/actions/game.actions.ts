@@ -36,6 +36,11 @@ export class UpdateBackpackItemById {
   constructor(public cardId: number, public item: IItemConfig) {}
 }
 
+export class SetBackpackItemLockById {
+  static type = '[Game] Set Backpack Item Lock By Id';
+  constructor(public cardId: number, public locked: boolean) {}
+}
+
 export class AddHealth {
   static type = '[Game] Add Health';
   constructor(public amount: number) {}
