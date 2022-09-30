@@ -1,4 +1,5 @@
 import { ICard, IItemConfig, IMapPosition, IScenario, IScenarioNode } from '../../../../../../content/interfaces';
+import { EquipmentSlot } from '../stores';
 import { IGameSetup } from '../stores/gamesetup.store';
 
 export class StartGame {
@@ -95,6 +96,11 @@ export class RemoveCoinsFromBackpack {
   constructor(public amount: number) {
     this.amount = -amount;
   }
+}
+
+export class SetEquipmentItem {
+  static type = '[Game] Set Equipment Item';
+  constructor(public item: IItemConfig, public slot: EquipmentSlot) {}
 }
 
 export class AddCardToSlot {

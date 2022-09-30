@@ -20,7 +20,8 @@
                      *ngFor="let slot of slots"
                      [class.selected]="character.items[slot] && (isItemInSlot(character.items[slot]))"
                      dndDropzone
-                     (dndDrop)="dropOnBackpack($event)"
+                     [dndType]="getDNDType(character.items[slot])"
+                     (dndDrop)="dropOnBackpack(character, $event)"
                      [dndDraggable]="{ backpackIndex: slot, item: character.items[slot] }"
                      [dndDisableDragIf]="!canDragItem(character.items[slot], slot)">
                   <app-card-slot [card]="character.items[slot]"></app-card-slot>

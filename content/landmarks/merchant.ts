@@ -60,6 +60,7 @@ export class Merchant extends Landmark implements ILandmark {
               return;
             }
 
+            callbacks.newEventMessage(`You bought ${item.itemData.name}!`);
             this.store.dispatch(new AddBackpackItem(itemRef));
             this.store.dispatch(new RemoveCoinsFromBackpack(cost));
             this.store.dispatch(new RemoveCardFromSlot(slotIndex));

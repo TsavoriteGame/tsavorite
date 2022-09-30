@@ -2,9 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { Interaction } from '../../../content/interfaces';
-import { AddHealth, RemoveBackpackItem } from '../core/services/game/actions';
+import { AddBackpackItem, AddHealth, RemoveBackpackItem, RemoveBackpackItemById, SetEquipmentItem } from '../core/services/game/actions';
 import { GameConstant, GameService } from '../core/services/game/game.service';
-import { GameState, IGameCharacter } from '../core/services/game/stores';
+import { EquipmentSlot, GameState, IGameCharacter } from '../core/services/game/stores';
 
 @Component({
   selector: 'app-gameplay-character',
@@ -26,9 +26,11 @@ export class GameplayCharacterComponent implements OnInit {
     if(!item) {
       return;
     }
+
     if(backpackIndex < 0) {
       return;
     }
+
     if(!item.interaction || item.interaction.name !== Interaction.Heals) {
       return;
     }
@@ -45,6 +47,25 @@ export class GameplayCharacterComponent implements OnInit {
     }
 
     return false;
+  }
+
+  updateEquipment(character: IGameCharacter, slot: string, $event) {
+    const newItem = $event.data.item;
+    const realSlot = slot as EquipmentSlot;
+
+    // recover an item if we place over it
+    const existingItem = character.equipment[slot];
+    if(existingItem) {
+      this.store.dispatch(new AddBackpackItem(existingItem));
+    }
+
+    // set the current item as equipped (or remove it)
+    this.store.dispatch(new SetEquipmentItem(newItem, realSlot));
+
+    // remove the item from the backpack if equipped
+    if(newItem) {
+      this.store.dispatch(new RemoveBackpackItemById(newItem.cardId));
+    }
   }
 
 }

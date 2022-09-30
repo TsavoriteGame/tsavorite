@@ -2,10 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { Select, Store } from '@ngxs/store';
 import { Observable, Subject, Subscription, timer } from 'rxjs';
 import { getCombinationBetweenTwoItems,
-  getReactionBetweenTwoItems } from '../../../content/helpers';
-import { IItemConfig } from '../../../content/interfaces';
+  getReactionBetweenTwoItems,
+  hasDescriptor } from '../../../content/helpers';
+import { Descriptor, IItemConfig } from '../../../content/interfaces';
 import { AddBackpackItem, ReduceHealth, RemoveBackpackItem,
-  SetBackpackItemLockById, UpdateBackpackItem } from '../core/services/game/actions';
+  SetBackpackItemLockById, SetEquipmentItem, UpdateBackpackItem } from '../core/services/game/actions';
 import { ContentService } from '../core/services/game/content.service';
 import { GameConstant, GameService } from '../core/services/game/game.service';
 import { GameState, IGameCharacter } from '../core/services/game/stores';
@@ -228,8 +229,18 @@ export class GameplayBackpackComponent implements OnInit {
     return true;
   }
 
-  dropOnBackpack($event) {
-    const { takeHealth } = $event.data;
+  dropOnBackpack(character: IGameCharacter, $event) {
+    if(character.items.length >= this.gameService.getConstant(GameConstant.BackpackSize)) {
+      return;
+    }
+
+    const { takeHealth, equipmentSlot, item } = $event.data;
+
+    if(equipmentSlot) {
+      this.store.dispatch(new AddBackpackItem(item)).subscribe(() => {
+        this.store.dispatch(new SetEquipmentItem(undefined, equipmentSlot));
+      });
+    }
 
     // if this drop is a take-health drop, we make a new heart item
     if(takeHealth > 0) {
@@ -240,6 +251,30 @@ export class GameplayBackpackComponent implements OnInit {
           this.store.dispatch(new ReduceHealth(1));
         });
     }
+  }
+
+  getDNDType(item: IItemConfig | undefined): string {
+    if(!item) {
+      return '';
+    }
+
+    if(hasDescriptor(item, Descriptor.HeadArmor)) {
+      return 'HeadArmor';
+    }
+
+    if(hasDescriptor(item, Descriptor.BodyArmor)) {
+      return 'BodyArmor';
+    }
+
+    if(hasDescriptor(item, Descriptor.FeetArmor)) {
+      return 'FeetArmor';
+    }
+
+    if(item.parts.length > 0) {
+      return 'Item';
+    }
+
+    return '';
   }
 
 }

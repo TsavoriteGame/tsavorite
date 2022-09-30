@@ -13,6 +13,7 @@ import { findFirstLandmarkInWorld, findSpawnCoordinates, getNodeAt } from '../..
 import { AbandonGame, AddBackpackItem, AddCardToSlot, AddCoinsToBackpack, AddHealth, EncounterCurrentTile, MakeChoice, Move, ReduceHealth,
   RemoveBackpackItem, RemoveBackpackItemById, RemoveCardFromSlot,
   RemoveCoinsFromBackpack, ReplaceNode, SetBackpackItemLockById, SetCurrentCardId,
+  SetEquipmentItem,
   SetLandmarkSlotLock, SetLandmarkSlotTimer, SlotTimerExpire, StartGame,
   UpdateBackpackItem, UpdateBackpackItemById, UpdateEventMessage, Warp } from '../actions';
 import { ContentService } from '../content.service';
@@ -26,7 +27,7 @@ export enum EquipmentSlot {
   Head = 'head',
   Hands = 'hands',
   Body = 'body',
-  Legs = 'legs'
+  Feet = 'feet'
 }
 
 export interface IGameCharacter {
@@ -38,7 +39,7 @@ export interface IGameCharacter {
     [EquipmentSlot.Head]: IItemConfig;
     [EquipmentSlot.Hands]: IItemConfig;
     [EquipmentSlot.Body]: IItemConfig;
-    [EquipmentSlot.Legs]: IItemConfig;
+    [EquipmentSlot.Feet]: IItemConfig;
   };
   items: IItemConfig[];
   powers: IPower[];
@@ -246,7 +247,7 @@ export class GameState implements NgxsOnInit {
         [EquipmentSlot.Head]: undefined,
         [EquipmentSlot.Hands]: undefined,
         [EquipmentSlot.Body]: undefined,
-        [EquipmentSlot.Legs]: undefined
+        [EquipmentSlot.Feet]: undefined
       },
       powers: [
         undefined,
@@ -268,7 +269,8 @@ export class GameState implements NgxsOnInit {
     const scenario = getScenarioByName('Test');
     const position = findSpawnCoordinates(scenario);
 
-    ctx.patchState({ character, scenario, position });
+    ctx.patchState({ character, scenario, position, currentCardId: 0 });
+    this.contentService.setCurrentCardId(0);
 
     setDiscordRPCStatus({
       isInGame: true,
@@ -680,6 +682,17 @@ export class GameState implements NgxsOnInit {
       })
     }));
 
+  }
+
+  @Action(SetEquipmentItem)
+  setEquipmentItem(ctx: StateContext<IGame>, { item, slot }: SetEquipmentItem) {
+    ctx.setState(patch<IGame>({
+      character: patch<IGameCharacter>({
+        equipment: patch<Record<EquipmentSlot, IItemConfig>>({
+          [slot]: item
+        })
+      })
+    }));
   }
 
 }

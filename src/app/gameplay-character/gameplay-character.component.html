@@ -56,7 +56,13 @@
       <div class="row">
         <div class="col">
           <div class="ms-3 mt-3 d-flex flex-row align-items-center">
-            <app-card-slot placeholder="Head" [card]="character.equipment.head"></app-card-slot>
+            <app-card-slot placeholder="Head"
+                           [card]="character.equipment.head"
+                           [dndDropzone]="['HeadArmor']"
+                           [dndDraggable]="{ equipmentSlot: 'head', item: character.equipment.head }"
+                           [dndDisableDragIf]="!character.equipment.head"
+                           (dndDrop)="updateEquipment(character, 'head', $event)"></app-card-slot>
+
             <span class="icon-text ms-3 size-big" *ngIf="character.equipment.head">{{ character.equipment.head.name }}</span>
             <span class="icon-text ms-3 size-big" *ngIf="!character.equipment.head">None</span>
           </div>
@@ -65,7 +71,13 @@
       <div class="row">
         <div class="col">
           <div class="ms-3 mt-3 d-flex flex-row align-items-center">
-            <app-card-slot placeholder="Hands" [card]="character.equipment.hands"></app-card-slot>
+            <app-card-slot placeholder="Hands"
+                           [card]="character.equipment.hands"
+                           [dndDropzone]="['Item']"
+                           [dndDraggable]="{ equipmentSlot: 'hands', item: character.equipment.hands }"
+                           [dndDisableDragIf]="!character.equipment.hands"
+                           (dndDrop)="updateEquipment(character, 'hands', $event)"></app-card-slot>
+
             <span class="icon-text ms-3 size-big" *ngIf="character.equipment.hands">{{ character.equipment.hands.name }}</span>
             <span class="icon-text ms-3 size-big" *ngIf="!character.equipment.hands">None</span>
           </div>
@@ -74,7 +86,13 @@
       <div class="row">
         <div class="col">
           <div class="ms-3 mt-3 d-flex flex-row align-items-center">
-            <app-card-slot placeholder="Body" [card]="character.equipment.body"></app-card-slot>
+            <app-card-slot placeholder="Body"
+                           [card]="character.equipment.body"
+                           [dndDropzone]="['BodyArmor']"
+                           [dndDraggable]="{ equipmentSlot: 'body', item: character.equipment.body }"
+                           [dndDisableDragIf]="!character.equipment.body"
+                           (dndDrop)="updateEquipment(character, 'body', $event)"></app-card-slot>
+
             <span class="icon-text ms-3 size-big" *ngIf="character.equipment.body">{{ character.equipment.body.name }}</span>
             <span class="icon-text ms-3 size-big" *ngIf="!character.equipment.body">None</span>
           </div>
@@ -83,9 +101,15 @@
       <div class="row">
         <div class="col">
           <div class="ms-3 mt-3 d-flex flex-row align-items-center">
-            <app-card-slot placeholder="Legs" [card]="character.equipment.legs"></app-card-slot>
-            <span class="icon-text ms-3 size-big" *ngIf="character.equipment.legs">{{ character.equipment.legs.name }}</span>
-            <span class="icon-text ms-3 size-big" *ngIf="!character.equipment.legs">None</span>
+            <app-card-slot placeholder="Feet"
+                           [card]="character.equipment.feet"
+                           [dndDropzone]="['FeetArmor']"
+                           [dndDraggable]="{ equipmentSlot: 'feet', item: character.equipment.feet }"
+                           [dndDisableDragIf]="!character.equipment.feet"
+                           (dndDrop)="updateEquipment(character, 'feet', $event)"></app-card-slot>
+
+            <span class="icon-text ms-3 size-big" *ngIf="character.equipment.feet">{{ character.equipment.feet.name }}</span>
+            <span class="icon-text ms-3 size-big" *ngIf="!character.equipment.feet">None</span>
           </div>
         </div>
       </div>
