@@ -4,7 +4,7 @@ import { sample } from 'lodash';
 import { EncounterCurrentTile, ReduceHealth, ReplaceNode, SetBackpackItemLockById, SetLandmarkSlotLock,
   SetLandmarkSlotTimer, UpdateBackpackItemById } from '../../../src/app/core/services/game/actions';
 import { ILandmarkEncounter, ICard, IItemConfig, CardPlaceFunction, CardTimerFunction, ILandmarkEncounterOpts } from '../../interfaces';
-import { decreaseDescriptorLevel, getHighestDescriptorByLevel } from '../../helpers';
+import { decreaseDescriptorLevel, getHighestDescriptorByLevel, increaseInteractionLevel } from '../../helpers';
 import type { Store } from '@ngxs/store';
 import { pausableTimer } from '../../rxjs.helpers';
 
@@ -63,6 +63,48 @@ export const helpers = (encounter: ILandmarkEncounterOpts, store: Store) => {
             const highestDescriptor = getHighestDescriptorByLevel(item);
 
             decreaseDescriptorLevel(item, highestDescriptor, 1);
+
+            store.dispatch(new UpdateBackpackItemById(card.cardId, item));
+            store.dispatch(new SetBackpackItemLockById(card.cardId, false));
+          }),
+          pausableTimer(5),
+          tap(() => doFullReset()),
+          switchMap(() => of(encounterOpts))
+        );
+    },
+
+    // "interaction boost"
+    (encounterOpts: ILandmarkEncounter, slotIndex: number, card: ICard) => {
+      store.dispatch(new SetLandmarkSlotLock(slotIndex, true));
+      store.dispatch(new SetLandmarkSlotTimer(slotIndex, -1));
+      store.dispatch(new SetBackpackItemLockById(card.cardId, true));
+
+      // if it doesn't have parts, it's not really an item we can use in this path
+      if(!(card as IItemConfig).parts || !(card as IItemConfig).interaction) {
+        return timer(1000)
+          .pipe(
+            first(),
+            tap(() => callbacks.newEventMessage('The shrine deity is thinking...')),
+            pausableTimer(5),
+            tap(() => callbacks.newEventMessage('The shrine deity rejects your offering!')),
+            pausableTimer(5),
+            tap(() => doFullReset()),
+            switchMap(() => of(encounterOpts))
+          );
+      }
+
+      // if it is an item, lower the highest descriptor by 1
+      return timer(1000)
+        .pipe(
+          first(),
+          tap(() => callbacks.newEventMessage('The shrine deity is thinking...')),
+          pausableTimer(5),
+          tap(() => callbacks.newEventMessage('The shrine deity blesses your offering!')),
+          tap(() => store.dispatch(new SetLandmarkSlotLock(slotIndex, false))),
+          tap(() => {
+            const item: IItemConfig = card as IItemConfig;
+
+            increaseInteractionLevel(item, item.interaction.name, 1);
 
             store.dispatch(new UpdateBackpackItemById(card.cardId, item));
             store.dispatch(new SetBackpackItemLockById(card.cardId, false));
