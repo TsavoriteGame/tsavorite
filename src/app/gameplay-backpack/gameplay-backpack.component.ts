@@ -4,7 +4,8 @@ import { Observable, Subject, Subscription, timer } from 'rxjs';
 import { getCombinationBetweenTwoItems,
   getReactionBetweenTwoItems } from '../../../content/helpers';
 import { IItemConfig } from '../../../content/interfaces';
-import { AddBackpackItem, ReduceHealth, RemoveBackpackItem, SetBackpackItemLockById, UpdateBackpackItem } from '../core/services/game/actions';
+import { AddBackpackItem, ReduceHealth, RemoveBackpackItem,
+  SetBackpackItemLockById, UpdateBackpackItem } from '../core/services/game/actions';
 import { ContentService } from '../core/services/game/content.service';
 import { GameConstant, GameService } from '../core/services/game/game.service';
 import { GameState, IGameCharacter } from '../core/services/game/stores';
