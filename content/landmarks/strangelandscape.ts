@@ -1,11 +1,11 @@
 import { concatMap, from, Observable, of, tap } from 'rxjs';
 import { ReplaceNode } from '../../src/app/core/services/game/actions';
-import { ILandmark, Landmark, ILandmarkEncounter } from '../interfaces';
+import { ILandmark, Landmark, ILandmarkEncounter, ILandmarkEncounterOpts } from '../interfaces';
 import { pausableTimer } from '../rxjs.helpers';
 
 export class StrangeLandscape extends Landmark implements ILandmark {
 
-  encounter({ scenarioNode, position }): Observable<ILandmarkEncounter> {
+  encounter({ scenarioNode, position }: ILandmarkEncounterOpts): Observable<ILandmarkEncounter> {
     return from([
       {
         landmarkName: scenarioNode.name,
@@ -13,7 +13,6 @@ export class StrangeLandscape extends Landmark implements ILandmark {
         landmarkIcon: scenarioNode.icon,
         landmarkData: scenarioNode.landmarkData,
         slots: [],
-        removeAfterEncounter: false,
         canLeave: true,
         choices: []
       },
@@ -23,7 +22,6 @@ export class StrangeLandscape extends Landmark implements ILandmark {
         landmarkIcon: 'sunsetvolcano',
         landmarkData: scenarioNode.landmarkData,
         slots: [],
-        removeAfterEncounter: true,
         canLeave: true,
         choices: []
       }

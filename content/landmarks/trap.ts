@@ -1,18 +1,17 @@
 import { Observable, of } from 'rxjs';
 import { EncounterCurrentTile, ReplaceNode } from '../../src/app/core/services/game/actions';
-import { ILandmark, Landmark, ILandmarkEncounter } from '../interfaces';
+import { ILandmark, Landmark, ILandmarkEncounter, ILandmarkEncounterOpts } from '../interfaces';
 
 export class Trap extends Landmark implements ILandmark {
 
   // return slots, what they're filled with
-  encounter({ position, scenarioNode }): Observable<ILandmarkEncounter> {
+  encounter({ position, scenarioNode }: ILandmarkEncounterOpts): Observable<ILandmarkEncounter> {
     return of({
       landmarkName: scenarioNode.name,
       landmarkDescription: scenarioNode.description,
       landmarkIcon: scenarioNode.icon,
       landmarkData: scenarioNode.landmarkData,
       slots: [],
-      removeAfterEncounter: false,
       canLeave: false,
       choices: [
         {

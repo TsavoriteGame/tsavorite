@@ -1,19 +1,18 @@
 import { Observable, of } from 'rxjs';
 import { isUndefined } from 'lodash';
 import { Warp } from '../../src/app/core/services/game/actions';
-import { ILandmark, Landmark, ILandmarkEncounter } from '../interfaces';
+import { ILandmark, Landmark, ILandmarkEncounter, ILandmarkEncounterOpts } from '../interfaces';
 
 export class Teleporter extends Landmark implements ILandmark {
 
   // return slots, what they're filled with
-  encounter({ scenario, scenarioNode, callbacks }): Observable<ILandmarkEncounter> {
+  encounter({ scenario, scenarioNode, callbacks }: ILandmarkEncounterOpts): Observable<ILandmarkEncounter> {
     return of({
       landmarkName: scenarioNode.name,
       landmarkDescription: scenarioNode.description,
       landmarkIcon: scenarioNode.icon,
       landmarkData: scenarioNode.landmarkData,
       slots: [],
-      removeAfterEncounter: false,
       canLeave: true,
       choices: [
         {

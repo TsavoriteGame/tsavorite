@@ -1,7 +1,9 @@
 import { Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
+import { GameConstant } from '../../src/app/core/services/game/game.service';
 import { IGameCharacter } from '../../src/app/core/services/game/stores';
 import { ICard } from './card';
+import { IItemConfig } from './item';
 import { IScenario, IScenarioNode } from './scenario';
 
 export interface IMapPosition {
@@ -67,6 +69,10 @@ export interface ILandmarkEncounterOpts {
   scenarioNode: IScenarioNode;
   character: IGameCharacter;
   callbacks: {
+    content: {
+      getConstant: (constant: GameConstant) => any;
+      createItemById: (id: string) => IItemConfig;
+    };
     logger: {
       log: (...message) => void;
       error: (...message) => void;
@@ -101,9 +107,6 @@ export interface ILandmarkEncounter {
 
   // the slot data for the landmark
   readonly slots: ILandmarkSlot[];
-
-  // whether or not the landmark should be removed
-  readonly removeAfterEncounter: boolean;
 
   // what kind of choices this landmark has
   readonly choices: ILandmarkSlotChoice[];

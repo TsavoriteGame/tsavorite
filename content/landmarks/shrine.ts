@@ -30,7 +30,6 @@ export class Shrine extends Landmark implements ILandmark {
           timerExpired: sample(timeoutFunctions)
         }
       ],
-      removeAfterEncounter: false,
       canLeave: false,
       choices: []
     });

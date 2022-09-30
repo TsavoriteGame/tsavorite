@@ -5,9 +5,9 @@ worlds:
   0:
     name: Overworld
     layout:
-      - [2,    2,    2,    2,    0,    0,    0,    0,    0,    0,    0]
-      - [2,    14,   0,    2,    0,    0,    0,    10,   0,    0,    0]
-      - [2,    0,    0,    2,    0,    0,    0,    10,   0,    0,    0]
+      - [2,    2,    2,    2,    0,    17,   17,   0,    0,    0,    0]
+      - [2,    14,   0,    2,    0,    17,   0,    10,   0,    0,    0]
+      - [2,    0,    0,    2,    0,    17,   0,    10,   0,    0,    0]
       - [2,    0,    0,    2,    0,    0,    10,   10,   0,    0,    0]
       - [2,    2,    2,    2,    1,    0,    0,    0,    0,    0,    0]
       - [0,    0,    0,    0,    0,    0,    16,   0,    0,    0,    0]
@@ -99,3 +99,11 @@ nodes:
     icon: spiketrap
     description: You can't leave here unless you disarm the trap!
     landmark: Trap
+
+  17:
+    name: Item On Ground
+    icon: haxe
+    description: You can take this item now, or come back for it later.
+    landmark: ItemOnGround
+    landmarkData:
+      item: RockSmasher-2

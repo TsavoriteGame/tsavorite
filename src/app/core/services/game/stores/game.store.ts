@@ -199,6 +199,10 @@ export class GameState implements NgxsOnInit {
         scenarioNode: structuredClone(node),
         character: structuredClone(character),
         callbacks: {
+          content: {
+            getConstant: (constant: GameConstant) => this.gameService.getConstant(constant),
+            createItemById: (id: string) => this.contentService.getItemById(id)
+          },
           logger: {
             log: (...message) => this.loggerService.log(...message),
             error: (...message) => this.loggerService.error(...message)
