@@ -40,9 +40,6 @@ export class GameplayCharacterComponent implements OnInit {
   }
 
   shouldDisableHealthStealing(character: IGameCharacter): boolean {
-    if(character.hp <= 1) {
-      return true;
-    }
     if(character.items.length === this.gameService.getConstant(GameConstant.BackpackSize)) {
       return true;
     }
