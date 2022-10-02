@@ -659,12 +659,37 @@ export class GameState implements NgxsOnInit {
 
     const index = ctx.getState().character.items.findIndex(checkItem => checkItem.interaction?.name === Interaction.Buys);
 
-    // if we cant find coins, we add coins
+    // if we cant find coins, we check hands
     if(index === -1) {
-      const coins = this.contentService.getItemById('GoldCoins-1');
-      coins.interaction.level = amount;
 
-      this.addBackpackItem(ctx, { item: coins });
+      // check the hands, and modify that value
+      const handItem = ctx.getState().character.equipment[EquipmentSlot.Hands];
+      if(handItem?.interaction.name === Interaction.Buys) {
+        const newHandsValue = Math.max(1, handItem.interaction.level + amount);
+
+        ctx.setState(patch<IGame>({
+          character: patch<IGameCharacter>({
+            equipment: patch<Record<EquipmentSlot, IItemConfig>>({
+              [EquipmentSlot.Hands]: patch<IItemConfig>({
+                interaction: patch<IItemInteraction>({
+                  level: newHandsValue
+                })
+              })
+            })
+          })
+        }));
+
+        return;
+      }
+
+      // if it isn't in hands, we add a new one if the value is positive
+      if(amount > 0) {
+        const coins = this.contentService.getItemById('GoldCoins-1');
+        coins.interaction.level = amount;
+
+        this.addBackpackItem(ctx, { item: coins });
+      }
+
       return;
     }
 
