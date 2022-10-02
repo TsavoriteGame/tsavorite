@@ -6,8 +6,8 @@ import { getCombinationBetweenTwoItems,
   hasDescriptor } from '../../../content/helpers';
 import { Descriptor, IItemConfig } from '../../../content/interfaces';
 import { AddBackpackItem, ReduceHealth,
-  RemoveBackpackItemById,
-  SetBackpackItemLockById, SetEquipmentItem, UpdateBackpackItemById } from '../core/services/game/actions';
+  RemoveCharacterItemById,
+  SetCharacterItemLockById, SetEquipmentItem, UpdateCharacterItemById } from '../core/services/game/actions';
 import { ContentService } from '../core/services/game/content.service';
 import { GameConstant, GameService } from '../core/services/game/game.service';
 import { LoggerService } from '../core/services/game/logger.service';
@@ -57,7 +57,7 @@ export class GameplayBackpackComponent implements OnInit {
     this.discardItem = item;
     this.indexDiscard = backpackIndex;
 
-    this.store.dispatch(new SetBackpackItemLockById(this.discardItem.cardId, true));
+    this.store.dispatch(new SetCharacterItemLockById(this.discardItem.cardId, true));
   }
 
   dropLeft($event) {
@@ -69,7 +69,7 @@ export class GameplayBackpackComponent implements OnInit {
     this.combineLeft = item;
     this.indexLeft = backpackIndex;
 
-    this.store.dispatch(new SetBackpackItemLockById(this.combineLeft.cardId, true));
+    this.store.dispatch(new SetCharacterItemLockById(this.combineLeft.cardId, true));
   }
 
   dropRight($event) {
@@ -81,7 +81,7 @@ export class GameplayBackpackComponent implements OnInit {
     this.combineRight = item;
     this.indexRight = backpackIndex;
 
-    this.store.dispatch(new SetBackpackItemLockById(this.combineRight.cardId, true));
+    this.store.dispatch(new SetCharacterItemLockById(this.combineRight.cardId, true));
   }
 
   reaction(character: IGameCharacter) {
@@ -108,17 +108,17 @@ export class GameplayBackpackComponent implements OnInit {
 
       // update or remove the source item
       if(result.newSource) {
-        this.store.dispatch(new UpdateBackpackItemById(oldSourceId, result.newSource));
+        this.store.dispatch(new UpdateCharacterItemById(oldSourceId, result.newSource));
       } else {
-        this.store.dispatch(new RemoveBackpackItemById(oldSourceId));
+        this.store.dispatch(new RemoveCharacterItemById(oldSourceId));
       }
 
 
       // update or remove the target item
       if(result.newTarget) {
-        this.store.dispatch(new UpdateBackpackItemById(oldTargetId, result.newTarget));
+        this.store.dispatch(new UpdateCharacterItemById(oldTargetId, result.newTarget));
       } else {
-        this.store.dispatch(new RemoveBackpackItemById(oldTargetId));
+        this.store.dispatch(new RemoveCharacterItemById(oldTargetId));
       }
     }
 
@@ -159,17 +159,17 @@ export class GameplayBackpackComponent implements OnInit {
 
       // update or remove the source item
       if(result.newSource) {
-        this.store.dispatch(new UpdateBackpackItemById(oldSourceId, result.newSource));
+        this.store.dispatch(new UpdateCharacterItemById(oldSourceId, result.newSource));
       } else {
-        this.store.dispatch(new RemoveBackpackItemById(oldSourceId));
+        this.store.dispatch(new RemoveCharacterItemById(oldSourceId));
       }
 
 
       // update or remove the target item
       if(result.newTarget) {
-        this.store.dispatch(new UpdateBackpackItemById(oldTargetId, result.newTarget));
+        this.store.dispatch(new UpdateCharacterItemById(oldTargetId, result.newTarget));
       } else {
-        this.store.dispatch(new RemoveBackpackItemById(oldTargetId));
+        this.store.dispatch(new RemoveCharacterItemById(oldTargetId));
       }
     }
 
@@ -191,7 +191,7 @@ export class GameplayBackpackComponent implements OnInit {
       return;
     }
 
-    this.store.dispatch(new RemoveBackpackItemById(this.discardItem.cardId)).subscribe(() => {
+    this.store.dispatch(new RemoveCharacterItemById(this.discardItem.cardId)).subscribe(() => {
       this.cancelDiscard();
     });
   }
@@ -210,12 +210,12 @@ export class GameplayBackpackComponent implements OnInit {
 
   cancelApplicombine() {
     if(this.combineLeft) {
-      this.store.dispatch(new SetBackpackItemLockById(this.combineLeft.cardId, false));
+      this.store.dispatch(new SetCharacterItemLockById(this.combineLeft.cardId, false));
       this.combineLeft = undefined;
     }
 
     if(this.combineRight) {
-      this.store.dispatch(new SetBackpackItemLockById(this.combineRight.cardId, false));
+      this.store.dispatch(new SetCharacterItemLockById(this.combineRight.cardId, false));
       this.combineRight = undefined;
     }
 
@@ -224,7 +224,7 @@ export class GameplayBackpackComponent implements OnInit {
   }
 
   cancelDiscard() {
-    this.store.dispatch(new SetBackpackItemLockById(this.discardItem.cardId, false));
+    this.store.dispatch(new SetCharacterItemLockById(this.discardItem.cardId, false));
     this.discardItem = undefined;
     this.indexDiscard = -1;
   }

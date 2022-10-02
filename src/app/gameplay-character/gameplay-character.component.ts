@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { Interaction } from '../../../content/interfaces';
-import { AddBackpackItem, AddHealth, RemoveBackpackItemById, SetEquipmentItem } from '../core/services/game/actions';
+import { AddBackpackItem, AddHealth, RemoveCharacterItemById, SetEquipmentItem } from '../core/services/game/actions';
 import { GameConstant, GameService } from '../core/services/game/game.service';
 import { EquipmentSlot, GameState, IGameCharacter } from '../core/services/game/stores';
 
@@ -37,7 +37,7 @@ export class GameplayCharacterComponent implements OnInit {
 
     this.store.dispatch(new AddHealth(item.interaction.level))
       .subscribe(() => {
-        this.store.dispatch(new RemoveBackpackItemById(item.cardId));
+        this.store.dispatch(new RemoveCharacterItemById(item.cardId));
       });
   }
 
@@ -68,7 +68,7 @@ export class GameplayCharacterComponent implements OnInit {
 
     // remove the item from the backpack if equipped
     if(newItem) {
-      this.store.dispatch(new RemoveBackpackItemById(newItem.cardId));
+      this.store.dispatch(new RemoveCharacterItemById(newItem.cardId));
     }
   }
 

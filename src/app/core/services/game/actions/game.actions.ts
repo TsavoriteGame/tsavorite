@@ -17,18 +17,18 @@ export class AddBackpackItem {
   constructor(public item: IItemConfig) {}
 }
 
-export class RemoveBackpackItemById {
-  static type = '[Game] Remove Backpack Item By Id';
+export class RemoveCharacterItemById {
+  static type = '[Game] Remove Character Item By Id';
   constructor(public cardId: number) {}
 }
 
-export class UpdateBackpackItemById {
-  static type = '[Game] Update Backpack Item By Id';
+export class UpdateCharacterItemById {
+  static type = '[Game] Update Character Item By Id';
   constructor(public cardId: number, public item: IItemConfig) {}
 }
 
-export class SetBackpackItemLockById {
-  static type = '[Game] Set Backpack Item Lock By Id';
+export class SetCharacterItemLockById {
+  static type = '[Game] Set Character Item Lock By Id';
   constructor(public cardId: number, public locked: boolean) {}
 }
 

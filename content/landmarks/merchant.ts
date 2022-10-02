@@ -1,5 +1,5 @@
 import { Observable, of } from 'rxjs';
-import { AddBackpackItem, AddCoinsToBackpack, RemoveBackpackItemById,
+import { AddBackpackItem, AddCoinsToBackpack, RemoveCharacterItemById,
   RemoveCardFromSlot, RemoveCoinsFromBackpack } from '../../src/app/core/services/game/actions';
 import { GameConstant } from '../../src/app/core/services/game/game.service';
 import { ILandmark, Landmark, ILandmarkEncounter, ILandmarkEncounterOpts, ICard, IItemConfig, Interaction } from '../interfaces';
@@ -89,7 +89,7 @@ export class Merchant extends Landmark implements ILandmark {
             const value = itemCheck.interaction.level ?? 1;
             callbacks.newEventMessage(`Thanks for the business, here's ${value} coin(s)!`);
             this.store.dispatch(new RemoveCardFromSlot(slotIndex));
-            this.store.dispatch(new RemoveBackpackItemById(card.cardId));
+            this.store.dispatch(new RemoveCharacterItemById(card.cardId));
             this.store.dispatch(new AddCoinsToBackpack(value));
 
             return of(encounterOpts);

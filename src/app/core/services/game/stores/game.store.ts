@@ -11,11 +11,11 @@ import { IArchetype, IBackground, ILandmark, IItemConfig,
   ILandmarkSlot, Interaction, IItemInteraction } from '../../../../../../content/interfaces';
 import { findFirstLandmarkInWorld, findSpawnCoordinates, getNodeAt } from '../../../../../../content/scenario.helpers';
 import { AbandonGame, AddBackpackItem, AddCardToSlot, AddCoinsToBackpack, AddHealth, EncounterCurrentTile, MakeChoice, Move, ReduceHealth,
-  RemoveBackpackItemById, RemoveCardFromSlot,
-  RemoveCoinsFromBackpack, ReplaceNode, SetBackpackItemLockById, SetCurrentCardId,
+  RemoveCharacterItemById, RemoveCardFromSlot,
+  RemoveCoinsFromBackpack, ReplaceNode, SetCharacterItemLockById, SetCurrentCardId,
   SetEquipmentItem,
   SetLandmarkSlotLock, SetLandmarkSlotTimer, SlotTimerExpire, StartGame,
-  UpdateBackpackItemById, UpdateEventMessage, Warp } from '../actions';
+  UpdateCharacterItemById, UpdateEventMessage, Warp } from '../actions';
 import { ContentService } from '../content.service';
 import { GameConstant, GameService } from '../game.service';
 import { Observable, Subscription } from 'rxjs';
@@ -336,8 +336,8 @@ export class GameState implements NgxsOnInit {
     }));
   }
 
-  @Action(UpdateBackpackItemById)
-  updateBackpackItemById(ctx: StateContext<IGame>, { item, cardId }: UpdateBackpackItemById) {
+  @Action(UpdateCharacterItemById)
+  updateBackpackItemById(ctx: StateContext<IGame>, { item, cardId }: UpdateCharacterItemById) {
     if(!this.isInGame(ctx)) {
       return;
     }
@@ -373,8 +373,8 @@ export class GameState implements NgxsOnInit {
     }));
   }
 
-  @Action(SetBackpackItemLockById)
-  setBackpackItemLockById(ctx: StateContext<IGame>, { cardId, locked }: SetBackpackItemLockById) {
+  @Action(SetCharacterItemLockById)
+  setBackpackItemLockById(ctx: StateContext<IGame>, { cardId, locked }: SetCharacterItemLockById) {
     if(!this.isInGame(ctx)) {
       return;
     }
@@ -410,8 +410,8 @@ export class GameState implements NgxsOnInit {
     }));
   }
 
-  @Action(RemoveBackpackItemById)
-  removeBackpackItemById(ctx: StateContext<IGame>, { cardId }: RemoveBackpackItemById) {
+  @Action(RemoveCharacterItemById)
+  removeBackpackItemById(ctx: StateContext<IGame>, { cardId }: RemoveCharacterItemById) {
     if(!this.isInGame(ctx)) {
       return;
     }
