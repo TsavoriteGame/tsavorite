@@ -11,6 +11,11 @@ export class LoggerService {
     console.log(...message);
   }
 
+  info(...message): void {
+    console.info(...message);
+  }
+
+
   error(...message): void {
     console.error(...message);
   }

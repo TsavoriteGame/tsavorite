@@ -17,16 +17,6 @@ export class AddBackpackItem {
   constructor(public item: IItemConfig) {}
 }
 
-export class RemoveBackpackItem {
-  static type = '[Game] Remove Backpack Item';
-  constructor(public index: number) {}
-}
-
-export class UpdateBackpackItem {
-  static type = '[Game] Update Backpack Item';
-  constructor(public index: number, public item: IItemConfig) {}
-}
-
 export class RemoveBackpackItemById {
   static type = '[Game] Remove Backpack Item By Id';
   constructor(public cardId: number) {}

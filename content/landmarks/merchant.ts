@@ -87,7 +87,7 @@ export class Merchant extends Landmark implements ILandmark {
             }
 
             const value = itemCheck.interaction.level ?? 1;
-            callbacks.newEventMessage(`Thanks for the business, here's ${value} coins!`);
+            callbacks.newEventMessage(`Thanks for the business, here's ${value} coin(s)!`);
             this.store.dispatch(new RemoveCardFromSlot(slotIndex));
             this.store.dispatch(new RemoveBackpackItemById(card.cardId));
             this.store.dispatch(new AddCoinsToBackpack(value));

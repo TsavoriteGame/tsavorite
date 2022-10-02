@@ -4,7 +4,7 @@
 
       <div class="row">
 
-        <div class="col-6 col-md-12">
+        <div class="col-6 col-xs-12">
           <div class="row">
             <div class="col">
               <div class="mt-3 ms-3 d-flex flex-row align-items-center">
@@ -18,7 +18,7 @@
               <div class="item-zone">
                 <div class="ms-3 mt-3 d-flex flex-row align-items-center item-slot"
                      *ngFor="let slot of slots"
-                     [class.selected]="character.items[slot] && (isItemInSlot(character.items[slot]))"
+                     [class.item-selected]="character.items[slot] && (isItemInSlot(character.items[slot]))"
                      dndDropzone
                      [dndType]="getDNDType(character.items[slot])"
                      (dndDrop)="dropOnBackpack(character, $event)"

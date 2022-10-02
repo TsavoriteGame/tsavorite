@@ -151,6 +151,10 @@ body.fantasy, .tooltip .fantasy {
   text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
 }
 
+.item-selected {
+  opacity: 0.5;
+}
+
 .blank-slate {
   @extend .centered;
   @extend .full-space;

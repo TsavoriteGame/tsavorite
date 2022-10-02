@@ -712,6 +712,7 @@ test('An item with parts at level 0, or at no parts, should not be functional', 
     interaction: { name: Interaction.Zaps, level: 1 }
   };
 
+  expect(isFunctional(undefined)).toBe(false);
   expect(isFunctional(item)).toBe(false);
   expect(isFunctional(itemWithNoParts)).toBe(false);
   expect(isFunctional(itemWithNoPartsArray)).toBe(false);

@@ -11,11 +11,11 @@ import { IArchetype, IBackground, ILandmark, IItemConfig,
   ILandmarkSlot, Interaction, IItemInteraction } from '../../../../../../content/interfaces';
 import { findFirstLandmarkInWorld, findSpawnCoordinates, getNodeAt } from '../../../../../../content/scenario.helpers';
 import { AbandonGame, AddBackpackItem, AddCardToSlot, AddCoinsToBackpack, AddHealth, EncounterCurrentTile, MakeChoice, Move, ReduceHealth,
-  RemoveBackpackItem, RemoveBackpackItemById, RemoveCardFromSlot,
+  RemoveBackpackItemById, RemoveCardFromSlot,
   RemoveCoinsFromBackpack, ReplaceNode, SetBackpackItemLockById, SetCurrentCardId,
   SetEquipmentItem,
   SetLandmarkSlotLock, SetLandmarkSlotTimer, SlotTimerExpire, StartGame,
-  UpdateBackpackItem, UpdateBackpackItemById, UpdateEventMessage, Warp } from '../actions';
+  UpdateBackpackItemById, UpdateEventMessage, Warp } from '../actions';
 import { ContentService } from '../content.service';
 import { GameConstant, GameService } from '../game.service';
 import { Observable, Subscription } from 'rxjs';
@@ -330,24 +330,6 @@ export class GameState implements NgxsOnInit {
     }));
   }
 
-  @Action(UpdateBackpackItem)
-  updateBackpackItem(ctx: StateContext<IGame>, { item, index }: UpdateBackpackItem) {
-    if(!this.isInGame(ctx)) {
-      return;
-    }
-
-    if(!isFunctional(item)) {
-      this.removeBackpackItem(ctx, { index });
-      return;
-    }
-
-    ctx.setState(patch<IGame>({
-      character: patch({
-        items: updateItem<IItemConfig>(index, item)
-      })
-    }));
-  }
-
   @Action(UpdateBackpackItemById)
   updateBackpackItemById(ctx: StateContext<IGame>, { item, cardId }: UpdateBackpackItemById) {
     if(!this.isInGame(ctx)) {
@@ -360,6 +342,20 @@ export class GameState implements NgxsOnInit {
     }
 
     const index = ctx.getState().character.items.findIndex(i => i.cardId === cardId);
+
+    if(index === -1) {
+      const handsItem = ctx.getState().character.equipment[EquipmentSlot.Hands];
+      if(handsItem?.cardId === cardId) {
+        ctx.setState(patch<IGame>({
+          character: patch({
+            equipment: patch({
+              [EquipmentSlot.Hands]: item
+            })
+          })
+        }));
+      }
+      return;
+    }
 
     ctx.setState(patch<IGame>({
       character: patch({
@@ -376,24 +372,29 @@ export class GameState implements NgxsOnInit {
 
     const index = ctx.getState().character.items.findIndex(i => i.cardId === cardId);
 
-    ctx.setState(patch<IGame>({
-      character: patch({
-        items: updateItem<IItemConfig>(index, patch<IItemConfig>({
-          locked
-        }))
-      })
-    }));
-  }
+    // if we can't find it in the backpack, check the hands
+    if(index === -1) {
+      const handsItem = ctx.getState().character.equipment[EquipmentSlot.Hands];
+      if(handsItem?.cardId === cardId) {
+        ctx.setState(patch<IGame>({
+          character: patch({
+            equipment: patch({
+              [EquipmentSlot.Hands]: patch({
+                locked
+              })
+            })
+          })
+        }));
+      }
 
-  @Action(RemoveBackpackItem)
-  removeBackpackItem(ctx: StateContext<IGame>, { index }: RemoveBackpackItem) {
-    if(!this.isInGame(ctx)) {
       return;
     }
 
     ctx.setState(patch<IGame>({
       character: patch({
-        items: removeItem<IItemConfig>(index)
+        items: updateItem<IItemConfig>(index, patch<IItemConfig>({
+          locked
+        }))
       })
     }));
   }
@@ -405,6 +406,22 @@ export class GameState implements NgxsOnInit {
     }
 
     const index = ctx.getState().character.items.findIndex(i => i.cardId === cardId);
+
+    // if we can't find it in the backpack, check the hands
+    if(index === -1) {
+      const handsItem = ctx.getState().character.equipment[EquipmentSlot.Hands];
+      if(handsItem?.cardId === cardId) {
+        ctx.setState(patch<IGame>({
+          character: patch({
+            equipment: patch({
+              [EquipmentSlot.Hands]: undefined
+            })
+          })
+        }));
+      }
+
+      return;
+    }
 
     ctx.setState(patch<IGame>({
       character: patch({

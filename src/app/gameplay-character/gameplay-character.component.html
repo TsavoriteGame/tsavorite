@@ -58,7 +58,9 @@
           <div class="ms-3 mt-3 d-flex flex-row align-items-center">
             <app-card-slot placeholder="Head"
                            [card]="character.equipment.head"
+                           [class.item-selected]="character.equipment.head?.locked"
                            [dndDropzone]="['HeadArmor']"
+                           dndType="HeadArmor"
                            [dndDraggable]="{ equipmentSlot: 'head', item: character.equipment.head }"
                            [dndDisableDragIf]="!character.equipment.head"
                            (dndDrop)="updateEquipment(character, 'head', $event)"></app-card-slot>
@@ -73,7 +75,9 @@
           <div class="ms-3 mt-3 d-flex flex-row align-items-center">
             <app-card-slot placeholder="Hands"
                            [card]="character.equipment.hands"
+                           [class.item-selected]="character.equipment.hands?.locked"
                            [dndDropzone]="['Item']"
+                           dndType="Item"
                            [dndDraggable]="{ equipmentSlot: 'hands', item: character.equipment.hands }"
                            [dndDisableDragIf]="!character.equipment.hands"
                            (dndDrop)="updateEquipment(character, 'hands', $event)"></app-card-slot>
@@ -88,7 +92,9 @@
           <div class="ms-3 mt-3 d-flex flex-row align-items-center">
             <app-card-slot placeholder="Body"
                            [card]="character.equipment.body"
+                           [class.item-selected]="character.equipment.body?.locked"
                            [dndDropzone]="['BodyArmor']"
+                           dndType="BodyArmor"
                            [dndDraggable]="{ equipmentSlot: 'body', item: character.equipment.body }"
                            [dndDisableDragIf]="!character.equipment.body"
                            (dndDrop)="updateEquipment(character, 'body', $event)"></app-card-slot>
@@ -103,7 +109,9 @@
           <div class="ms-3 mt-3 d-flex flex-row align-items-center">
             <app-card-slot placeholder="Feet"
                            [card]="character.equipment.feet"
+                           [class.item-selected]="character.equipment.feet?.locked"
                            [dndDropzone]="['FeetArmor']"
+                           dndType="FeetArmor"
                            [dndDraggable]="{ equipmentSlot: 'feet', item: character.equipment.feet }"
                            [dndDisableDragIf]="!character.equipment.feet"
                            (dndDrop)="updateEquipment(character, 'feet', $event)"></app-card-slot>

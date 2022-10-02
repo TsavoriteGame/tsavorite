@@ -289,6 +289,10 @@ export function isLocked(item: IItemConfig): boolean {
 }
 
 export function isFunctional(item: IItemConfig): boolean {
+  if(!item) {
+    return false;
+  }
+
   const descriptor = getHighestDescriptorByLevel(item);
   if(!descriptor) {
     return false;

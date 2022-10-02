@@ -5,10 +5,12 @@ import { getCombinationBetweenTwoItems,
   getReactionBetweenTwoItems,
   hasDescriptor } from '../../../content/helpers';
 import { Descriptor, IItemConfig } from '../../../content/interfaces';
-import { AddBackpackItem, ReduceHealth, RemoveBackpackItem,
-  SetBackpackItemLockById, SetEquipmentItem, UpdateBackpackItem } from '../core/services/game/actions';
+import { AddBackpackItem, ReduceHealth,
+  RemoveBackpackItemById,
+  SetBackpackItemLockById, SetEquipmentItem, UpdateBackpackItemById } from '../core/services/game/actions';
 import { ContentService } from '../core/services/game/content.service';
 import { GameConstant, GameService } from '../core/services/game/game.service';
+import { LoggerService } from '../core/services/game/logger.service';
 import { GameState, IGameCharacter } from '../core/services/game/stores';
 
 @Component({
@@ -36,7 +38,12 @@ export class GameplayBackpackComponent implements OnInit {
   public applicombineResultMessage$ = this.applicombineResultMessage.asObservable();
   public timer$: Subscription;
 
-  constructor(private store: Store, private contentService: ContentService, private gameService: GameService) { }
+  constructor(
+    private store: Store,
+    private loggerService: LoggerService,
+    private contentService: ContentService,
+    private gameService: GameService
+  ) { }
 
   ngOnInit(): void {
   }
@@ -94,21 +101,24 @@ export class GameplayBackpackComponent implements OnInit {
       return;
     }
 
+    const oldSourceId = this.combineLeft.cardId;
+    const oldTargetId = this.combineRight.cardId;
+
     if(result.success) {
 
       // update or remove the source item
       if(result.newSource) {
-        this.store.dispatch(new UpdateBackpackItem(this.indexLeft, result.newSource));
+        this.store.dispatch(new UpdateBackpackItemById(oldSourceId, result.newSource));
       } else {
-        this.store.dispatch(new RemoveBackpackItem(this.indexLeft));
+        this.store.dispatch(new RemoveBackpackItemById(oldSourceId));
       }
 
 
       // update or remove the target item
       if(result.newTarget) {
-        this.store.dispatch(new UpdateBackpackItem(this.indexRight, result.newSource));
+        this.store.dispatch(new UpdateBackpackItemById(oldTargetId, result.newSource));
       } else {
-        this.store.dispatch(new RemoveBackpackItem(this.indexRight));
+        this.store.dispatch(new RemoveBackpackItemById(oldTargetId));
       }
     }
 
@@ -142,21 +152,24 @@ export class GameplayBackpackComponent implements OnInit {
       return;
     }
 
+    const oldSourceId = this.combineLeft.cardId;
+    const oldTargetId = this.combineRight.cardId;
+
     if(result.success) {
 
       // update or remove the source item
       if(result.newSource) {
-        this.store.dispatch(new UpdateBackpackItem(this.indexLeft, result.newSource));
+        this.store.dispatch(new UpdateBackpackItemById(oldSourceId, result.newSource));
       } else {
-        this.store.dispatch(new RemoveBackpackItem(this.indexLeft));
+        this.store.dispatch(new RemoveBackpackItemById(oldSourceId));
       }
 
 
       // update or remove the target item
       if(result.newTarget) {
-        this.store.dispatch(new UpdateBackpackItem(this.indexRight, result.newSource));
+        this.store.dispatch(new UpdateBackpackItemById(oldTargetId, result.newSource));
       } else {
-        this.store.dispatch(new RemoveBackpackItem(this.indexRight));
+        this.store.dispatch(new RemoveBackpackItemById(oldTargetId));
       }
     }
 
@@ -178,12 +191,14 @@ export class GameplayBackpackComponent implements OnInit {
       return;
     }
 
-    this.store.dispatch(new RemoveBackpackItem(this.indexDiscard)).subscribe(() => {
+    this.store.dispatch(new RemoveBackpackItemById(this.discardItem.cardId)).subscribe(() => {
       this.cancelDiscard();
     });
   }
 
   flashMessage(message: string) {
+    this.loggerService.info(message);
+
     if(this.timer$) {
       this.timer$.unsubscribe();
     }
