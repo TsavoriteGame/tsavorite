@@ -12,6 +12,7 @@ export enum GameOption {
   IsDebugMode = 'isDebugMode',
   Keymap = 'keymap',
   GameSpeed = 'gameSpeed',
+  ShowDebugInfo = 'showDebugInfo',
 }
 
 export interface IOptions {

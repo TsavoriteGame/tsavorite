@@ -21,6 +21,7 @@ export class OptionsComponent implements OnInit, OnDestroy {
 
   public displayOptions = [
     { type: 'checkbox', option: GameOption.IsFantasyFont, label: 'Use Bit Font' },
+    { type: 'checkbox', option: GameOption.ShowDebugInfo, label: 'Show Debug Info' }
   ];
 
   constructor(
