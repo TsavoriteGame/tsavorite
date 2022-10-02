@@ -116,7 +116,7 @@ export class GameplayBackpackComponent implements OnInit {
 
       // update or remove the target item
       if(result.newTarget) {
-        this.store.dispatch(new UpdateBackpackItemById(oldTargetId, result.newSource));
+        this.store.dispatch(new UpdateBackpackItemById(oldTargetId, result.newTarget));
       } else {
         this.store.dispatch(new RemoveBackpackItemById(oldTargetId));
       }
@@ -167,7 +167,7 @@ export class GameplayBackpackComponent implements OnInit {
 
       // update or remove the target item
       if(result.newTarget) {
-        this.store.dispatch(new UpdateBackpackItemById(oldTargetId, result.newSource));
+        this.store.dispatch(new UpdateBackpackItemById(oldTargetId, result.newTarget));
       } else {
         this.store.dispatch(new RemoveBackpackItemById(oldTargetId));
       }

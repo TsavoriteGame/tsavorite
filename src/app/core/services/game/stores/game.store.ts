@@ -156,6 +156,10 @@ export class GameState implements NgxsOnInit {
     return !!ctx.getState().character;
   }
 
+  private findCharacterEquipmentSlotWithCardId(character: IGameCharacter, cardId: number): EquipmentSlot | undefined {
+    return Object.keys(character.equipment).find(slot => character.equipment[slot]?.cardId === cardId) as EquipmentSlot;
+  }
+
   private updateLandmark(ctx: StateContext<IGame>, observable: Observable<ILandmarkEncounter>) {
     const sub = observable.subscribe(landmarkEncounterData => {
       const canMove = landmarkEncounterData.canLeave;
@@ -237,6 +241,9 @@ export class GameState implements NgxsOnInit {
       return;
     }
 
+    ctx.patchState({ currentCardId: 0 });
+    this.contentService.setCurrentCardId(0);
+
     const character: IGameCharacter = {
       name: background.realName,
       hp: background.hp,
@@ -269,8 +276,7 @@ export class GameState implements NgxsOnInit {
     const scenario = getScenarioByName('Test');
     const position = findSpawnCoordinates(scenario);
 
-    ctx.patchState({ character, scenario, position, currentCardId: 0 });
-    this.contentService.setCurrentCardId(0);
+    ctx.patchState({ character, scenario, position });
 
     setDiscordRPCStatus({
       isInGame: true,
@@ -344,16 +350,19 @@ export class GameState implements NgxsOnInit {
     const index = ctx.getState().character.items.findIndex(i => i.cardId === cardId);
 
     if(index === -1) {
-      const handsItem = ctx.getState().character.equipment[EquipmentSlot.Hands];
-      if(handsItem?.cardId === cardId) {
+
+      // check all equipment slots for the item
+      const equipmentSlot = this.findCharacterEquipmentSlotWithCardId(ctx.getState().character, cardId);
+      if(equipmentSlot) {
         ctx.setState(patch<IGame>({
           character: patch({
             equipment: patch({
-              [EquipmentSlot.Hands]: item
+              [equipmentSlot]: item
             })
           })
         }));
       }
+
       return;
     }
 
@@ -374,12 +383,14 @@ export class GameState implements NgxsOnInit {
 
     // if we can't find it in the backpack, check the hands
     if(index === -1) {
-      const handsItem = ctx.getState().character.equipment[EquipmentSlot.Hands];
-      if(handsItem?.cardId === cardId) {
+
+      // check all equipment slots for the item
+      const equipmentSlot = this.findCharacterEquipmentSlotWithCardId(ctx.getState().character, cardId);
+      if(equipmentSlot) {
         ctx.setState(patch<IGame>({
           character: patch({
             equipment: patch({
-              [EquipmentSlot.Hands]: patch({
+              [equipmentSlot]: patch<IItemConfig>({
                 locked
               })
             })
@@ -409,12 +420,14 @@ export class GameState implements NgxsOnInit {
 
     // if we can't find it in the backpack, check the hands
     if(index === -1) {
-      const handsItem = ctx.getState().character.equipment[EquipmentSlot.Hands];
-      if(handsItem?.cardId === cardId) {
+
+      // check all equipment slots for the item
+      const equipmentSlot = this.findCharacterEquipmentSlotWithCardId(ctx.getState().character, cardId);
+      if(equipmentSlot) {
         ctx.setState(patch<IGame>({
           character: patch({
             equipment: patch({
-              [EquipmentSlot.Hands]: undefined
+              [equipmentSlot]: undefined
             })
           })
         }));
