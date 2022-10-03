@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Action, NgxsOnInit, Selector, State, StateContext, Store } from '@ngxs/store';
 import { append, patch, removeItem, updateItem } from '@ngxs/store/operators';
 
-import { isUndefined } from 'lodash';
+import { isUndefined, shuffle } from 'lodash';
 
 import { getScenarioByName } from '../../../../../../content/getters';
 import * as AllLandmarks from '../../../../../../content/landmarks';
@@ -15,13 +15,15 @@ import { AbandonGame, AddBackpackItem, AddCardToSlot, AddCoinsToBackpack, AddHea
   RemoveCoinsFromBackpack, ReplaceNode, SetCharacterItemLockById, SetCurrentCardId,
   SetEquipmentItem,
   SetLandmarkSlotLock, SetLandmarkSlotTimer, SlotTimerExpire, StartGame,
-  UpdateCharacterItemById, UpdateEventMessage, Warp } from '../actions';
+  UpdateCharacterItemById, UpdateEventMessage, Warp, IncrementStatistic } from '../actions';
 import { ContentService } from '../content.service';
 import { GameConstant, GameService } from '../game.service';
 import { Observable, Subscription } from 'rxjs';
 import { isFunctional } from '../../../../../../content/helpers';
 import { setDiscordRPCStatus } from '../discord';
 import { LoggerService } from '../logger.service';
+import { GameStatistic } from './statistics.store';
+import { nothing } from '../../../../../../content/landmarks/helpers/nothing.helpers';
 
 export enum EquipmentSlot {
   Head = 'head',
@@ -53,7 +55,9 @@ export interface IGame {
   scenario: IScenario;
   landmarkEncounter: ILandmarkEncounter;
   currentCardId: number;
+  currentStep: number;
   currentEventMessage: string;
+  version: number;
 }
 
 
@@ -70,8 +74,10 @@ const defaultOptions: () => IGame = () => ({
   position: { worldId: 0, x: 0, y: 0 },
   scenario: undefined,
   landmarkEncounter: undefined,
+  currentStep: 0,
   currentCardId: 0,
-  currentEventMessage: ''
+  currentEventMessage: '',
+  version: 1
 });
 
 @State<IGame>({
@@ -183,6 +189,96 @@ export class GameState implements NgxsOnInit {
     this.landmarkSubscription.unsubscribe();
   }
 
+  private getMovableEntities(ctx: StateContext<IGame>) {
+    const scenario = ctx.getState().scenario;
+    return Object.keys(scenario.worlds)
+      .map(worldId => {
+        const world = scenario.worlds[worldId];
+
+        const nodes = [];
+
+        for(let y = 0; y < world.layout.length; y++) {
+          for(let x = 0; x < world.layout[y].length; x++) {
+            const node = getNodeAt(scenario, +worldId, x, y);
+            if(!node.landmarkData.moveInterval) {
+              continue;
+            }
+
+            nodes.push({
+              worldId: +worldId,
+              x,
+              y,
+              node
+            });
+          }
+        }
+
+        return nodes;
+      })
+      .flat();
+  }
+
+  // move all movable entities
+  private moveOtherEntities(ctx: StateContext<IGame>) {
+    const movableEntities = this.getMovableEntities(ctx);
+    const currentStep = ctx.getState().currentStep ?? 0;
+
+    const currentPosition = ctx.getState().position;
+
+    movableEntities.forEach(entity => {
+      const { moveInterval, moveSteps } = entity.node.landmarkData;
+
+      // only attempt to move when the interval is up
+      if(currentStep % moveInterval !== 0) {
+        return;
+      }
+
+      // if the player is here, don't move
+      if(entity.worldId === currentPosition.worldId
+      && entity.x === currentPosition.x
+      && entity.y === currentPosition.y) {
+        return;
+      }
+
+      for(let i = 0; i < moveSteps; i++) {
+        const { worldId, x, y } = entity;
+
+        const allDirections = shuffle([
+          { x: 0,  y: -1 },
+          { x: 0,  y: 1 },
+          { x: -1, y: 0 },
+          { x: 1,  y: 0 }
+        ]);
+
+        let didMove = false;
+
+        allDirections.forEach(dir => {
+          if(didMove) {
+            return;
+          }
+
+          // check if we can move to the tile - there must be something there, it can't block movement
+          // it can't be Nothing, and it can't be where the player is
+          const newTile = getNodeAt(ctx.getState().scenario, worldId, x + dir.x, y + dir.y);
+          if(!newTile
+          || newTile.blockMovement
+          || newTile.landmark !== 'Nothing'
+          || (x + dir.x === currentPosition.x && y + dir.y === currentPosition.y && worldId === currentPosition.worldId)) {
+            return;
+          }
+
+          // swap the nodes
+          this.replaceNode(ctx, { position: { worldId, x, y }, newNode: nothing() });
+          this.replaceNode(ctx, { position: { worldId, x: x + dir.x, y: y + dir.y }, newNode: structuredClone(entity.node) });
+
+          // only one move per step
+          didMove = true;
+        });
+      }
+    });
+  }
+
+  // handle the current tile - generally this means to encounter it
   private handleCurrentTile(ctx: StateContext<IGame>) {
 
     const { scenario, position, character } = ctx.getState();
@@ -285,7 +381,7 @@ export class GameState implements NgxsOnInit {
       playerName: character.name
     });
 
-    this.store.dispatch(new Move(0, 0));
+    this.move(ctx, { xDelta: 0, yDelta: 0 });
   }
 
   @Action(SetCurrentCardId)
@@ -476,6 +572,8 @@ export class GameState implements NgxsOnInit {
       return;
     }
 
+    this.moveOtherEntities(ctx);
+
     const { worldId, x, y } = ctx.getState().position;
 
     const targetNodeRef = ctx.getState().scenario.worlds[worldId].layout[y + yDelta]?.[x + xDelta];
@@ -498,6 +596,11 @@ export class GameState implements NgxsOnInit {
         y: y + yDelta
       })
     }));
+
+    if(xDelta !== 0 || yDelta !== 0) {
+      ctx.patchState({ currentStep: ctx.getState().currentStep + 1 });
+      this.store.dispatch(new IncrementStatistic(GameStatistic.StepsTaken, 1));
+    }
 
     this.cancelLandmark();
     this.handleCurrentTile(ctx);

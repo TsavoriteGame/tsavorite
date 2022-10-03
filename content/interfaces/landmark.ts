@@ -67,6 +67,12 @@ export interface ILandmarkData {
 
   // if the thing sells items, this is set
   shopItems?: Array<{ item: string; cost: number }>;
+
+  // the interval in turns at which the landmark will move
+  moveInterval?: number;
+
+  // how many steps it will take at a time if it moves
+  moveSteps?: number;
 }
 
 export interface ILandmarkEncounterOpts {

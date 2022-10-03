@@ -16,6 +16,7 @@ export enum GameOption {
 }
 
 export interface IOptions {
+  version: number;
   [GameOption.IsPaused]: boolean;
   [GameOption.MasterVolume]: number;
   [GameOption.IsFantasyFont]: boolean;
@@ -37,6 +38,7 @@ export const defaultKeymap: () => Record<Keybind, [string, string]> = () => ({
 });
 
 const defaultOptions: () => IOptions = () => ({
+  version: 1,
   [GameOption.IsPaused]: false,
   [GameOption.MasterVolume]: 0.5,
   [GameOption.IsFantasyFont]: true,

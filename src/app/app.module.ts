@@ -29,6 +29,7 @@ import { PlayModule } from './play/play.module';
 import { environment } from '../environments/environment';
 
 import * as Stores from './core/services/game/stores';
+import * as Migrations from './core/services/game/stores/migrations';
 
 const allStores = Object.keys(Stores).filter(x => x.includes('State')).map(x => Stores[x]);
 
@@ -54,7 +55,8 @@ const httpLoaderFactory = (http: HttpClient): TranslateHttpLoader =>  new Transl
     }),
     NgxsLoggerPluginModule.forRoot(),
     NgxsStoragePluginModule.forRoot({
-      key: allStores.filter(x => x !== Stores.GameSetupState)
+      key: allStores.filter(x => x !== Stores.GameSetupState),
+      migrations: Object.values(Migrations).flat()
     }),
     NgxsReduxDevtoolsPluginModule.forRoot(),
     TranslateModule.forRoot({
