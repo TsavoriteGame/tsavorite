@@ -47,4 +47,14 @@ export class GameplayEventComponent implements OnInit, OnDestroy {
     return true;
   }
 
+  addCardToPlayerSlot($event, slot: number): boolean {
+    if(!$event.data.attack) {
+      return false;
+    }
+
+    console.log($event);
+
+    return true;
+  }
+
 }

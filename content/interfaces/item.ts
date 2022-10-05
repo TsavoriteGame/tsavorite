@@ -72,6 +72,7 @@ export interface IItemConfig extends ICard {
   id?: string;
   parts: IItemPart[];
   interaction?: IItemInteraction;
+  attacks?: string[];
 }
 
 export interface IReactionArgs {

@@ -34,22 +34,52 @@
       </div>
     </div>
 
-    <div class="row mt-3" *ngIf="landmarkEncounterData.slots.length > 0">
+    <div class="row mt-3" *ngIf="landmarkEncounterData.playerSlots.length > 0 && landmarkEncounterData.slots.length > 0">
 
       <!-- character-related column -->
-      <div class="col-3" *ngIf="character$ | async as character">
-        <div class="row">
+      <div class="col-4" *ngIf="character$ | async as character">
+        <div class="row" *ngFor="let slot of landmarkEncounterData.playerSlots; let slotIndex = index">
           <div class="col d-flex justify-content-center">
-            <div class="d-flex flex-column icon-text align-items-center">
-              <app-icon [icon]="character.background.icon" [showOutline]="true"></app-icon>
+            <div class="d-flex flex-column icon-text align-items-center full-width">
+              <div class="d-flex flex-row justify-content-around full-width">
+                <app-icon [icon]="character.background.icon" [showOutline]="true"></app-icon>
+
+                <app-card-slot [card]="slot.card"
+                               backgroundSize="size-header"
+                               [lockOnTimerExpire]="slot.lockOnTimerExpire"
+                               [locked]="slot.locked"
+                               [slotIndex]="slotIndex"
+                               placeholder="+"
+                               side="Player"
+                               [timerColor]="slot.timerType"
+                               [maxTimer]="slot.maxTimer"
+                               [timer]="slot.timer"
+                               *ngIf="slot.timer !== -1"
+                               [dndDropzone]="slot.accepts"
+                               [dndDisableIf]="slot.locked"
+                               (dndDrop)="addCardToPlayerSlot($event, slotIndex)"></app-card-slot>
+              </div>
               <div class="size-big">{{ character.name }}</div>
             </div>
           </div>
         </div>
       </div>
 
-      <div class="col-3"></div>
-      <div class="col-2"></div>
+      <div class="col-2">
+        <div class="row" *ngFor="let slot of landmarkEncounterData.playerSlots; let slotIndex = index">
+          <div class="col d-flex flex-column icon-text align-items-center">
+            <app-attack-display [name]="slot.selectedAttack" *ngIf="slot.selectedAttack"></app-attack-display>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-2">
+        <div class="row" *ngFor="let slot of landmarkEncounterData.slots; let slotIndex = index">
+          <div class="col d-flex flex-column icon-text align-items-center">
+            <app-attack-display [name]="slot.selectedAttack" *ngIf="slot.selectedAttack"></app-attack-display>
+          </div>
+        </div>
+      </div>
 
       <!-- slots column -->
       <div class="col-4">
@@ -62,10 +92,11 @@
                              [locked]="slot.locked"
                              [slotIndex]="slotIndex"
                              placeholder="+"
+                             side="Landmark"
                              [timerColor]="slot.timerType"
                              [maxTimer]="slot.maxTimer"
                              [timer]="slot.timer"
-                             dndDropzone
+                             [dndDropzone]="slot.accepts"
                              [dndDisableIf]="slot.locked"
                              (dndDrop)="addCardToSlot($event, slotIndex)"></app-card-slot>
 

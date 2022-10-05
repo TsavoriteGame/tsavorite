@@ -8,14 +8,16 @@ import { getScenarioByName } from '../../../../../../content/getters';
 import * as AllLandmarks from '../../../../../../content/landmarks';
 import { IArchetype, IBackground, ILandmark, IItemConfig,
   ILandmarkEncounter, IPower, IScenario, IScenarioNode, IMapPosition,
-  ILandmarkSlot, Interaction, IItemInteraction } from '../../../../../../content/interfaces';
+  ILandmarkSlot, Interaction, IItemInteraction, IScenarioWorld } from '../../../../../../content/interfaces';
 import { findFirstLandmarkInWorld, findSpawnCoordinates, getNodeAt } from '../../../../../../content/scenario.helpers';
 import { AbandonGame, AddBackpackItem, AddCardToSlot, AddCoinsToBackpack, AddHealth, EncounterCurrentTile, MakeChoice, Move, ReduceHealth,
   RemoveCharacterItemById, RemoveCardFromSlot,
   RemoveCoinsFromBackpack, ReplaceNode, SetCharacterItemLockById, SetCurrentCardId,
   SetEquipmentItem,
-  SetLandmarkSlotLock, SetLandmarkSlotTimer, SlotTimerExpire, StartGame,
-  UpdateCharacterItemById, UpdateEventMessage, Warp, IncrementStatistic } from '../actions';
+  SetLandmarkSlotLock, SetLandmarkSlotTimer, LandmarkSlotTimerExpire, StartGame,
+  UpdateCharacterItemById, UpdateEventMessage, Warp,
+  IncrementStatistic, SetPlayerSlotLock, SetPlayerSlotTimer,
+  PlayerSlotTimerExpire, ChangeAttack, SetPlayerSlotAttack, SetLandmarkSlotAttack } from '../actions';
 import { ContentService } from '../content.service';
 import { GameConstant, GameService } from '../game.service';
 import { Observable, Subscription } from 'rxjs';
@@ -23,6 +25,7 @@ import { isFunctional } from '../../../../../../content/helpers';
 import { setDiscordRPCStatus } from '../discord';
 import { LoggerService } from '../logger.service';
 import { GameStatistic } from './statistics.store';
+
 import { nothing } from '../../../../../../content/landmarks/helpers/nothing.helpers';
 
 export enum EquipmentSlot {
@@ -47,6 +50,7 @@ export interface IGameCharacter {
   powers: IPower[];
 
   stuck: boolean;
+  chosenAttack: string;
 }
 
 export interface IGame {
@@ -113,7 +117,18 @@ export class GameState implements NgxsOnInit {
 
   @Selector()
   static character(state: IGame) {
-    return state.character;
+    return structuredClone(state.character);
+  }
+
+  @Selector()
+  static characterWithAttacks(state: IGame) {
+    const mainHand = state.character.equipment[EquipmentSlot.Hands];
+    const weaponAttacks = mainHand?.attacks || [];
+
+    return {
+      ...state.character,
+      attacks: ['Attack', ...weaponAttacks]
+    };
   }
 
   @Selector()
@@ -356,7 +371,8 @@ export class GameState implements NgxsOnInit {
         undefined,
         undefined,
       ],
-      stuck: false
+      stuck: false,
+      chosenAttack: 'Attack'
     };
 
     background.startingKit.forEach(kitItem => {
@@ -426,7 +442,7 @@ export class GameState implements NgxsOnInit {
     }
 
     ctx.setState(patch<IGame>({
-      character: patch({
+      character: patch<IGameCharacter>({
         items: append<IItemConfig>([item])
       })
     }));
@@ -451,8 +467,8 @@ export class GameState implements NgxsOnInit {
       const equipmentSlot = this.findCharacterEquipmentSlotWithCardId(ctx.getState().character, cardId);
       if(equipmentSlot) {
         ctx.setState(patch<IGame>({
-          character: patch({
-            equipment: patch({
+          character: patch<IGameCharacter>({
+            equipment: patch<Record<EquipmentSlot, IItemConfig>>({
               [equipmentSlot]: item
             })
           })
@@ -463,7 +479,7 @@ export class GameState implements NgxsOnInit {
     }
 
     ctx.setState(patch<IGame>({
-      character: patch({
+      character: patch<IGameCharacter>({
         items: updateItem<IItemConfig>(index, item)
       })
     }));
@@ -484,8 +500,8 @@ export class GameState implements NgxsOnInit {
       const equipmentSlot = this.findCharacterEquipmentSlotWithCardId(ctx.getState().character, cardId);
       if(equipmentSlot) {
         ctx.setState(patch<IGame>({
-          character: patch({
-            equipment: patch({
+          character: patch<IGameCharacter>({
+            equipment: patch<Record<EquipmentSlot, IItemConfig>>({
               [equipmentSlot]: patch<IItemConfig>({
                 locked
               })
@@ -498,7 +514,7 @@ export class GameState implements NgxsOnInit {
     }
 
     ctx.setState(patch<IGame>({
-      character: patch({
+      character: patch<IGameCharacter>({
         items: updateItem<IItemConfig>(index, patch<IItemConfig>({
           locked
         }))
@@ -521,8 +537,8 @@ export class GameState implements NgxsOnInit {
       const equipmentSlot = this.findCharacterEquipmentSlotWithCardId(ctx.getState().character, cardId);
       if(equipmentSlot) {
         ctx.setState(patch<IGame>({
-          character: patch({
-            equipment: patch({
+          character: patch<IGameCharacter>({
+            equipment: patch<Record<EquipmentSlot, IItemConfig>>({
               [equipmentSlot]: undefined
             })
           })
@@ -533,7 +549,7 @@ export class GameState implements NgxsOnInit {
     }
 
     ctx.setState(patch<IGame>({
-      character: patch({
+      character: patch<IGameCharacter>({
         items: removeItem<IItemConfig>(index)
       })
     }));
@@ -549,7 +565,7 @@ export class GameState implements NgxsOnInit {
     const currentHP = ctx.getState().character.hp;
 
     ctx.setState(patch<IGame>({
-      character: patch({
+      character: patch<IGameCharacter>({
         hp: currentHP + amount
       })
     }));
@@ -591,7 +607,7 @@ export class GameState implements NgxsOnInit {
     }
 
     ctx.setState(patch<IGame>({
-      position: patch({
+      position: patch<IMapPosition>({
         x: x + xDelta,
         y: y + yDelta
       })
@@ -615,7 +631,7 @@ export class GameState implements NgxsOnInit {
     const nodePosition = findFirstLandmarkInWorld(scenario, warpToWorld, warpToLandmark);
 
     ctx.setState(patch<IGame>({
-      position: patch({
+      position: patch<IMapPosition>({
         ...nodePosition
       })
     }));
@@ -646,6 +662,7 @@ export class GameState implements NgxsOnInit {
     this.updateLandmark(ctx, choiceRef.callback(currentLandmark));
   }
 
+  // landmark slot stuff
   @Action(SetLandmarkSlotLock)
   setLandmarkSlotLock(ctx: StateContext<IGame>, { slot, isLocked }: SetLandmarkSlotLock) {
     if(!this.isInGame(ctx)) {
@@ -653,7 +670,7 @@ export class GameState implements NgxsOnInit {
     }
 
     ctx.setState(patch<IGame>({
-      landmarkEncounter: patch({
+      landmarkEncounter: patch<ILandmarkEncounter>({
         slots: updateItem<ILandmarkSlot>(slot, patch({
           locked: isLocked
         }))
@@ -662,15 +679,150 @@ export class GameState implements NgxsOnInit {
   }
 
   @Action(SetLandmarkSlotTimer)
-  setLandmarkSlotTimer(ctx: StateContext<IGame>, { slot, timer }: SetLandmarkSlotTimer) {
+  setLandmarkSlotTimer(ctx: StateContext<IGame>, { slot, timer, resetMaxTimer }: SetLandmarkSlotTimer) {
     if(!this.isInGame(ctx)) {
       return;
     }
 
     ctx.setState(patch<IGame>({
-      landmarkEncounter: patch({
+      landmarkEncounter: patch<ILandmarkEncounter>({
         slots: updateItem<ILandmarkSlot>(slot, patch({
           timer
+        }))
+      })
+    }));
+
+    if(resetMaxTimer) {
+      ctx.setState(patch<IGame>({
+        landmarkEncounter: patch<ILandmarkEncounter>({
+          slots: updateItem<ILandmarkSlot>(slot, patch({
+            maxTimer: timer
+          }))
+        })
+      }));
+    }
+  }
+
+  @Action(LandmarkSlotTimerExpire)
+  slotTimerExpire(ctx: StateContext<IGame>, { slot }: LandmarkSlotTimerExpire) {
+    if(!this.isInGame(ctx)) {
+      return;
+    }
+
+    const slots = ctx.getState().landmarkEncounter?.slots ?? [];
+    const slotRef = slots[slot];
+    if(!slotRef) {
+      return;
+    }
+
+    this.cancelLandmark();
+
+    const currentLandmark = ctx.getState().landmarkEncounter;
+    if(!currentLandmark) {
+      return;
+    }
+
+    const newState = ctx.getState();
+    const newLandmark = newState.landmarkEncounter;
+
+    this.updateLandmark(ctx, slotRef.timerExpired(newLandmark, slot));
+  }
+
+  @Action(SetLandmarkSlotAttack)
+  setLandmarkSlotAttack(ctx: StateContext<IGame>, { slot, attack }: SetLandmarkSlotAttack) {
+    if(!this.isInGame(ctx)) {
+      return;
+    }
+
+    ctx.setState(patch<IGame>({
+      landmarkEncounter: patch<ILandmarkEncounter>({
+        slots: updateItem<ILandmarkSlot>(slot, patch({
+          selectedAttack: attack
+        }))
+      })
+    }));
+  }
+
+  // player slot stuff
+  @Action(SetPlayerSlotLock)
+  setPlayerSlotLock(ctx: StateContext<IGame>, { slot, isLocked }: SetPlayerSlotLock) {
+    if(!this.isInGame(ctx)) {
+      return;
+    }
+
+    ctx.setState(patch<IGame>({
+      landmarkEncounter: patch<ILandmarkEncounter>({
+        playerSlots: updateItem<ILandmarkSlot>(slot, patch({
+          locked: isLocked
+        }))
+      })
+    }));
+  }
+
+  @Action(SetPlayerSlotTimer)
+  setPlayerSlotTimer(ctx: StateContext<IGame>, { slot, timer, resetMaxTimer }: SetPlayerSlotTimer) {
+    if(!this.isInGame(ctx)) {
+      return;
+    }
+
+    console.log(ctx.getState().character.chosenAttack, ctx.getState().landmarkEncounter.playerSlots[0].selectedAttack);
+
+    /*
+    ctx.setState(patch<IGame>({
+      landmarkEncounter: patch<ILandmarkEncounter>({
+        playerSlots: updateItem<ILandmarkSlot>(slot, patch({
+          timer
+        }))
+      })
+    }));
+
+    if(resetMaxTimer) {
+      ctx.setState(patch<IGame>({
+        landmarkEncounter: patch<ILandmarkEncounter>({
+          playerSlots: updateItem<ILandmarkSlot>(slot, patch({
+            maxTimer: timer
+          }))
+        })
+      }));
+    }
+    */
+  }
+
+  @Action(PlayerSlotTimerExpire)
+  playerSlotTimerExpire(ctx: StateContext<IGame>, { slot }: PlayerSlotTimerExpire) {
+    if(!this.isInGame(ctx)) {
+      return;
+    }
+
+    const playerSlots = ctx.getState().landmarkEncounter?.playerSlots ?? [];
+    const slotRef = playerSlots[slot];
+    if(!slotRef) {
+      return;
+    }
+
+    this.cancelLandmark();
+
+    const currentLandmark = ctx.getState().landmarkEncounter;
+    if(!currentLandmark) {
+      return;
+    }
+
+    const newState = ctx.getState();
+    const newLandmark = newState.landmarkEncounter;
+
+    this.updateLandmark(ctx, slotRef.timerExpired(newLandmark, slot));
+  }
+
+  @Action(SetPlayerSlotAttack)
+  setPlayerSlotAttack(ctx: StateContext<IGame>, { slot, attack }: SetPlayerSlotAttack) {
+    if(!this.isInGame(ctx)) {
+      return;
+    }
+
+    ctx.setState(patch<IGame>({
+      landmarkEncounter: patch<ILandmarkEncounter>({
+        playerSlots: updateItem<ILandmarkSlot>(slot, patch({
+          selectedAttack: attack
         }))
       })
     }));
@@ -696,7 +848,7 @@ export class GameState implements NgxsOnInit {
     }
 
     ctx.setState(patch<IGame>({
-      landmarkEncounter: patch({
+      landmarkEncounter: patch<ILandmarkEncounter>({
         slots: updateItem<ILandmarkSlot>(slot, patch({
           card
         }))
@@ -730,37 +882,12 @@ export class GameState implements NgxsOnInit {
     }
 
     ctx.setState(patch<IGame>({
-      landmarkEncounter: patch({
+      landmarkEncounter: patch<ILandmarkEncounter>({
         slots: updateItem<ILandmarkSlot>(slot, patch({
           card: undefined
         }))
       })
     }));
-  }
-
-  @Action(SlotTimerExpire)
-  slotTimerExpire(ctx: StateContext<IGame>, { slot }: AddCardToSlot) {
-    if(!this.isInGame(ctx)) {
-      return;
-    }
-
-    const slots = ctx.getState().landmarkEncounter?.slots ?? [];
-    const slotRef = slots[slot];
-    if(!slotRef) {
-      return;
-    }
-
-    this.cancelLandmark();
-
-    const currentLandmark = ctx.getState().landmarkEncounter;
-    if(!currentLandmark) {
-      return;
-    }
-
-    const newState = ctx.getState();
-    const newLandmark = newState.landmarkEncounter;
-
-    this.updateLandmark(ctx, slotRef.timerExpired(newLandmark, slot));
   }
 
   @Action(ReplaceNode)
@@ -772,9 +899,9 @@ export class GameState implements NgxsOnInit {
     newNode.id = -1;
 
     ctx.setState(patch<IGame>({
-      scenario: patch({
-        worlds: patch({
-          [position.worldId]: patch({
+      scenario: patch<IScenario>({
+        worlds: patch<Record<number, IScenarioWorld>>({
+          [position.worldId]: patch<IScenarioWorld>({
             layout: updateItem<IScenarioNode[]>(position.y, updateItem<IScenarioNode>(position.x, newNode))
           })
         })
@@ -849,6 +976,19 @@ export class GameState implements NgxsOnInit {
         equipment: patch<Record<EquipmentSlot, IItemConfig>>({
           [slot]: item
         })
+      })
+    }));
+  }
+
+  @Action(ChangeAttack)
+  changeAttack(ctx: StateContext<IGame>, { attack }: ChangeAttack) {
+    if(!this.isInGame(ctx)) {
+      return;
+    }
+
+    ctx.setState(patch<IGame>({
+      character: patch<IGameCharacter>({
+        chosenAttack: attack
       })
     }));
   }

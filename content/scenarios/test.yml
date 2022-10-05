@@ -10,7 +10,7 @@ worlds:
       - [2,    0,    0,    2,    0,    17,   0,    10,   0,    0,    0]
       - [2,    0,    0,    2,    0,    0,    10,   10,   0,    0,    0]
       - [2,    2,    2,    2,    1,    0,    0,    0,    0,    0,    0]
-      - [0,    0,    0,    18,   0,    0,    16,   0,    0,    0,    0]
+      - [0,    0,    0,    18,   0,    21,   16,   0,    0,    0,    0]
       - [0,    0,    0,    19,   0,    0,    11,   20,   0,    0,    0]
       - [0,    0,    0,    0,    13,   0,    0,    0,    0,    0,    0]
       - [0,    0,    0,    0,    0,    15,   0,    0,    0,    0,    0]
@@ -148,3 +148,12 @@ nodes:
     landmarkData:
       moveInterval: 3
       moveSteps: 1
+
+  21:
+    name: Goblin Attack
+    icon: goblinhead
+    description: Fight the goblins!
+    landmark: Fight
+    landmarkData:
+      monsters:
+        - name: Goblin

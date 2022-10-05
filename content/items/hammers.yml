@@ -11,6 +11,9 @@
     name: Smashes
     level: 1
 
+  attacks:
+    - Bash
+
 - name: Rock Smasher
   icon: haxe
   parts:
@@ -23,6 +26,9 @@
     name: Smashes
     level: 2
 
+  attacks:
+    - Bash
+
 - name: Rock Smasher
   icon: haxe
   parts:
@@ -34,3 +40,6 @@
   interaction:
     name: Smashes
     level: 3
+
+  attacks:
+    - Bash

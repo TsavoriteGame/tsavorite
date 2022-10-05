@@ -23,7 +23,11 @@ export type CardTimerFunction = (encounterOpts: ILandmarkEncounter, slotIndex: n
 
 export interface ILandmarkSlot {
 
-  card: ICard;
+  // a placeable card slot
+  card?: ICard;
+
+  // display a bonus card in the middle for attacks
+  selectedAttack?: string;
 
   // whether or not the slot is accepting items
   locked?: boolean;
@@ -36,6 +40,9 @@ export interface ILandmarkSlot {
 
   // the timer "type" - defaults to unset/neutral
   readonly timerType?: string;
+
+  // the draggable card types that are accepted by this slot
+  readonly accepts: string[];
 
   // the maximum amount of time that can possibly be on the timer
   // generally set to the same thing as `timer`
@@ -73,6 +80,9 @@ export interface ILandmarkData {
 
   // how many steps it will take at a time if it moves
   moveSteps?: number;
+
+  // the monsters that will be spawned at this landmark
+  monsters?: Array<{ name: string }>;
 }
 
 export interface ILandmarkEncounterOpts {
@@ -121,9 +131,12 @@ export interface ILandmarkEncounter {
   // the slot data for the landmark
   readonly slots: ILandmarkSlot[];
 
+  // the player slot data for the landmark
+  readonly playerSlots: ILandmarkSlot[];
+
   // what kind of choices this landmark has
   readonly choices: ILandmarkSlotChoice[];
 
   // whether or not you can leave from this location
-  readonly canLeave: boolean;
+  readonly canLeave?: boolean;
 }

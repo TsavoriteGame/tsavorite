@@ -12,6 +12,7 @@ export class Nothing extends Landmark implements ILandmark {
       landmarkIcon: scenarioNode.icon,
       landmarkData: scenarioNode.landmarkData,
       slots: [],
+      playerSlots: [],
       canLeave: true,
       choices: []
     });

@@ -1,4 +1,5 @@
 
+export * from './fight';
 export * from './itemonground';
 export * from './merchant';
 export * from './nothing';

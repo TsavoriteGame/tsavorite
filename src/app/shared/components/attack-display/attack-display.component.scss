@@ -1,0 +1,23 @@
+
+.card-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.card-slot-container {
+  min-height: 64px;
+  min-width: 64px;
+  max-height: 64px;
+  max-width: 64px;
+
+  overflow: hidden;
+  object-fit: contain;
+  user-select: none;
+
+  .full-space {
+    height: 64px;
+    width: 64px;
+  }
+}

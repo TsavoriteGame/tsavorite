@@ -1,0 +1,22 @@
+
+Attack:
+  icon: attack
+  damage: 1
+  castTime: 3
+  target: single
+
+Slash:
+  icon: slash
+  damage: 2
+  castTime: 4
+  target: single
+  interaction:
+    name: Carves
+
+Bash:
+  icon: bash
+  damage: 2
+  castTime: 5
+  target: single
+  interaction:
+    name: Smashes

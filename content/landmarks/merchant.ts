@@ -16,18 +16,18 @@ export class Merchant extends Landmark implements ILandmark {
       itemData: callbacks.content.getItemDataById(i.item)
     }));
 
+    const maxItems = callbacks.content.getConstant(GameConstant.LandmarkSlots) - 1;
+
     return of({
       landmarkName: scenarioNode.name,
       landmarkDescription: scenarioNode.description,
       landmarkIcon: scenarioNode.icon,
       landmarkData: scenarioNode.landmarkData,
       slots: [
-        ...items.map(item => ({
-          card: undefined,
+        ...items.slice(0, maxItems).map(item => ({
           icon: item.itemData.icon,
           text: `${item.itemData.name} (${item.cost} coins)`,
-          locked: false,
-          lockOnTimerExpire: false,
+          accepts: ['Item'],
           maxTimer: -1,
           timer: -1,
           cardPlaced: (encounterOpts: ILandmarkEncounter, slotIndex: number, card: ICard) => {
@@ -75,6 +75,7 @@ export class Merchant extends Landmark implements ILandmark {
           text: 'Sell',
           locked: false,
           lockOnTimerExpire: false,
+          accepts: ['Item'],
           maxTimer: -1,
           timer: -1,
           cardPlaced: (encounterOpts: ILandmarkEncounter, slotIndex: number, card: ICard) => {
@@ -94,6 +95,18 @@ export class Merchant extends Landmark implements ILandmark {
 
             return of(encounterOpts);
           },
+          timerExpired: identity
+        }
+      ],
+      playerSlots: [
+        {
+          card: undefined,
+          icon: character.background.icon,
+          text: character.name,
+          accepts: [],
+          maxTimer: -1,
+          timer: -1,
+          cardPlaced: identity,
           timerExpired: identity
         }
       ],

@@ -103,8 +103,8 @@ export class RemoveCardFromSlot {
   constructor(public slot: number) {}
 }
 
-export class SlotTimerExpire {
-  static type = '[Game] Slot Timer Expire';
+export class LandmarkSlotTimerExpire {
+  static type = '[Game] Landmark Slot Timer Expire';
   constructor(public slot: number) {}
 }
 
@@ -115,10 +115,40 @@ export class SetLandmarkSlotLock {
 
 export class SetLandmarkSlotTimer {
   static type = '[Game] Set Landmark Slot Timer';
-  constructor(public slot: number, public timer: number) {}
+  constructor(public slot: number, public timer: number, public resetMaxTimer = false) {}
+}
+
+export class SetLandmarkSlotAttack {
+  static type = '[Game] Set Landmark Slot Lock';
+  constructor(public slot: number, public attack: string) {}
+}
+
+export class PlayerSlotTimerExpire {
+  static type = '[Game] Player Slot Timer Expire';
+  constructor(public slot: number) {}
+}
+
+export class SetPlayerSlotLock {
+  static type = '[Game] Set Player Slot Lock';
+  constructor(public slot: number, public isLocked: boolean) {}
+}
+
+export class SetPlayerSlotTimer {
+  static type = '[Game] Set Player Slot Timer';
+  constructor(public slot: number, public timer: number, public resetMaxTimer = false) {}
+}
+
+export class SetPlayerSlotAttack {
+  static type = '[Game] Set Player Slot Timer';
+  constructor(public slot: number, public attack: string) {}
 }
 
 export class ReplaceNode {
   static type = '[Game] Replace Node';
   constructor(public position: IMapPosition, public newNode: IScenarioNode) {}
+}
+
+export class ChangeAttack {
+  static type = '[Game] Change Attack';
+  constructor(public attack: string) {}
 }

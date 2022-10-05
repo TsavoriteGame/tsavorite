@@ -12,6 +12,7 @@ export class Trap extends Landmark implements ILandmark {
       landmarkIcon: scenarioNode.icon,
       landmarkData: scenarioNode.landmarkData,
       slots: [],
+      playerSlots: [],
       canLeave: false,
       choices: [
         {

@@ -1,0 +1,12 @@
+
+Goblin:
+  icon: goblinhead
+  hp: 2
+  attacks:
+    - Attack
+
+Hobgoblin:
+  icon: goblinface
+  hp: 3
+  attacks:
+    - Attack
