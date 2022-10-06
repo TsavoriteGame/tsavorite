@@ -77,8 +77,7 @@ export class Fight extends Landmark implements ILandmark {
           selectedAttack: attack,
           maxTimer: castTime,
           timer: castTime,
-          timerExpired: 'monsterTimerExpired',
-          timerExpiredOpts: { castTime }
+          timerExpired: 'monsterTimerExpired'
         };
       }),
       playerSlots: [

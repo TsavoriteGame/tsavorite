@@ -216,9 +216,7 @@ export class GameState implements NgxsOnInit {
   }
 
   private updateLandmark(ctx: StateContext<IGame>, observable: Observable<ILandmarkEncounter>) {
-    console.log('update landmark');
     this.landmarkSubscription = observable.subscribe(landmarkEncounterData => {
-      console.log('asdf', { landmarkEncounterData }, landmarkEncounterData.playerSlots[0]?.selectedAttack);
       const canMove = landmarkEncounterData.canLeave;
 
       ctx.setState(patch<IGame>({

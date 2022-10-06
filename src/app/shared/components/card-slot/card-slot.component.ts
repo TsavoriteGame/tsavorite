@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, HostBinding, Input, OnChanges, OnDestroy, OnInit } from '@angular/core';
 import { Select, Store } from '@ngxs/store';
-import { combineLatest, Observable, Subscription, timer } from 'rxjs';
+import { combineLatest, interval, Observable, Subscription } from 'rxjs';
 import { getAllDescriptorsForItem, getTotalDescriptorLevel } from '../../../../../content/helpers';
 import { ICard, IItemConfig, IItemInteraction } from '../../../../../content/interfaces';
 import { pauseGame$ } from '../../../../../content/rxjs.helpers';
@@ -52,14 +52,25 @@ export class CardSlotComponent implements OnInit, OnDestroy, OnChanges {
     }
   }
 
-  ngOnChanges(): void {
+  ngOnChanges(changes): void {
+
+    // attempt to restart the timer if the value ever resets
+    const { timer } = changes;
+    if(timer) {
+      const { previousValue, currentValue } = timer;
+      if(previousValue < currentValue) {
+        this.watchTimer();
+      }
+    }
+
+    // if we don't have a card, we don't have these
     if(!this.card) {
       this.activeInteraction = undefined;
       this.activeDescriptors = [];
-      return;
     }
 
-    if(this.cardType === 'item') {
+    // if the card is an item, we can grab descriptors
+    if(this.card && this.cardType === 'item') {
       const item: IItemConfig = this.card as IItemConfig;
       this.activeInteraction = item.interaction;
 
@@ -76,7 +87,7 @@ export class CardSlotComponent implements OnInit, OnDestroy, OnChanges {
       return;
     }
 
-    this.timerSub = combineLatest([pauseGame$, timer(1000)]).subscribe(([paused]) => {
+    this.timerSub = combineLatest([pauseGame$, interval(1000)]).subscribe(([paused]) => {
       if(paused) {
         return;
       }
