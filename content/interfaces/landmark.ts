@@ -17,9 +17,16 @@ export interface ILandmarkSlotChoice {
   callback: (landmarkEncounter: ILandmarkEncounter) => Observable<ILandmarkEncounter>;
 }
 
-export type CardPlaceFunction = (encounterOpts: ILandmarkEncounter, slotIndex: number, card: ICard) => Observable<ILandmarkEncounter>;
+export interface ISlotFunctionOpts {
+  encounterOpts: ILandmarkEncounterOpts;
+  landmarkEncounter: ILandmarkEncounter;
+  slotIndex: number;
+  card: ICard;
+  store: Store;
+  extraOpts: Record<string, any>;
+}
 
-export type CardTimerFunction = (encounterOpts: ILandmarkEncounter, slotIndex: number) => Observable<ILandmarkEncounter>;
+export type CardFunction = (opts: ISlotFunctionOpts) => Observable<ILandmarkEncounter>;
 
 export interface ILandmarkSlot {
 
@@ -57,10 +64,16 @@ export interface ILandmarkSlot {
   readonly lockOnTimerExpire?: boolean;
 
   // place a card in the slot
-  cardPlaced: CardPlaceFunction;
+  cardPlaced?: string;
+  cardPlacedOpts?: Record<string, any>;
+
+  // timer ticking down
+  timerTick?: string;
+  timerTickOpts?: Record<string, any>;
 
   // place a card in the slot
-  timerExpired: CardTimerFunction;
+  timerExpired?: string;
+  timerExpiredOpts?: Record<string, any>;
 }
 
 export interface ILandmarkData {
@@ -115,6 +128,9 @@ export class Landmark {
 }
 
 export interface ILandmarkEncounter {
+
+  // the type of landmark (class name)
+  readonly landmarkType: string;
 
   // the name of the landmark
   readonly landmarkName: string;

@@ -1,9 +1,32 @@
 import { Observable, of } from 'rxjs';
 import { GameConstant } from '../../src/app/core/services/game/game.service';
 import { getAttackByName, getMonsterByName } from '../getters';
-import { ILandmark, Landmark, ILandmarkEncounter, ILandmarkEncounterOpts, ICard } from '../interfaces';
-import { identity } from './helpers/all.helpers';
+import { ILandmark, Landmark, ILandmarkEncounter, ILandmarkEncounterOpts, CardFunction, ISlotFunctionOpts } from '../interfaces';
 
+export const fightHelpers: Record<string, CardFunction> = {
+  monsterTimerExpired: (opts: ISlotFunctionOpts) => {
+    const { landmarkEncounter, encounterOpts, slotIndex, card, store } = opts;
+
+    const attackData = getAttackByName(landmarkEncounter.slots[slotIndex].selectedAttack || 'Attack');
+    // this.store.dispatch(new SetLandmarkSlotTimer(slot, attackData.castTime, true));
+    return of(landmarkEncounter);
+  },
+
+  playerTimerExpired: (opts: ISlotFunctionOpts) => {
+    const { landmarkEncounter, encounterOpts, slotIndex, card, store } = opts;
+
+    const attackData = getAttackByName(landmarkEncounter.playerSlots[slotIndex].selectedAttack || 'Attack');
+    // this.store.dispatch(new SetPlayerSlotTimer(slot, attackData.castTime, true));
+    return of(landmarkEncounter);
+  },
+
+  playerCardPlaced: (opts: ISlotFunctionOpts) => {
+    const { landmarkEncounter, encounterOpts, slotIndex, card, store } = opts;
+    // this.store.dispatch(new Change)
+    console.log('placed', card, landmarkEncounter.playerSlots[slotIndex]);
+    return of(landmarkEncounter);
+  }
+};
 
 export class Fight extends Landmark implements ILandmark {
 
@@ -13,6 +36,7 @@ export class Fight extends Landmark implements ILandmark {
 
     if(!landmarkData || !landmarkData.monsters?.length) {
       return of({
+        landmarkType: 'Fight',
         landmarkName: scenarioNode.name,
         landmarkDescription: scenarioNode.description,
         landmarkIcon: scenarioNode.icon,
@@ -34,6 +58,7 @@ export class Fight extends Landmark implements ILandmark {
     const characterAttackTime = getAttackTime(characterAttack);
 
     return of({
+      landmarkType: 'Fight',
       landmarkName: scenarioNode.name,
       landmarkDescription: scenarioNode.description,
       landmarkIcon: scenarioNode.icon,
@@ -51,12 +76,8 @@ export class Fight extends Landmark implements ILandmark {
           selectedAttack: attack,
           maxTimer: -1,
           timer: -1,
-          cardPlaced: identity,
-          timerExpired: (landmarkEncounter: ILandmarkEncounter, slot: number) => {
-            const attackData = getAttackByName(landmarkEncounter.slots[slot].selectedAttack || 'Attack');
-            // this.store.dispatch(new SetLandmarkSlotTimer(slot, attackData.castTime, true));
-            return of(landmarkEncounter);
-          }
+          timerExpired: 'monsterTimerExpired',
+          timerExpiredOpts: { castTime }
         };
       }),
       playerSlots: [
@@ -67,16 +88,8 @@ export class Fight extends Landmark implements ILandmark {
           selectedAttack: characterAttack,
           maxTimer: characterAttackTime,
           timer: characterAttackTime,
-          cardPlaced: (landmarkEncounter: ILandmarkEncounter, slot: number, card: ICard) => {
-            // this.store.dispatch(new Change)
-            console.log('placed', card, landmarkEncounter.playerSlots[slot]);
-            return of(landmarkEncounter);
-          },
-          timerExpired: (landmarkEncounter: ILandmarkEncounter, slot: number) => {
-            const attackData = getAttackByName(landmarkEncounter.playerSlots[slot].selectedAttack || 'Attack');
-            // this.store.dispatch(new SetPlayerSlotTimer(slot, attackData.castTime, true));
-            return of(landmarkEncounter);
-          }
+          cardPlaced: 'playerCardPlaced',
+          timerExpired: 'playerTimerExpired'
         }
       ],
       canLeave: false,

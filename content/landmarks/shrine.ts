@@ -1,18 +1,19 @@
 import { Observable, of } from 'rxjs';
 import { sample } from 'lodash';
+
 import { ILandmark, Landmark, ILandmarkEncounter, ILandmarkEncounterOpts } from '../interfaces';
 
-import { helpers as getShrineHelpers } from './helpers/shrine.helpers';
-import { identity } from './helpers/all.helpers';
+import { shrineHelpers } from './helpers/shrine.helpers';
+
+export * from './helpers/shrine.helpers';
 
 export class Shrine extends Landmark implements ILandmark {
 
   encounter(encounter: ILandmarkEncounterOpts): Observable<ILandmarkEncounter> {
     const { scenarioNode, character } = encounter;
 
-    const { placementFunctions, timeoutFunctions } = getShrineHelpers(encounter, this.store);
-
     return of({
+      landmarkType: 'Shrine',
       landmarkName: scenarioNode.name,
       landmarkDescription: scenarioNode.description,
       landmarkIcon: scenarioNode.icon,
@@ -26,8 +27,8 @@ export class Shrine extends Landmark implements ILandmark {
           accepts: ['Item'],
           maxTimer: 60,
           timer: 60,
-          cardPlaced: sample(placementFunctions),
-          timerExpired: sample(timeoutFunctions)
+          cardPlaced: sample(Object.keys(shrineHelpers).filter(h => h.includes('placement'))),
+          timerExpired: sample(Object.keys(shrineHelpers).filter(h => h.includes('expire')))
         }
       ],
       playerSlots: [
@@ -37,9 +38,7 @@ export class Shrine extends Landmark implements ILandmark {
           text: character.name,
           accepts: [],
           maxTimer: -1,
-          timer: -1,
-          cardPlaced: identity,
-          timerExpired: identity
+          timer: -1
         }
       ],
       canLeave: false,

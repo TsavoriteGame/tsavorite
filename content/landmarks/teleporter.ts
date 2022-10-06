@@ -8,6 +8,7 @@ export class Teleporter extends Landmark implements ILandmark {
   // return slots, what they're filled with
   encounter({ scenario, scenarioNode, callbacks }: ILandmarkEncounterOpts): Observable<ILandmarkEncounter> {
     return of({
+      landmarkType: 'Teleporter',
       landmarkName: scenarioNode.name,
       landmarkDescription: scenarioNode.description,
       landmarkIcon: scenarioNode.icon,

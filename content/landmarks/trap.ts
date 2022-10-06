@@ -7,6 +7,7 @@ export class Trap extends Landmark implements ILandmark {
   // return slots, what they're filled with
   encounter({ position, scenarioNode }: ILandmarkEncounterOpts): Observable<ILandmarkEncounter> {
     return of({
+      landmarkType: 'Trap',
       landmarkName: scenarioNode.name,
       landmarkDescription: scenarioNode.description,
       landmarkIcon: scenarioNode.icon,

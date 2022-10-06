@@ -2,6 +2,11 @@ import { ICard, IItemConfig, IMapPosition, IScenario, IScenarioNode } from '../.
 import { EquipmentSlot } from '../stores';
 import { IGameSetup } from '../stores/gamesetup.store';
 
+export class PageLoad {
+  static type = '[Options] Page Load';
+  constructor() {}
+}
+
 export class StartGame {
   static type = '[Game] Start Game';
   constructor(public gameStartData: IGameSetup) {}

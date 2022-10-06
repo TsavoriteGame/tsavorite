@@ -6,7 +6,7 @@ import { PauseComponent } from './shared/components/pause/pause.component';
 import { Select, Store } from '@ngxs/store';
 import { GameState, OptionsState } from './core/services/game/stores';
 import { combineLatest, first, Observable, timer } from 'rxjs';
-import { AbandonGame, Move, SetPaused } from './core/services/game/actions';
+import { AbandonGame, Move, PageLoad, SetPaused } from './core/services/game/actions';
 import { Keybind, KeybindsService } from './core/services/game/keybinds.service';
 import { GameOverComponent } from './shared/components/game-over/game-over.component';
 
@@ -53,6 +53,7 @@ export class AppComponent implements OnInit {
 
   // re-initialize the current tile encounter any time the game is loaded
   private reInitCurrentTile() {
+    this.store.dispatch(new PageLoad());
     this.store.dispatch(new Move(0, 0));
   }
 
