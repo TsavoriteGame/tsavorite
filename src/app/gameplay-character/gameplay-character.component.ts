@@ -13,7 +13,7 @@ import { EquipmentSlot, GameState, IGameCharacter } from '../core/services/game/
 })
 export class GameplayCharacterComponent implements OnInit {
 
-  @Select(GameState.characterWithAttacks) character$: Observable<IGameCharacter>;
+  @Select(GameState.characterWithAttacks) character$: Observable<IGameCharacter & { attacks: string[] }>;
 
   constructor(private store: Store, private gameService: GameService) { }
 
