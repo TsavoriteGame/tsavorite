@@ -4,7 +4,8 @@ import { combineLatest, Observable, Subscription, timer } from 'rxjs';
 import { getAllDescriptorsForItem, getTotalDescriptorLevel } from '../../../../../content/helpers';
 import { ICard, IItemConfig, IItemInteraction } from '../../../../../content/interfaces';
 import { pauseGame$ } from '../../../../../content/rxjs.helpers';
-import { SetLandmarkSlotLock, SetLandmarkSlotTimer, LandmarkSlotTimerExpire, SetPlayerSlotTimer, SetPlayerSlotLock, PlayerSlotTimerExpire } from '../../../core/services/game/actions';
+import { SetLandmarkSlotLock, SetLandmarkSlotTimer, LandmarkSlotTimerExpire,
+  SetPlayerSlotLock, PlayerSlotTimerExpire, SetPlayerSlotTimer } from '../../../core/services/game/actions';
 import { GameOption, OptionsState } from '../../../core/services/game/stores';
 
 @Component({

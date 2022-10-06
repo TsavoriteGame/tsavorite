@@ -1,4 +1,5 @@
 import { Observable, of } from 'rxjs';
+import { SetLandmarkSlotTimer, SetPlayerSlotTimer } from '../../src/app/core/services/game/actions';
 import { GameConstant } from '../../src/app/core/services/game/game.service';
 import { getAttackByName, getMonsterByName } from '../getters';
 import { ILandmark, Landmark, ILandmarkEncounter, ILandmarkEncounterOpts, CardFunction, ISlotFunctionOpts } from '../interfaces';
@@ -8,7 +9,7 @@ export const fightHelpers: Record<string, CardFunction> = {
     const { landmarkEncounter, encounterOpts, slotIndex, card, store } = opts;
 
     const attackData = getAttackByName(landmarkEncounter.slots[slotIndex].selectedAttack || 'Attack');
-    // this.store.dispatch(new SetLandmarkSlotTimer(slot, attackData.castTime, true));
+    store.dispatch(new SetLandmarkSlotTimer(slotIndex, attackData.castTime, true));
     return of(landmarkEncounter);
   },
 
@@ -16,7 +17,7 @@ export const fightHelpers: Record<string, CardFunction> = {
     const { landmarkEncounter, encounterOpts, slotIndex, card, store } = opts;
 
     const attackData = getAttackByName(landmarkEncounter.playerSlots[slotIndex].selectedAttack || 'Attack');
-    // this.store.dispatch(new SetPlayerSlotTimer(slot, attackData.castTime, true));
+    store.dispatch(new SetPlayerSlotTimer(slotIndex, attackData.castTime, true));
     return of(landmarkEncounter);
   },
 
@@ -74,8 +75,8 @@ export class Fight extends Landmark implements ILandmark {
           accepts: [],
           timerType: 'danger',
           selectedAttack: attack,
-          maxTimer: -1,
-          timer: -1,
+          maxTimer: castTime,
+          timer: castTime,
           timerExpired: 'monsterTimerExpired',
           timerExpiredOpts: { castTime }
         };

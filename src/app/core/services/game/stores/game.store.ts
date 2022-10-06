@@ -144,7 +144,7 @@ export class GameState implements NgxsOnInit {
 
   @Selector()
   static landmarkEncounterData(state: IGame) {
-    return structuredClone(state.landmarkEncounter);
+    return state.landmarkEncounter;
   }
 
   @Selector()
@@ -216,7 +216,9 @@ export class GameState implements NgxsOnInit {
   }
 
   private updateLandmark(ctx: StateContext<IGame>, observable: Observable<ILandmarkEncounter>) {
-    const sub = observable.subscribe(landmarkEncounterData => {
+    console.log('update landmark');
+    this.landmarkSubscription = observable.subscribe(landmarkEncounterData => {
+      console.log('asdf', { landmarkEncounterData }, landmarkEncounterData.playerSlots[0]?.selectedAttack);
       const canMove = landmarkEncounterData.canLeave;
 
       ctx.setState(patch<IGame>({
@@ -226,8 +228,6 @@ export class GameState implements NgxsOnInit {
         })
       }));
     });
-
-    this.landmarkSubscription = sub;
   }
 
   private cancelLandmark() {
@@ -752,6 +752,10 @@ export class GameState implements NgxsOnInit {
     const newState = ctx.getState();
     const newLandmark = structuredClone(newState.landmarkEncounter);
 
+    if(!newLandmark) {
+      return;
+    }
+
     const opts: ISlotFunctionOpts = {
       card: undefined,
       encounterOpts: this.getEncounterOpts(ctx),
@@ -809,9 +813,6 @@ export class GameState implements NgxsOnInit {
       return;
     }
 
-    console.log(ctx.getState().character.chosenAttack, ctx.getState().landmarkEncounter.playerSlots[0].selectedAttack);
-
-    /*
     ctx.setState(patch<IGame>({
       landmarkEncounter: patch<ILandmarkEncounter>({
         playerSlots: updateItem<ILandmarkSlot>(slot, patch<ILandmarkSlot>({
@@ -829,7 +830,6 @@ export class GameState implements NgxsOnInit {
         })
       }));
     }
-    */
   }
 
   @Action(PlayerSlotTimerExpire)
@@ -853,6 +853,10 @@ export class GameState implements NgxsOnInit {
 
     const newState = ctx.getState();
     const newLandmark = structuredClone(newState.landmarkEncounter);
+
+    if(!newLandmark) {
+      return;
+    }
 
     const opts: ISlotFunctionOpts = {
       card: undefined,
@@ -919,6 +923,10 @@ export class GameState implements NgxsOnInit {
     const newState = ctx.getState();
     const newLandmark = structuredClone(newState.landmarkEncounter);
     const newCard = structuredClone(card);
+
+    if(!newLandmark) {
+      return;
+    }
 
     const opts: ISlotFunctionOpts = {
       card: newCard,

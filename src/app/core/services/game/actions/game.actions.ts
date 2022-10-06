@@ -144,7 +144,7 @@ export class SetPlayerSlotTimer {
 }
 
 export class SetPlayerSlotAttack {
-  static type = '[Game] Set Player Slot Timer';
+  static type = '[Game] Set Player Slot Attack';
   constructor(public slot: number, public attack: string) {}
 }
 

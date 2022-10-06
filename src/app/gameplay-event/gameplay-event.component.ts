@@ -33,6 +33,10 @@ export class GameplayEventComponent implements OnInit, OnDestroy {
     this.keybindsService.removeShortcut(this.keybindsService.getShortcutKeys(Keybind.Choice4));
   }
 
+  identify(index) {
+    return index;
+  }
+
   makeChoice(choice: number): boolean {
     this.store.dispatch(new MakeChoice(choice));
     return true;
