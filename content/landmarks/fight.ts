@@ -1,12 +1,29 @@
 import { Observable, of } from 'rxjs';
 import { sample } from 'lodash';;
-import { ChangeAttack, ReplaceNode, SetHealth } from '../../src/app/core/services/game/actions';
+import { AddBackpackItem, AddCoinsToBackpack, ChangeAttack, ReplaceNode, SetHealth } from '../../src/app/core/services/game/actions';
 import { GameConstant } from '../../src/app/core/services/game/game.service';
 import { EquipmentSlot } from '../../src/app/core/services/game/stores';
 import { getAttackByName, getMonsterByName } from '../getters';
 import { ILandmark, Landmark, ILandmarkEncounter,
-  ILandmarkEncounterOpts, CardFunction, ISlotFunctionOpts, IWeaponAttack, ILandmarkSlot } from '../interfaces';
+  ILandmarkEncounterOpts, CardFunction, ISlotFunctionOpts,
+  IWeaponAttack, ILandmarkSlot, IModifiableItem, Interaction } from '../interfaces';
 import { nothing } from './helpers/nothing.helpers';
+
+const dropItems = (opts: ISlotFunctionOpts, itemDrops: IModifiableItem[] = []) => {
+  itemDrops.forEach(itemDrop => {
+    const item = opts.encounterOpts.callbacks.content.createItemWithModifications(itemDrop.itemId, itemDrop.itemChanges);
+    if(!item) {
+      return;
+    }
+
+    if(item.interaction?.name === Interaction.Buys) {
+      opts.store.dispatch(new AddCoinsToBackpack(item.interaction.level ?? 0));
+      return;
+    }
+
+    opts.store.dispatch(new AddBackpackItem(item));
+  });
+};
 
 const didPlayersWin = (opts: ISlotFunctionOpts) => {
   const { landmarkEncounter } = opts;
@@ -51,7 +68,12 @@ const finishCombat = (opts: ISlotFunctionOpts) => {
   });
 
   if(didPlayersWin(opts)) {
-    callbacks.newEventMessage('You defeated the monsters!');
+    const itemsWon = landmarkEncounter.landmarkData.itemDrops || [];
+    const foundString = itemsWon.map(item => item.description).join(', ') || 'nothing';
+
+    callbacks.newEventMessage(`You defeated the monsters! You found ${foundString}.`);
+
+    dropItems(opts, itemsWon);
   } else {
     callbacks.newEventMessage('You were defeated by the monsters!');
   }

@@ -1,10 +1,4 @@
-
-export interface IBackgroundKitItem {
-  description: string;
-  icon: string;
-  itemId: string;
-  itemChanges: Record<string, number>;
-}
+import { IModifiableItem } from './item';
 
 export interface IBackground {
   name: string;
@@ -15,5 +9,5 @@ export interface IBackground {
   description: string;
   archetype: string;
   goal: string;
-  startingKit: IBackgroundKitItem[];
+  startingKit: IModifiableItem[];
 }

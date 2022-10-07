@@ -113,6 +113,7 @@ export interface ILandmarkEncounterOpts {
       getConstant: (constant: GameConstant) => any;
       getItemDataById: (id: string) => IItemConfig;
       createItemById: (id: string) => IItemConfig;
+      createItemWithModifications: (id: string, modifications: Record<string, number>) => IItemConfig;
     };
     logger: {
       log: (...message) => void;

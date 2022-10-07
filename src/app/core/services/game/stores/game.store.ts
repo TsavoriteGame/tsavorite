@@ -186,7 +186,9 @@ export class GameState implements NgxsOnInit {
       content: {
         getConstant: (constant: GameConstant) => this.gameService.getConstant(constant),
         getItemDataById: (id: string) => this.contentService.getItemDataById(id),
-        createItemById: (id: string) => this.contentService.getItemById(id)
+        createItemById: (id: string) => this.contentService.getItemById(id),
+        createItemWithModifications: (id: string, modifications: Record<string, number>) =>
+          this.contentService.reformatItem(id, modifications)
       },
       logger: {
         log: (...message) => this.loggerService.log(...message),

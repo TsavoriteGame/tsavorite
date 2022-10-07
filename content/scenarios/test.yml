@@ -159,6 +159,12 @@ nodes:
       moveSteps: 1
       monsters:
         - name: Goblin
+      itemDrops:
+        - description: 2 Gold Coins
+          icon: goldcoin
+          itemId: GoldCoins-1
+          itemChanges:
+            'interaction.level': 2
 
   22:
     name: Goblin Ambush
@@ -171,6 +177,12 @@ nodes:
       monsters:
         - name: Goblin
         - name: Goblin
+      itemDrops:
+        - description: 3 Gold Coins
+          icon: goldcoin
+          itemId: GoldCoins-1
+          itemChanges:
+            'interaction.level': 3
 
   23:
     name: Hobgoblin Attack
@@ -182,3 +194,13 @@ nodes:
       moveSteps: 1
       monsters:
         - name: Hobgoblin
+      itemDrops:
+        - description: 3 Gold Coins
+          icon: goldcoin
+          itemId: GoldCoins-1
+          itemChanges:
+            'interaction.level': 3
+
+        - description: Rock Smasher
+          icon: haxe
+          itemId: RockSmasher-2

@@ -97,3 +97,10 @@ export interface IReactionResponse {
 export type ReactionFunction = (reaction: IReactionArgs) => IReactionResponse;
 
 export type Reactions = Partial<Record<Descriptor, ReactionFunction>>;
+
+export interface IModifiableItem {
+  description: string;
+  icon: string;
+  itemId: string;
+  itemChanges: Record<string, number>;
+}
