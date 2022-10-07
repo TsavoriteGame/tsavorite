@@ -17,43 +17,68 @@ export interface ILandmarkSlotChoice {
   callback: (landmarkEncounter: ILandmarkEncounter) => Observable<ILandmarkEncounter>;
 }
 
-export type CardPlaceFunction = (encounterOpts: ILandmarkEncounter, slotIndex: number, card: ICard) => Observable<ILandmarkEncounter>;
+export interface ISlotFunctionOpts {
+  encounterOpts: ILandmarkEncounterOpts;
+  landmarkEncounter: ILandmarkEncounter;
+  slotIndex: number;
+  card: ICard;
+  store: Store;
+  extraOpts: Record<string, any>;
+}
 
-export type CardTimerFunction = (encounterOpts: ILandmarkEncounter, slotIndex: number) => Observable<ILandmarkEncounter>;
+export type CardFunction = (opts: ISlotFunctionOpts) => Observable<ILandmarkEncounter>;
 
 export interface ILandmarkSlot {
 
-  card: ICard;
+  // a placeable card slot
+  card?: ICard;
+
+  // whether or not to show the card slot
+  showCardSlot?: boolean;
+
+  // display a bonus card in the middle for attacks
+  selectedAttack?: string;
 
   // whether or not the slot is accepting items
   locked?: boolean;
 
   // the text used to describe the slot
-  readonly text: string;
+  text: string;
 
   // the icon used for the slot
-  readonly icon: string;
+  icon: string;
 
   // the timer "type" - defaults to unset/neutral
-  readonly timerType?: string;
+  timerType?: string;
+
+  // the draggable card types that are accepted by this slot
+  accepts: string[];
 
   // the maximum amount of time that can possibly be on the timer
   // generally set to the same thing as `timer`
   // -1 = infinite
-  readonly maxTimer: number;
+  maxTimer: number;
 
   // the amount of time the player has to respond to the slot
   // -1 = infinite
-  readonly timer: number;
+  timer: number;
 
   // whether or not the slot should lock when the timer expires
-  readonly lockOnTimerExpire?: boolean;
+  lockOnTimerExpire?: boolean;
+
+  // whether or not the timer should be visible when the card is present
+  hideTimerWhenCardPresent?: boolean;
 
   // place a card in the slot
-  cardPlaced: CardPlaceFunction;
+  cardPlaced?: string;
+  cardPlacedOpts?: Record<string, any>;
 
   // place a card in the slot
-  timerExpired: CardTimerFunction;
+  timerExpired?: string;
+  timerExpiredOpts?: Record<string, any>;
+
+  // extra data associated with the slot
+  slotData?: Record<string, any>;
 }
 
 export interface ILandmarkData {
@@ -73,6 +98,9 @@ export interface ILandmarkData {
 
   // how many steps it will take at a time if it moves
   moveSteps?: number;
+
+  // the monsters that will be spawned at this landmark
+  monsters?: Array<{ name: string }>;
 }
 
 export interface ILandmarkEncounterOpts {
@@ -85,6 +113,7 @@ export interface ILandmarkEncounterOpts {
       getConstant: (constant: GameConstant) => any;
       getItemDataById: (id: string) => IItemConfig;
       createItemById: (id: string) => IItemConfig;
+      createItemWithModifications: (id: string, modifications: Record<string, number>) => IItemConfig;
     };
     logger: {
       log: (...message) => void;
@@ -106,24 +135,33 @@ export class Landmark {
 
 export interface ILandmarkEncounter {
 
+  // the type of landmark (class name)
+  landmarkType: string;
+
   // the name of the landmark
-  readonly landmarkName: string;
+  landmarkName: string;
 
   // the description of the landmark
-  readonly landmarkDescription: string;
+  landmarkDescription: string;
 
   // the icon used for the landmark
-  readonly landmarkIcon: string;
+  landmarkIcon: string;
 
   // the data for the landmark
-  readonly landmarkData: Record<string, any>;
+  landmarkData: Record<string, any>;
 
   // the slot data for the landmark
-  readonly slots: ILandmarkSlot[];
+  slots: ILandmarkSlot[];
+
+  // the player slot data for the landmark
+  playerSlots: ILandmarkSlot[];
 
   // what kind of choices this landmark has
-  readonly choices: ILandmarkSlotChoice[];
+  choices: ILandmarkSlotChoice[];
 
   // whether or not you can leave from this location
-  readonly canLeave: boolean;
+  canLeave?: boolean;
+
+  // whether or not to disallow health updates for players
+  disallowHealthUpdates?: boolean;
 }

@@ -33,7 +33,7 @@ export class StatisticsState {
 
     ctx.setState(
       patch<IGameStatistics>({
-        statistics: patch({
+        statistics: patch<Record<GameStatistic, number>>({
           [stat]: current + amount
         })
       })

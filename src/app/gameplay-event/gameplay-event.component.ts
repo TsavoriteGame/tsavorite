@@ -2,7 +2,8 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { ILandmarkEncounter } from '../../../content/interfaces';
-import { AddCardToSlot, MakeChoice } from '../core/services/game/actions';
+import { AddCardToLandmarkSlot, AddCardToPlayerSlot, MakeChoice } from '../core/services/game/actions';
+import { ContentService } from '../core/services/game/content.service';
 import { Keybind, KeybindsService } from '../core/services/game/keybinds.service';
 import { GameState, IGameCharacter } from '../core/services/game/stores';
 
@@ -17,7 +18,11 @@ export class GameplayEventComponent implements OnInit, OnDestroy {
   @Select(GameState.landmarkEncounterData) landmarkEncounterData$: Observable<ILandmarkEncounter>;
   @Select(GameState.eventMessage) eventMessage$: Observable<string>;
 
-  constructor(private store: Store, private keybindsService: KeybindsService) { }
+  constructor(
+    private store: Store,
+    private contentService: ContentService,
+    private keybindsService: KeybindsService
+  ) { }
 
   ngOnInit(): void {
     this.keybindsService.addShortcuts(this.keybindsService.getShortcutKeys(Keybind.Choice1), () => this.makeChoice(0));
@@ -33,6 +38,10 @@ export class GameplayEventComponent implements OnInit, OnDestroy {
     this.keybindsService.removeShortcut(this.keybindsService.getShortcutKeys(Keybind.Choice4));
   }
 
+  identify(index) {
+    return index;
+  }
+
   makeChoice(choice: number): boolean {
     this.store.dispatch(new MakeChoice(choice));
     return true;
@@ -43,7 +52,22 @@ export class GameplayEventComponent implements OnInit, OnDestroy {
       return false;
     }
 
-    this.store.dispatch(new AddCardToSlot(slot, $event.data.item));
+    this.store.dispatch(new AddCardToLandmarkSlot(slot, $event.data.item));
+    return true;
+  }
+
+  addCardToPlayerSlot($event, slot: number): boolean {
+    if(!$event.data.attack) {
+      return false;
+    }
+
+    const attackCard = this.contentService.createAttackCard($event.data.attack);
+    if(!attackCard) {
+      return false;
+    }
+
+    this.store.dispatch(new AddCardToPlayerSlot(slot, attackCard));
+
     return true;
   }
 

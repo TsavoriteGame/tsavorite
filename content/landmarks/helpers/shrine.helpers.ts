@@ -1,17 +1,15 @@
 
+import { EncounterCurrentTile, ReduceHealth, ReplaceNode, SetCharacterItemLockById,
+  SetLandmarkSlotLock, SetLandmarkSlotTimer, UpdateCharacterItemById } from '../../../src/app/core/services/game/actions';
+import { CardFunction, IMapPosition, IScenarioNode, ISlotFunctionOpts, IItemConfig } from '../../interfaces';
+import type { Store } from '@ngxs/store';
 import { first, of, switchMap, tap, timer } from 'rxjs';
 import { sample } from 'lodash';
-import { EncounterCurrentTile, ReduceHealth, ReplaceNode, SetCharacterItemLockById, SetLandmarkSlotLock,
-  SetLandmarkSlotTimer, UpdateCharacterItemById } from '../../../src/app/core/services/game/actions';
-import { ILandmarkEncounter, ICard, IItemConfig, CardPlaceFunction, CardTimerFunction, ILandmarkEncounterOpts } from '../../interfaces';
-import { decreaseDescriptorLevel, getHighestDescriptorByLevel, increaseInteractionLevel } from '../../helpers';
-import type { Store } from '@ngxs/store';
+
 import { pausableTimer } from '../../rxjs.helpers';
+import { decreaseDescriptorLevel, getHighestDescriptorByLevel, increaseInteractionLevel } from '../../helpers';
 
-export const helpers = (encounter: ILandmarkEncounterOpts, store: Store) => {
-
-  const { scenarioNode, callbacks, position, character } = encounter;
-
+const doFullReset = (store: Store, position: IMapPosition, scenarioNode: IScenarioNode) => {
   const resetShrine = () => ({
     name: 'Depleted Shrine',
     icon: scenarioNode.icon,
@@ -22,136 +20,134 @@ export const helpers = (encounter: ILandmarkEncounterOpts, store: Store) => {
     landmarkData: {}
   });
 
-  const doFullReset = () => {
-    store.dispatch(new ReplaceNode(position, resetShrine())).subscribe(() => {
-      store.dispatch(new EncounterCurrentTile());
-    });
-  };
+  store.dispatch(new ReplaceNode(position, resetShrine())).subscribe(() => {
+    store.dispatch(new EncounterCurrentTile());
+  });
+};
 
-  const placementFunctions: CardPlaceFunction[] = [
+export const shrineHelpers: Record<string, CardFunction> = {
+  placementCurse: (opts: ISlotFunctionOpts) => {
+    const { encounterOpts, landmarkEncounter, slotIndex, card, store } = opts;
+    const { callbacks } = encounterOpts;
 
-    // "cursed"
-    (encounterOpts: ILandmarkEncounter, slotIndex: number, card: ICard) => {
-      store.dispatch(new SetLandmarkSlotLock(slotIndex, true));
-      store.dispatch(new SetLandmarkSlotTimer(slotIndex, -1));
-      store.dispatch(new SetCharacterItemLockById(card.cardId, true));
+    store.dispatch(new SetLandmarkSlotLock(slotIndex, true));
+    store.dispatch(new SetLandmarkSlotTimer(slotIndex, -1));
+    store.dispatch(new SetCharacterItemLockById(card.cardId, true));
 
-      // if it doesn't have parts, it's not really an item we can use in this path
-      if(!(card as IItemConfig).parts) {
-        return timer(1000)
-          .pipe(
-            first(),
-            tap(() => callbacks.newEventMessage('The shrine deity is thinking...')),
-            pausableTimer(5),
-            tap(() => callbacks.newEventMessage('The shrine deity rejects your offering!')),
-            pausableTimer(5),
-            tap(() => doFullReset()),
-            switchMap(() => of(encounterOpts))
-          );
-      }
-
-      // if it is an item, lower the highest descriptor by 1
+    // if it doesn't have parts, it's not really an item we can use in this path
+    if(!(card as IItemConfig).parts) {
       return timer(1000)
         .pipe(
           first(),
           tap(() => callbacks.newEventMessage('The shrine deity is thinking...')),
           pausableTimer(5),
-          tap(() => callbacks.newEventMessage('The shrine deity curses your offering!')),
-          tap(() => store.dispatch(new SetLandmarkSlotLock(slotIndex, false))),
-          tap(() => {
-            const item: IItemConfig = card as IItemConfig;
-            const highestDescriptor = getHighestDescriptorByLevel(item);
-
-            decreaseDescriptorLevel(item, highestDescriptor, 1);
-
-            store.dispatch(new UpdateCharacterItemById(card.cardId, item));
-            store.dispatch(new SetCharacterItemLockById(card.cardId, false));
-          }),
+          tap(() => callbacks.newEventMessage('The shrine deity rejects your offering!')),
           pausableTimer(5),
-          tap(() => doFullReset()),
-          switchMap(() => of(encounterOpts))
+          tap(() => doFullReset(store, encounterOpts.position, encounterOpts.scenarioNode)),
+          switchMap(() => of(landmarkEncounter))
         );
-    },
+    }
 
-    // "interaction boost"
-    (encounterOpts: ILandmarkEncounter, slotIndex: number, card: ICard) => {
-      store.dispatch(new SetLandmarkSlotLock(slotIndex, true));
-      store.dispatch(new SetLandmarkSlotTimer(slotIndex, -1));
-      store.dispatch(new SetCharacterItemLockById(card.cardId, true));
+    // if it is an item, lower the highest descriptor by 1
+    return timer(1000)
+      .pipe(
+        first(),
+        tap(() => callbacks.newEventMessage('The shrine deity is thinking...')),
+        pausableTimer(5),
+        tap(() => callbacks.newEventMessage('The shrine deity curses your offering!')),
+        tap(() => store.dispatch(new SetLandmarkSlotLock(slotIndex, false))),
+        tap(() => {
+          const item: IItemConfig = card as IItemConfig;
+          const highestDescriptor = getHighestDescriptorByLevel(item);
 
-      // if it doesn't have parts, it's not really an item we can use in this path
-      if(!(card as IItemConfig).parts || !(card as IItemConfig).interaction) {
-        return timer(1000)
-          .pipe(
-            first(),
-            tap(() => callbacks.newEventMessage('The shrine deity is thinking...')),
-            pausableTimer(5),
-            tap(() => callbacks.newEventMessage('The shrine deity rejects your offering!')),
-            pausableTimer(5),
-            tap(() => doFullReset()),
-            switchMap(() => of(encounterOpts))
-          );
-      }
+          decreaseDescriptorLevel(item, highestDescriptor, 1);
 
-      // if it is an item, lower the highest descriptor by 1
+          store.dispatch(new UpdateCharacterItemById(card.cardId, item));
+          store.dispatch(new SetCharacterItemLockById(card.cardId, false));
+        }),
+        pausableTimer(5),
+        tap(() => doFullReset(store, encounterOpts.position, encounterOpts.scenarioNode)),
+        switchMap(() => of(landmarkEncounter))
+      );
+  },
+
+  placementInteractionBoost: (opts: ISlotFunctionOpts) => {
+    const { encounterOpts, landmarkEncounter, slotIndex, card, store } = opts;
+    const { callbacks } = encounterOpts;
+
+    store.dispatch(new SetLandmarkSlotLock(slotIndex, true));
+    store.dispatch(new SetLandmarkSlotTimer(slotIndex, -1));
+    store.dispatch(new SetCharacterItemLockById(card.cardId, true));
+
+    // if it doesn't have parts, it's not really an item we can use in this path
+    if(!(card as IItemConfig).parts || !(card as IItemConfig).interaction) {
       return timer(1000)
         .pipe(
           first(),
           tap(() => callbacks.newEventMessage('The shrine deity is thinking...')),
           pausableTimer(5),
-          tap(() => callbacks.newEventMessage('The shrine deity blesses your offering!')),
-          tap(() => store.dispatch(new SetLandmarkSlotLock(slotIndex, false))),
-          tap(() => {
-            const item: IItemConfig = card as IItemConfig;
-
-            increaseInteractionLevel(item, item.interaction.name, 1);
-
-            store.dispatch(new UpdateCharacterItemById(card.cardId, item));
-            store.dispatch(new SetCharacterItemLockById(card.cardId, false));
-          }),
+          tap(() => callbacks.newEventMessage('The shrine deity rejects your offering!')),
           pausableTimer(5),
-          tap(() => doFullReset()),
-          switchMap(() => of(encounterOpts))
+          tap(() => doFullReset(store, encounterOpts.position, encounterOpts.scenarioNode)),
+          switchMap(() => of(landmarkEncounter))
         );
     }
-  ];
 
-  const timeoutFunctions: CardTimerFunction[] = [
+    // if it is an item, lower the highest descriptor by 1
+    return timer(1000)
+      .pipe(
+        first(),
+        tap(() => callbacks.newEventMessage('The shrine deity is thinking...')),
+        pausableTimer(5),
+        tap(() => callbacks.newEventMessage('The shrine deity blesses your offering!')),
+        tap(() => store.dispatch(new SetLandmarkSlotLock(slotIndex, false))),
+        tap(() => {
+          const item: IItemConfig = card as IItemConfig;
 
-    // "curse"
-    (encounterOpts: ILandmarkEncounter, slotIndex: number) => {
-      const curseChosenItem = sample(character.items.filter(i => i.parts));
-      if(!curseChosenItem) {
-        return timer(1000)
-          .pipe(
-            tap(() => callbacks.newEventMessage('The shrine deity takes your health as penance!')),
-            tap(() => store.dispatch(new SetLandmarkSlotLock(slotIndex, false))),
-            tap(() => store.dispatch(new ReduceHealth(1))),
-            pausableTimer(5),
-            tap(() => doFullReset()),
-            switchMap(() => of(encounterOpts))
-          );
-      }
+          increaseInteractionLevel(item, item.interaction.name, 1);
 
+          store.dispatch(new UpdateCharacterItemById(card.cardId, item));
+          store.dispatch(new SetCharacterItemLockById(card.cardId, false));
+        }),
+        pausableTimer(5),
+        tap(() => doFullReset(store, encounterOpts.position, encounterOpts.scenarioNode)),
+        switchMap(() => of(landmarkEncounter))
+      );
+  },
+
+  expireCurse: (opts: ISlotFunctionOpts) => {
+    const { encounterOpts, landmarkEncounter, slotIndex, store } = opts;
+    const { character, callbacks } = encounterOpts;
+
+    const curseChosenItem = sample(character.items.filter(i => i.parts));
+    if(!curseChosenItem) {
       return timer(1000)
         .pipe(
-          tap(() => callbacks.newEventMessage('The shrine deity curses your indecision!')),
+          tap(() => callbacks.newEventMessage('The shrine deity takes your health as penance!')),
           tap(() => store.dispatch(new SetLandmarkSlotLock(slotIndex, false))),
-          tap(() => {
-            const item: IItemConfig = curseChosenItem as IItemConfig;
-            const highestDescriptor = getHighestDescriptorByLevel(item);
-
-            decreaseDescriptorLevel(item, highestDescriptor, 1);
-
-            store.dispatch(new UpdateCharacterItemById(curseChosenItem.cardId, item));
-            store.dispatch(new SetCharacterItemLockById(curseChosenItem.cardId, false));
-          }),
+          tap(() => store.dispatch(new ReduceHealth(1))),
           pausableTimer(5),
-          tap(() => doFullReset()),
-          switchMap(() => of(encounterOpts))
+          tap(() => doFullReset(store, encounterOpts.position, encounterOpts.scenarioNode)),
+          switchMap(() => of(landmarkEncounter))
         );
     }
-  ];
 
-  return { placementFunctions, timeoutFunctions };
+    return timer(1000)
+      .pipe(
+        tap(() => callbacks.newEventMessage('The shrine deity curses your indecision!')),
+        tap(() => store.dispatch(new SetLandmarkSlotLock(slotIndex, false))),
+        tap(() => {
+          const item: IItemConfig = curseChosenItem as IItemConfig;
+          const highestDescriptor = getHighestDescriptorByLevel(item);
+
+          decreaseDescriptorLevel(item, highestDescriptor, 1);
+
+          store.dispatch(new UpdateCharacterItemById(curseChosenItem.cardId, item));
+          store.dispatch(new SetCharacterItemLockById(curseChosenItem.cardId, false));
+        }),
+        pausableTimer(5),
+        tap(() => doFullReset(store, encounterOpts.position, encounterOpts.scenarioNode)),
+        switchMap(() => of(landmarkEncounter))
+      );
+  }
 };

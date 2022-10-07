@@ -2,9 +2,9 @@ import { Injectable } from '@angular/core';
 import { Store } from '@ngxs/store';
 
 import { set } from 'lodash';
-import { allArchetypes, allBackgrounds, allItems, allRecipes, getItemById } from '../../../../../content/getters';
+import { allArchetypes, allBackgrounds, allItems, allRecipes, getAttackByName, getItemById } from '../../../../../content/getters';
 
-import { IArchetype, IBackground, IItemConfig, IRecipe } from '../../../../../content/interfaces';
+import { IArchetype, IBackground, ICard, IItemConfig, IRecipe } from '../../../../../content/interfaces';
 import { SetCurrentCardId } from './actions';
 
 @Injectable({
@@ -51,8 +51,7 @@ export class ContentService {
       return undefined;
     }
 
-    item.cardId = this.currentCardId;
-    this.currentCardId++;
+    item.cardId = this.getNextCardId();
 
     this.store.dispatch(new SetCurrentCardId(this.currentCardId));
 
@@ -64,6 +63,10 @@ export class ContentService {
   }
 
   // formatters
+  public getNextCardId(): number {
+    return this.currentCardId++;
+  }
+
   public setCurrentCardId(id: number): void {
     this.currentCardId = id;
   }
@@ -81,5 +84,19 @@ export class ContentService {
     });
 
     return workingItem;
+  }
+
+  // converters
+  public createAttackCard(attackName: string): ICard | undefined {
+    const attackData = getAttackByName(attackName);
+    if(!attackData) {
+      return undefined;
+    }
+
+    return {
+      cardId: this.getNextCardId(),
+      icon: attackData.icon,
+      name: attackName
+    };
   }
 }

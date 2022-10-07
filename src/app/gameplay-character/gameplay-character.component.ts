@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { Interaction } from '../../../content/interfaces';
-import { AddBackpackItem, AddHealth, RemoveCharacterItemById, SetEquipmentItem } from '../core/services/game/actions';
+import { AddBackpackItem, AddHealth, ChangeAttack, RemoveCharacterItemById, SetEquipmentItem } from '../core/services/game/actions';
 import { GameConstant, GameService } from '../core/services/game/game.service';
 import { EquipmentSlot, GameState, IGameCharacter } from '../core/services/game/stores';
 
@@ -13,7 +13,7 @@ import { EquipmentSlot, GameState, IGameCharacter } from '../core/services/game/
 })
 export class GameplayCharacterComponent implements OnInit {
 
-  @Select(GameState.character) character$: Observable<IGameCharacter>;
+  @Select(GameState.characterWithAttacks) character$: Observable<IGameCharacter & { attacks: string[] }>;
 
   constructor(private store: Store, private gameService: GameService) { }
 
@@ -42,6 +42,10 @@ export class GameplayCharacterComponent implements OnInit {
   }
 
   shouldDisableHealthStealing(character: IGameCharacter): boolean {
+    if(character.disallowHealthUpdates) {
+      return true;
+    }
+
     if(character.items.length === this.gameService.getConstant(GameConstant.BackpackSize)) {
       return true;
     }
@@ -70,6 +74,10 @@ export class GameplayCharacterComponent implements OnInit {
     if(newItem) {
       this.store.dispatch(new RemoveCharacterItemById(newItem.cardId));
     }
+  }
+
+  changeDefaultAttack(attack: string) {
+    this.store.dispatch(new ChangeAttack(attack));
   }
 
 }

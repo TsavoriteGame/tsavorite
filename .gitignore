@@ -56,5 +56,7 @@ backgrounds.json
 archetypes.json
 recipes.json
 scenarios.json
+attacks.json
+monsters.json
 src/environments/_vars.ts
 src/assets/images/game

@@ -7,7 +7,9 @@ import { ContentService } from './content.service';
 import { LoggerService } from './logger.service';
 
 export enum GameConstant {
-  BackpackSize = 'backpackSize'
+  BackpackSize = 'backpackSize',
+  PlayerSlots = 'playerSlots',
+  LandmarkSlots = 'landmarkSlots',
 }
 
 @Injectable({
@@ -22,7 +24,9 @@ export class GameService {
   }
 
   private readonly gameConstants: Record<GameConstant, any> = {
-    [GameConstant.BackpackSize]: 16
+    [GameConstant.BackpackSize]: 16,
+    [GameConstant.PlayerSlots]: 4,
+    [GameConstant.LandmarkSlots]: 4,
   };
 
   // rudimentary, but it works

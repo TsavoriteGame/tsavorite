@@ -8,15 +8,18 @@ export class StrangeLandscape extends Landmark implements ILandmark {
   encounter({ scenarioNode, position }: ILandmarkEncounterOpts): Observable<ILandmarkEncounter> {
     return from([
       {
+        landmarkType: 'StrangeLandscape',
         landmarkName: scenarioNode.name,
         landmarkDescription: scenarioNode.description,
         landmarkIcon: scenarioNode.icon,
         landmarkData: scenarioNode.landmarkData,
         slots: [],
+        playerSlots: [],
         canLeave: true,
         choices: []
       },
       {
+        landmarkType: 'StrangeLandscape',
         landmarkName: 'Changed Landscape',
         landmarkDescription: 'This place sure has changed explosively.',
         landmarkIcon: 'sunsetvolcano',

@@ -18,6 +18,9 @@
     name: Carves
     level: 1
 
+  attacks:
+    - Slash
+
 - name: Machete
   icon: bigsword
   parts:
@@ -37,6 +40,9 @@
     name: Carves
     level: 2
 
+  attacks:
+    - Slash
+
 - name: Machete
   icon: bigsword
   parts:
@@ -55,3 +61,6 @@
   interaction:
     name: Carves
     level: 3
+
+  attacks:
+    - Slash

@@ -8,11 +8,13 @@ export class ReverseBeggar extends Landmark implements ILandmark {
   // return slots, what they're filled with
   encounter({ scenarioNode, position }: ILandmarkEncounterOpts): Observable<ILandmarkEncounter> {
     return of({
+      landmarkType: 'ReverseBeggar',
       landmarkName: scenarioNode.name,
       landmarkDescription: scenarioNode.description,
       landmarkIcon: scenarioNode.icon,
       landmarkData: scenarioNode.landmarkData,
       slots: [],
+      playerSlots: [],
       canLeave: true,
       choices: [
         {

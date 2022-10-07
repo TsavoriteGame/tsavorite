@@ -53,7 +53,9 @@ const httpLoaderFactory = (http: HttpClient): TranslateHttpLoader =>  new Transl
     NgxsModule.forRoot(allStores, {
       developmentMode: !environment.production
     }),
-    NgxsLoggerPluginModule.forRoot(),
+    NgxsLoggerPluginModule.forRoot({
+      filter: action => !action.constructor.name.includes('Timer')
+    }),
     NgxsStoragePluginModule.forRoot({
       key: allStores.filter(x => x !== Stores.GameSetupState),
       migrations: Object.values(Migrations).flat()

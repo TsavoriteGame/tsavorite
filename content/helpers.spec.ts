@@ -1,8 +1,10 @@
 import { addDescriptor, changePrimaryDescriptor, decreaseDescriptorLevel,
   decreaseDescriptorLevelForPart, decreaseInteractionLevel, getAllDescriptorsForItem, getAllDescriptorsForPart,
   getCombinationBetweenTwoItems, getDescriptorLevel,
-  getDescriptorLevelFromPart, getHighestDescriptorByLevel, getInteraction, getInteractionLevel, getPartWithDescriptor, getTotalDescriptorLevel, hasDescriptor,
-  hasFoundationalPart, increaseDescriptorLevel, increaseDescriptorLevelForPart, increaseInteractionLevel, isFunctional, setDescriptorLevelForPart,
+  getDescriptorLevelFromPart, getHighestDescriptorByLevel, getInteraction,
+  getInteractionLevel, getPartWithDescriptor, getTotalDescriptorLevel, hasDescriptor,
+  hasFoundationalPart, increaseDescriptorLevel, increaseDescriptorLevelForPart,
+  increaseInteractionLevel, isFunctional, setDescriptorLevelForPart,
   setFoundationalPart, setInteraction } from './helpers';
 import { Descriptor, Interaction, IItemConfig } from './interfaces';
 

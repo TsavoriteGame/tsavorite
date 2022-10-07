@@ -9,11 +9,13 @@ export class ItemOnGround extends Landmark implements ILandmark {
   // return slots, what they're filled with
   encounter({ scenario, scenarioNode, callbacks, position, character }: ILandmarkEncounterOpts): Observable<ILandmarkEncounter> {
     return of({
+      landmarkType: 'ItemOnGround',
       landmarkName: scenarioNode.name,
       landmarkDescription: scenarioNode.description,
       landmarkIcon: scenarioNode.icon,
       landmarkData: scenarioNode.landmarkData,
       slots: [],
+      playerSlots: [],
       canLeave: true,
       choices: [
         {
