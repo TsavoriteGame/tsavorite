@@ -1,22 +1,25 @@
 
 Attack:
-  icon: attack
+  icon: attack-attack
   damage: 1
   castTime: 3
+  cooldown: 1
   target: single
 
 Slash:
-  icon: slash
+  icon: attack-slash
   damage: 2
   castTime: 4
+  cooldown: 1
   target: single
   interaction:
     name: Carves
 
 Bash:
-  icon: bash
+  icon: attack-bash
   damage: 2
   castTime: 5
+  cooldown: 2
   target: single
   interaction:
     name: Smashes

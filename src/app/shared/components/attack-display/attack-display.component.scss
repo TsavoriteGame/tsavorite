@@ -16,6 +16,10 @@
   object-fit: contain;
   user-select: none;
 
+  &.highlight {
+    outline: 2px solid #00aa00;
+  }
+
   .full-space {
     height: 64px;
     width: 64px;

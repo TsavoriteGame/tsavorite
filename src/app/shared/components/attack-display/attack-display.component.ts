@@ -16,6 +16,7 @@ export class AttackDisplayComponent implements OnInit, OnChanges {
   @Select(OptionsState.allOptions) options$: Observable<Record<GameOption, any>>;
 
   @Input() name: string;
+  @Input() showHighlight = false;
 
   public attackInfo: IWeaponAttack;
 

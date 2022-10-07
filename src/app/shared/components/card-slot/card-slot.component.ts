@@ -26,6 +26,7 @@ export class CardSlotComponent implements OnInit, OnDestroy, OnChanges {
   @Input() timerColor = '';
   @Input() locked = false;
   @Input() lockOnTimerExpire = false;
+  @Input() hideTimerWhenCardPresent = false;
   @Input() maxTimer = -1;
   @Input() timer = -1;
   @Input() side: 'Player' | 'Landmark';
@@ -33,6 +34,10 @@ export class CardSlotComponent implements OnInit, OnDestroy, OnChanges {
   @HostBinding('style.--timer-progress')
   public get timerAnimationProgress() {
     return this.timer / this.maxTimer;
+  }
+
+  public get shouldShowTimer(): boolean {
+    return this.timer > 0 && (!this.hideTimerWhenCardPresent || !this.card);
   }
 
   private timerSub: Subscription;
@@ -47,19 +52,23 @@ export class CardSlotComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   ngOnDestroy(): void {
-    if(this.timerSub) {
-      this.timerSub.unsubscribe();
-    }
+    this.timerSub?.unsubscribe();
   }
 
   ngOnChanges(changes): void {
 
     // attempt to restart the timer if the value ever resets
     const { timer } = changes;
+
+    // update the timer, restart if needed
     if(timer) {
       const { previousValue, currentValue } = timer;
       if(previousValue < currentValue) {
         this.watchTimer();
+      }
+
+      if(currentValue <= -1) {
+        this.timerSub?.unsubscribe();
       }
     }
 
@@ -106,26 +115,22 @@ export class CardSlotComponent implements OnInit, OnDestroy, OnChanges {
       if(this.timer <= 0) {
         this.timerSub.unsubscribe();
 
-        // if we do not have a card, we can lock the slot, and we can expire the timer
-        if(!this.card) {
-          if(this.lockOnTimerExpire) {
-            if(this.side === 'Landmark') {
-              this.store.dispatch(new SetLandmarkSlotLock(this.slotIndex, true));
-            }
-
-            if(this.side === 'Player') {
-              this.store.dispatch(new SetPlayerSlotLock(this.slotIndex, true));
-            }
-          }
-
+        if(this.lockOnTimerExpire) {
           if(this.side === 'Landmark') {
-            this.store.dispatch(new LandmarkSlotTimerExpire(this.slotIndex));
+            this.store.dispatch(new SetLandmarkSlotLock(this.slotIndex, true));
           }
 
           if(this.side === 'Player') {
-            this.store.dispatch(new PlayerSlotTimerExpire(this.slotIndex));
+            this.store.dispatch(new SetPlayerSlotLock(this.slotIndex, true));
           }
+        }
 
+        if(this.side === 'Landmark') {
+          this.store.dispatch(new LandmarkSlotTimerExpire(this.slotIndex));
+        }
+
+        if(this.side === 'Player') {
+          this.store.dispatch(new PlayerSlotTimerExpire(this.slotIndex));
         }
       }
     });

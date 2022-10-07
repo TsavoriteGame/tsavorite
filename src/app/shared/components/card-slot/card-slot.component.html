@@ -11,12 +11,12 @@
 
     <div class="centered full-space" [ngClass]="[backgroundSize]" *ngIf="!card">{{ placeholder }}</div>
 
-    <div class="timer" *ngIf="timer > 0">
+    <div class="timer" *ngIf="!card && shouldShowTimer">
       {{ timer }}
     </div>
 </div>
 
-<div class="timer-circle" *ngIf="timer > 0">
+<div class="timer-circle" *ngIf="shouldShowTimer">
   <svg class="timer-outline" [ngClass]="[timerColor || '']">
     <circle class="border" r="40" cx="56" cy="56"></circle>
     <circle class="slowly-filled-in" r="40" cx="56" cy="56"></circle>

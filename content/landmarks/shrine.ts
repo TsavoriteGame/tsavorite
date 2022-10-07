@@ -20,6 +20,7 @@ export class Shrine extends Landmark implements ILandmark {
       landmarkData: scenarioNode.landmarkData,
       slots: [
         {
+          showCardSlot: true,
           icon: scenarioNode.icon,
           text: 'Offering',
           lockOnTimerExpire: true,
@@ -27,6 +28,7 @@ export class Shrine extends Landmark implements ILandmark {
           accepts: ['Item'],
           maxTimer: 60,
           timer: 60,
+          hideTimerWhenCardPresent: true,
           cardPlaced: sample(Object.keys(shrineHelpers).filter(h => h.includes('placement'))),
           timerExpired: sample(Object.keys(shrineHelpers).filter(h => h.includes('expire')))
         }

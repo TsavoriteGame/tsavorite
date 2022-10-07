@@ -12,6 +12,7 @@ export interface IWeaponAttack {
   icon: string;
   damage: number;
   castTime: number;
+  cooldown: number;
   targetting: WeaponTarget;
   interaction?: IItemInteraction;
   applyStatusEffects: string[];

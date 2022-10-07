@@ -1,11 +1,12 @@
 
 <div class="card-container">
   <div class="card-slot-container card"
+       [class.highlight]="showHighlight"
        [ngbTooltip]="tipContent"
        container="body"
        dndType="Attack"
        [dndDraggable]="{ attack: name }">
-    <svg-icon [src]="'assets/images/attacks/' + name.toLowerCase() + '.svg'" [svgStyle]="{ 'width.px': 64, fill: 'rgb(0, 0, 0)' }"></svg-icon>
+    <app-icon [icon]="attackInfo.icon" [size]="64"></app-icon>
   </div>
 
   <div class="icon-text size-big">

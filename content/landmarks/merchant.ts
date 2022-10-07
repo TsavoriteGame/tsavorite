@@ -1,6 +1,6 @@
 import { Observable, of } from 'rxjs';
 import { AddBackpackItem, AddCoinsToBackpack, RemoveCharacterItemById,
-  RemoveCardFromSlot, RemoveCoinsFromBackpack } from '../../src/app/core/services/game/actions';
+  RemoveCardFromLandmarkSlot, RemoveCoinsFromBackpack } from '../../src/app/core/services/game/actions';
 import { GameConstant } from '../../src/app/core/services/game/game.service';
 import { ILandmark, Landmark, ILandmarkEncounter,
   ILandmarkEncounterOpts, IItemConfig, Interaction, CardFunction, ISlotFunctionOpts } from '../interfaces';
@@ -16,35 +16,35 @@ export const merchantHelpers: Record<string, CardFunction> = {
 
     if(!itemCheck.interaction || itemCheck.interaction.name !== Interaction.Buys) {
       callbacks.newEventMessage(`You can't buy with ${itemCheck.name}!`);
-      store.dispatch(new RemoveCardFromSlot(slotIndex));
+      store.dispatch(new RemoveCardFromLandmarkSlot(slotIndex));
       return of(landmarkEncounter);
     }
 
     const cost = item.cost;
     if(itemCheck.interaction.level < cost) {
       callbacks.newEventMessage(`You don't have enough coins to buy ${item.itemData.name}!`);
-      store.dispatch(new RemoveCardFromSlot(slotIndex));
+      store.dispatch(new RemoveCardFromLandmarkSlot(slotIndex));
       return of(landmarkEncounter);
     }
 
     const itemRef = callbacks.content.createItemById(item.item);
     if(!itemRef) {
       callbacks.newEventMessage(`You can't buy ${item.itemData.name}!`);
-      store.dispatch(new RemoveCardFromSlot(slotIndex));
+      store.dispatch(new RemoveCardFromLandmarkSlot(slotIndex));
       return of(landmarkEncounter);
     }
 
     const backpackSize = callbacks.content.getConstant(GameConstant.BackpackSize);
     if(character.items.length >= backpackSize) {
       callbacks.newEventMessage('Your backpack is full!');
-      store.dispatch(new RemoveCardFromSlot(slotIndex));
+      store.dispatch(new RemoveCardFromLandmarkSlot(slotIndex));
       return;
     }
 
     callbacks.newEventMessage(`You bought ${item.itemData.name}!`);
     store.dispatch(new AddBackpackItem(itemRef));
     store.dispatch(new RemoveCoinsFromBackpack(cost));
-    store.dispatch(new RemoveCardFromSlot(slotIndex));
+    store.dispatch(new RemoveCardFromLandmarkSlot(slotIndex));
 
     return of(landmarkEncounter);
   },
@@ -57,13 +57,13 @@ export const merchantHelpers: Record<string, CardFunction> = {
 
     if(!itemCheck.interaction || itemCheck.interaction.name === Interaction.Buys) {
       callbacks.newEventMessage(`You can't sell ${itemCheck.name}!`);
-      store.dispatch(new RemoveCardFromSlot(slotIndex));
+      store.dispatch(new RemoveCardFromLandmarkSlot(slotIndex));
       return of(landmarkEncounter);
     }
 
     const value = itemCheck.interaction.level ?? 1;
     callbacks.newEventMessage(`Thanks for the business, here's ${value} coin(s)!`);
-    store.dispatch(new RemoveCardFromSlot(slotIndex));
+    store.dispatch(new RemoveCardFromLandmarkSlot(slotIndex));
     store.dispatch(new RemoveCharacterItemById(card.cardId));
     store.dispatch(new AddCoinsToBackpack(value));
 
@@ -92,6 +92,7 @@ export class Merchant extends Landmark implements ILandmark {
       landmarkData: scenarioNode.landmarkData,
       slots: [
         ...items.slice(0, maxItems).map(item => ({
+          showCardSlot: true,
           icon: item.itemData.icon,
           text: `${item.itemData.name} (${item.cost} coins)`,
           accepts: ['Item'],
