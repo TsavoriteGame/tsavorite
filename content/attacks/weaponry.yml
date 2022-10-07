@@ -1,16 +1,18 @@
 
+## Never set castTime or cooldown to 1. It doesn't work, and will cause combat to halt.
+
 Attack:
   icon: attack-attack
   damage: 1
   castTime: 3
-  cooldown: 1
+  cooldown: 2
   target: single
 
 Slash:
   icon: attack-slash
   damage: 2
   castTime: 4
-  cooldown: 1
+  cooldown: 2
   target: single
   interaction:
     name: Carves
@@ -19,7 +21,7 @@ Bash:
   icon: attack-bash
   damage: 2
   castTime: 5
-  cooldown: 2
+  cooldown: 3
   target: single
   interaction:
     name: Smashes

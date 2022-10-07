@@ -38,7 +38,7 @@ const updateName = (slot: ILandmarkSlot) => {
 };
 
 const finishCombat = (opts: ISlotFunctionOpts) => {
-  const { landmarkEncounter, encounterOpts: { callbacks, position }, store, } = opts;
+  const { landmarkEncounter, encounterOpts: { callbacks, position }, store } = opts;
 
   landmarkEncounter.slots.forEach(slot => {
     slot.locked = true;
@@ -155,9 +155,6 @@ export const fightHelpers: Record<string, CardFunction> = {
       return of(landmarkEncounter);
     }
 
-    landmarkEncounter.slots[slotIndex].timerType = 'cooldown';
-    landmarkEncounter.slots[slotIndex].slotData.cooldownCD = true;
-
     monsterAttack(opts, slotIndex, attackData);
 
     // if combat is done after the attack, don't reset timers or anything
@@ -165,7 +162,13 @@ export const fightHelpers: Record<string, CardFunction> = {
       return of(landmarkEncounter);
     }
 
-    resetTimerAndMax(landmarkEncounter.slots[slotIndex], attackData.cooldown);
+    if(attackData.cooldown > 1) {
+      landmarkEncounter.slots[slotIndex].timerType = 'cooldown';
+      landmarkEncounter.slots[slotIndex].slotData.cooldownCD = true;
+      resetTimerAndMax(landmarkEncounter.slots[slotIndex], attackData.cooldown);
+    } else {
+      resetTimerAndMax(landmarkEncounter.slots[slotIndex], attackData.castTime);
+    }
 
     return of(landmarkEncounter);
   },
@@ -183,9 +186,6 @@ export const fightHelpers: Record<string, CardFunction> = {
       resetTimerAndMax(landmarkEncounter.playerSlots[slotIndex], attackData.castTime);
       return of(landmarkEncounter);
     }
-
-    landmarkEncounter.playerSlots[slotIndex].timerType = 'cooldown';
-    landmarkEncounter.playerSlots[slotIndex].slotData.cooldownCD = true;
 
     const allAttacks = ['Attack', ...encounterOpts.character.equipment[EquipmentSlot.Hands]?.attacks ?? []];
 
@@ -214,12 +214,19 @@ export const fightHelpers: Record<string, CardFunction> = {
       return of(landmarkEncounter);
     }
 
-    resetTimerAndMax(landmarkEncounter.playerSlots[slotIndex], attackData.cooldown);
+    // if the cooldown is >1 second, we put it on cooldown
+    // for some unknown reason, if the cooldown is 1 it doesn't work
+    // if it's 0, we immediately reset though
+    if(attackData.cooldown) {
+      landmarkEncounter.playerSlots[slotIndex].timerType = 'cooldown';
+      landmarkEncounter.playerSlots[slotIndex].slotData.cooldownCD = true;
+      resetTimerAndMax(landmarkEncounter.playerSlots[slotIndex], attackData.cooldown);
+    } else {
+      resetTimerAndMax(landmarkEncounter.playerSlots[slotIndex], attackData.castTime);
+    }
 
     return of(landmarkEncounter);
-  },
-
-  turnTick: (opts: ISlotFunctionOpts) => of(opts.landmarkEncounter)
+  }
 };
 
 export class Fight extends Landmark implements ILandmark {
