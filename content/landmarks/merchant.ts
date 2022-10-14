@@ -102,6 +102,7 @@ export class Merchant extends Landmark implements ILandmark {
           cardPlaced: 'buyItem',
         })),
         {
+          showCardSlot: true,
           card: undefined,
           icon: scenarioNode.icon,
           text: 'Sell',
