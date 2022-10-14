@@ -56,7 +56,7 @@ export const finishCombat = (opts: ISlotFunctionOpts) => {
 
     dropItems(opts, itemsWon);
   } else {
-    callbacks.newEventMessage('You were defeated by the monsters!');
+    callbacks.newEventLogMessage('You were defeated by the monsters!', FIGHT_MESSAGES);
   }
 
   landmarkEncounter.canLeave = true;

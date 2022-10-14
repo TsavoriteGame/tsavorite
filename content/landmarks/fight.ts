@@ -134,7 +134,11 @@ export class Fight extends Landmark implements ILandmark {
       landmarkIcon: scenarioNode.icon,
       landmarkData: scenarioNode.landmarkData,
       showPlayerAttack: true,
-      slots: monsters.slice(0, maxMonsters).map(monster => {
+      slots: monsters.slice(0, maxMonsters).map((monster, index) => {
+
+        const monsterLetter = String.fromCharCode(65 + index).toUpperCase();
+        const monsterName = `${monster.name} ${monsterLetter}`;
+
         const monsterCharacter = monsterToCharacter(monster);
         const possibleAttacks = getAttacksForCharacter(monsterCharacter);
 
@@ -144,14 +148,14 @@ export class Fight extends Landmark implements ILandmark {
         return {
           showCardSlot: true,
           icon: monster.icon,
-          text: `${monster.name} (${monster.hp} HP)`,
+          text: `${monsterName} (${monster.hp} HP)`,
           accepts: [],
           timerType: 'danger',
           selectedAttack: attack,
           maxTimer: castTime,
           timer: castTime,
           timerExpired: 'monsterTimerExpired',
-          slotData: { hp: monster.hp, baseName: monster.name, character: monster }
+          slotData: { hp: monster.hp, baseName: monsterName, character: monster }
         };
       }),
       playerSlots: [
