@@ -110,6 +110,7 @@ export interface ILandmarkEncounterOpts {
   character: IGameCharacter;
   callbacks: {
     content: {
+      addIdToCard: (card: ICard) => void;
       getConstant: (constant: GameConstant) => any;
       getItemDataById: (id: string) => IItemConfig;
       createItemById: (id: string) => IItemConfig;
@@ -119,6 +120,7 @@ export interface ILandmarkEncounterOpts {
       log: (...message) => void;
       error: (...message) => void;
     };
+    newEventLogMessage: (message: string, truncateAfter: number) => void;
     newEventMessage: (message: string) => void;
   };
 }

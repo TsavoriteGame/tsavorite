@@ -1,5 +1,4 @@
-import { IItemConfig } from '../../../../../../../content/interfaces';
-import { EquipmentSlot } from '../../stores';
+import { EquipmentSlot, IItemConfig } from '../../../../../../../content/interfaces';
 
 
 export class AddBackpackItem {

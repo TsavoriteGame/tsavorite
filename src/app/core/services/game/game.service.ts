@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Store } from '@ngxs/store';
 import { isNumber } from 'lodash';
+import { getArchetypeByName, getAttackByName, getBackgroundByName,
+  getItemById, getMonsterByName, getRecipeByName, getScenarioByName } from '../../../../../content/getters';
 import { AddBackpackItem, AddCoinsToBackpack, AddHealth } from './actions';
 import { ContentService } from './content.service';
 import { LoggerService } from './logger.service';
@@ -77,5 +79,13 @@ export class GameService {
 
       this.store.dispatch(new AddCoinsToBackpack(coins));
     };
+
+    (window as any).__getItem = getItemById;
+    (window as any).__getArchetype = getArchetypeByName;
+    (window as any).__getBackground = getBackgroundByName;
+    (window as any).__getRecipe = getRecipeByName;
+    (window as any).__getScenario = getScenarioByName;
+    (window as any).__getMonster = getMonsterByName;
+    (window as any).__getAttack = getAttackByName;
   }
 }

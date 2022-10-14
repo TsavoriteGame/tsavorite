@@ -91,7 +91,7 @@ export interface IReactionResponse {
   success?: boolean;
   newSource: IItemConfig;
   newTarget: IItemConfig;
-  extraItems?: IItemConfig[];
+  extraItems: IItemConfig[];
 }
 
 export type ReactionFunction = (reaction: IReactionArgs) => IReactionResponse;

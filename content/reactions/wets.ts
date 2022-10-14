@@ -8,7 +8,8 @@ const zeroFail = (args: IReactionExtendedArgs) => ({
   message: 'This item cannot wet anything.',
   success: false,
   newSource: args.sourceItem,
-  newTarget: args.targetItem
+  newTarget: args.targetItem,
+  extraItems: []
 });
 
 const containerCheck: (args: IReactionExtendedArgs) => IReactionResponse = (args: IReactionExtendedArgs) => {
@@ -25,7 +26,8 @@ const containerCheck: (args: IReactionExtendedArgs) => IReactionResponse = (args
     success: true,
     message: 'Added some water to the container.',
     newSource: args.sourceItem,
-    newTarget: args.targetItem
+    newTarget: args.targetItem,
+    extraItems: []
   };
 };
 
@@ -50,7 +52,8 @@ export const applications: Reactions = {
       message: 'Made the blood more wet.',
       success: true,
       newSource: sourceItem,
-      newTarget: targetItem
+      newTarget: targetItem,
+      extraItems: []
     };
   },
 
@@ -78,7 +81,8 @@ export const applications: Reactions = {
       message: 'Made the clay more wet.',
       success: true,
       newSource: sourceItem,
-      newTarget: targetItem
+      newTarget: targetItem,
+      extraItems: []
     };
   },
 
@@ -101,7 +105,8 @@ export const applications: Reactions = {
       message: 'Made the cold more cold.',
       success: true,
       newSource: sourceItem,
-      newTarget: targetItem
+      newTarget: targetItem,
+      extraItems: []
     };
   },
 
@@ -127,7 +132,8 @@ export const applications: Reactions = {
       message: 'Made the combustible less so.',
       success: true,
       newSource: sourceItem,
-      newTarget: targetItem
+      newTarget: targetItem,
+      extraItems: []
     };
   },
 
@@ -162,7 +168,8 @@ export const applications: Reactions = {
       message: 'Diluted the corrosive substance.',
       success: true,
       newSource: sourceItem,
-      newTarget: targetItem
+      newTarget: targetItem,
+      extraItems: []
     };
   },
 
@@ -215,7 +222,8 @@ export const applications: Reactions = {
       message: 'Made the electricity more shared.',
       success: true,
       newSource: sourceItem,
-      newTarget: targetItem
+      newTarget: targetItem,
+      extraItems: []
     };
   },
 
@@ -240,7 +248,8 @@ export const applications: Reactions = {
       message: 'Made the frozen more frozen.',
       success: true,
       newSource: sourceItem,
-      newTarget: targetItem
+      newTarget: targetItem,
+      extraItems: []
     };
   },
 
@@ -268,7 +277,8 @@ export const applications: Reactions = {
       message: 'Made the glass more wet.',
       success: true,
       newSource: sourceItem,
-      newTarget: targetItem
+      newTarget: targetItem,
+      extraItems: []
     };
   },
 
@@ -291,7 +301,8 @@ export const applications: Reactions = {
       message: 'Made the hot less hot.',
       success: true,
       newSource: sourceItem,
-      newTarget: targetItem
+      newTarget: targetItem,
+      extraItems: []
     };
   },
 
@@ -319,7 +330,8 @@ export const applications: Reactions = {
       message: 'Made the leather more wet.',
       success: true,
       newSource: sourceItem,
-      newTarget: targetItem
+      newTarget: targetItem,
+      extraItems: []
     };
   },
 
@@ -342,7 +354,8 @@ export const applications: Reactions = {
       message: 'Made the meat more wet.',
       success: true,
       newSource: sourceItem,
-      newTarget: targetItem
+      newTarget: targetItem,
+      extraItems: []
     };
   },
 
@@ -370,7 +383,8 @@ export const applications: Reactions = {
       message: 'Made the metal more wet.',
       success: true,
       newSource: sourceItem,
-      newTarget: targetItem
+      newTarget: targetItem,
+      extraItems: []
     };
   },
 
@@ -398,7 +412,8 @@ export const applications: Reactions = {
       message: 'Made the rock more wet.',
       success: true,
       newSource: sourceItem,
-      newTarget: targetItem
+      newTarget: targetItem,
+      extraItems: []
     };
   },
 
@@ -438,7 +453,8 @@ export const applications: Reactions = {
       message: 'Made the sand more wet.',
       success: true,
       newSource: sourceItem,
-      newTarget: targetItem
+      newTarget: targetItem,
+      extraItems: []
     };
   },
 
@@ -462,7 +478,8 @@ export const applications: Reactions = {
       message: 'Made the slippery more wet and slippery.',
       success: true,
       newSource: sourceItem,
-      newTarget: targetItem
+      newTarget: targetItem,
+      extraItems: []
     };
   },
 
@@ -486,7 +503,8 @@ export const applications: Reactions = {
       message: 'Made the wet more wet and slippery.',
       success: true,
       newSource: sourceItem,
-      newTarget: targetItem
+      newTarget: targetItem,
+      extraItems: []
     };
   },
 
@@ -520,7 +538,8 @@ export const applications: Reactions = {
           message: 'The wood collapsed to rot.',
           success: true,
           newSource: sourceItem,
-          newTarget: undefined
+          newTarget: undefined,
+          extraItems: []
         };
       }
 
@@ -530,7 +549,8 @@ export const applications: Reactions = {
       message: 'Made the wood more wet.',
       success: true,
       newSource: sourceItem,
-      newTarget: targetItem
+      newTarget: targetItem,
+      extraItems: []
     };
   },
 };

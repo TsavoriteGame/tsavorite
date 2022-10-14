@@ -7,7 +7,8 @@ const zeroFail = (args: IReactionExtendedArgs) => ({
   message: 'The tailor kit cannot use this material.',
   success: false,
   newSource: args.sourceItem,
-  newTarget: args.targetItem
+  newTarget: args.targetItem,
+  extraItems: []
 });
 
 export const applications: Reactions = {
@@ -34,7 +35,8 @@ export const applications: Reactions = {
       message: 'Added fiber to the tailor kit.',
       success: true,
       newSource: args.sourceItem,
-      newTarget: undefined
+      newTarget: undefined,
+      extraItems: []
     };
   },
 
@@ -59,7 +61,8 @@ export const applications: Reactions = {
       message: 'Added leather to the tailor kit.',
       success: true,
       newSource: args.sourceItem,
-      newTarget: undefined
+      newTarget: undefined,
+      extraItems: []
     };
   },
 
@@ -81,7 +84,8 @@ export const applications: Reactions = {
         message: 'There are insufficient materials to tailor an item.',
         success: false,
         newSource: args.sourceItem,
-        newTarget: args.targetItem
+        newTarget: args.targetItem,
+        extraItems: []
       };
     }
 

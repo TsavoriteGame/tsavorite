@@ -1,166 +1,13 @@
 import { Observable, of } from 'rxjs';
 import { sample } from 'lodash';;
-import { AddBackpackItem, AddCoinsToBackpack, ChangeAttack, ReplaceNode, SetHealth } from '../../src/app/core/services/game/actions';
+import { ChangeAttack } from '../../src/app/core/services/game/actions';
 import { GameConstant } from '../../src/app/core/services/game/game.service';
-import { EquipmentSlot } from '../../src/app/core/services/game/stores';
 import { getAttackByName, getMonsterByName } from '../getters';
 import { ILandmark, Landmark, ILandmarkEncounter,
   ILandmarkEncounterOpts, CardFunction, ISlotFunctionOpts,
-  IWeaponAttack, ILandmarkSlot, IModifiableItem, Interaction } from '../interfaces';
-import { nothing } from './helpers/nothing.helpers';
-
-const dropItems = (opts: ISlotFunctionOpts, itemDrops: IModifiableItem[] = []) => {
-  itemDrops.forEach(itemDrop => {
-    const item = opts.encounterOpts.callbacks.content.createItemWithModifications(itemDrop.itemId, itemDrop.itemChanges);
-    if(!item) {
-      return;
-    }
-
-    if(item.interaction?.name === Interaction.Buys) {
-      opts.store.dispatch(new AddCoinsToBackpack(item.interaction.level ?? 0));
-      return;
-    }
-
-    opts.store.dispatch(new AddBackpackItem(item));
-  });
-};
-
-const didPlayersWin = (opts: ISlotFunctionOpts) => {
-  const { landmarkEncounter } = opts;
-  return landmarkEncounter.slots.every(slot => slot.slotData.hp <= 0);
-};
-
-const isCombatDone = (opts: ISlotFunctionOpts) => {
-  const { landmarkEncounter } = opts;
-
-  const playerAlive = landmarkEncounter.playerSlots.some(slot => slot.slotData.hp > 0);
-  const monsterAlive = landmarkEncounter.slots.some(slot => slot.slotData.hp > 0);
-
-  return !playerAlive || !monsterAlive;
-};
-
-const resetTimerAndMax = (slot: ILandmarkSlot, timer: number) => {
-  slot.timer = timer;
-  slot.maxTimer = timer;
-};
-
-const updateName = (slot: ILandmarkSlot) => {
-  const { slotData } = slot;
-  if(slotData.hp <= 0) {
-    slot.text = `${slotData.baseName} (Dead)`;
-    return;
-  }
-
-  slot.text = `${slotData.baseName} (${slotData.hp} HP)`;
-};
-
-const finishCombat = (opts: ISlotFunctionOpts) => {
-  const { landmarkEncounter, encounterOpts: { callbacks, position }, store } = opts;
-
-  landmarkEncounter.slots.forEach(slot => {
-    slot.locked = true;
-    resetTimerAndMax(slot, -1);
-  });
-
-  landmarkEncounter.playerSlots.forEach(slot => {
-    slot.locked = true;
-    resetTimerAndMax(slot, -1);
-  });
-
-  if(didPlayersWin(opts)) {
-    const itemsWon = landmarkEncounter.landmarkData.itemDrops || [];
-    const foundString = itemsWon.map(item => item.description).join(', ') || 'nothing';
-
-    callbacks.newEventMessage(`You defeated the monsters! You found ${foundString}.`);
-
-    dropItems(opts, itemsWon);
-  } else {
-    callbacks.newEventMessage('You were defeated by the monsters!');
-  }
-
-  landmarkEncounter.canLeave = true;
-  landmarkEncounter.disallowHealthUpdates = false;
-
-  // player slot 0 will always be the real player
-  const playerHP = landmarkEncounter.playerSlots[0].slotData.hp;
-  store.dispatch(new SetHealth(playerHP));
-  store.dispatch(new ReplaceNode(position, nothing()));
-
-};
-
-const getTargets = (
-  user: ILandmarkSlot,
-  attack: IWeaponAttack,
-  targets: Array<{ slot: ILandmarkSlot; pos: number }>
-): Array<{ slot: ILandmarkSlot; pos: number }> => {
-  const possibleTargets = targets.filter(target => target.slot.slotData.hp > 0);
-
-  if(possibleTargets.length === 0) {
-    return [];
-  }
-
-  if(attack.targetting === 'all') {
-    return possibleTargets;
-  }
-
-  return [sample(possibleTargets)];
-};
-
-const monsterDie = (opts: ISlotFunctionOpts, deadSlot: number) => {
-  const { landmarkEncounter } = opts;
-
-  landmarkEncounter.slots[deadSlot].slotData.hp = 0;
-  landmarkEncounter.slots[deadSlot].locked = true;
-  resetTimerAndMax(landmarkEncounter.slots[deadSlot], -1);
-  landmarkEncounter.slots[deadSlot].selectedAttack = undefined;
-
-  if(isCombatDone(opts)) {
-    finishCombat(opts);
-  }
-};
-
-const playerDie = (opts: ISlotFunctionOpts, deadSlot: number) => {
-  const { landmarkEncounter } = opts;
-
-  landmarkEncounter.playerSlots[deadSlot].slotData.hp = 0;
-  landmarkEncounter.playerSlots[deadSlot].locked = true;
-  resetTimerAndMax(landmarkEncounter.playerSlots[deadSlot], -1);
-  landmarkEncounter.playerSlots[deadSlot].selectedAttack = undefined;
-
-  if(isCombatDone(opts)) {
-    finishCombat(opts);
-  }
-};
-
-const monsterAttack = (opts: ISlotFunctionOpts, userSlot: number, attack: IWeaponAttack) => {
-  const possibleTargets = opts.landmarkEncounter.playerSlots;
-  const targets = getTargets(opts.landmarkEncounter.slots[userSlot], attack, possibleTargets.map((slot, i) => ({ slot, pos: i })));
-
-  targets.forEach(target => {
-    const newHP = target.slot.slotData.hp - attack.damage;
-    opts.landmarkEncounter.playerSlots[target.pos].slotData.hp = newHP;
-    updateName(opts.landmarkEncounter.playerSlots[target.pos]);
-
-    if(newHP <= 0) {
-      playerDie(opts, target.pos);
-    }
-  });
-};
-
-const playerAttack = (opts: ISlotFunctionOpts, userSlot: number, attack: IWeaponAttack) => {
-  const possibleTargets = opts.landmarkEncounter.slots;
-  const targets = getTargets(opts.landmarkEncounter.playerSlots[userSlot], attack, possibleTargets.map((slot, i) => ({ slot, pos: i })));
-
-  targets.forEach(target => {
-    const newHP = target.slot.slotData.hp - attack.damage;
-    opts.landmarkEncounter.slots[target.pos].slotData.hp = newHP;
-    updateName(opts.landmarkEncounter.slots[target.pos]);
-
-    if(newHP <= 0) {
-      monsterDie(opts, target.pos);
-    }
-  });
-};
+  IWeaponAttack } from '../interfaces';
+import { getAttacksForCharacter, monsterToCharacter } from '../character.helpers';
+import { isCombatDone, monsterAttack, playerAttack, resetTimerAndMax } from './helpers/fight.helpers';
 
 export const fightHelpers: Record<string, CardFunction> = {
 
@@ -209,7 +56,7 @@ export const fightHelpers: Record<string, CardFunction> = {
       return of(landmarkEncounter);
     }
 
-    const allAttacks = ['Attack', ...encounterOpts.character.equipment[EquipmentSlot.Hands]?.attacks ?? []];
+    const allAttacks = getAttacksForCharacter(encounterOpts.character);
 
     // validate that the new attack exists
     let changeToAttack = landmarkEncounter.playerSlots[slotIndex].card?.name;
@@ -288,7 +135,10 @@ export class Fight extends Landmark implements ILandmark {
       landmarkData: scenarioNode.landmarkData,
       showPlayerAttack: true,
       slots: monsters.slice(0, maxMonsters).map(monster => {
-        const attack = monster.attacks[0] || 'Attack';
+        const monsterCharacter = monsterToCharacter(monster);
+        const possibleAttacks = getAttacksForCharacter(monsterCharacter);
+
+        const attack = sample(possibleAttacks) || 'Attack';
         const castTime = getAttackTime(attack);
 
         return {
@@ -301,7 +151,7 @@ export class Fight extends Landmark implements ILandmark {
           maxTimer: castTime,
           timer: castTime,
           timerExpired: 'monsterTimerExpired',
-          slotData: { hp: monster.hp, baseName: monster.name }
+          slotData: { hp: monster.hp, baseName: monster.name, character: monster }
         };
       }),
       playerSlots: [
@@ -314,7 +164,7 @@ export class Fight extends Landmark implements ILandmark {
           maxTimer: characterAttackTime,
           timer: characterAttackTime,
           timerExpired: 'playerTimerExpired',
-          slotData: { hp: character.hp, baseName: character.name }
+          slotData: { hp: character.hp, baseName: character.name, character }
         }
       ],
       canLeave: false,

@@ -1,0 +1,11 @@
+
+Meat Elemental:
+  icon: uncookedmeat
+  hp: 20
+  body:
+    head:  { name: Meat Head,  icon: defaulthead,  parts: [ { name: Head,  foundational: true, primaryDescriptor: Meat, descriptors: { Meat: { level: 1 } } } ] }
+    hands: { name: Meat Hands, icon: defaulthands, parts: [ { name: Hands, foundational: true, primaryDescriptor: Meat, descriptors: { Meat: { level: 1 } } } ] }
+    body:  { name: Meat Body,  icon: defaultbody,  parts: [ { name: Body,  foundational: true, primaryDescriptor: Meat, descriptors: { Meat: { level: 1 } } } ] }
+    feet:  { name: Meat Feet,  icon: defaultfeet,  parts: [ { name: Feet,  foundational: true, primaryDescriptor: Meat, descriptors: { Meat: { level: 1 } } } ] }
+  equipment:
+    hands: MeatFist-1

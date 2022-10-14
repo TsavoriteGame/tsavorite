@@ -12,7 +12,8 @@ const zeroFail = (args: IReactionExtendedArgs) => ({
   message: 'This item cannot ignite anything.',
   success: false,
   newSource: args.sourceItem,
-  newTarget: args.targetItem
+  newTarget: args.targetItem,
+  extraItems: []
 });
 
 const increaseHot = (args: IReactionExtendedArgs) => increaseDescriptorLevelForPart(args.targetPart, Descriptor.Hot, 1);
@@ -34,7 +35,8 @@ const genericHotIncrease = (args: IReactionExtendedArgs, postCall = () => {}) =>
     message: 'The hotness of the target has increased.',
     success: true,
     newSource: sourceItem,
-    newTarget: targetItem
+    newTarget: targetItem,
+    extraItems: []
   };
 };
 
@@ -74,7 +76,8 @@ export const applications: Reactions = {
       message: 'The mud is hotter.',
       success: true,
       newSource: sourceItem,
-      newTarget: targetItem
+      newTarget: targetItem,
+      extraItems: []
     };
   },
 
@@ -105,7 +108,8 @@ export const applications: Reactions = {
         message: 'It cannot combust any further.',
         success: true,
         newSource: sourceItem,
-        newTarget: targetItem
+        newTarget: targetItem,
+        extraItems: []
       };
     }
 
@@ -122,7 +126,8 @@ export const applications: Reactions = {
       message: 'The target item heat has increased.',
       success: true,
       newSource: sourceItem,
-      newTarget: targetItem
+      newTarget: targetItem,
+      extraItems: []
     };
   },
 
@@ -144,7 +149,8 @@ export const applications: Reactions = {
         message: 'The fiber has all burned away.',
         success: true,
         newSource: sourceItem,
-        newTarget: undefined
+        newTarget: undefined,
+        extraItems: []
       };
     }
 
@@ -153,7 +159,8 @@ export const applications: Reactions = {
       message: 'Some fiber has burned away.',
       success: true,
       newSource: sourceItem,
-      newTarget: targetItem
+      newTarget: targetItem,
+      extraItems: []
     };
   },
 
@@ -207,7 +214,8 @@ export const applications: Reactions = {
       message: 'The meat is more cooked.',
       success: true,
       newSource: sourceItem,
-      newTarget: targetItem
+      newTarget: targetItem,
+      extraItems: []
     };
   },
 
@@ -236,7 +244,8 @@ export const applications: Reactions = {
             message: 'The metal was melted.',
             success: true,
             newSource: sourceItem,
-            newTarget: undefined
+            newTarget: undefined,
+            extraItems: []
           };
         }
 
@@ -246,7 +255,8 @@ export const applications: Reactions = {
         message: 'It is melting.',
         success: true,
         newSource: sourceItem,
-        newTarget: targetItem
+        newTarget: targetItem,
+        extraItems: []
       };
     }
 
@@ -254,7 +264,8 @@ export const applications: Reactions = {
       message: 'The metal is hotter.',
       success: true,
       newSource: sourceItem,
-      newTarget: targetItem
+      newTarget: targetItem,
+      extraItems: []
     };
   },
 
@@ -292,7 +303,8 @@ export const applications: Reactions = {
       message: 'The heat of the target has increased.',
       success: true,
       newSource: sourceItem,
-      newTarget: targetItem
+      newTarget: targetItem,
+      extraItems: []
     };
   },
 
@@ -330,7 +342,8 @@ export const applications: Reactions = {
       message: 'The sand is hotter.',
       success: true,
       newSource: sourceItem,
-      newTarget: targetItem
+      newTarget: targetItem,
+      extraItems: []
     };
   },
 
@@ -384,7 +397,8 @@ export const applications: Reactions = {
           message: 'The wood was burned to ash.',
           success: true,
           newSource: sourceItem,
-          newTarget: undefined
+          newTarget: undefined,
+          extraItems: []
         };
       }
 
@@ -393,7 +407,8 @@ export const applications: Reactions = {
         message: 'The wood has ignited.',
         success: true,
         newSource: sourceItem,
-        newTarget: targetItem
+        newTarget: targetItem,
+        extraItems: []
       };
     }
 
@@ -401,7 +416,8 @@ export const applications: Reactions = {
       message: 'The wood is hotter.',
       success: true,
       newSource: sourceItem,
-      newTarget: targetItem
+      newTarget: targetItem,
+      extraItems: []
     };
   },
 };

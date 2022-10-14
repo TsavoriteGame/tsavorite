@@ -18,7 +18,7 @@
 
   interaction:
     name: Ignites
-    level: 1
+    level: 3
 
 - name: Torch
   icon: candle
@@ -38,7 +38,7 @@
 
   interaction:
     name: Ignites
-    level: 2
+    level: 5
 
 - name: Torch
   icon: candle
@@ -58,4 +58,4 @@
 
   interaction:
     name: Ignites
-    level: 3
+    level: 7

@@ -32,6 +32,33 @@ const validateBackgrounds = () => {
       throw new Error(`Background ${item.name} is missing an hp value`);
     }
 
+    if(!item.body) {
+      throw new Error(`Background ${item.name} is missing a body`);
+    }
+
+    if(!item.body.head) {
+      throw new Error(`Background ${item.name} is missing a head item`);
+    }
+
+    if(!item.body.hands) {
+      throw new Error(`Background ${item.name} is missing a hands item`)
+    }
+
+    if(!item.body.body) {
+      throw new Error(`Background ${item.name} is missing a body item`);
+    }
+
+    if(!item.body.feet) {
+      throw new Error(`Background ${item.name} is missing a feet item`);
+    }
+
+    Object.keys(item.body).forEach(bodyKey => {
+      const itemRef = item.body[bodyKey];
+      if(!itemRef.parts || itemRef.parts.length === 0) {
+        throw new Error(`Background ${item.name} is missing parts for ${bodyKey}`);
+      }
+    });
+
     if(item.startingKit) {
       item.startingKit.forEach(kitItem => {
         if(!kitItem.description) {

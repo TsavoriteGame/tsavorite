@@ -16,9 +16,10 @@
 
   interaction:
     name: Carves
-    level: 1
+    level: 3
 
   attacks:
+    - Attack
     - Slash
 
 - name: Machete
@@ -38,9 +39,10 @@
 
   interaction:
     name: Carves
-    level: 2
+    level: 5
 
   attacks:
+    - Attack
     - Slash
 
 - name: Machete
@@ -60,7 +62,8 @@
 
   interaction:
     name: Carves
-    level: 3
+    level: 7
 
   attacks:
+    - Attack
     - Slash

@@ -7,7 +7,8 @@ const zeroFail = (args: IReactionExtendedArgs) => ({
   message: 'This item cannot freeze anything.',
   success: false,
   newSource: args.sourceItem,
-  newTarget: args.targetItem
+  newTarget: args.targetItem,
+  extraItems: []
 });
 
 const increaseCold = (args: IReactionExtendedArgs) => increaseDescriptorLevelForPart(args.targetPart, Descriptor.Cold, 1);
@@ -29,7 +30,8 @@ const genericColdIncrease = (args: IReactionExtendedArgs, postCall = () => {}) =
     message: 'The coldness of the target has increased.',
     success: true,
     newSource: sourceItem,
-    newTarget: targetItem
+    newTarget: targetItem,
+    extraItems: []
   };
 };
 
@@ -76,7 +78,8 @@ export const applications: Reactions = {
       message: 'The coldness of the target has increased.',
       success: true,
       newSource: sourceItem,
-      newTarget: targetItem
+      newTarget: targetItem,
+      extraItems: []
     };
   },
 
@@ -112,7 +115,8 @@ export const applications: Reactions = {
       message: 'The coldness of the target has increased.',
       success: true,
       newSource: sourceItem,
-      newTarget: targetItem
+      newTarget: targetItem,
+      extraItems: []
     };
   },
 
@@ -161,7 +165,8 @@ export const applications: Reactions = {
       message: 'The coldness of the target has increased.',
       success: true,
       newSource: sourceItem,
-      newTarget: targetItem
+      newTarget: targetItem,
+      extraItems: []
     };
   },
 
@@ -188,7 +193,8 @@ export const applications: Reactions = {
       message: 'The coldness of the target has increased.',
       success: true,
       newSource: sourceItem,
-      newTarget: targetItem
+      newTarget: targetItem,
+      extraItems: []
     };
   },
 

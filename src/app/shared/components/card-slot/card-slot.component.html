@@ -27,7 +27,7 @@
 <ng-template #tipContent>
   <div class="sub-tooltip" [class.fantasy]="(options$ | async).isFantasyFont">
     <div class="card-name size-big" *ngIf="card">
-      {{ card.name }} <span *ngIf="(options$ | async).showDebugInfo">(ID: {{ card.cardId }})</span>
+      {{ card.name }} <span *ngIf="(options$ | async).showDebugInfo">(ID: {{ card.cardId || -1 }})</span>
     </div>
 
     <div class="card-interaction size-medium" *ngIf="activeInteraction">

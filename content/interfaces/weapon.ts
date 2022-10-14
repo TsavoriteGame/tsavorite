@@ -1,3 +1,4 @@
+import { EquipmentSlot } from './character';
 import { IItemInteraction } from './item';
 
 export type WeaponTarget = 'single' | 'all';
@@ -13,6 +14,7 @@ export interface IWeaponAttack {
   damage: number;
   castTime: number;
   cooldown: number;
+  primarySlotTarget?: EquipmentSlot;
   targetting: WeaponTarget;
   interaction?: IItemInteraction;
   applyStatusEffects: string[];

@@ -21,7 +21,8 @@ export function getReaction(interaction: Interaction, descriptor: Descriptor): R
     message: 'The items do not react.',
     success: false,
     newSource: args.sourceItem,
-    newTarget: args.targetItem
+    newTarget: args.targetItem,
+    extraItems: []
   });
 
   const calledFunction: ReactionFunction = Reactions[interaction].applications[descriptor] || defaultReaction;
@@ -134,7 +135,8 @@ export function getReactionBetweenTwoItems(sourceItem: IItemConfig, targetItem: 
     newSource: sourceItem,
     newTarget: targetItem,
     sourcePart: undefined,
-    targetPart: undefined
+    targetPart: undefined,
+    extraItems: []
   });
 
   const interaction = sourceItem.interaction;
@@ -211,17 +213,17 @@ export function getAllDescriptorsForPart(part: IItemPart): Descriptor[] {
 
 export function getAllDescriptorsForItem(item: IItemConfig): Descriptor[] {
   return [...new Set(
-    (item.parts || []).map(part => Object.keys(part.descriptors)
-      .filter(d => part.descriptors[d].level > 0) as Descriptor[])
+    (item.parts || [])
+      .map(part => getAllDescriptorsForPart(part))
       .flat()
-  )
-  ] as Descriptor[];
+  )] as Descriptor[];
 }
 
 export function addDescriptor(item: IItemConfig, descriptor: Descriptor, level = 0): void {
   if(hasDescriptor(item, descriptor)) {
     return;
   }
+
   if(item.parts.length === 0) {
     return;
   }
@@ -230,6 +232,10 @@ export function addDescriptor(item: IItemConfig, descriptor: Descriptor, level =
 }
 
 export function getDescriptor(item: IItemConfig, descriptor: Descriptor, minimum = 0): IItemDescriptor | undefined {
+  if(!item.parts) {
+    return undefined;
+  }
+
   const partWithDescriptor = item.parts.find(p => (p.descriptors[descriptor]?.level ?? 0) > minimum);
   return partWithDescriptor?.descriptors[descriptor];
 }
@@ -381,7 +387,8 @@ export function getCombinationBetweenTwoItems(sourceItem: IItemConfig, targetIte
     success: false,
     message: 'The items were not combined.',
     newSource: sourceItem,
-    newTarget: targetItem
+    newTarget: targetItem,
+    extraItems: []
   });
 
   if (hasFoundationalPart(sourceItem) || sourceItem.parts.length > 1
@@ -447,7 +454,8 @@ export function getCombinationBetweenTwoItems(sourceItem: IItemConfig, targetIte
     success: true,
     message: 'The items were combined.',
     newSource: undefined,
-    newTarget: extendedArgs.targetItem
+    newTarget: extendedArgs.targetItem,
+    extraItems: []
   };
 
   // run post- middleware

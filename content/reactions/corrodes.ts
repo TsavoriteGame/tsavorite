@@ -8,7 +8,8 @@ const zeroFail = (args: IReactionExtendedArgs) => ({
   message: 'This item cannot corrode anything.',
   success: false,
   newSource: args.sourceItem,
-  newTarget: args.targetItem
+  newTarget: args.targetItem,
+  extraItems: []
 });
 
 const containerCheck: (args: IReactionExtendedArgs, glassLevel: number) => IReactionResponse =
@@ -48,7 +49,8 @@ const containerCheck: (args: IReactionExtendedArgs, glassLevel: number) => IReac
       success: true,
       message: 'Added more corrosive material to the container.',
       newSource: args.sourceItem,
-      newTarget: args.targetItem
+      newTarget: args.targetItem,
+      extraItems: []
     };
   };
 
@@ -113,7 +115,8 @@ export const applications: Reactions = {
         message: 'Completely dissolved the clay.',
         success: true,
         newSource: sourceItem,
-        newTarget: undefined
+        newTarget: undefined,
+        extraItems: []
       };
     }
 
@@ -122,7 +125,8 @@ export const applications: Reactions = {
       message: 'Dissolved some of the clay.',
       success: true,
       newSource: sourceItem,
-      newTarget: targetItem
+      newTarget: targetItem,
+      extraItems: []
     };
   },
 
@@ -146,7 +150,8 @@ export const applications: Reactions = {
         message: 'Completely dissolved the dirt.',
         success: true,
         newSource: sourceItem,
-        newTarget: undefined
+        newTarget: undefined,
+        extraItems: []
       };
     }
 
@@ -155,7 +160,8 @@ export const applications: Reactions = {
       message: 'Dissolved some of the dirt.',
       success: true,
       newSource: sourceItem,
-      newTarget: targetItem
+      newTarget: targetItem,
+      extraItems: []
     };
   },
 
@@ -179,7 +185,8 @@ export const applications: Reactions = {
         message: 'Completely dissolved the fiber.',
         success: true,
         newSource: sourceItem,
-        newTarget: undefined
+        newTarget: undefined,
+        extraItems: []
       };
     }
 
@@ -188,7 +195,8 @@ export const applications: Reactions = {
       message: 'Dissolved some of the fiber.',
       success: true,
       newSource: sourceItem,
-      newTarget: targetItem
+      newTarget: targetItem,
+      extraItems: []
     };
   },
 
@@ -222,7 +230,8 @@ export const applications: Reactions = {
         message: 'The leather was fully corroded.',
         success: true,
         newSource: sourceItem,
-        newTarget: undefined
+        newTarget: undefined,
+        extraItems: []
       };
     }
 
@@ -231,7 +240,8 @@ export const applications: Reactions = {
       message: 'The leather has been damaged.',
       success: true,
       newSource: sourceItem,
-      newTarget: targetItem
+      newTarget: targetItem,
+      extraItems: []
     };
   },
 
@@ -279,7 +289,8 @@ export const applications: Reactions = {
         message: 'The metal was fully corroded.',
         success: true,
         newSource: sourceItem,
-        newTarget: undefined
+        newTarget: undefined,
+        extraItems: []
       };
     }
 
@@ -288,7 +299,8 @@ export const applications: Reactions = {
       message: 'The metal has been tarnished.',
       success: true,
       newSource: sourceItem,
-      newTarget: targetItem
+      newTarget: targetItem,
+      extraItems: []
     };
   },
 
@@ -312,7 +324,8 @@ export const applications: Reactions = {
         message: 'Completely dissolved the fiber.',
         success: true,
         newSource: sourceItem,
-        newTarget: undefined
+        newTarget: undefined,
+        extraItems: []
       };
     }
 
@@ -321,7 +334,8 @@ export const applications: Reactions = {
       message: 'Dissolved some of the fiber.',
       success: true,
       newSource: sourceItem,
-      newTarget: targetItem
+      newTarget: targetItem,
+      extraItems: []
     };
   },
 
@@ -344,7 +358,8 @@ export const applications: Reactions = {
       message: 'The wetness was reduced.',
       success: true,
       newSource: sourceItem,
-      newTarget: targetItem
+      newTarget: targetItem,
+      extraItems: []
     };
   },
 
@@ -369,7 +384,8 @@ export const applications: Reactions = {
         message: 'The wood collapsed to rot.',
         success: true,
         newSource: sourceItem,
-        newTarget: undefined
+        newTarget: undefined,
+        extraItems: []
       };
     }
 
@@ -378,7 +394,8 @@ export const applications: Reactions = {
       message: 'Made the wood more rotten.',
       success: true,
       newSource: sourceItem,
-      newTarget: targetItem
+      newTarget: targetItem,
+      extraItems: []
     };
   }
 };

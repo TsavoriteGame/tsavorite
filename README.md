@@ -66,6 +66,10 @@ Adding new interactions requires an SVG to represent it. There are some importan
 
 * Learning rxjs recommended: [rxmarbles](https://rxmarbles.com/).
 
+## Enabling Debug Mode
+
+Click the logo on the home screen 10 times.
+
 ## Important Information
 
 Minimum supported resolution: 1440x900

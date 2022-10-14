@@ -5,6 +5,11 @@ realName: Walks With Trees
 disabled: true
 hp: 9
 archetype: Villager
+body:
+  head:  { name: Humanoid Head,  icon: defaulthead,  parts: [ { name: Head,  foundational: true, primaryDescriptor: Meat, descriptors: { Meat: { level: 3 } } } ] }
+  hands: { name: Humanoid Hands, icon: defaulthands, parts: [ { name: Hands, foundational: true, primaryDescriptor: Meat, descriptors: { Meat: { level: 3 } } } ] }
+  body:  { name: Humanoid Body,  icon: defaultbody,  parts: [ { name: Body,  foundational: true, primaryDescriptor: Meat, descriptors: { Meat: { level: 5 } } } ] }
+  feet:  { name: Humanoid Feet,  icon: defaultfeet,  parts: [ { name: Feet,  foundational: true, primaryDescriptor: Meat, descriptors: { Meat: { level: 3 } } } ] }
 description: \???
 goal: \???
 startingKit: []

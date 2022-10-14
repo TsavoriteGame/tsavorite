@@ -23,5 +23,9 @@
     <div class="card-interaction size-medium">
       Damage: {{ attackInfo.damage }} | Delay: {{ attackInfo.castTime }}
     </div>
+
+    <div class="card-interaction size-medium" *ngIf="attackInfo.primarySlotTarget">
+      Primary Target: {{ attackInfo.primarySlotTarget }}
+    </div>
   </div>
 </ng-template>
