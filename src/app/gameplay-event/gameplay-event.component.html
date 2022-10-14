@@ -3,119 +3,162 @@
 
   <ng-container *ngIf="landmarkEncounterData$ | async as landmarkEncounterData">
 
-    <div class="row mt-3">
-      <div class="col">
-        <div class="text-center icon-text size-header">
-          <app-icon class="landmark-icon"
-                    [icon]="landmarkEncounterData.landmarkIcon"
-                    [showOutline]="true"
-                    *ngIf="landmarkEncounterData.landmarkIcon !== 'blank'"></app-icon>
-          {{ landmarkEncounterData.landmarkName }}
-        </div>
+    <!-- this container shows when there are choices to be made -->
+    <ng-container *ngIf="landmarkEncounterData.choices.length > 0">
+      <div class="row mt-3">
+        <div class="col">
+          <div class="text-center icon-text size-header">
+            <app-icon class="landmark-icon"
+                      [icon]="landmarkEncounterData.landmarkIcon"
+                      [showOutline]="true"
+                      *ngIf="landmarkEncounterData.landmarkIcon !== 'blank'"></app-icon>
+            {{ landmarkEncounterData.landmarkName }}
+          </div>
 
-        <div class="text-center icon-text size-subheader px-3">
-          {{ landmarkEncounterData.landmarkDescription }}
-        </div>
+          <div class="text-center icon-text size-subheader px-3">
+            {{ landmarkEncounterData.landmarkDescription }}
+          </div>
 
-        <div class="text-center icon-text size-big px-3 event-message-container">
-          <span class="event-message" *ngFor="let message of eventLog$ | async">
-            {{ message }}
-          </span>
-        </div>
+          <div class="text-center icon-text size-big px-3 event-message-container">
+            <span class="event-message" *ngFor="let message of eventLog$ | async">
+              {{ message }}
+            </span>
+          </div>
 
-        <!-- choices -->
-        <div class="text-center icon-text mt-3" *ngIf="landmarkEncounterData.choices.length > 0">
-          <div class="btn btn-primary"
-               (click)="makeChoice(i)"
-               *ngFor="let button of landmarkEncounterData.choices; let i = index">
+          <!-- choices -->
+          <div class="text-center icon-text mt-3" *ngIf="landmarkEncounterData.choices.length > 0">
+            <div class="btn btn-primary"
+                 (click)="makeChoice(i)"
+                 *ngFor="let button of landmarkEncounterData.choices; let i = index">
 
-               <app-key-display [keybind]="'Choice' + (i + 1)"></app-key-display>
-               {{ button.text }}
+                 <app-key-display [keybind]="'Choice' + (i + 1)"></app-key-display>
+                 {{ button.text }}
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    </ng-container>
 
-    <div class="row mt-3" *ngIf="landmarkEncounterData.playerSlots.length > 0 && landmarkEncounterData.slots.length > 0">
+    <!-- this container shows when there are events and slots to deal with -->
+    <ng-container *ngIf="landmarkEncounterData.playerSlots.length > 0 && landmarkEncounterData.slots.length > 0">
+      <div class="row">
+        <div class="col">
+          <div class="text-center icon-text size-header">
+            <app-icon class="landmark-icon"
+                      [icon]="landmarkEncounterData.landmarkIcon"
+                      [showOutline]="true"
+                      *ngIf="landmarkEncounterData.landmarkIcon !== 'blank'"></app-icon>
+            {{ landmarkEncounterData.landmarkName }}
+          </div>
 
-      <!-- character-related column -->
-      <div class="col-4" *ngIf="character$ | async as character">
-        <div class="row" *ngFor="let slot of landmarkEncounterData.playerSlots; let slotIndex = index; trackBy: identify">
-          <div class="col d-flex justify-content-center">
-            <div class="d-flex flex-column icon-text align-items-center full-width">
-              <div class="d-flex flex-row justify-content-around full-width">
-                <app-icon [icon]="character.background.icon" [showOutline]="true"></app-icon>
+          <div class="text-center icon-text size-subheader px-3">
+            {{ landmarkEncounterData.landmarkDescription }}
+          </div>
+        </div>
+      </div>
 
-                <app-card-slot [card]="slot.card"
-                               backgroundSize="size-header"
-                               [lockOnTimerExpire]="slot.lockOnTimerExpire"
-                               [locked]="slot.locked"
-                               [slotIndex]="slotIndex"
-                               placeholder="+"
-                               side="Player"
-                               [hideTimerWhenCardPresent]="slot.hideTimerWhenCardPresent"
-                               [timerColor]="slot.timerType"
-                               [maxTimer]="slot.maxTimer"
-                               [timer]="slot.timer"
-                               *ngIf="slot.showCardSlot"
-                               [dndDropzone]="slot.accepts"
-                               [dndDisableIf]="slot.locked"
-                               (dndDrop)="addCardToPlayerSlot($event, slotIndex)"></app-card-slot>
+      <div class="row mt-3 full-height">
+
+        <!-- left side of encounters: text, and character -->
+        <div class="col full-height">
+
+          <div class="row">
+            <div class="col-8" *ngIf="character$ | async as character">
+
+              <div class="row" *ngFor="let slot of landmarkEncounterData.playerSlots; let slotIndex = index; trackBy: identify">
+                <div class="col d-flex justify-content-center">
+                  <div class="d-flex flex-column icon-text align-items-center full-width">
+                    <div class="d-flex flex-row justify-content-around full-width">
+                      <app-icon [icon]="character.background.icon" [showOutline]="true"></app-icon>
+
+                      <app-card-slot [card]="slot.card"
+                                     backgroundSize="size-header"
+                                     [lockOnTimerExpire]="slot.lockOnTimerExpire"
+                                     [locked]="slot.locked"
+                                     [slotIndex]="slotIndex"
+                                     placeholder="+"
+                                     side="Player"
+                                     [hideTimerWhenCardPresent]="slot.hideTimerWhenCardPresent"
+                                     [timerColor]="slot.timerType"
+                                     [maxTimer]="slot.maxTimer"
+                                     [timer]="slot.timer"
+                                     *ngIf="slot.showCardSlot"
+                                     [dndDropzone]="slot.accepts"
+                                     [dndDisableIf]="slot.locked"
+                                     (dndDrop)="addCardToPlayerSlot($event, slotIndex)"></app-card-slot>
+                    </div>
+
+                    <div class="size-big mt-1">{{ slot.text }}</div>
+                  </div>
+                </div>
               </div>
+            </div>
 
-              <div class="size-big mt-1">{{ slot.text }}</div>
+            <div class="col-4">
+              <div class="row" *ngFor="let slot of landmarkEncounterData.playerSlots; let slotIndex = index; trackBy: identify">
+                <div class="col d-flex flex-column icon-text align-items-center">
+                  <app-attack-display [name]="slot.selectedAttack" *ngIf="slot.selectedAttack"></app-attack-display>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row mt-3">
+            <div class="col">
+              <div class="text-center icon-text size-big px-3 event-message-container">
+                <span class="event-message" *ngFor="let message of eventLog$ | async">
+                  {{ message }}
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- right side of encounters: landmark -->
+        <div class="col full-height">
+          <div class="row full-height">
+            <div class="col-4 full-height">
+              <div class="row" *ngFor="let slot of landmarkEncounterData.slots; let slotIndex = index; trackBy: identify">
+                <div class="col d-flex flex-column icon-text align-items-center">
+                  <app-attack-display [name]="slot.selectedAttack" *ngIf="slot.selectedAttack"></app-attack-display>
+                </div>
+              </div>
+            </div>
+
+            <!-- slots column -->
+            <div class="col-8 full-height">
+              <div class="row" *ngFor="let slot of landmarkEncounterData.slots; let slotIndex = index; trackBy: identify">
+                <div class="col d-flex flex-column icon-text align-items-center">
+                  <div class="d-flex flex-row justify-content-around full-width">
+
+                    <app-card-slot [card]="slot.card"
+                                  backgroundSize="size-header"
+                                  [lockOnTimerExpire]="slot.lockOnTimerExpire"
+                                  [locked]="slot.locked"
+                                  [slotIndex]="slotIndex"
+                                  placeholder="+"
+                                  side="Landmark"
+                                  [hideTimerWhenCardPresent]="slot.hideTimerWhenCardPresent"
+                                  [timerColor]="slot.timerType"
+                                  [maxTimer]="slot.maxTimer"
+                                  [timer]="slot.timer"
+                                  *ngIf="slot.showCardSlot"
+                                  [dndDropzone]="slot.accepts"
+                                  [dndDisableIf]="slot.locked"
+                                  (dndDrop)="addCardToSlot($event, slotIndex)"></app-card-slot>
+
+                    <app-icon [icon]="slot.icon" [showOutline]="true"></app-icon>
+
+                  </div>
+
+                  <div class="size-big mt-1">{{ slot.text }}</div>
+
+                </div>
+              </div>
             </div>
           </div>
         </div>
       </div>
-
-      <div class="col-2">
-        <div class="row" *ngFor="let slot of landmarkEncounterData.playerSlots; let slotIndex = index; trackBy: identify">
-          <div class="col d-flex flex-column icon-text align-items-center">
-            <app-attack-display [name]="slot.selectedAttack" *ngIf="slot.selectedAttack"></app-attack-display>
-          </div>
-        </div>
-      </div>
-
-      <div class="col-2">
-        <div class="row" *ngFor="let slot of landmarkEncounterData.slots; let slotIndex = index; trackBy: identify">
-          <div class="col d-flex flex-column icon-text align-items-center">
-            <app-attack-display [name]="slot.selectedAttack" *ngIf="slot.selectedAttack"></app-attack-display>
-          </div>
-        </div>
-      </div>
-
-      <!-- slots column -->
-      <div class="col-4">
-        <div class="row" *ngFor="let slot of landmarkEncounterData.slots; let slotIndex = index; trackBy: identify">
-          <div class="col d-flex flex-column icon-text align-items-center">
-            <div class="d-flex flex-row justify-content-around full-width">
-
-              <app-card-slot [card]="slot.card"
-                             backgroundSize="size-header"
-                             [lockOnTimerExpire]="slot.lockOnTimerExpire"
-                             [locked]="slot.locked"
-                             [slotIndex]="slotIndex"
-                             placeholder="+"
-                             side="Landmark"
-                             [hideTimerWhenCardPresent]="slot.hideTimerWhenCardPresent"
-                             [timerColor]="slot.timerType"
-                             [maxTimer]="slot.maxTimer"
-                             [timer]="slot.timer"
-                             *ngIf="slot.showCardSlot"
-                             [dndDropzone]="slot.accepts"
-                             [dndDisableIf]="slot.locked"
-                             (dndDrop)="addCardToSlot($event, slotIndex)"></app-card-slot>
-
-              <app-icon [icon]="slot.icon" [showOutline]="true"></app-icon>
-
-            </div>
-
-            <div class="size-big mt-1">{{ slot.text }}</div>
-
-          </div>
-        </div>
-      </div>
-    </div>
+    </ng-container>
   </ng-container>
 </div>

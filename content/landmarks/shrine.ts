@@ -26,8 +26,8 @@ export class Shrine extends Landmark implements ILandmark {
           lockOnTimerExpire: true,
           timerType: 'danger',
           accepts: ['Item'],
-          maxTimer: 60,
-          timer: 60,
+          maxTimer: 30,
+          timer: 30,
           hideTimerWhenCardPresent: true,
           cardPlaced: sample(Object.keys(shrineHelpers).filter(h => h.includes('placement'))),
           timerExpired: sample(Object.keys(shrineHelpers).filter(h => h.includes('expire')))

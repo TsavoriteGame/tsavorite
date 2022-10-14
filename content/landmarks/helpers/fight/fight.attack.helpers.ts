@@ -72,6 +72,19 @@ export const hitSomeoneAndTheirItems = (
   let damageToDefender = Math.max(1, attack.damage - damageReduction);
   let damageToAttacker = 0;
 
+  // do HP damage
+  if(damageToAttacker > 0) {
+    const newAttackerHP = attacker.slotData.hp - damageToAttacker;
+    attacker.slotData.hp = newAttackerHP;
+    opts.encounterOpts.callbacks.newEventLogMessage(`${attackerName} took ${damageToAttacker} damage!`, FIGHT_MESSAGES);
+  }
+
+  if(damageToDefender > 0) {
+    const newDefenderHP = defender.slotData.hp - damageToDefender;
+    defender.slotData.hp = newDefenderHP;
+    opts.encounterOpts.callbacks.newEventLogMessage(`${defenderName} took ${damageToDefender} damage!`, FIGHT_MESSAGES);
+  }
+
   const result = getReactionBetweenTwoItems(attackerHandItem, defenderItem);
   if(result.success) {
     const { newSource, newTarget } = result;
@@ -106,19 +119,6 @@ export const hitSomeoneAndTheirItems = (
       defenderCharacter.equipment[defenderSlot] = potentiallyDegradeArmor(newTarget);
     }
 
-  }
-
-  // do HP damage
-  if(damageToAttacker > 0) {
-    const newAttackerHP = attacker.slotData.hp - damageToAttacker;
-    attacker.slotData.hp = newAttackerHP;
-    opts.encounterOpts.callbacks.newEventLogMessage(`${attackerName} took ${damageToAttacker} damage!`, FIGHT_MESSAGES);
-  }
-
-  if(damageToDefender > 0) {
-    const newDefenderHP = defender.slotData.hp - damageToDefender;
-    defender.slotData.hp = newDefenderHP;
-    opts.encounterOpts.callbacks.newEventLogMessage(`${defenderName} took ${damageToDefender} damage!`, FIGHT_MESSAGES);
   }
 
   return result;
