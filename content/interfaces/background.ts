@@ -1,4 +1,5 @@
-import { IModifiableItem } from './item';
+import { EquipmentSlot } from './character';
+import { IItemConfig, IModifiableItem } from './item';
 
 export interface IBackground {
   name: string;
@@ -9,5 +10,6 @@ export interface IBackground {
   description: string;
   archetype: string;
   goal: string;
+  body: Record<EquipmentSlot, IItemConfig>;
   startingKit: IModifiableItem[];
 }

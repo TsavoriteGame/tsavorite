@@ -1,0 +1,11 @@
+- name: Meat Fist
+  icon: uncookedmeat
+  parts:
+    - name: Meat
+      primaryDescriptor: Meat
+      foundational: true
+      descriptors:
+        Meat: { level: 100 }
+
+  attacks:
+    - Meat Punch

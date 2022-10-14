@@ -5,6 +5,11 @@ realName: Aloysian
 disabled: true
 hp: 15
 archetype: Villager
+body:
+  head:  { name: Humanoid Head,  icon: defaulthead,  parts: [ { name: Head,  foundational: true, primaryDescriptor: Meat, descriptors: { Meat: { level: 7 } } } ] }
+  hands: { name: Humanoid Hands, icon: defaulthands, parts: [ { name: Hands, foundational: true, primaryDescriptor: Meat, descriptors: { Meat: { level: 5 } } } ] }
+  body:  { name: Humanoid Body,  icon: defaultbody,  parts: [ { name: Body,  foundational: true, primaryDescriptor: Meat, descriptors: { Meat: { level: 10 } } } ] }
+  feet:  { name: Humanoid Feet,  icon: defaultfeet,  parts: [ { name: Feet,  foundational: true, primaryDescriptor: Meat, descriptors: { Meat: { level: 5 } } } ] }
 description: \???
 goal: \???
 startingKit: []

@@ -23,9 +23,14 @@ export class Warp {
   constructor(public scenario: IScenario, public warpToWorld: number, public warpToLandmark: number) {}
 }
 
-export class UpdateEventMessage {
-  static type = '[Game] Update Event Message';
-  constructor(public message: string) {}
+export class AddEventLogMessage {
+  static type = '[Game] Add Event Log Message';
+  constructor(public message: string, public truncateAfter: number) {}
+}
+
+export class ResetEventLog {
+  static type = '[Game] Reset Event Log';
+  constructor() {}
 }
 
 // landmark updates

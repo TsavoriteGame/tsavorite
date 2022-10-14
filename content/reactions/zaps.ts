@@ -5,7 +5,8 @@ const zeroFail = (args: IReactionExtendedArgs) => ({
   message: 'This item cannot zap anything.',
   success: false,
   newSource: args.sourceItem,
-  newTarget: args.targetItem
+  newTarget: args.targetItem,
+  extraItems: []
 });
 
 export const applications: Reactions = {
@@ -37,7 +38,8 @@ export const applications: Reactions = {
       message: 'Magnetized the metal.',
       success: true,
       newSource: sourceItem,
-      newTarget: targetItem
+      newTarget: targetItem,
+      extraItems: []
     };
   },
 
@@ -60,7 +62,8 @@ export const applications: Reactions = {
       message: 'Shocked the current.',
       success: true,
       newSource: sourceItem,
-      newTarget: targetItem
+      newTarget: targetItem,
+      extraItems: []
     };
   },
 };

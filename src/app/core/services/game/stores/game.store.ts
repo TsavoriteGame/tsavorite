@@ -7,9 +7,9 @@ import { isUndefined, shuffle, pickBy } from 'lodash';
 import { getScenarioByName } from '../../../../../../content/getters';
 import * as LandmarkInfo from '../../../../../../content/landmarks';
 import { IArchetype, IBackground, ILandmark, IItemConfig,
-  ILandmarkEncounter, IPower, IScenario, IScenarioNode, IMapPosition,
+  ILandmarkEncounter, IScenario, IScenarioNode, IMapPosition,
   ILandmarkSlot, Interaction, IItemInteraction,
-  IScenarioWorld, ISlotFunctionOpts, CardFunction } from '../../../../../../content/interfaces';
+  IScenarioWorld, ISlotFunctionOpts, CardFunction, ICard } from '../../../../../../content/interfaces';
 import { findFirstLandmarkInWorld, findSpawnCoordinates, getNodeAt } from '../../../../../../content/scenario.helpers';
 import { AbandonGame, AddBackpackItem, AddCardToLandmarkSlot,
   AddCoinsToBackpack, AddHealth, EncounterCurrentTile, MakeChoice, Move, ReduceHealth,
@@ -17,11 +17,12 @@ import { AbandonGame, AddBackpackItem, AddCardToLandmarkSlot,
   RemoveCoinsFromBackpack, ReplaceNode, SetCharacterItemLockById, SetCurrentCardId,
   SetEquipmentItem,
   SetLandmarkSlotLock, SetLandmarkSlotTimer, LandmarkSlotTimerExpire, StartGame,
-  UpdateCharacterItemById, UpdateEventMessage, Warp,
+  UpdateCharacterItemById, Warp,
   IncrementStatistic, SetPlayerSlotLock, SetPlayerSlotTimer,
   PlayerSlotTimerExpire, ChangeAttack, SetPlayerSlotAttack,
   SetLandmarkSlotAttack, PageLoad, RemoveCardFromPlayerSlot, AddCardToPlayerSlot,
-  SetPlayerSlotData, SetLandmarkSlotData, SetHealth } from '../actions';
+  SetPlayerSlotData, SetLandmarkSlotData, SetHealth, AddEventLogMessage,
+  ResetEventLog, UpdateCharacterPrimaryInformation } from '../actions';
 import { ContentService } from '../content.service';
 import { GameConstant, GameService } from '../game.service';
 import { Observable, Subscription } from 'rxjs';
@@ -32,30 +33,15 @@ import { GameStatistic } from './statistics.store';
 
 import { nothing } from '../../../../../../content/landmarks/helpers/nothing.helpers';
 import { identity } from '../../../../../../content/landmarks/helpers/all.helpers';
+import { EquipmentSlot, ICharacter } from '../../../../../../content/interfaces/character';
+import { getAttacksForCharacter } from '../../../../../../content/character.helpers';
 
 const allLandmarks = pickBy(LandmarkInfo, (v, k) => !k.toLowerCase().includes('helpers'));
 const allHelpers = pickBy(LandmarkInfo, (v, k) => k.toLowerCase().includes('helpers'));
 
-export enum EquipmentSlot {
-  Head = 'head',
-  Hands = 'hands',
-  Body = 'body',
-  Feet = 'feet'
-}
-
-export interface IGameCharacter {
-  name: string;
-  hp: number;
+export interface IGameCharacter extends ICharacter {
   background: IBackground;
   archetype: IArchetype;
-  equipment: {
-    [EquipmentSlot.Head]: IItemConfig;
-    [EquipmentSlot.Hands]: IItemConfig;
-    [EquipmentSlot.Body]: IItemConfig;
-    [EquipmentSlot.Feet]: IItemConfig;
-  };
-  items: IItemConfig[];
-  powers: IPower[];
 
   stuck: boolean;
   disallowHealthUpdates: boolean;
@@ -69,7 +55,7 @@ export interface IGame {
   landmarkEncounter: ILandmarkEncounter;
   currentCardId: number;
   currentStep: number;
-  currentEventMessage: string;
+  currentEventLog: string[];
   version: number;
 }
 
@@ -88,7 +74,7 @@ const defaultOptions: () => IGame = () => ({
   landmarkEncounter: undefined,
   currentStep: 0,
   currentCardId: 0,
-  currentEventMessage: '',
+  currentEventLog: [],
   version: 1
 });
 
@@ -121,8 +107,8 @@ export class GameState implements NgxsOnInit {
   }
 
   @Selector()
-  static eventMessage(state: IGame) {
-    return state.currentEventMessage;
+  static eventLog(state: IGame) {
+    return state.currentEventLog;
   }
 
   @Selector()
@@ -132,12 +118,9 @@ export class GameState implements NgxsOnInit {
 
   @Selector()
   static characterWithAttacks(state: IGame) {
-    const mainHand = state.character.equipment[EquipmentSlot.Hands];
-    const weaponAttacks = mainHand?.attacks || [];
-
     return structuredClone({
       ...state.character,
-      attacks: ['Attack', ...weaponAttacks]
+      attacks: getAttacksForCharacter(state.character)
     });
   }
 
@@ -184,6 +167,7 @@ export class GameState implements NgxsOnInit {
 
     this.callbacks = {
       content: {
+        addIdToCard: (card: ICard) => this.contentService.addIdToCard(card),
         getConstant: (constant: GameConstant) => this.gameService.getConstant(constant),
         getItemDataById: (id: string) => this.contentService.getItemDataById(id),
         createItemById: (id: string) => this.contentService.getItemById(id),
@@ -194,7 +178,8 @@ export class GameState implements NgxsOnInit {
         log: (...message) => this.loggerService.log(...message),
         error: (...message) => this.loggerService.error(...message)
       },
-      newEventMessage: (message: string) => this.updateEventMessage(ctx, { message }),
+      newEventLogMessage: (message: string, truncateAfter = 3) => this.addEventLogMessage(ctx, { message, truncateAfter }),
+      newEventMessage: (message: string) => this.addEventLogMessage(ctx, { message, truncateAfter: 1 }),
     };
   }
 
@@ -353,7 +338,7 @@ export class GameState implements NgxsOnInit {
 
       const encounterOpts = this.getEncounterOpts(ctx);
 
-      this.updateEventMessage(ctx, { message: '' });
+      this.resetEventLog(ctx);
       this.updateLandmark(ctx, landmarkInstance.encounter({ ...encounterOpts, callbacks: this.callbacks }));
     }
 
@@ -363,10 +348,15 @@ export class GameState implements NgxsOnInit {
   pageLoad(ctx: StateContext<IGame>) {
     ctx.setState(patch<IGame>({
       landmarkEncounter: undefined,
-      character: patch<IGameCharacter>({
-        stuck: false
-      })
     }));
+
+    if(ctx.getState().character) {
+      ctx.setState(patch<IGame>({
+        character: patch<IGameCharacter>({
+          stuck: false
+        })
+      }));
+    }
   }
 
   @Action(StartGame)
@@ -391,6 +381,7 @@ export class GameState implements NgxsOnInit {
     const character: IGameCharacter = {
       name: background.realName,
       hp: background.hp,
+      body: background.body,
       background,
       archetype,
       items: [],
@@ -441,10 +432,28 @@ export class GameState implements NgxsOnInit {
     }));
   }
 
-  @Action(UpdateEventMessage)
-  updateEventMessage(ctx: StateContext<IGame>, { message }: UpdateEventMessage) {
+  @Action(AddEventLogMessage)
+  addEventLogMessage(ctx: StateContext<IGame>, { message, truncateAfter }: AddEventLogMessage) {
+
+    const currentEventLog = ctx.getState().currentEventLog || [];
+
+    const newEventLog = [...currentEventLog, message];
+
+    if(truncateAfter) {
+      while(newEventLog.length > truncateAfter) {
+        newEventLog.shift();
+      }
+    }
+
     ctx.setState(patch<IGame>({
-      currentEventMessage: message
+      currentEventLog: newEventLog
+    }));
+  }
+
+  @Action(ResetEventLog)
+  resetEventLog(ctx: StateContext<IGame>) {
+    ctx.setState(patch<IGame>({
+      currentEventLog: []
     }));
   }
 
@@ -631,7 +640,7 @@ export class GameState implements NgxsOnInit {
     }
 
     // if the character is stuck and tries to move in any direction that isn't 0,0 (the same tile), do nothing
-    if(ctx.getState().character.stuck && (xDelta !== 0 || yDelta !== 0)) {
+    if(ctx.getState().character?.stuck && (xDelta !== 0 || yDelta !== 0)) {
       return;
     }
 
@@ -1228,6 +1237,10 @@ export class GameState implements NgxsOnInit {
 
   @Action(SetEquipmentItem)
   setEquipmentItem(ctx: StateContext<IGame>, { item, slot }: SetEquipmentItem) {
+    if(!this.isInGame(ctx)) {
+      return;
+    }
+
     ctx.setState(patch<IGame>({
       character: patch<IGameCharacter>({
         equipment: patch<Record<EquipmentSlot, IItemConfig>>({
@@ -1251,6 +1264,21 @@ export class GameState implements NgxsOnInit {
     ctx.setState(patch<IGame>({
       character: patch<IGameCharacter>({
         chosenAttack: attack
+      })
+    }));
+  }
+
+  @Action(UpdateCharacterPrimaryInformation)
+  setCharacterPrimaryInformation(ctx: StateContext<IGame>, { hp, equipment, body }: UpdateCharacterPrimaryInformation) {
+    if(!this.isInGame(ctx)) {
+      return;
+    }
+
+    ctx.setState(patch<IGame>({
+      character: patch<IGameCharacter>({
+        equipment,
+        body,
+        hp
       })
     }));
   }

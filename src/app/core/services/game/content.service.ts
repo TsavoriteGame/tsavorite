@@ -71,6 +71,10 @@ export class ContentService {
     this.currentCardId = id;
   }
 
+  public addIdToCard(card: ICard): void {
+    card.cardId = this.getNextCardId();
+  }
+
   public reformatItem(itemId: string, modifications: Record<string, number>): IItemConfig {
     const realItem = this.getItemById(itemId);
     if(!realItem) {

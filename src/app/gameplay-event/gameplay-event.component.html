@@ -17,8 +17,10 @@
           {{ landmarkEncounterData.landmarkDescription }}
         </div>
 
-        <div class="text-center icon-text size-big px-3 event-message">
-          {{ eventMessage$ | async }}
+        <div class="text-center icon-text size-big px-3 event-message-container">
+          <span class="event-message" *ngFor="let message of eventLog$ | async">
+            {{ message }}
+          </span>
         </div>
 
         <!-- choices -->

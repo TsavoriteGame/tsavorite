@@ -12,7 +12,8 @@ const zeroFail = (args: IReactionExtendedArgs) => ({
   message: 'This item cannot cut anything.',
   success: false,
   newSource: args.sourceItem,
-  newTarget: args.targetItem
+  newTarget: args.targetItem,
+  extraItems: []
 });
 
 export const applications: Reactions = {
@@ -34,7 +35,8 @@ export const applications: Reactions = {
         success: false,
         checkBreaks: false,
         newSource: sourceItem,
-        newTarget: targetItem
+        newTarget: targetItem,
+        extraItems: []
       };
     }
 
@@ -45,7 +47,8 @@ export const applications: Reactions = {
         success: false,
         checkBreaks: false,
         newSource: sourceItem,
-        newTarget: targetItem
+        newTarget: targetItem,
+        extraItems: []
       };
     }
 
@@ -85,7 +88,8 @@ export const applications: Reactions = {
         message: 'There is not enough food here to cut.',
         success: false,
         newSource: args.sourceItem,
-        newTarget: args.targetItem
+        newTarget: args.targetItem,
+        extraItems: []
       };
     }
 
@@ -129,7 +133,8 @@ export const applications: Reactions = {
         message: 'There is not enough fiber here to cut.',
         success: false,
         newSource: args.sourceItem,
-        newTarget: args.targetItem
+        newTarget: args.targetItem,
+        extraItems: []
       };
     }
 
@@ -172,7 +177,8 @@ export const applications: Reactions = {
         success: false,
         checkBreaks: false,
         newSource: sourceItem,
-        newTarget: targetItem
+        newTarget: targetItem,
+        extraItems: []
       };
     }
 
@@ -183,7 +189,8 @@ export const applications: Reactions = {
         success: false,
         checkBreaks: false,
         newSource: sourceItem,
-        newTarget: targetItem
+        newTarget: targetItem,
+        extraItems: []
       };
     }
 
@@ -194,7 +201,8 @@ export const applications: Reactions = {
         success: false,
         checkBreaks: false,
         newSource: sourceItem,
-        newTarget: targetItem
+        newTarget: targetItem,
+        extraItems: []
       };
     }
 
@@ -233,7 +241,8 @@ export const applications: Reactions = {
         success: false,
         checkBreaks: false,
         newSource: sourceItem,
-        newTarget: targetItem
+        newTarget: targetItem,
+        extraItems: []
       };
     }
 
@@ -244,7 +253,8 @@ export const applications: Reactions = {
         success: false,
         checkBreaks: false,
         newSource: sourceItem,
-        newTarget: targetItem
+        newTarget: targetItem,
+        extraItems: []
       };
     }
 
@@ -255,7 +265,8 @@ export const applications: Reactions = {
         success: false,
         checkBreaks: false,
         newSource: sourceItem,
-        newTarget: targetItem
+        newTarget: targetItem,
+        extraItems: []
       };
     }
 
@@ -295,7 +306,8 @@ export const applications: Reactions = {
         message: 'There is no meat to bleed.',
         success: false,
         newSource: args.sourceItem,
-        newTarget: args.targetItem
+        newTarget: args.targetItem,
+        extraItems: []
       };
     }
 
@@ -348,7 +360,8 @@ export const applications: Reactions = {
         success: false,
         checkBreaks: false,
         newSource: sourceItem,
-        newTarget: targetItem
+        newTarget: targetItem,
+        extraItems: []
       };
     }
 
@@ -359,7 +372,8 @@ export const applications: Reactions = {
         success: false,
         checkBreaks: false,
         newSource: sourceItem,
-        newTarget: targetItem
+        newTarget: targetItem,
+        extraItems: []
       };
     }
 
@@ -370,7 +384,8 @@ export const applications: Reactions = {
         success: false,
         checkBreaks: false,
         newSource: sourceItem,
-        newTarget: targetItem
+        newTarget: targetItem,
+        extraItems: []
       };
     }
 
@@ -412,7 +427,8 @@ export const applications: Reactions = {
         success: false,
         checkBreaks: false,
         newSource: sourceItem,
-        newTarget: targetItem
+        newTarget: targetItem,
+        extraItems: []
       };
     }
 
@@ -423,7 +439,8 @@ export const applications: Reactions = {
         success: false,
         checkBreaks: false,
         newSource: sourceItem,
-        newTarget: targetItem
+        newTarget: targetItem,
+        extraItems: []
       };
     }
 
@@ -434,7 +451,8 @@ export const applications: Reactions = {
         success: false,
         checkBreaks: false,
         newSource: sourceItem,
-        newTarget: targetItem
+        newTarget: targetItem,
+        extraItems: []
       };
     }
 
@@ -474,7 +492,8 @@ export const applications: Reactions = {
       message: 'Transferred attributes to source from target.',
       success: true,
       newSource: args.sourceItem,
-      newTarget: getDescriptorLevelFromPart(args.targetPart, Descriptor.Sticky) <= 0 ? undefined : args.targetItem
+      newTarget: getDescriptorLevelFromPart(args.targetPart, Descriptor.Sticky) <= 0 ? undefined : args.targetItem,
+      extraItems: []
     };
   },
 
@@ -495,7 +514,8 @@ export const applications: Reactions = {
         success: false,
         checkBreaks: false,
         newSource: sourceItem,
-        newTarget: targetItem
+        newTarget: targetItem,
+        extraItems: []
       };
     }
 
@@ -506,7 +526,8 @@ export const applications: Reactions = {
         success: false,
         checkBreaks: false,
         newSource: sourceItem,
-        newTarget: targetItem
+        newTarget: targetItem,
+        extraItems: []
       };
     }
 
@@ -517,7 +538,8 @@ export const applications: Reactions = {
         success: false,
         checkBreaks: false,
         newSource: sourceItem,
-        newTarget: targetItem
+        newTarget: targetItem,
+        extraItems: []
       };
     }
 

@@ -16,7 +16,7 @@ export class GameplayEventComponent implements OnInit, OnDestroy {
 
   @Select(GameState.character) character$: Observable<IGameCharacter>;
   @Select(GameState.landmarkEncounterData) landmarkEncounterData$: Observable<ILandmarkEncounter>;
-  @Select(GameState.eventMessage) eventMessage$: Observable<string>;
+  @Select(GameState.eventLog) eventLog$: Observable<string[]>;
 
   constructor(
     private store: Store,

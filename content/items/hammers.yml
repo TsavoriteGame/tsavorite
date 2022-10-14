@@ -9,9 +9,10 @@
 
   interaction:
     name: Smashes
-    level: 1
+    level: 3
 
   attacks:
+    - Attack
     - Bash
 
 - name: Rock Smasher
@@ -24,9 +25,10 @@
 
   interaction:
     name: Smashes
-    level: 2
+    level: 5
 
   attacks:
+    - Attack
     - Bash
 
 - name: Rock Smasher
@@ -39,7 +41,8 @@
 
   interaction:
     name: Smashes
-    level: 3
+    level: 7
 
   attacks:
+    - Attack
     - Bash

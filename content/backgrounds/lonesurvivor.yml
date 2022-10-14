@@ -5,6 +5,11 @@ realName: Axel
 disabled: true
 hp: 12
 archetype: Villager
+body:
+  head:  { name: Salvaged Head,  icon: defaulthead,  parts: [ { name: Head,  foundational: true, primaryDescriptor: Metal, descriptors: { Metal: { level: 3 } } } ] }
+  hands: { name: Salvaged Hands, icon: defaulthands, parts: [ { name: Hands, foundational: true, primaryDescriptor: Metal, descriptors: { Metal: { level: 3 } } } ] }
+  body:  { name: Salvaged Body,  icon: defaultbody,  parts: [ { name: Body,  foundational: true, primaryDescriptor: Metal, descriptors: { Metal: { level: 5 } } } ] }
+  feet:  { name: Salvaged Feet,  icon: defaultfeet,  parts: [ { name: Feet,  foundational: true, primaryDescriptor: Metal, descriptors: { Metal: { level: 3 } } } ] }
 description: \???
 goal: \???
 startingKit: []

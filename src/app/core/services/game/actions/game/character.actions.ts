@@ -1,3 +1,4 @@
+import { EquipmentSlot, IItemConfig } from '../../../../../../../content/interfaces';
 
 
 export class ChangeAttack {
@@ -20,4 +21,9 @@ export class ReduceHealth {
 export class SetHealth {
   static type = '[Game] Set Health';
   constructor(public amount: number) {}
+}
+
+export class UpdateCharacterPrimaryInformation {
+  static type = '[Game] Update Character Primary Information';
+  constructor(public hp: number, public body: Record<EquipmentSlot, IItemConfig>, public equipment: Record<EquipmentSlot, IItemConfig>) {}
 }

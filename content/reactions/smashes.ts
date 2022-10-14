@@ -9,7 +9,8 @@ const zeroFail = (args: IReactionExtendedArgs) => ({
   message: 'This item cannot smash anything.',
   success: false,
   newSource: args.sourceItem,
-  newTarget: args.targetItem
+  newTarget: args.targetItem,
+  extraItems: []
 });
 
 export const applications: Reactions = {
@@ -32,7 +33,8 @@ export const applications: Reactions = {
         message: 'Item is too cold to smash',
         success: false,
         newSource: sourceItem,
-        newTarget: targetItem
+        newTarget: targetItem,
+        extraItems: []
       };
     }
 
@@ -43,7 +45,8 @@ export const applications: Reactions = {
       message: 'Destroyed the cold item.',
       success: true,
       newSource: sourceItem,
-      newTarget: undefined
+      newTarget: undefined,
+      extraItems: []
     };
   },
 
@@ -65,7 +68,8 @@ export const applications: Reactions = {
         message: 'Item is too frozen to smash',
         success: false,
         newSource: sourceItem,
-        newTarget: targetItem
+        newTarget: targetItem,
+        extraItems: []
       };
     }
 
@@ -76,7 +80,8 @@ export const applications: Reactions = {
       message: 'Destroyed the frozen item.',
       success: true,
       newSource: sourceItem,
-      newTarget: undefined
+      newTarget: undefined,
+      extraItems: []
     };
   },
 
@@ -125,7 +130,8 @@ export const applications: Reactions = {
         message: 'Smashed the frozen meat.',
         success: true,
         newSource: sourceItem,
-        newTarget: undefined
+        newTarget: undefined,
+        extraItems: []
       };
     }
 
@@ -154,7 +160,8 @@ export const applications: Reactions = {
       message: 'Turned some meat into blood.',
       success: true,
       newSource: sourceItem,
-      newTarget: targetItem
+      newTarget: targetItem,
+      extraItems: []
     };
   },
 
@@ -193,7 +200,8 @@ export const applications: Reactions = {
       message: 'Sharpened the metal.',
       success: true,
       newSource: sourceItem,
-      newTarget: targetItem
+      newTarget: targetItem,
+      extraItems: []
     };
   },
 
@@ -235,7 +243,8 @@ export const applications: Reactions = {
       message: 'Turned some rock into sand.',
       success: true,
       newSource: sourceItem,
-      newTarget: targetItem
+      newTarget: targetItem,
+      extraItems: []
     };
   },
 
@@ -257,7 +266,8 @@ export const applications: Reactions = {
       message: 'Transferred attributes to source from target.',
       success: true,
       newSource: args.sourceItem,
-      newTarget: getDescriptorLevelFromPart(args.targetPart, Descriptor.Sticky) <= 0 ? undefined : args.targetItem
+      newTarget: getDescriptorLevelFromPart(args.targetPart, Descriptor.Sticky) <= 0 ? undefined : args.targetItem,
+      extraItems: []
     };
   },
 
@@ -284,7 +294,8 @@ export const applications: Reactions = {
         message: 'Smashed the wood.',
         success: true,
         newSource: sourceItem,
-        newTarget: undefined
+        newTarget: undefined,
+        extraItems: []
       };
     }
 
@@ -293,7 +304,8 @@ export const applications: Reactions = {
       message: 'Broke some wood.',
       success: true,
       newSource: sourceItem,
-      newTarget: targetItem
+      newTarget: targetItem,
+      extraItems: []
     };
   },
 };

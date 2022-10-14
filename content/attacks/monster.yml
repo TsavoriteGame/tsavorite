@@ -1,0 +1,7 @@
+
+Meat Punch:
+  icon: attack-punch
+  damage: 2
+  castTime: 30
+  cooldown: 15
+  target: single

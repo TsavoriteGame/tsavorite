@@ -14,6 +14,7 @@ Slash:
   castTime: 4
   cooldown: 2
   target: single
+  primarySlotTarget: head
   interaction:
     name: Carves
 
@@ -23,5 +24,6 @@ Bash:
   castTime: 5
   cooldown: 3
   target: single
+  primarySlotTarget: body
   interaction:
     name: Smashes

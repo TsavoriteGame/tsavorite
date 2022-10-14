@@ -59,7 +59,7 @@
           <div class="col">
             <div class="ms-3 mt-3 d-flex flex-row align-items-center">
               <app-card-slot placeholder="Head"
-                             [card]="character.equipment.head"
+                             [card]="character.equipment.head || character.body.head"
                              [class.item-selected]="character.equipment.head?.locked"
                              [dndDropzone]="['HeadArmor']"
                              dndType="HeadArmor"
@@ -77,7 +77,7 @@
           <div class="col">
             <div class="ms-3 mt-3 d-flex flex-row align-items-center">
               <app-card-slot placeholder="Hands"
-                             [card]="character.equipment.hands"
+                             [card]="character.equipment.hands || character.body.hands"
                              [class.item-selected]="character.equipment.hands?.locked"
                              [dndDropzone]="['Item']"
                              dndType="Item"
@@ -95,7 +95,7 @@
           <div class="col">
             <div class="ms-3 mt-3 d-flex flex-row align-items-center">
               <app-card-slot placeholder="Body"
-                             [card]="character.equipment.body"
+                             [card]="character.equipment.body || character.body.body"
                              [class.item-selected]="character.equipment.body?.locked"
                              [dndDropzone]="['BodyArmor']"
                              dndType="BodyArmor"
@@ -112,7 +112,7 @@
           <div class="col">
             <div class="ms-3 mt-3 d-flex flex-row align-items-center">
               <app-card-slot placeholder="Feet"
-                             [card]="character.equipment.feet"
+                             [card]="character.equipment.feet || character.body.feet"
                              [class.item-selected]="character.equipment.feet?.locked"
                              [dndDropzone]="['FeetArmor']"
                              dndType="FeetArmor"

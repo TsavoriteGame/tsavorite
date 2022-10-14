@@ -22,7 +22,7 @@
     "electron:local": "npm run build:prod && electron .",
     "electron:build": "npm run build:prod && electron-builder build --publish=never",
     "setup": "npm run setup:data && npm run setup:art",
-    "setup:data": "node scripts/items && node scripts/backgrounds && node scripts/archetypes && node scripts/recipes && node scripts/scenarios && node scripts/attacks && node scripts/monsters",
+    "setup:data": " node scripts/attacks && node scripts/items && node scripts/backgrounds && node scripts/archetypes && node scripts/recipes && node scripts/scenarios && node scripts/monsters",
     "setup:art": "node scripts/art",
     "generate:hashes": "node scripts/generate-hashes",
     "test": "npm run test:content",

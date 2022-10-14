@@ -8,12 +8,12 @@ worlds:
       - [2,    2,    2,    2,    0,    17,   17,   0,    0,    21,   0]
       - [2,    14,   0,    2,    0,    17,   0,    10,   0,    0,    0]
       - [2,    0,    23,   2,    0,    17,   0,    10,   0,    0,    0]
-      - [2,    22,   0,    2,    0,    0,    10,   10,   0,    0,    0]
+      - [2,    22,   0,    2,    0,    0,    10,   10,   0,    24,   0]
       - [2,    2,    2,    2,    1,    0,    0,    0,    0,    0,    0]
       - [0,    0,    0,    18,   0,    21,   16,   0,    0,    0,    0]
-      - [0,    0,    0,    19,   0,    0,    11,   20,   0,    0,    0]
+      - [0,    0,    0,    19,   0,    0,    11,   20,   0,    24,   0]
       - [21,   0,    0,    0,    13,   0,    0,    0,    0,    0,    0]
-      - [0,    0,    0,    0,    0,    15,   0,    0,    0,    0,    0]
+      - [0,    0,    0,    0,    0,    15,   0,    24,   0,    0,    0]
       - [0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0]
       - [21,   0,    0,    0,    0,    0,    21,   0,    0,    23,   0]
   1:
@@ -116,13 +116,13 @@ nodes:
     landmarkData:
       shopItems:
         - item: RockSmasher-2
-          cost: 2
+          cost: 5
 
         - item: MetalKey-2
           cost: 2
 
         - item: Machete-2
-          cost: 2
+          cost: 5
 
   19:
     name: Shopkeeper
@@ -204,3 +204,24 @@ nodes:
         - description: Rock Smasher
           icon: haxe
           itemId: RockSmasher-2
+
+  24:
+    name: Meat Attack
+    icon: uncookedmeat
+    description: Fight the meat elemental!
+    landmark: Fight
+    landmarkData:
+      moveInterval: 5
+      moveSteps: 1
+      monsters:
+        - name: Meat Elemental
+      itemDrops:
+        - description: 3 Gold Coins
+          icon: goldcoin
+          itemId: GoldCoins-1
+          itemChanges:
+            'interaction.level': 3
+
+        - description: Healing Heart
+          icon: health
+          itemId: HealingHeart-1
