@@ -15,7 +15,7 @@ worlds:
       - [21,   0,    0,    0,    13,   0,    0,    0,    0,    0,    0]
       - [0,    0,    0,    0,    0,    15,   0,    24,   0,    0,    0]
       - [0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0]
-      - [21,   0,    0,    0,    0,    0,    21,   0,    0,    23,   0]
+      - [21,   0,    25,   0,    0,    0,    21,   0,    0,    23,   0]
   1:
     name: Nearly Empty Cave
     layout:
@@ -23,7 +23,7 @@ worlds:
       - [ 0,  0,  0,  0,  0 ]
       - [ 0,  12, 0,  0,  0 ]
       - [ 0,  0,  0,  0,  0 ]
-      - [ 0,  0,  0,  0,  0 ]
+      - [ 0,  0,  0,  25, 0 ]
 
 nodes:
   0:
@@ -225,3 +225,11 @@ nodes:
         - description: Healing Heart
           icon: health
           itemId: HealingHeart-1
+
+  25:
+    name: Campfire
+    icon: campfire
+    description: You can rest here, if you dare.
+    landmark: RestPlace
+    landmarkData:
+      healAmount: 5

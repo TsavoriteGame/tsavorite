@@ -101,6 +101,9 @@ export interface ILandmarkData {
 
   // the monsters that will be spawned at this landmark
   monsters?: Array<{ name: string }>;
+
+  // the amount to heal at this location
+  healAmount?: number;
 }
 
 export interface ILandmarkEncounterOpts {
