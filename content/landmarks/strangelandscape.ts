@@ -25,10 +25,11 @@ export class StrangeLandscape extends Landmark implements ILandmark {
         landmarkIcon: 'sunsetvolcano',
         landmarkData: scenarioNode.landmarkData,
         slots: [],
+        playerSlots: [],
         canLeave: true,
         choices: []
       }
-    ]).pipe(
+    ] as ILandmarkEncounter[]).pipe(
       concatMap((v, i) => {
         if(i === 0) {
           return of(v);

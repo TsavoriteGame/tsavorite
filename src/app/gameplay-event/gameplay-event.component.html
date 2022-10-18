@@ -3,8 +3,34 @@
 
   <ng-container *ngIf="landmarkEncounterData$ | async as landmarkEncounterData">
 
+    <!-- this container shows when there is nothing but text -->
+    <ng-container *ngIf="landmarkEncounterData.choices.length === 0 && landmarkEncounterData.slots.length === 0 && landmarkEncounterData.playerSlots.length === 0">
+      <div class="row mt-3">
+        <div class="col">
+          <div class="text-center icon-text size-header">
+            <app-icon class="landmark-icon"
+                      [icon]="landmarkEncounterData.landmarkIcon"
+                      [showOutline]="true"
+                      *ngIf="landmarkEncounterData.landmarkIcon !== 'blank'"></app-icon>
+            {{ landmarkEncounterData.landmarkName }}
+          </div>
+
+          <div class="text-center icon-text size-subheader px-3">
+            {{ landmarkEncounterData.landmarkDescription }}
+          </div>
+
+          <div class="text-center icon-text size-big px-3 event-message-container">
+            <span class="event-message" *ngFor="let message of eventLog$ | async">
+              {{ message }}
+            </span>
+          </div>
+        </div>
+      </div>
+    </ng-container>
+
+
     <!-- this container shows when there are choices to be made -->
-    <ng-container *ngIf="landmarkEncounterData.choices.length > 0">
+    <ng-container *ngIf="landmarkEncounterData && landmarkEncounterData.choices.length > 0">
       <div class="row mt-3">
         <div class="col">
           <div class="text-center icon-text size-header">
@@ -40,7 +66,7 @@
     </ng-container>
 
     <!-- this container shows when there are events and slots to deal with -->
-    <ng-container *ngIf="landmarkEncounterData.playerSlots.length > 0 && landmarkEncounterData.slots.length > 0">
+    <ng-container *ngIf="landmarkEncounterData && landmarkEncounterData.slots && landmarkEncounterData.playerSlots && landmarkEncounterData.playerSlots.length > 0 && landmarkEncounterData.slots.length > 0">
       <div class="row">
         <div class="col">
           <div class="text-center icon-text size-header">
