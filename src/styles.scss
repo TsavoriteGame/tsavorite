@@ -19,19 +19,10 @@
   font-display: swap;
 }
 
-/* Reset & Defaults */
-html, body {
-  margin: 0;
-  padding: 0;
-
-  height: 100%;
-
-  user-select: none;
-  font-family: Roboto, Arial, Helvetica, sans-serif;
-}
-
 /* Default font sizes */
 :root {
+  --default-font-family: Roboto, Arial, Helvetica, sans-serif;
+  --font-familiy: var(--default-font-family);
   --ts-fontsize-hero: 5rem;
   --ts-fontsize-header: 2rem;
   --ts-fontsize-subheader: 1.75rem;
@@ -64,6 +55,17 @@ html, body {
   }
 }
 
+/* Reset & Defaults */
+html, body {
+  margin: 0;
+  padding: 0;
+
+  height: 100%;
+
+  user-select: none;
+  font-family: var(--font-family);
+}
+
 /* Default settings: Fantasy font styles */
 body.fantasy {
   --ts-fontsize-hero: 5rem;
@@ -72,6 +74,7 @@ body.fantasy {
   --ts-fontsize-big: 1.5rem;
   --ts-fontsize-medium: 1.25rem;
   --ts-fontsize-normal: 1.1rem;
+  --font-family: CelticTime, Arial, Helvetica, sans-serif;
 
   .navbar-brand {
     letter-spacing: 3px;
@@ -93,8 +96,12 @@ body.fantasy {
 
 /* Set the fantasy font when the class is set */
 body.fantasy, .tooltip .fantasy {
-  font-family: CelticTime, Arial, Helvetica, sans-serif;
+  font-family: var(--font-family);
   text-rendering: optimizeLegibility;
+}
+
+.no-fantasy {
+  font-family: var(--default-font-family);
 }
 
 /* Global styles */

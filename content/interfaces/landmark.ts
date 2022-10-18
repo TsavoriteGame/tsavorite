@@ -143,6 +143,9 @@ export interface ILandmarkEncounter {
   // the name of the landmark
   landmarkName: string;
 
+  // the help text for the landmark
+  landmarkHelpText?: string;
+
   // the description of the landmark
   landmarkDescription: string;
 

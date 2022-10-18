@@ -20,11 +20,12 @@ import { SplashscreenComponent } from './components/splashscreen/splashscreen.co
 import { KeyDisplayComponent } from './components/key-display/key-display.component';
 import { GameOverComponent } from './components/game-over/game-over.component';
 import { AttackDisplayComponent } from './components/attack-display/attack-display.component';
+import { HelpTextComponent } from './components/help-text/help-text.component';
 
 @NgModule({
   declarations: [PageNotFoundComponent, WebviewDirective, IconComponent,
     InfoCardComponent, CardSlotComponent, PauseComponent, FancyTitleBackgroundComponent,
-    SplashscreenComponent, KeyDisplayComponent, GameOverComponent, AttackDisplayComponent],
+    SplashscreenComponent, KeyDisplayComponent, GameOverComponent, AttackDisplayComponent, HelpTextComponent],
   imports: [
     CommonModule,
     DndModule,
@@ -38,7 +39,9 @@ import { AttackDisplayComponent } from './components/attack-display/attack-displ
         denyButtonColor: '#A50000'
       }))
     })],
-  exports: [AngularSvgIconModule, DndModule, TranslateModule, IconComponent, FancyTitleBackgroundComponent, KeyDisplayComponent,
-    AttackDisplayComponent, CardSlotComponent, SplashscreenComponent, InfoCardComponent, WebviewDirective, FormsModule, NgbModule]
+  exports: [AngularSvgIconModule, DndModule, TranslateModule,
+    IconComponent, FancyTitleBackgroundComponent, KeyDisplayComponent, HelpTextComponent,
+    AttackDisplayComponent, CardSlotComponent, SplashscreenComponent,
+    InfoCardComponent, WebviewDirective, FormsModule, NgbModule]
 })
 export class SharedModule {}

@@ -15,6 +15,7 @@ export class Shrine extends Landmark implements ILandmark {
     return of({
       landmarkType: 'Shrine',
       landmarkName: scenarioNode.name,
+      landmarkHelpText: 'You can offer an item to the gods. If you are lucky, they will reward you.',
       landmarkDescription: scenarioNode.description,
       landmarkIcon: scenarioNode.icon,
       landmarkData: scenarioNode.landmarkData,

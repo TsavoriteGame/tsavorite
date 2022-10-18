@@ -87,6 +87,7 @@ export class Merchant extends Landmark implements ILandmark {
     return of({
       landmarkType: 'Merchant',
       landmarkName: scenarioNode.name,
+      landmarkHelpText: 'You can buy items by dragging coins to the item slots, or sell items by placing them in the sell slot.',
       landmarkDescription: scenarioNode.description,
       landmarkIcon: scenarioNode.icon,
       landmarkData: scenarioNode.landmarkData,

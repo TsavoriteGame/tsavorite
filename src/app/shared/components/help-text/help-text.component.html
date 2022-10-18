@@ -1,0 +1,7 @@
+<span class="no-fantasy" [ngbTooltip]="tipContent" container="body">&#x24D8;</span>
+
+<ng-template #tipContent>
+  <div class="sub-tooltip" [class.fantasy]="(options$ | async).isFantasyFont">
+    {{ helpText }}
+  </div>
+</ng-template>
