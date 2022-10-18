@@ -22,6 +22,7 @@ export class CardSlotComponent implements OnInit, OnDestroy, OnChanges {
   @Input() card: ICard;
   @Input() cardType: 'item' = 'item';
   @Input() backgroundSize = 'size-big';
+  @Input() animation = '';
   @Input() slotIndex = -1;
   @Input() timerColor = '';
   @Input() locked = false;

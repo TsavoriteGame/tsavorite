@@ -9,7 +9,11 @@
   <div class="card-slot-container card" [ngbTooltip]="tipContent" [disableTooltip]="!card" container="body">
     <app-icon [icon]="card.icon" [size]="64" *ngIf="card"></app-icon>
 
-    <div class="centered full-space" [ngClass]="[backgroundSize]" *ngIf="!card">{{ placeholder }}</div>
+    <div class="centered full-space placeholder-text" [ngClass]="[backgroundSize, animation, timerColor || '']" *ngIf="!card">
+      <span class="inner-placeholder-text">
+        {{ placeholder }}
+      </span>
+    </div>
 
     <div class="timer" *ngIf="!card && shouldShowTimer">
       {{ timer }}

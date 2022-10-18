@@ -101,11 +101,12 @@
                       <app-icon [icon]="character.background.icon" [showOutline]="true"></app-icon>
 
                       <app-card-slot [card]="slot.card"
-                                     backgroundSize="size-header"
+                                     backgroundSize="size-subheader"
                                      [lockOnTimerExpire]="slot.lockOnTimerExpire"
                                      [locked]="slot.locked"
                                      [slotIndex]="slotIndex"
-                                     placeholder="+"
+                                     placeholder="⧖"
+                                     animation="spinning"
                                      side="Player"
                                      [hideTimerWhenCardPresent]="slot.hideTimerWhenCardPresent"
                                      [timerColor]="slot.timerType"
@@ -161,11 +162,12 @@
                   <div class="d-flex flex-row justify-content-around full-width">
 
                     <app-card-slot [card]="slot.card"
-                                  backgroundSize="size-header"
+                                  backgroundSize="size-subheader"
                                   [lockOnTimerExpire]="slot.lockOnTimerExpire"
                                   [locked]="slot.locked"
                                   [slotIndex]="slotIndex"
-                                  placeholder="+"
+                                  placeholder="⧖"
+                                  animation="spinning"
                                   side="Landmark"
                                   [hideTimerWhenCardPresent]="slot.hideTimerWhenCardPresent"
                                   [timerColor]="slot.timerType"
