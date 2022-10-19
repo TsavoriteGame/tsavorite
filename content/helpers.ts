@@ -9,7 +9,7 @@ import { getAllMiddleware, getPostCombineMiddleware,
 import { sortBy, sumBy, maxBy } from 'lodash';
 
 import * as Reactions from './reactions';
-import allRecipes from './recipes/recipes.json';
+import allRecipes from './data/recipes/recipes.json';
 
 // reaction functions
 export function hasReaction(interaction: Interaction, descriptor: Descriptor): boolean {

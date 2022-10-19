@@ -27,7 +27,7 @@ const validateRecipes = () => {
 };
 
 const loadRecipes = async () => {
-  const files = await readdir('content/recipes', ['*.json']);
+  const files = await readdir('content/data/recipes', ['*.json']);
   files.forEach(file => {
     const data = yaml.load(fs.readFileSync(file, 'utf8'));
     allRecipes.push(...data);
@@ -36,7 +36,7 @@ const loadRecipes = async () => {
   validateRecipes();
 
   const sortedRecipes = sortBy(allRecipes, item => item.name);
-  fs.writeFileSync('content/recipes/recipes.json', JSON.stringify(sortedRecipes));
+  fs.writeFileSync('content/data/recipes/recipes.json', JSON.stringify(sortedRecipes));
 };
 
 loadRecipes();

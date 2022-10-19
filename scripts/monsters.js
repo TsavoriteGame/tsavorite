@@ -4,7 +4,7 @@ const readdir = require('recursive-readdir');
 const yaml = require('js-yaml');
 const { sortBy, isString } = require('lodash');
 
-const items = require('../content/items/items.json');
+const items = require('../content/data/items/items.json');
 
 const allMonsters = [];
 
@@ -78,7 +78,7 @@ const validateMonsters = () => {
 };
 
 const loadMonsters = async () => {
-  const files = await readdir('content/monsters', ['*.json']);
+  const files = await readdir('content/data/monsters', ['*.json']);
   files.forEach(file => {
     const data = yaml.load(fs.readFileSync(file, 'utf8'));
     const formattedData = Object.keys(data)
@@ -97,7 +97,7 @@ const loadMonsters = async () => {
       return acc;
     }, {});
 
-  fs.writeFileSync('content/monsters/monsters.json', JSON.stringify(sortedItems));
+  fs.writeFileSync('content/data/monsters/monsters.json', JSON.stringify(sortedItems));
 };
 
 loadMonsters();

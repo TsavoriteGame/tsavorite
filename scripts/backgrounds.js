@@ -78,7 +78,7 @@ const validateBackgrounds = () => {
 };
 
 const loadBackgrounds = async () => {
-  const files = await readdir('content/backgrounds', ['*.json']);
+  const files = await readdir('content/data/backgrounds', ['*.json']);
   files.forEach(file => {
     const data = yaml.load(fs.readFileSync(file, 'utf8'));
     allBackgrounds.push(data);
@@ -87,7 +87,7 @@ const loadBackgrounds = async () => {
   validateBackgrounds();
 
   const sortedItems = sortBy(allBackgrounds, item => item.name);
-  fs.writeFileSync('content/backgrounds/backgrounds.json', JSON.stringify(sortedItems));
+  fs.writeFileSync('content/data/backgrounds/backgrounds.json', JSON.stringify(sortedItems));
 };
 
 loadBackgrounds();

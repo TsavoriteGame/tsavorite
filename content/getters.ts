@@ -1,13 +1,13 @@
 
 import { IArchetype, IBackground, IItemConfig, IMonsterConfig, IRecipe, IScenario, IWeaponAttack } from './interfaces';
 
-import * as items from '../content/items/items.json';
-import * as archetypes from '../content/archetypes/archetypes.json';
-import * as backgrounds from '../content/backgrounds/backgrounds.json';
-import * as recipes from '../content/recipes/recipes.json';
-import * as scenarios from '../content/scenarios/scenarios.json';
-import * as monsters from '../content/monsters/monsters.json';
-import * as attacks from '../content/attacks/attacks.json';
+import * as items from '../content/data/items/items.json';
+import * as archetypes from '../content/data/archetypes/archetypes.json';
+import * as backgrounds from '../content/data/backgrounds/backgrounds.json';
+import * as recipes from '../content/data/recipes/recipes.json';
+import * as scenarios from '../content/data/scenarios/scenarios.json';
+import * as monsters from '../content/data/monsters/monsters.json';
+import * as attacks from '../content/data/attacks/attacks.json';
 
 const importedItems = (items as any).default || items;
 const importedArchetypes = (archetypes as any).default || archetypes;

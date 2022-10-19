@@ -20,7 +20,7 @@ const validateArchetypes = () => {
 };
 
 const loadArchetypes = async () => {
-  const files = await readdir('content/archetypes', ['*.json']);
+  const files = await readdir('content/data/archetypes', ['*.json']);
   files.forEach(file => {
     const data = yaml.load(fs.readFileSync(file, 'utf8'));
     allArchetypes.push(data);
@@ -29,7 +29,7 @@ const loadArchetypes = async () => {
   validateArchetypes();
 
   const sortedItems = sortBy(allArchetypes, item => item.name);
-  fs.writeFileSync('content/archetypes/archetypes.json', JSON.stringify(sortedItems));
+  fs.writeFileSync('content/data/archetypes/archetypes.json', JSON.stringify(sortedItems));
 };
 
 loadArchetypes();

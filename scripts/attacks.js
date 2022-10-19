@@ -28,7 +28,7 @@ const validateAttacks = () => {
 };
 
 const loadAttacks = async () => {
-  const files = await readdir('content/attacks', ['*.json']);
+  const files = await readdir('content/data/attacks', ['*.json']);
   files.forEach(file => {
     const data = yaml.load(fs.readFileSync(file, 'utf8'));
     const formattedData = Object.keys(data)
@@ -47,7 +47,7 @@ const loadAttacks = async () => {
       return acc;
     }, {});
 
-  fs.writeFileSync('content/attacks/attacks.json', JSON.stringify(sortedItems));
+  fs.writeFileSync('content/data/attacks/attacks.json', JSON.stringify(sortedItems));
 };
 
 loadAttacks();

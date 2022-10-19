@@ -70,7 +70,7 @@ const validateScenarios = () => {
 };
 
 const loadScenarios = async () => {
-  const files = await readdir('content/scenarios', ['*.json']);
+  const files = await readdir('content/data/scenarios', ['*.json']);
   files.forEach(file => {
     const data = yaml.load(fs.readFileSync(file, 'utf8'));
     allScenarios.push(data);
@@ -79,7 +79,7 @@ const loadScenarios = async () => {
   validateScenarios();
 
   const sortedItems = sortBy(allScenarios, item => item.name);
-  fs.writeFileSync('content/scenarios/scenarios.json', JSON.stringify(sortedItems));
+  fs.writeFileSync('content/data/scenarios/scenarios.json', JSON.stringify(sortedItems));
 };
 
 loadScenarios();

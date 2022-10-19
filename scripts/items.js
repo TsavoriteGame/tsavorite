@@ -78,7 +78,7 @@ const validateItems = () => {
 };
 
 const loadItems = async () => {
-  const files = await readdir('content/items', ['*.json']);
+  const files = await readdir('content/data/items', ['*.json']);
   files.forEach(file => {
     const data = yaml.load(fs.readFileSync(file, 'utf8'));
     allItems.push(...data);
@@ -88,7 +88,7 @@ const loadItems = async () => {
   validateItems();
 
   const sortedItems = sortBy(allItems, item => item.name);
-  fs.writeFileSync('content/items/items.json', JSON.stringify(sortedItems));
+  fs.writeFileSync('content/data/items/items.json', JSON.stringify(sortedItems));
 };
 
 loadItems();
