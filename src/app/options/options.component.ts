@@ -2,10 +2,11 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
-import { RebindKey, ResetOptions, SetOption } from '../core/services/game/actions';
+import { RebindKey, ResetOptions, SetOption } from '../../../content/actions';
+import { GameOption, IOptions, Keybind } from '../../../content/interfaces';
 import { GameService } from '../core/services/game/game.service';
-import { Keybind, KeybindsService } from '../core/services/game/keybinds.service';
-import { GameOption, IOptions, OptionsState } from '../core/services/game/stores';
+import { KeybindsService } from '../core/services/game/keybinds.service';
+import { OptionsState } from '../core/services/game/stores';
 
 @Component({
   selector: 'app-options',

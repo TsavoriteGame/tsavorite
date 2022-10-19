@@ -1,7 +1,6 @@
 import { Observable, of } from 'rxjs';
-import { AddBackpackItem, EncounterCurrentTile, ReplaceNode } from '../../src/app/core/services/game/actions';
-import { GameConstant } from '../../src/app/core/services/game/game.service';
-import { ILandmark, Landmark, ILandmarkEncounter, ILandmarkEncounterOpts } from '../interfaces';
+import { AddBackpackItem, EncounterCurrentTile, ReplaceNode } from '../actions';
+import { ILandmark, Landmark, ILandmarkEncounter, ILandmarkEncounterOpts, GameConstant } from '../interfaces';
 import { nothing } from './helpers/nothing.helpers';
 
 export class ItemOnGround extends Landmark implements ILandmark {

@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
-import { EquipmentSlot, Interaction } from '../../../content/interfaces';
-import { AddBackpackItem, AddHealth, ChangeAttack, RemoveCharacterItemById, SetEquipmentItem } from '../core/services/game/actions';
-import { GameConstant, GameService } from '../core/services/game/game.service';
-import { GameState, IGameCharacter } from '../core/services/game/stores';
+import { EquipmentSlot, GameConstant, IGameCharacter, Interaction } from '../../../content/interfaces';
+import { AddBackpackItem, AddHealth, ChangeAttack, RemoveCharacterItemById, SetEquipmentItem } from '../../../content/actions';
+import { GameService } from '../core/services/game/game.service';
+import { GameState } from '../core/services/game/stores';
 
 @Component({
   selector: 'app-gameplay-character',

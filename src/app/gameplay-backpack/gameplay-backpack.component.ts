@@ -4,14 +4,14 @@ import { Observable, Subject, Subscription, timer } from 'rxjs';
 import { getCombinationBetweenTwoItems,
   getReactionBetweenTwoItems,
   hasDescriptor } from '../../../content/helpers';
-import { Descriptor, IItemConfig } from '../../../content/interfaces';
+import { Descriptor, GameConstant, IGameCharacter, IItemConfig } from '../../../content/interfaces';
 import { AddBackpackItem, ReduceHealth,
   RemoveCharacterItemById,
-  SetCharacterItemLockById, SetEquipmentItem, UpdateCharacterItemById } from '../core/services/game/actions';
+  SetCharacterItemLockById, SetEquipmentItem, UpdateCharacterItemById } from '../../../content/actions';
 import { ContentService } from '../core/services/game/content.service';
-import { GameConstant, GameService } from '../core/services/game/game.service';
+import { GameService } from '../core/services/game/game.service';
 import { LoggerService } from '../core/services/game/logger.service';
-import { GameState, IGameCharacter } from '../core/services/game/stores';
+import { GameState } from '../core/services/game/stores';
 
 @Component({
   selector: 'app-gameplay-backpack',

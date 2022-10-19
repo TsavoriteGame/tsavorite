@@ -6,9 +6,10 @@ import { PauseComponent } from './shared/components/pause/pause.component';
 import { Select, Store } from '@ngxs/store';
 import { GameState, OptionsState } from './core/services/game/stores';
 import { combineLatest, first, Observable, timer } from 'rxjs';
-import { AbandonGame, Move, PageLoad, SetPaused } from './core/services/game/actions';
-import { Keybind, KeybindsService } from './core/services/game/keybinds.service';
+import { AbandonGame, Move, PageLoad, SetPaused } from '../../content/actions';
+import { KeybindsService } from './core/services/game/keybinds.service';
 import { GameOverComponent } from './shared/components/game-over/game-over.component';
+import { Keybind } from '../../content/interfaces';
 
 @Component({
   selector: 'app-root',

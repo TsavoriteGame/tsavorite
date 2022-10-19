@@ -1,5 +1,5 @@
 import { sample } from 'lodash';
-import { AddBackpackItem, UpdateCharacterPrimaryInformation } from '../../../../src/app/core/services/game/actions';
+import { AddBackpackItem, UpdateCharacterPrimaryInformation } from '../../../actions';
 import { calculateDamageReductionFromItem } from '../../../armor.helpers';
 import { decreaseDescriptorLevel, getReactionBetweenTwoItems, hasDescriptor } from '../../../helpers';
 import { ISlotFunctionOpts,

@@ -1,8 +1,7 @@
 import { Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
-import { GameConstant } from '../../src/app/core/services/game/game.service';
-import { IGameCharacter } from '../../src/app/core/services/game/stores';
 import { ICard } from './card';
+import { GameConstant, IGameCharacter } from './game';
 import { IItemConfig } from './item';
 import { IScenario, IScenarioNode } from './scenario';
 
@@ -106,26 +105,28 @@ export interface ILandmarkData {
   healAmount?: number;
 }
 
+export interface ILandmarkEncounterCallbacks {
+  content: {
+    addIdToCard: (card: ICard) => void;
+    getConstant: (constant: GameConstant) => any;
+    getItemDataById: (id: string) => IItemConfig;
+    createItemById: (id: string) => IItemConfig;
+    createItemWithModifications: (id: string, modifications: Record<string, number>) => IItemConfig;
+  };
+  logger: {
+    log: (...message) => void;
+    error: (...message) => void;
+  };
+  newEventLogMessage: (message: string, truncateAfter: number) => void;
+  newEventMessage: (message: string) => void;
+}
+
 export interface ILandmarkEncounterOpts {
   scenario: IScenario;
   position: IMapPosition;
   scenarioNode: IScenarioNode;
   character: IGameCharacter;
-  callbacks: {
-    content: {
-      addIdToCard: (card: ICard) => void;
-      getConstant: (constant: GameConstant) => any;
-      getItemDataById: (id: string) => IItemConfig;
-      createItemById: (id: string) => IItemConfig;
-      createItemWithModifications: (id: string, modifications: Record<string, number>) => IItemConfig;
-    };
-    logger: {
-      log: (...message) => void;
-      error: (...message) => void;
-    };
-    newEventLogMessage: (message: string, truncateAfter: number) => void;
-    newEventMessage: (message: string) => void;
-  };
+  callbacks: ILandmarkEncounterCallbacks;
 }
 
 export interface ILandmark {

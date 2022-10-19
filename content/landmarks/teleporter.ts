@@ -1,6 +1,6 @@
 import { Observable, of } from 'rxjs';
 import { isUndefined } from 'lodash';
-import { Warp } from '../../src/app/core/services/game/actions';
+import { Warp } from '../actions';
 import { ILandmark, Landmark, ILandmarkEncounter, ILandmarkEncounterOpts } from '../interfaces';
 
 export class Teleporter extends Landmark implements ILandmark {

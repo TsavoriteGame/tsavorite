@@ -2,19 +2,8 @@ import { Injectable } from '@angular/core';
 
 import { Hotkeys } from './hotkeys';
 import { GameService } from './game.service';
-import { defaultKeymap } from './stores';
-
-export enum Keybind {
-  Pause = 'Pause',
-  MoveUp = 'MoveUp',
-  MoveDown = 'MoveDown',
-  MoveLeft = 'MoveLeft',
-  MoveRight = 'MoveRight',
-  Choice1 = 'Choice1',
-  Choice2 = 'Choice2',
-  Choice3 = 'Choice3',
-  Choice4 = 'Choice4'
-}
+import { Keybind } from '../../../../../content/interfaces';
+import { defaultKeymap } from '../../../../../content/attachments/options/options.functions';
 
 
 @Injectable({

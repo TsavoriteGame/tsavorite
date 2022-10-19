@@ -1,9 +1,8 @@
 import { Observable, of } from 'rxjs';
 import { AddBackpackItem, AddCoinsToBackpack, RemoveCharacterItemById,
-  RemoveCardFromLandmarkSlot, RemoveCoinsFromBackpack } from '../../src/app/core/services/game/actions';
-import { GameConstant } from '../../src/app/core/services/game/game.service';
+  RemoveCardFromLandmarkSlot, RemoveCoinsFromBackpack } from '../actions';
 import { ILandmark, Landmark, ILandmarkEncounter,
-  ILandmarkEncounterOpts, IItemConfig, Interaction, CardFunction, ISlotFunctionOpts } from '../interfaces';
+  ILandmarkEncounterOpts, IItemConfig, Interaction, CardFunction, ISlotFunctionOpts, GameConstant } from '../interfaces';
 
 export const merchantHelpers: Record<string, CardFunction> = {
   buyItem: (opts: ISlotFunctionOpts) => {

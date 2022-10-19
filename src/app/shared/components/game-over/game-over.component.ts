@@ -4,8 +4,9 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { ElectronService } from '../../../core/services';
-import { AbandonGame } from '../../../core/services/game/actions';
-import { GameState, IGameCharacter } from '../../../core/services/game/stores';
+import { AbandonGame } from '../../../../../content/actions';
+import { GameState } from '../../../core/services/game/stores';
+import { IGameCharacter } from '../../../../../content/interfaces';
 
 @Component({
   selector: 'app-game-over',

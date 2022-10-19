@@ -1,5 +1,5 @@
 import { concatMap, from, Observable, of, tap } from 'rxjs';
-import { ReplaceNode } from '../../src/app/core/services/game/actions';
+import { ReplaceNode } from '../actions';
 import { ILandmark, Landmark, ILandmarkEncounter, ILandmarkEncounterOpts } from '../interfaces';
 import { pausableTimer } from '../rxjs.helpers';
 

@@ -1,5 +1,5 @@
 import { Observable, of } from 'rxjs';
-import { AddCoinsToBackpack, EncounterCurrentTile, ReplaceNode } from '../../src/app/core/services/game/actions';
+import { AddCoinsToBackpack, EncounterCurrentTile, ReplaceNode } from '../actions';
 import { ILandmark, Landmark, ILandmarkEncounter, ILandmarkEncounterOpts } from '../interfaces';
 import { nothing } from './helpers/nothing.helpers';
 

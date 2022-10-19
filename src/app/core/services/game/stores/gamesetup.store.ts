@@ -1,39 +1,26 @@
 import { Injectable } from '@angular/core';
-import { Action, Selector, State, StateContext } from '@ngxs/store';
-import { SetBackground } from '../actions';
-import { setDiscordRPCStatus } from '../discord';
-
-
-export interface IGameSetup {
-  chosenBackground: string;
-}
-
-const defaultOptions: () => IGameSetup = () => ({
-  chosenBackground: ''
-});
+import { Selector, State } from '@ngxs/store';
+import { attachAction } from '@ngxs-labs/attach-action';
+import { attachments } from '../../../../../../content/attachments/gamesetup/gamesetup.attachments';
+import { defaultSetup } from '../../../../../../content/attachments/gamesetup/gamesetup.functions';
+import { IGameSetup } from '../../../../../../content/interfaces';
 
 @State<IGameSetup>({
   name: 'gamesetup',
-  defaults: defaultOptions()
+  defaults: defaultSetup()
 })
 @Injectable()
 export class GameSetupState {
 
+  constructor() {
+    attachments.forEach(({ action, handler }) => {
+      attachAction(GameSetupState, action, handler);
+    });
+  }
+
   @Selector()
   static gameSetup(state: IGameSetup) {
     return state;
-  }
-
-  @Action(SetBackground)
-  setBackground(ctx: StateContext<IGameSetup>, { background }: SetBackground) {
-    setDiscordRPCStatus({
-      isInGame: false,
-      isMakingCharacter: true,
-      background: '',
-      playerName: ''
-    });
-
-    ctx.patchState({ chosenBackground: background });
   }
 
 }

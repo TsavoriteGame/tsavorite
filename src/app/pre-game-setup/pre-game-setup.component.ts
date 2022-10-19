@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
-import { IArchetype, IBackground } from '../../../content/interfaces';
-import { GameSetupState, IGameSetup } from '../core/services/game/stores';
+import { IArchetype, IBackground, IGameSetup } from '../../../content/interfaces';
+import { GameSetupState } from '../core/services/game/stores';
 
-import { SetBackground, StartGame } from '../core/services/game/actions';
+import { SetBackground, StartGame } from '../../../content/actions';
 import { ContentService } from '../core/services/game/content.service';
 
 @Component({

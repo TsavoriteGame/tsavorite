@@ -1,5 +1,4 @@
-import { Keybind } from '../keybinds.service';
-import { GameOption } from '../stores';
+import { GameOption, Keybind } from '../interfaces';
 
 export class SetPaused {
   static type = '[Options] Set Paused';

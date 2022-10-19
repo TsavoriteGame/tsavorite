@@ -1,4 +1,4 @@
-import { ICard, IScenario } from '../../../../../../../content/interfaces';
+import { ICard, IScenario } from '../../interfaces';
 
 
 export class MakeChoice {

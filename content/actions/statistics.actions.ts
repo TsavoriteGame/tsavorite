@@ -1,4 +1,5 @@
-import { GameStatistic } from '../stores';
+import { GameStatistic } from '../interfaces';
+
 
 export class IncrementStatistic {
   static type = '[Game] Increment Statistic';

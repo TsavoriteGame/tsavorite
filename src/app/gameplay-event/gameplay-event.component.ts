@@ -1,11 +1,11 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
-import { ILandmarkEncounter } from '../../../content/interfaces';
-import { AddCardToLandmarkSlot, AddCardToPlayerSlot, MakeChoice } from '../core/services/game/actions';
+import { IGameCharacter, ILandmarkEncounter, Keybind } from '../../../content/interfaces';
+import { AddCardToLandmarkSlot, AddCardToPlayerSlot, MakeChoice } from '../../../content/actions';
 import { ContentService } from '../core/services/game/content.service';
-import { Keybind, KeybindsService } from '../core/services/game/keybinds.service';
-import { GameState, IGameCharacter } from '../core/services/game/stores';
+import { KeybindsService } from '../core/services/game/keybinds.service';
+import { GameState } from '../core/services/game/stores';
 
 @Component({
   selector: 'app-gameplay-event',

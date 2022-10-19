@@ -1,10 +1,10 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
-import { IScenarioNode } from '../../../content/interfaces';
-import { Move } from '../core/services/game/actions';
-import { Keybind, KeybindsService } from '../core/services/game/keybinds.service';
-import { GameState, IMapDisplayInfo } from '../core/services/game/stores';
+import { IMapDisplayInfo, IScenarioNode, Keybind } from '../../../content/interfaces';
+import { Move } from '../../../content/actions';
+import { KeybindsService } from '../core/services/game/keybinds.service';
+import { GameState } from '../core/services/game/stores';
 
 @Component({
   selector: 'app-gameplay-map',

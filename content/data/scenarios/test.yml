@@ -64,7 +64,7 @@ nodes:
   12:
     name: Cave Exit
     icon: caveentrance
-    description: This is the entrance to a cave! You probably don't want to go back there any time soon.
+    description: This is the exit from a cave! You probably don't want to go back here any time soon.
     landmark: Teleporter
     landmarkData:
       warpToWorld: 0

@@ -1,7 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Select } from '@ngxs/store';
 import { Observable } from 'rxjs';
-import { GameOption, OptionsState } from '../../../core/services/game/stores';
+import { GameOption } from '../../../../../content/interfaces';
+import { OptionsState } from '../../../core/services/game/stores';
 
 @Component({
   selector: 'app-help-text',

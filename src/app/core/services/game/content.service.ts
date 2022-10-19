@@ -5,7 +5,7 @@ import { set } from 'lodash';
 import { allArchetypes, allBackgrounds, allItems, allRecipes, getAttackByName, getItemById } from '../../../../../content/getters';
 
 import { IArchetype, IBackground, ICard, IItemConfig, IRecipe } from '../../../../../content/interfaces';
-import { SetCurrentCardId } from './actions';
+import { SetCurrentCardId } from '../../../../../content/actions';
 
 @Injectable({
   providedIn: 'root'

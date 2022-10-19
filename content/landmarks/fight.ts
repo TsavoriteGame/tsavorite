@@ -1,11 +1,11 @@
 import { Observable, of } from 'rxjs';
 import { sample } from 'lodash';;
-import { ChangeAttack } from '../../src/app/core/services/game/actions';
-import { GameConstant } from '../../src/app/core/services/game/game.service';
+import { ChangeAttack } from '../actions';
 import { getAttackByName, getMonsterByName } from '../getters';
 import { ILandmark, Landmark, ILandmarkEncounter,
   ILandmarkEncounterOpts, CardFunction, ISlotFunctionOpts,
-  IWeaponAttack } from '../interfaces';
+  IWeaponAttack,
+  GameConstant } from '../interfaces';
 import { getAttacksForCharacter, monsterToCharacter } from '../character.helpers';
 import { isCombatDone, monsterAttack, playerAttack, resetTimerAndMax } from './helpers/fight.helpers';
 

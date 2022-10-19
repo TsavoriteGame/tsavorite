@@ -1,5 +1,4 @@
-import { IMapPosition, IScenarioNode } from '../../../../../../../content/interfaces';
-import { IGameSetup } from '../../stores/gamesetup.store';
+import { IGameSetup, IMapPosition, IScenarioNode } from '../../interfaces';
 
 export class PageLoad {
   static type = '[Options] Page Load';

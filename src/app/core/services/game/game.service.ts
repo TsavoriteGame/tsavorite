@@ -4,15 +4,11 @@ import { Store } from '@ngxs/store';
 import { isNumber } from 'lodash';
 import { getArchetypeByName, getAttackByName, getBackgroundByName,
   getItemById, getMonsterByName, getRecipeByName, getScenarioByName } from '../../../../../content/getters';
-import { AddBackpackItem, AddCoinsToBackpack, AddHealth } from './actions';
+import { AddBackpackItem, AddCoinsToBackpack, AddHealth } from '../../../../../content/actions';
 import { ContentService } from './content.service';
 import { LoggerService } from './logger.service';
-
-export enum GameConstant {
-  BackpackSize = 'backpackSize',
-  PlayerSlots = 'playerSlots',
-  LandmarkSlots = 'landmarkSlots',
-}
+import { getConstant } from '../../../../../content/attachments/game/game.anonymous.functions';
+import { GameConstant } from '../../../../../content/interfaces';
 
 @Injectable({
   providedIn: 'root'
@@ -24,12 +20,6 @@ export class GameService {
   public get areOptionsOpen(): boolean {
     return this.hasOptionsOpen;
   }
-
-  private readonly gameConstants: Record<GameConstant, any> = {
-    [GameConstant.BackpackSize]: 16,
-    [GameConstant.PlayerSlots]: 4,
-    [GameConstant.LandmarkSlots]: 4,
-  };
 
   // rudimentary, but it works
   public get isInGame(): boolean {
@@ -50,7 +40,7 @@ export class GameService {
   }
 
   public getConstant(constant: GameConstant) {
-    return this.gameConstants[constant];
+    return getConstant(constant);
   }
 
   private initConsole() {

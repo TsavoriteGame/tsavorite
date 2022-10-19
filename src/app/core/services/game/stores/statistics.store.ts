@@ -1,23 +1,9 @@
 import { Injectable } from '@angular/core';
-import { Action, State, StateContext } from '@ngxs/store';
-import { patch } from '@ngxs/store/operators';
-import { DecrementStatistic, IncrementStatistic } from '../actions';
-
-export enum GameStatistic {
-  StepsTaken = 'stepsTaken',
-}
-
-export interface IGameStatistics {
-  version: number;
-  statistics: Record<GameStatistic, number>;
-};
-
-const defaultStatistics: () => IGameStatistics = () => ({
-  version: 1,
-  statistics: {
-    [GameStatistic.StepsTaken]: 0
-  }
-});
+import { State } from '@ngxs/store';
+import { attachAction } from '@ngxs-labs/attach-action';
+import { attachments } from '../../../../../../content/attachments/statistics/statistics.attachments';
+import { IGameStatistics } from '../../../../../../content/interfaces';
+import { defaultStatistics } from '../../../../../../content/attachments/statistics/statistics.functions';
 
 @State<IGameStatistics>({
   name: 'statistics',
@@ -26,17 +12,10 @@ const defaultStatistics: () => IGameStatistics = () => ({
 @Injectable()
 export class StatisticsState {
 
-  @Action(IncrementStatistic)
-  @Action(DecrementStatistic)
-  incrementStatistic(ctx: StateContext<IGameStatistics>, { stat, amount }: IncrementStatistic | DecrementStatistic) {
-    const current = ctx.getState().statistics[stat] ?? 0;
-
-    ctx.setState(
-      patch<IGameStatistics>({
-        statistics: patch<Record<GameStatistic, number>>({
-          [stat]: current + amount
-        })
-      })
-    );
+  constructor() {
+    attachments.forEach(({ action, handler }) => {
+      attachAction(StatisticsState, action, handler);
+    });
   }
+
 }

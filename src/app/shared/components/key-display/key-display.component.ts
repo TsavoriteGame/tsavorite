@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
 import { Select } from '@ngxs/store';
 import { Observable } from 'rxjs';
-import { Keybind } from '../../../core/services/game/keybinds.service';
+import { Keybind } from '../../../../../content/interfaces';
 import { OptionsState } from '../../../core/services/game/stores';
 
 @Component({

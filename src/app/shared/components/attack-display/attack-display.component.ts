@@ -2,8 +2,8 @@ import { ChangeDetectionStrategy, Component, Input, OnChanges, OnInit } from '@a
 import { Select } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { getAttackByName } from '../../../../../content/getters';
-import { IWeaponAttack } from '../../../../../content/interfaces';
-import { GameOption, OptionsState } from '../../../core/services/game/stores';
+import { GameOption, IWeaponAttack } from '../../../../../content/interfaces';
+import { OptionsState } from '../../../core/services/game/stores';
 
 @Component({
   selector: 'app-attack-display',

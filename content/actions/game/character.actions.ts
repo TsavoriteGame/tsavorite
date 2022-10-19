@@ -1,4 +1,4 @@
-import { EquipmentSlot, IItemConfig } from '../../../../../../../content/interfaces';
+import { EquipmentSlot, IItemConfig } from '../../interfaces';
 
 
 export class ChangeAttack {

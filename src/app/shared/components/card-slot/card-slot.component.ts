@@ -2,11 +2,11 @@ import { ChangeDetectionStrategy, Component, HostBinding, Input, OnChanges, OnDe
 import { Select, Store } from '@ngxs/store';
 import { combineLatest, interval, Observable, Subscription } from 'rxjs';
 import { getAllDescriptorsForItem, getTotalDescriptorLevel } from '../../../../../content/helpers';
-import { ICard, IItemConfig, IItemInteraction } from '../../../../../content/interfaces';
+import { GameOption, ICard, IItemConfig, IItemInteraction } from '../../../../../content/interfaces';
 import { pauseGame$ } from '../../../../../content/rxjs.helpers';
 import { SetLandmarkSlotLock, SetLandmarkSlotTimer, LandmarkSlotTimerExpire,
-  SetPlayerSlotLock, PlayerSlotTimerExpire, SetPlayerSlotTimer } from '../../../core/services/game/actions';
-import { GameOption, OptionsState } from '../../../core/services/game/stores';
+  SetPlayerSlotLock, PlayerSlotTimerExpire, SetPlayerSlotTimer } from '../../../../../content/actions';
+import { OptionsState } from '../../../core/services/game/stores';
 
 @Component({
   selector: 'app-card-slot',

@@ -1,5 +1,5 @@
 
-import { AddBackpackItem, AddCoinsToBackpack, ReplaceNode, UpdateCharacterPrimaryInformation } from '../../../../src/app/core/services/game/actions';
+import { AddBackpackItem, AddCoinsToBackpack, ReplaceNode, UpdateCharacterPrimaryInformation } from '../../../actions';
 import { ISlotFunctionOpts, IModifiableItem, Interaction } from '../../../interfaces';
 import { FIGHT_MESSAGES } from '../constants';
 import { nothing } from '../nothing.helpers';

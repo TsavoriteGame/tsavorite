@@ -6,9 +6,10 @@ import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
 import { BUILDVARS } from '../../environments/_vars';
 import { ElectronService } from '../core/services';
-import { AbandonGame, ToggleOption } from '../core/services/game/actions';
-import { GameOption, GameState, OptionsState } from '../core/services/game/stores';
+import { AbandonGame, ToggleOption } from '../../../content/actions';
+import { GameState, OptionsState } from '../core/services/game/stores';
 import { OptionsComponent } from '../options/options.component';
+import { GameOption } from '../../../content/interfaces';
 
 @Component({
   selector: 'app-home',

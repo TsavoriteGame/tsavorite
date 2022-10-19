@@ -1,5 +1,5 @@
 import { Observable, of } from 'rxjs';
-import { EncounterCurrentTile, ReplaceNode } from '../../src/app/core/services/game/actions';
+import { EncounterCurrentTile, ReplaceNode } from '../actions';
 import { ILandmark, Landmark, ILandmarkEncounter, ILandmarkEncounterOpts } from '../interfaces';
 
 export class Trap extends Landmark implements ILandmark {

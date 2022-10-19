@@ -1,6 +1,6 @@
 
 import { EncounterCurrentTile, ReduceHealth, ReplaceNode, SetCharacterItemLockById,
-  SetLandmarkSlotLock, SetLandmarkSlotTimer, UpdateCharacterItemById } from '../../../src/app/core/services/game/actions';
+  SetLandmarkSlotLock, SetLandmarkSlotTimer, UpdateCharacterItemById } from '../../actions';
 import { CardFunction, IMapPosition, IScenarioNode, ISlotFunctionOpts, IItemConfig } from '../../interfaces';
 import type { Store } from '@ngxs/store';
 import { first, of, switchMap, tap, timer } from 'rxjs';

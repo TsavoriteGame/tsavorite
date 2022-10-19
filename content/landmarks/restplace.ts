@@ -1,5 +1,5 @@
 import { Observable, of } from 'rxjs';
-import { AddHealth, EncounterCurrentTile, ReplaceNode } from '../../src/app/core/services/game/actions';
+import { AddHealth, EncounterCurrentTile, ReplaceNode } from '../actions';
 import { ILandmark, Landmark, ILandmarkEncounter, ILandmarkEncounterOpts } from '../interfaces';
 
 export class RestPlace extends Landmark implements ILandmark {

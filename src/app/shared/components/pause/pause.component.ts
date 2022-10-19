@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Store } from '@ngxs/store';
 import { ElectronService } from '../../../core/services';
-import { AbandonGame } from '../../../core/services/game/actions';
+import { AbandonGame } from '../../../../../content/actions';
 import { OptionsComponent } from '../../../options/options.component';
 
 @Component({
