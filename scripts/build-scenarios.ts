@@ -1,5 +1,3 @@
-const { getItemById, getMonsterByName } = require('../content/getters');
-
 const fs = require('fs');
 const readdir = require('recursive-readdir');
 const yaml = require('js-yaml');
