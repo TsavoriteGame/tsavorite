@@ -1,7 +1,7 @@
 const { getItemById } = require('../content/getters');
 const { isFunctional } = require('../content/helpers');
 
-const fs = require('fs');
+const fs = require('fs-extra');
 const readdir = require('recursive-readdir');
 const yaml = require('js-yaml');
 const { sortBy, isString } = require('lodash');
@@ -55,16 +55,6 @@ const validateBackgrounds = () => {
     }
 
     Object.keys(item.body).forEach(bodyKey => {
-      const itemRef = item.body[bodyKey];
-      if(isString(itemRef)) {
-        item.body[bodyKey] = getItemById(itemRef);
-        if(!item.body[bodyKey]) {
-          throw new Error(`Monster ${item.name} body is referencing invalid item "${itemRef}"`);
-        }
-
-        return;
-      }
-
       if(!isFunctional(item.body[bodyKey])) {
         throw new Error(`Background ${item.name} is missing a functional item for ${bodyKey}`);
       }
@@ -90,18 +80,12 @@ const validateBackgrounds = () => {
 };
 
 const loadBackgrounds = async () => {
-  const files = await readdir('content/data/backgrounds', ['*.json']);
-  files.forEach(file => {
-    const data = yaml.load(fs.readFileSync(file, 'utf8'));
-    allBackgrounds.push(data);
-  });
+  const backgrounds = await fs.readJson('content/data/backgrounds/backgrounds.json');
+  allBackgrounds.push(...backgrounds);
 
   validateBackgrounds();
-
-  const sortedItems = sortBy(allBackgrounds, item => item.name);
-  fs.writeFileSync('content/data/backgrounds/backgrounds.json', JSON.stringify(sortedItems));
 };
 
 loadBackgrounds();
 
-console.log('☑ Backgrounds validated and loaded.');
+console.log('☑ Backgrounds validated.');

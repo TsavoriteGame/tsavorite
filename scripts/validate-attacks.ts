@@ -1,5 +1,5 @@
 
-const fs = require('fs');
+const fs = require('fs-extra');
 const readdir = require('recursive-readdir');
 const yaml = require('js-yaml');
 const { sortBy } = require('lodash');
@@ -8,6 +8,7 @@ const allAttacks = [];
 
 const validateAttacks = () => {
   allAttacks.forEach(item => {
+    console.log(item);
     if (!item.name) {
       throw new Error(`Attack ${JSON.stringify(item)} is missing a name`);
     }
@@ -28,27 +29,13 @@ const validateAttacks = () => {
 };
 
 const loadAttacks = async () => {
-  const files = await readdir('content/data/attacks', ['*.json']);
-  files.forEach(file => {
-    const data = yaml.load(fs.readFileSync(file, 'utf8'));
-    const formattedData = Object.keys(data)
-      .map(attackKey => ({ name: attackKey, ...data[attackKey] }));
-
-    allAttacks.push(...formattedData);
-  });
+  const attacks = await fs.readJson('content/data/attacks/attacks.json');
+  allAttacks.push(...Object.values(attacks));
 
   validateAttacks();
-
-  const sortedItems = sortBy(allAttacks, item => item.name)
-    .reduce((acc, attack) => {
-      acc[attack.name] = attack;
-      return acc;
-    }, {});
-
-  fs.writeFileSync('content/data/attacks/attacks.json', JSON.stringify(sortedItems));
 };
 
 loadAttacks();
 
-console.log('☑ Attacks validated and loaded.');
+console.log('☑ Attacks validated.');
 

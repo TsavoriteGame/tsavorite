@@ -1,6 +1,6 @@
 const { getItemById, getMonsterByName } = require('../content/getters');
 
-const fs = require('fs');
+const fs = require('fs-extra');
 const readdir = require('recursive-readdir');
 const yaml = require('js-yaml');
 const md5 = require('md5');
@@ -17,7 +17,6 @@ const validateScenarios = () => {
 
     Object.keys(item.worlds).forEach(worldId => {
       const world = item.worlds[worldId];
-      world.id = +worldId;
 
       if(!world.name) {
         throw new Error(`Scenario ${item.name} is missing a name for world ${worldId}`);
@@ -25,8 +24,7 @@ const validateScenarios = () => {
 
       const allLayoutNodes = world.layout.flat();
       allLayoutNodes.forEach(nodeId => {
-        const node = item.nodes[nodeId];
-        node.id = +nodeId;
+        const node = item.nodes[nodeId.id];
 
         if(!node) {
           throw new Error(`Scenario ${item.name} is missing node ${nodeId}`);
@@ -81,12 +79,6 @@ const validateScenarios = () => {
           });
         }
       });
-
-      for(let y = 0; y < world.layout.length; y++) {
-        for(let x = 0; x < world.layout[y].length; x++) {
-          world.layout[y][x] = { id: world.layout[y][x] };
-        }
-      }
     });
 
     const allNodes = Object.values(item.nodes);
@@ -102,19 +94,13 @@ const validateScenarios = () => {
 };
 
 const loadScenarios = async () => {
-  const files = await readdir('content/data/scenarios', ['*.json']);
-  files.forEach(file => {
-    const data = yaml.load(fs.readFileSync(file, 'utf8'));
-    allScenarios.push(data);
-  });
+  const scenarios = await fs.readJson('content/data/scenarios/scenarios.json');
+  allScenarios.push(...scenarios);
 
   validateScenarios();
-
-  const sortedItems = sortBy(allScenarios, item => item.name);
-  fs.writeFileSync('content/data/scenarios/scenarios.json', JSON.stringify(sortedItems));
 };
 
 loadScenarios();
 
-console.log('☑ Scenarios validated and loaded.');
+console.log('☑ Scenarios validated.');
 

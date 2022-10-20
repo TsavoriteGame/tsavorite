@@ -1,5 +1,5 @@
 
-const fs = require('fs');
+const fs = require('fs-extra');
 const readdir = require('recursive-readdir');
 const yaml = require('js-yaml');
 const { sortBy } = require('lodash');
@@ -20,19 +20,13 @@ const validateArchetypes = () => {
 };
 
 const loadArchetypes = async () => {
-  const files = await readdir('content/data/archetypes', ['*.json']);
-  files.forEach(file => {
-    const data = yaml.load(fs.readFileSync(file, 'utf8'));
-    allArchetypes.push(data);
-  });
+  const archetypes = await fs.readJson('content/data/archetypes/archetypes.json');
+  allArchetypes.push(...archetypes);
 
   validateArchetypes();
-
-  const sortedItems = sortBy(allArchetypes, item => item.name);
-  fs.writeFileSync('content/data/archetypes/archetypes.json', JSON.stringify(sortedItems));
 };
 
 loadArchetypes();
 
-console.log('☑ Archetypes validated and loaded.');
+console.log('☑ Archetypes validated.');
 

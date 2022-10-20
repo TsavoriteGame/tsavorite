@@ -1,5 +1,5 @@
 
-const fs = require('fs');
+const fs = require('fs-extra');
 const readdir = require('recursive-readdir');
 const yaml = require('js-yaml');
 const { sortBy } = require('lodash');
@@ -33,18 +33,12 @@ const validateRecipes = () => {
 };
 
 const loadRecipes = async () => {
-  const files = await readdir('content/data/recipes', ['*.json']);
-  files.forEach(file => {
-    const data = yaml.load(fs.readFileSync(file, 'utf8'));
-    allRecipes.push(...data);
-  });
+  const recipes = await fs.readJson('content/data/recipes/recipes.json');
+  allRecipes.push(...recipes);
 
   validateRecipes();
-
-  const sortedRecipes = sortBy(allRecipes, item => item.name);
-  fs.writeFileSync('content/data/recipes/recipes.json', JSON.stringify(sortedRecipes));
 };
 
 loadRecipes();
 
-console.log('☑ Recipes validated and loaded.');
+console.log('☑ Recipes validated.');
