@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
+import { sample } from 'lodash';
 import { environment } from '../../environments/environment';
 import { BUILDVARS } from '../../environments/_vars';
 import { ElectronService } from '../core/services';
@@ -10,6 +11,7 @@ import { AbandonGame, ToggleOption } from '../../../content/actions';
 import { GameState, OptionsState } from '../core/services/game/stores';
 import { OptionsComponent } from '../options/options.component';
 import { GameOption } from '../../../content/interfaces';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-home',
@@ -20,6 +22,7 @@ export class HomeComponent implements OnInit {
 
   public showMenu = false;
   public debugClicks = 0;
+  public subtitle = 'An Epic Game';
 
   @Select(GameState.hasGame) hasGame$: Observable<boolean>;
   @Select(OptionsState.isDebugMode) isDebugMode$: Observable<boolean>;
@@ -41,6 +44,7 @@ export class HomeComponent implements OnInit {
     private router: Router,
     private modalService: NgbModal,
     private store: Store,
+    private translate: TranslateService,
     public electronService: ElectronService
   ) {}
 
@@ -52,6 +56,10 @@ export class HomeComponent implements OnInit {
     setTimeout(() => {
       this.showMenu = true;
     }, 2000);
+
+    this.translate.get('Pages.Home.Subtitles').subscribe((subtitles: string[]) => {
+      this.subtitle = sample(subtitles);
+    });
   }
 
   abandon(): void {
