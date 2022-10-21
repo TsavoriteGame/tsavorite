@@ -11,7 +11,7 @@ import { move, warp } from './game.world.functions';
 import { addEventLogMessage, resetEventLog } from './game.eventlog.functions';
 import { addBackpackItem, addCoinsToBackpack, removeBackpackItemById,
   setBackpackItemLockById, updateBackpackItemById } from './game.backpack.functions';
-import { changeHealth, setCharacterPrimaryInformation, setEquipmentItem, setHealth } from './game.character.functions';
+import { changeAttack, changeHealth, setCharacterPrimaryInformation, setEquipmentItem, setHealth } from './game.character.functions';
 import { addCardToLandmarkSlot, addCardToPlayerSlot, landmarkSlotTimerExpire, makeChoice,
   playerSlotTimerExpire, removeCardFromLandmarkSlot, removeCardFromPlayerSlot, setLandmarkSlotAttack,
   setLandmarkSlotData, setLandmarkSlotLock, setLandmarkSlotTimer, setPlayerSlotAttack,
@@ -42,7 +42,7 @@ export const attachments: IAttachment[] = [
   { action: AddHealth, handler: changeHealth },
   { action: ReduceHealth, handler: changeHealth },
   { action: SetHealth, handler: setHealth },
-  { action: ChangeAttack, handler: changeHealth },
+  { action: ChangeAttack, handler: changeAttack },
   { action: UpdateCharacterPrimaryInformation, handler: setCharacterPrimaryInformation },
   { action: SetEquipmentItem, handler: setEquipmentItem },
 
