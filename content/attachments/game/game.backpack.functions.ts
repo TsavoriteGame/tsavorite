@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-use-before-define */
+
 import { StateContext } from '@ngxs/store';
 import { append, patch, removeItem, updateItem } from '@ngxs/store/operators';
 import { isUndefined } from 'lodash';
@@ -18,6 +20,11 @@ export function addBackpackItem(ctx: StateContext<IGame>, { item }: AddBackpackI
   }
 
   if(isUndefined(item.cardId)) {
+    return;
+  }
+
+  if(item.interaction?.name === Interaction.Buys) {
+    addCoinsToBackpack(ctx, { amount: item.interaction.level ?? 0 });
     return;
   }
 
