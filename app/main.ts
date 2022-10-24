@@ -3,6 +3,8 @@ import * as path from 'path';
 import * as fs from 'fs';
 import * as rpc from 'discord-rpc';
 
+import { setupIPC } from './ipc';
+
 const Config = require('electron-config');
 const config = new Config();
 
@@ -35,7 +37,8 @@ function createWindow(): BrowserWindow {
       nodeIntegration: true,
       nativeWindowOpen: true,
       allowRunningInsecureContent: serve,
-      contextIsolation: false,  // false if you want to run e2e test with Spectron
+      contextIsolation: false,
+      preload: path.join(__dirname, 'preload.js')
     },
   });
 
@@ -50,6 +53,12 @@ function createWindow(): BrowserWindow {
     event.preventDefault();
     shell.openExternal(url);
   });
+
+  const sendToUI = (d, i) => {
+    win.webContents.send(d, i);
+  };
+
+  setupIPC(sendToUI);
 
   if (serve) {
     const debug = require('electron-debug');
