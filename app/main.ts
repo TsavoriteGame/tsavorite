@@ -1,27 +1,54 @@
-import {app, BrowserWindow, screen} from 'electron';
+import { app, BrowserWindow, screen, shell } from 'electron';
 import * as path from 'path';
 import * as fs from 'fs';
 import * as rpc from 'discord-rpc';
 
+const Config = require('electron-config');
+const config = new Config();
+
 let win: BrowserWindow = null;
-const args = process.argv.slice(1),
-  serve = args.some(val => val === '--serve');
+const args = process.argv.slice(1);
+const serve = args.some(val => val === '--serve');
 
 function createWindow(): BrowserWindow {
 
   const size = screen.getPrimaryDisplay().workAreaSize;
 
+  const opts: any = {
+    show: false,
+    icon: __dirname + '/favicon.ico',
+    minWidth: 1440,
+    minHeight: 900
+  };
+
+  Object.assign(opts, config.get('winBounds'));
+
+  if(!opts.width) opts.width = size.width;
+  if(!opts.height) opts.height = size.height;
+  if(!opts.x) opts.x = 0;
+  if(!opts.y) opts.y = 0;
+
   // Create the browser window.
   win = new BrowserWindow({
-    x: 0,
-    y: 0,
-    width: size.width,
-    height: size.height,
+    ...opts,
     webPreferences: {
       nodeIntegration: true,
-      allowRunningInsecureContent: (serve),
+      nativeWindowOpen: true,
+      allowRunningInsecureContent: serve,
       contextIsolation: false,  // false if you want to run e2e test with Spectron
     },
+  });
+
+  win.setMenu(null);
+  win.once('ready-to-show', win.show);
+
+  win.on('close', () => {
+    config.set('winBounds', win.getBounds());
+  });
+
+  win.webContents.on("new-window", (event, url) => {
+    event.preventDefault();
+    shell.openExternal(url);
   });
 
   if (serve) {
@@ -29,7 +56,7 @@ function createWindow(): BrowserWindow {
     debug();
 
     require('electron-reloader')(module);
-    win.loadURL('http://localhost:4200');
+    win.loadURL('http://localhost:4889');
   } else {
     // Path when running electron executable
     let pathIndex = './index.html';
@@ -78,6 +105,16 @@ try {
     }
   });
 
+  const handleRedirect = (e, url) => {
+    console.log(e.sender.getURL(), url);
+    if (url !== e.sender.getURL()) {
+      e.preventDefault();
+      shell.openExternal(url);
+    }
+  }
+
+  win.webContents.on('will-navigate', handleRedirect);
+
   const DISCORD_CLIENT_ID = '1024434854663835708';
 
   rpc.register(DISCORD_CLIENT_ID); // only needed if we want spectate / join / ask to join
@@ -105,7 +142,7 @@ try {
         rpcClient.setActivity({
           startTimestamp,
           state: result.state,
-          details: result.details,
+          details: result.details || 'Idle',
           largeImageKey: 'game-image'
         });
       });
