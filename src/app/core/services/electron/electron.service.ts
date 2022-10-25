@@ -20,7 +20,9 @@ export class ElectronService {
   }
 
   private init() {
-    if(!this.isElectron) return;
+    if(!this.isElectron) {
+      return;
+    }
 
     this.ipcRenderer = window.require('electron').ipcRenderer;
     this.webFrame = window.require('electron').webFrame;

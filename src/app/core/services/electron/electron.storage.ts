@@ -26,7 +26,9 @@ export class ElectronStorageService implements StorageEngine {
   }
 
   private init() {
-    if(!this.electronService.isElectron) return;
+    if(!this.electronService.isElectron) {
+      return;
+    }
 
     if(this.electronService.fs.existsSync(this.savefile)) {
       const loadData = this.electronService.fs.readFileSync(this.savefile, 'utf-8');
