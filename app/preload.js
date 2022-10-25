@@ -1,3 +1,4 @@
+/*
 const { contextBridge, ipcRenderer } = require('electron');
 
 let functions = {};
@@ -26,3 +27,4 @@ contextBridge.exposeInMainWorld(
     }
   }
 );
+*/

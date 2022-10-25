@@ -63,3 +63,4 @@ src/environments/_vars.ts
 src/assets/images/game
 
 *.log
+*.tsavfile

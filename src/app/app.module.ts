@@ -13,7 +13,7 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 
 import { NgxsModule } from '@ngxs/store';
 import { NgxsLoggerPluginModule } from '@ngxs/logger-plugin';
-import { NgxsStoragePluginModule } from '@ngxs/storage-plugin';
+import { NgxsStoragePluginModule, StorageOption, STORAGE_ENGINE } from '@ngxs/storage-plugin';
 import { NgxsReduxDevtoolsPluginModule } from '@ngxs/devtools-plugin';
 
 
@@ -30,6 +30,7 @@ import { environment } from '../environments/environment';
 
 import * as Stores from './core/services/game/stores';
 import * as Migrations from './core/services/game/stores/migrations';
+import { ElectronStorageService } from './core/services/electron/electron.storage';
 
 const allStores = Object.keys(Stores).filter(x => x.includes('State')).map(x => Stores[x]);
 
@@ -58,7 +59,8 @@ const httpLoaderFactory = (http: HttpClient): TranslateHttpLoader =>  new Transl
     }),
     NgxsStoragePluginModule.forRoot({
       key: allStores.filter(x => x !== Stores.GameSetupState),
-      migrations: Object.values(Migrations).flat()
+      migrations: Object.values(Migrations).flat(),
+      storage: StorageOption.LocalStorage
     }),
     NgxsReduxDevtoolsPluginModule.forRoot(),
     TranslateModule.forRoot({
@@ -70,7 +72,12 @@ const httpLoaderFactory = (http: HttpClient): TranslateHttpLoader =>  new Transl
     }),
     NgbModule
   ],
-  providers: [],
+  providers: [
+    {
+      provide: STORAGE_ENGINE,
+      useClass: ElectronStorageService
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule {}
